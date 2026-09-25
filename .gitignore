@@ -1,0 +1,9 @@
+.godot/
+build/web/
+*.blend1
+blender/__pycache__/
+blender/lib/__pycache__/
+.imagegen-log.jsonl.lock
+.vercel
+node_modules/
+blender/work/
