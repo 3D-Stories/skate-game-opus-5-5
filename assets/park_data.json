@@ -1,0 +1,602 @@
+{
+ "catwalk_kicker": [
+  -18.8,
+  5.45,
+  -24.0
+ ],
+ "halfpipe": {
+  "center": [
+   0.0,
+   0.0,
+   -43.0
+  ],
+  "height": 3.7
+ },
+ "tape": [
+  -26.4,
+  2.5,
+  -37.0
+ ],
+ "secret_room": {
+  "min": [
+   -30.0,
+   0.0,
+   -43.0
+  ],
+  "max": [
+   -20.0,
+   5.0,
+   -31.0
+  ]
+ },
+ "windows": [
+  {
+   "name": "Window_0",
+   "center": [
+    19.95,
+    5.4,
+    -9.0
+   ],
+   "size": [
+    2.8000000000000007,
+    2.0
+   ]
+  },
+  {
+   "name": "Window_1",
+   "center": [
+    19.95,
+    5.4,
+    -14.2
+   ],
+   "size": [
+    2.8000000000000007,
+    2.0
+   ]
+  },
+  {
+   "name": "Window_2",
+   "center": [
+    19.95,
+    5.4,
+    -19.4
+   ],
+   "size": [
+    2.799999999999997,
+    2.0
+   ]
+  },
+  {
+   "name": "Window_3",
+   "center": [
+    19.95,
+    5.4,
+    -24.6
+   ],
+   "size": [
+    2.799999999999997,
+    2.0
+   ]
+  },
+  {
+   "name": "Window_4",
+   "center": [
+    19.95,
+    5.4,
+    -29.8
+   ],
+   "size": [
+    2.799999999999997,
+    2.0
+   ]
+  }
+ ],
+ "break_wall": {
+  "center": [
+   -20.05,
+   1.6,
+   -36.5
+  ],
+  "size": [
+   0.3,
+   3.2,
+   5.0
+  ],
+  "nodes": [
+   "BreakWall_0",
+   "BreakWall_1",
+   "BreakWall_2",
+   "BreakWall_3",
+   "BreakWall_4",
+   "BreakWall_batten8",
+   "BreakWall_batten24",
+   "BreakWall_sign"
+  ]
+ },
+ "letters": [
+  {
+   "letter": "S",
+   "pos": [
+    0.0,
+    2.5,
+    -9.0
+   ]
+  },
+  {
+   "letter": "K",
+   "pos": [
+    18.9,
+    5.6,
+    -21.8
+   ]
+  },
+  {
+   "letter": "A",
+   "pos": [
+    -18.8,
+    6.2,
+    -10.0
+   ]
+  },
+  {
+   "letter": "T",
+   "pos": [
+    -5.4,
+    5.9,
+    -43.0
+   ]
+  },
+  {
+   "letter": "E",
+   "pos": [
+    -9.0,
+    2.9,
+    -31.5
+   ]
+  }
+ ],
+ "spawn": {
+  "pos": [
+   0.0,
+   5.02,
+   12.5
+  ],
+  "yaw_deg": 0.0,
+  "forward": [
+   0.0,
+   0.0,
+   -1.0
+  ]
+ },
+ "respawns": [
+  [
+   0.0,
+   0.0,
+   -2.0
+  ],
+  [
+   0.0,
+   0.0,
+   -30.0
+  ],
+  [
+   -24.0,
+   0.0,
+   -36.0
+  ],
+  [
+   10.0,
+   0.0,
+   -10.0
+  ]
+ ],
+ "rails": [
+  {
+   "name": "dropin_coping",
+   "kind": "metal",
+   "tag": "coping",
+   "points": [
+    [
+     8.0,
+     5.0,
+     7.03
+    ],
+    [
+     -8.0,
+     5.0,
+     7.03
+    ]
+   ]
+  },
+  {
+   "name": "catwalk_handrail",
+   "kind": "metal",
+   "tag": "catwalk",
+   "points": [
+    [
+     -17.66,
+     6.025,
+     15.8
+    ],
+    [
+     -17.66,
+     6.025,
+     -18.0
+    ]
+   ]
+  },
+  {
+   "name": "hp_coping_w",
+   "kind": "metal",
+   "tag": "coping",
+   "points": [
+    [
+     -5.73,
+     3.7,
+     -37.0
+    ],
+    [
+     -5.73,
+     3.7,
+     -49.0
+    ]
+   ]
+  },
+  {
+   "name": "hp_coping_e",
+   "kind": "metal",
+   "tag": "coping",
+   "points": [
+    [
+     5.73,
+     3.7,
+     -49.0
+    ],
+    [
+     5.73,
+     3.7,
+     -37.0
+    ]
+   ]
+  },
+  {
+   "name": "east_qp_coping",
+   "kind": "metal",
+   "tag": "coping",
+   "points": [
+    [
+     19.23,
+     3.2,
+     -46.0
+    ],
+    [
+     19.23,
+     3.2,
+     14.0
+    ]
+   ]
+  },
+  {
+   "name": "wall_pipe",
+   "kind": "metal",
+   "tag": "pipe",
+   "points": [
+    [
+     19.55,
+     4.06,
+     12.0
+    ],
+    [
+     19.55,
+     4.06,
+     -44.0
+    ]
+   ]
+  },
+  {
+   "name": "se_qp_coping",
+   "kind": "metal",
+   "tag": "coping",
+   "points": [
+    [
+     16.0,
+     2.4,
+     15.23
+    ],
+    [
+     8.4,
+     2.4,
+     15.23
+    ]
+   ]
+  },
+  {
+   "name": "funbox_edge_0",
+   "kind": "wood",
+   "tag": "ledge",
+   "points": [
+    [
+     -2.0,
+     0.9,
+     -15.0
+    ],
+    [
+     2.0,
+     0.9,
+     -15.0
+    ]
+   ]
+  },
+  {
+   "name": "funbox_edge_1",
+   "kind": "wood",
+   "tag": "ledge",
+   "points": [
+    [
+     2.0,
+     0.9,
+     -18.0
+    ],
+    [
+     -2.0,
+     0.9,
+     -18.0
+    ]
+   ]
+  },
+  {
+   "name": "funbox_edge_2",
+   "kind": "wood",
+   "tag": "ledge",
+   "points": [
+    [
+     -2.0,
+     0.9,
+     -18.0
+    ],
+    [
+     -2.0,
+     0.9,
+     -15.0
+    ]
+   ]
+  },
+  {
+   "name": "funbox_edge_3",
+   "kind": "wood",
+   "tag": "ledge",
+   "points": [
+    [
+     2.0,
+     0.9,
+     -15.0
+    ],
+    [
+     2.0,
+     0.9,
+     -18.0
+    ]
+   ]
+  },
+  {
+   "name": "funbox_rail",
+   "kind": "metal",
+   "tag": "rail",
+   "points": [
+    [
+     0.0,
+     1.344,
+     -15.2
+    ],
+    [
+     0.0,
+     1.344,
+     -17.8
+    ]
+   ]
+  },
+  {
+   "name": "long_rail",
+   "kind": "metal",
+   "tag": "rail",
+   "points": [
+    [
+     -12.0,
+     0.524,
+     -2.0
+    ],
+    [
+     -12.0,
+     0.524,
+     -20.0
+    ]
+   ]
+  },
+  {
+   "name": "diag_rail",
+   "kind": "metal",
+   "tag": "rail",
+   "points": [
+    [
+     6.0,
+     0.474,
+     -26.0
+    ],
+    [
+     13.0,
+     0.474,
+     -32.0
+    ]
+   ]
+  },
+  {
+   "name": "ledge_a",
+   "kind": "concrete",
+   "tag": "ledge",
+   "points": [
+    [
+     8.8,
+     0.5,
+     -2.0
+    ],
+    [
+     8.8,
+     0.5,
+     -12.0
+    ]
+   ]
+  },
+  {
+   "name": "ledge_a",
+   "kind": "concrete",
+   "tag": "ledge",
+   "points": [
+    [
+     8.2,
+     0.5,
+     -2.0
+    ],
+    [
+     8.2,
+     0.5,
+     -12.0
+    ]
+   ]
+  },
+  {
+   "name": "ledge_b",
+   "kind": "concrete",
+   "tag": "ledge",
+   "points": [
+    [
+     -6.0,
+     0.42,
+     -22.65
+    ],
+    [
+     -1.0,
+     0.42,
+     -22.65
+    ]
+   ]
+  },
+  {
+   "name": "ledge_b",
+   "kind": "concrete",
+   "tag": "ledge",
+   "points": [
+    [
+     -6.0,
+     0.42,
+     -23.35
+    ],
+    [
+     -1.0,
+     0.42,
+     -23.35
+    ]
+   ]
+  },
+  {
+   "name": "rafter_west",
+   "kind": "metal",
+   "tag": "rafter",
+   "points": [
+    [
+     -18.8,
+     6.01,
+     -27.5
+    ],
+    [
+     -18.8,
+     6.01,
+     -47.0
+    ]
+   ]
+  },
+  {
+   "name": "rafter_east",
+   "kind": "metal",
+   "tag": "rafter",
+   "points": [
+    [
+     19.0,
+     5.61,
+     -32.0
+    ],
+    [
+     19.0,
+     5.61,
+     -46.0
+    ]
+   ]
+  },
+  {
+   "name": "secret_rail",
+   "kind": "metal",
+   "tag": "rail",
+   "points": [
+    [
+     -27.0,
+     0.424,
+     -32.5
+    ],
+    [
+     -21.5,
+     0.424,
+     -32.5
+    ]
+   ]
+  }
+ ],
+ "lightmapped": [
+  "Park_concrete_floor",
+  "Park_brick",
+  "Park_corrugated",
+  "Park_roof",
+  "Park_steel_paint",
+  "Park_steel",
+  "Park_concrete",
+  "Park_plywood",
+  "Park_rampside",
+  "Park_coping",
+  "Park_rail",
+  "Park_diamond",
+  "Park_rafter",
+  "Park_cinder",
+  "Park_crate",
+  "Park_crate_frame",
+  "Park_barrel",
+  "Park_dumpster",
+  "Park_paint_line",
+  "BreakWall_0",
+  "BreakWall_1",
+  "BreakWall_2",
+  "BreakWall_3",
+  "BreakWall_4",
+  "BreakWall_batten8",
+  "BreakWall_batten24",
+  "BreakWall_sign",
+  "Park_graffiti"
+ ],
+ "units": "metres, Godot axes (Y up, -Z = north)",
+ "lighting": {
+  "sun_dir": [
+   0.4212,
+   -0.7421,
+   -0.5215
+  ],
+  "sun_color": [
+   1.0,
+   0.86,
+   0.68
+  ],
+  "sun_strength": 5.0,
+  "lightmap_scale": 6.0,
+  "sky_color": [
+   0.55,
+   0.66,
+   0.85
+  ]
+ }
+}

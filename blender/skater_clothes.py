@@ -391,12 +391,13 @@ def build_hood(body, rig, hoodie, info, coll):
         px = cx + np.sin(a) * rx
         py = cy - np.cos(a) * ry
         zc = info["z_col_back"] * back + info["z_col_front"] * (1 - back) + 0.005
-        tube = 0.017 + 0.03 * back ** 1.3
+        tube = 0.012 + 0.03 * back ** 1.3
         out_dir = np.array([np.sin(a) * ry, -np.cos(a) * rx, 0.0])
         out_dir /= np.linalg.norm(out_dir)
         for j in range(nv):
             b = j / nv * 2 * np.pi
-            p = np.array([px, py, zc]) + out_dir * (tube * 0.9 * (np.cos(b) + 0.6)) + np.array([0, 0, 1]) * tube * 0.75 * np.sin(b)
+            # flattened section: a fold of fleece lying on the shoulders, not a round tube
+            p = np.array([px, py, zc]) + out_dir * (tube * 1.25 * (np.cos(b) + 0.75)) + np.array([0, 0, 1]) * tube * 0.42 * np.sin(b)
             verts.append(p)
     for i in range(nu - 1):
         for j in range(nv):
@@ -504,6 +505,12 @@ def build_drawstrings(hoodie, rig, info, coll):
         bmesh.ops.transform(bm, matrix=rot, verts=bm.verts)
         bmesh.ops.translate(bm, vec=pts[-1] + tipd * 0.011, verts=bm.verts)
         ag = C.bm_to_object(bm, "Aglet", coll, smooth=True)
+        for o in (ob, ag):
+            o.parent = rig
+            g = o.vertex_groups.new(name="spine_03")
+            g.add(list(range(len(o.data.vertices))), 1.0, 'REPLACE')
+            am = o.modifiers.new("Armature", 'ARMATURE')
+            am.object = rig
         objs.append((ob, ag))
     return objs
 
@@ -1012,7 +1019,7 @@ def sole_texture(size=512):
     return col, height, rough
 
 
-HOODIE_TINT = (1.35, 0.42, 0.38)
+HOODIE_TINT = (0.78, 0.17, 0.16)
 
 
 def to_srgb(lin):

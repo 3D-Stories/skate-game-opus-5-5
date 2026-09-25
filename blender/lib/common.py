@@ -419,8 +419,9 @@ def box_uv(obj, scale=1.0, uv_name='UVMap'):
             uv.data[li].uv = (u / scale, v / scale)
 
 
-def lightmap_uv(objs, name='Lightmap', margin=0.004):
-    """Second UV set for baked lighting: smart-projected and packed across all objects."""
+def lightmap_uv(objs, name='Lightmap', margin=0.004, weights=None):
+    """Second UV set for baked lighting: smart-projected and packed across all objects.
+    weights: object name -> relative texel density (islands pre-scaled before packing)."""
     for o in objs:
         me = o.data
         if name not in me.uv_layers:
@@ -435,7 +436,18 @@ def lightmap_uv(objs, name='Lightmap', margin=0.004):
     bpy.ops.uv.smart_project(angle_limit=math.radians(50), island_margin=margin, area_weight=0.0,
                              correct_aspect=True, scale_to_bounds=False)
     bpy.ops.uv.average_islands_scale()
-    bpy.ops.uv.pack_islands(margin=margin, rotate=True, shape_method='CONCAVE')
+    bpy.ops.object.mode_set(mode='OBJECT')
+    if weights:
+        for o in objs:
+            k = weights.get(o.name)
+            if k:
+                uv = o.data.uv_layers[name]
+                co = np.empty(len(uv.data) * 2, np.float32)
+                uv.data.foreach_get('uv', co)
+                uv.data.foreach_set('uv', co * k)
+    bpy.ops.object.mode_set(mode='EDIT')
+    bpy.ops.mesh.select_all(action='SELECT')
+    bpy.ops.uv.pack_islands(margin=margin, rotate=True, shape_method='CONCAVE', scale=True)
     bpy.ops.object.mode_set(mode='OBJECT')
     for o in objs:
         o.data.uv_layers.active = o.data.uv_layers[0]
@@ -450,7 +462,7 @@ def use_gpu():
             try:
                 prefs.compute_device_type = t
                 prefs.refresh_devices()
-                if any(d.type != 'CPU' for d in prefs.devices):
+                if any(d.type == t for d in prefs.devices):
                     break
             except Exception:
                 continue
@@ -757,3 +769,23 @@ def show(objects=None, shading='MATERIAL', azimuth=35.0, elevation=12.0, margin=
             area.tag_redraw()
     deselect_all()
     redraw()
+
+
+class quiet:
+    """Silence Python-level logging/prints (glTF exporter chatter) inside a block."""
+
+    def __enter__(self):
+        import io
+        import logging
+        self._old = sys.stdout
+        self._buf = io.StringIO()
+        sys.stdout = self._buf
+        self._lv = logging.root.level
+        logging.disable(logging.INFO)
+        return self._buf
+
+    def __exit__(self, *a):
+        import logging
+        sys.stdout = self._old
+        logging.disable(logging.NOTSET)
+        return False

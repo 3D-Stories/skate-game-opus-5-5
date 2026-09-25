@@ -184,10 +184,12 @@ def build(body, rig, coll=None):
     ob.parent = rig
     am = ob.modifiers.new("Armature", 'ARMATURE')
     am.object = rig
-    m = C.pbr_material("Hair", base=atlas, roughness=0.5, alpha='texture')
+    m = C.pbr_material("Hair", base=atlas, roughness=0.58, alpha='texture')
     p = C.principled(m)
-    p.inputs['Specular IOR Level'].default_value = 0.3
-    p.inputs['Sheen Weight'].default_value = 0.2
+    # hair highlights are tinted by the fibre colour (and there are many overlapping cards)
+    p.inputs['Specular IOR Level'].default_value = 0.2
+    p.inputs['Specular Tint'].default_value = (0.62, 0.46, 0.32, 1)
+    p.inputs['Sheen Weight'].default_value = 0.0
     p.inputs['Sheen Tint'].default_value = (0.5, 0.35, 0.25, 1)
     try:
         m.surface_render_method = 'DITHERED'

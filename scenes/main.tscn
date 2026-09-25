@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://dww8dmk148imr"]
+
+[ext_resource type="Script" uid="uid://d1pqmobkhcr0u" path="res://scripts/game/main.gd" id="1_o6xl0"]
+[ext_resource type="Script" uid="uid://ctjc85xnisg8b" path="res://scripts/level/level.gd" id="2_tipki"]
+[ext_resource type="Script" uid="uid://bgswsjriiljap" path="res://scripts/skater/skater.gd" id="3_85g3d"]
+[ext_resource type="Script" uid="uid://cqx1oxfeitc21" path="res://scripts/skater/skater_model.gd" id="4_choun"]
+[ext_resource type="Script" uid="uid://d3edrskv1x471" path="res://scripts/game/chase_camera.gd" id="5_ya4ey"]
+[ext_resource type="Script" uid="uid://8ls35u0yia0m" path="res://scripts/ui/hud.gd" id="6_eb6dy"]
+[ext_resource type="Script" uid="uid://cb70joyf4y1f" path="res://scripts/ui/menus.gd" id="7_trceg"]
+
+[sub_resource type="Environment" id="Environment_a8y0u"]
+background_mode = 1
+background_color = Color(0.12, 0.13, 0.15, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.42, 0.46, 0.54, 1)
+ambient_light_energy = 0.75
+reflected_light_source = 1
+tonemap_mode = 4
+tonemap_exposure = 1.05
+tonemap_white = 6.0
+ssao_enabled = true
+ssao_radius = 1.1
+ssao_intensity = 1.6
+glow_enabled = true
+glow_intensity = 0.55
+glow_bloom = 0.04
+glow_hdr_threshold = 1.1
+fog_enabled = true
+fog_light_color = Color(0.55, 0.56, 0.6, 1)
+fog_density = 0.0035
+fog_sky_affect = 0.0
+adjustment_enabled = true
+adjustment_contrast = 1.06
+adjustment_saturation = 1.08
+
+[node name="Main" type="Node3D" unique_id=402552830]
+script = ExtResource("1_o6xl0")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1973162212]
+environment = SubResource("Environment_a8y0u")
+
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=419838179]
+light_color = Color(1, 0.86, 0.68, 1)
+light_energy = 2.0
+shadow_enabled = true
+directional_shadow_max_distance = 70.0
+
+[node name="Level" type="Node3D" parent="." unique_id=2007727711]
+script = ExtResource("2_tipki")
+
+[node name="Skater" type="Node3D" parent="." unique_id=1034805433]
+script = ExtResource("3_85g3d")
+
+[node name="Model" type="Node3D" parent="Skater" unique_id=355658211]
+script = ExtResource("4_choun")
+
+[node name="RollSound" type="AudioStreamPlayer" parent="Skater" unique_id=141450800]
+
+[node name="GrindSound" type="AudioStreamPlayer" parent="Skater" unique_id=1310588128]
+
+[node name="WindSound" type="AudioStreamPlayer" parent="Skater" unique_id=150555719]
+
+[node name="Camera" type="Camera3D" parent="." unique_id=127810820]
+current = true
+script = ExtResource("5_ya4ey")
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=727717942]
+script = ExtResource("6_eb6dy")
+
+[node name="Menus" type="CanvasLayer" parent="." unique_id=133295624]
+script = ExtResource("7_trceg")

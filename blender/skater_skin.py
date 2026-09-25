@@ -220,10 +220,15 @@ def compose(maps, size, lm):
     col *= (0.97 + 0.06 * mid)[:, None]
     col = col * (0.85 + 0.15 * np.clip(pc, 0.6, 1.4))
     col = col * (1 - red[:, None] * 0.28) + np.array([0.58, 0.20, 0.15]) * red[:, None] * 0.28
-    col = col * (1 - under_eye[:, None] * 0.18) + np.array([0.30, 0.18, 0.18]) * under_eye[:, None] * 0.18
-    lip_col = np.array([0.27, 0.085, 0.078])
-    col = col * (1 - lips[:, None] * 0.75) + lip_col * lips[:, None] * 0.75
-    col *= (1 - 0.06 * np.clip(ph, -2, 2) * (1 - lips))[:, None]
+    col = col * (1 - under_eye[:, None] * 0.3) + np.array([0.28, 0.16, 0.17]) * under_eye[:, None] * 0.3
+    # eye sockets and upper-lid creases sit slightly darker and cooler than the cheeks
+    orbit = sum(np.exp(-((pos[:, 0] - e[0]) ** 2 / 0.022 ** 2 + (pos[:, 2] - (e[2] + 0.004)) ** 2 / 0.016 ** 2))
+                for e in (lm['eye_l'], lm['eye_r']))
+    orbit = np.clip(orbit, 0, 1) * (pos[:, 1] < lm['eye_mid'][1] + 0.03)
+    col = col * (1 - orbit[:, None] * 0.16) + np.array([0.33, 0.19, 0.18]) * orbit[:, None] * 0.16
+    lip_col = np.array([0.15, 0.048, 0.05])
+    col = col * (1 - lips[:, None] * 0.8) + lip_col * lips[:, None] * 0.8
+    col *= (1 - 0.035 * np.clip(ph, -2, 2) * (1 - lips))[:, None]
     hair = np.array([0.035, 0.024, 0.018])
     col = col * (1 - stub[:, None] * 0.2) + np.array([0.26, 0.22, 0.22]) * stub[:, None] * 0.2
     col = col * (1 - (stub * sd * 0.65)[:, None]) + hair * (stub * sd * 0.65)[:, None]
@@ -233,7 +238,7 @@ def compose(maps, size, lm):
     col = col * (1 - nails[:, None] * 0.5) + np.array([0.70, 0.52, 0.48]) * nails[:, None] * 0.5
     col = col * (1 - ml[:, None] * 0.6) + np.array([0.16, 0.08, 0.06]) * ml[:, None] * 0.6
 
-    rough = 0.56 - 0.07 * tzone - 0.14 * lips + 0.1 * stub + 0.15 * scalp - 0.1 * nails + 0.03 * np.clip(ph, -1, 2)
+    rough = 0.6 - 0.08 * tzone + 0.1 * stub + 0.15 * scalp - 0.1 * nails + 0.03 * np.clip(ph, -1, 2)
     # height: pores everywhere (weaker on lips), lip creases, forehead lines
     height = ph * (1 - 0.7 * lips) * 0.45
     lip_crease = np.sin(pos[:, 0] * 2 * np.pi / 0.0016) * lips * 0.6
@@ -253,15 +258,16 @@ def build(body, face, size=None):
     vertex_masks(body, lm)
     maps = bake_maps(body, size)
     alb, rough, height = compose(maps, size, lm)
-    normal = C.height_to_normal(height, strength=0.55 * size / 4096)
+    normal = C.height_to_normal(height, strength=0.38 * size / 4096)
     img_a = C.save_png(alb, "skin_albedo")
     img_r = C.save_png(np.stack([np.ones_like(rough), rough, np.zeros_like(rough)], -1), "skin_rough", 'Non-Color')
     img_n = C.save_png(normal, "skin_normal", 'Non-Color')
     m = C.pbr_material("Skin", base=img_a, rough=img_r, normal=img_n, normal_strength=1.0)
     p = C.principled(m)
     p.inputs['Subsurface Weight'].default_value = 1.0
-    p.inputs['Subsurface Radius'].default_value = (1.0, 0.38, 0.22)
-    p.inputs['Subsurface Scale'].default_value = 0.012
+    p.inputs['Subsurface Radius'].default_value = (1.0, 0.4, 0.25)
+    # mean free path ~4 mm red / 1.6 mm green / 1 mm blue (measured skin), not a waxy glow
+    p.inputs['Subsurface Scale'].default_value = 0.0042
     p.inputs['Specular IOR Level'].default_value = 0.42
     p.inputs['IOR'].default_value = 1.4
     try:

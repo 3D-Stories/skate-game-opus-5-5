@@ -132,7 +132,7 @@ def ply_texture():
 def griptape_textures():
     g = C.make_seamless(C.src_array("griptape", 1024))
     lum = C.luminance(g)
-    col = g * 0.9
+    col = g * 0.55
     # bolt heads: 8 dark discs near the truck positions (in top UV space: u = x/0.2+2, v = y/0.2+0.5)
     return (C.save_png(col, "grip_albedo"),
             C.save_png(C.height_to_normal(C.highpass(lum, 3) * 6.0, 1.0), "grip_normal", 'Non-Color'))
@@ -249,6 +249,16 @@ def build_wheel(name, x, y, coll):
 def build(export=True):
     C.reset_scene()
     coll = C.collection("Board")
+    root = build_parts(coll)
+    C.show([o for o in coll.objects if o.type == 'MESH'], 'MATERIAL', azimuth=40, elevation=25, margin=1.0)
+    if export:
+        C.export_glb(C.os.path.join(C.ASSETS, "board.glb"))
+        C.save_blend("board")
+    return root
+
+
+def build_parts(coll):
+    """Build the board objects into the current scene; returns the 'Skateboard' root."""
     deck = build_deck(coll)
     grip_a, grip_n = griptape_textures()
     grip = C.pbr_material("Griptape", base=grip_a, normal=grip_n, roughness=0.95, normal_strength=1.0)
@@ -295,8 +305,4 @@ def build(export=True):
         w.parent = root
     for o in (deck, bolts):
         o.parent = root
-    C.show([deck] + wheels, 'MATERIAL', azimuth=40, elevation=25, margin=1.0)
-    if export:
-        C.export_glb(C.os.path.join(C.ASSETS, "board.glb"))
-        C.save_blend("board")
     return root

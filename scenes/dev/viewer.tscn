@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://d2lvydvy5my18"]
+
+[ext_resource type="Script" uid="uid://c0tncgyi6g2kj" path="res://scripts/dev/viewer.gd" id="1_2b3fw"]
+[ext_resource type="Script" uid="uid://cqx1oxfeitc21" path="res://scripts/skater/skater_model.gd" id="2_sf2a3"]
+
+[sub_resource type="Environment" id="Environment_r8tee"]
+background_mode = 1
+background_color = Color(0.35, 0.36, 0.38, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.55, 0.57, 0.62, 1)
+ambient_light_energy = 0.8
+tonemap_mode = 4
+ssao_enabled = true
+glow_enabled = true
+
+[node name="Viewer" type="Node3D" unique_id=1287862998]
+script = ExtResource("1_2b3fw")
+
+[node name="SkaterModel" type="Node3D" parent="." unique_id=1192113163]
+script = ExtResource("2_sf2a3")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1713164104]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 3.2)
+fov = 40.0
+
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=1125447654]
+transform = Transform3D(0.81915206, -0.3686878, 0.43938506, 0, 0.76604444, 0.6427876, -0.57357645, -0.52654076, 0.62750685, 0, 0, 0)
+light_energy = 2.2
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=969749561]
+environment = SubResource("Environment_r8tee")
