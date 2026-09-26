@@ -41,6 +41,7 @@ var opts := {}                             # user args: --key=value -> "key": "v
 var hint_layer: CanvasLayer
 var hint: Label
 var _quit_armed := 0.0
+var window_toggles := 0
 var quit_game := func(): get_tree().quit()   # the tests swap this out
 var _tap: LogTap
 var _bench_written := false
@@ -54,6 +55,7 @@ var _shots_taken: Array[String] = []
 var _start_shot_done := false
 var _end_t := -1.0                         # wall time the end screen came up
 var _end_done := false
+var _quit_deadline := -1.0                 # --quit-at-end: when to stop waiting for the bench report
 var _info_started := false
 var _audio := {"frames": 0, "frames_with_sound": 0, "max_peak_db": -200.0, "sounds_played": {}}
 var _input_counts := {"keys": {}, "pad_buttons": {}, "pad_axes": {}}
@@ -168,6 +170,7 @@ static func windowed_size(usable: Vector2i, deco: Vector2i) -> Vector2i:
 
 
 func toggle_fullscreen() -> void:
+	window_toggles += 1
 	if is_fullscreen():
 		await set_windowed()
 	else:
@@ -210,8 +213,11 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		var k := event as InputEventKey
 		if k.keycode == KEY_F11 or (k.alt_pressed and k.keycode in [KEY_ENTER, KEY_KP_ENTER]):
-			if k.keycode != KEY_F11:
-				Input.action_release("confirm")     # Alt+Enter is not also "start / resume"
+			if k.keycode != KEY_F11 and main != null:
+				# Enter is also the menus' "confirm" and the key has already set that action
+				# (Input.action_release() cannot clear a key's own press), so the menus skip
+				# this frame: Alt+Enter must not also start or resume the run
+				main.menus._cooldown = maxf(main.menus._cooldown, 0.1)
 			get_viewport().set_input_as_handled()
 			toggle_fullscreen()
 			return
@@ -322,6 +328,12 @@ func _process(delta: float) -> void:
 	if opts.has("info-out") and not _info_started and Time.get_ticks_msec() - _t0 > 2000:
 		_info_started = true
 		_write_info("start")
+	if _quit_deadline > 0.0 and (_bench_written or _bench_path == "" or Time.get_ticks_msec() / 1000.0 > _quit_deadline):
+		if _bench_path != "" and not _bench_written:
+			print("[desktop] no bench report came (no frames were rendered): quitting without one")
+		print("[desktop] run over: quitting")
+		_quit_deadline = -1.0
+		quit_game.call()
 	if main.menus.mode == main.menus.END and not _end_done:
 		if _end_t < 0.0:
 			_end_t = Time.get_ticks_msec() / 1000.0
@@ -364,9 +376,10 @@ func _at_end() -> void:
 		_write_frametimes()
 	if opts.has("info-out"):
 		_write_info("end")
-	if opts.has("quit-at-end") and (not opts.has("bench") or _bench_written):
-		print("[desktop] run over: quitting")
-		quit_game.call()
+	if opts.has("quit-at-end"):
+		# bench.gd reports as the end screen opens; a run without rendered frames (headless)
+		# has nothing to report, so wait for it at most 10 s
+		_quit_deadline = Time.get_ticks_msec() / 1000.0 + 10.0
 
 
 # --- files ----------------------------------------------------------------------------

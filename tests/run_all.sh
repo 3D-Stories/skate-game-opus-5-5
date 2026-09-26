@@ -33,9 +33,11 @@ for id in $LEVELS; do
 	run "fullrun_$id" 600 --fixed-fps 60 -- --level="$id" --autopilot=test --verbose
 	EXTRA="$EXTRA level_$id fullrun_$id"
 done
+# the Windows build's desktop layer, tested in its staged project (desktop/test_desktop.sh)
+( timeout 1500 bash desktop/test_desktop.sh > tests/results/logs/desktop.log 2>&1; echo $? > tests/results/logs/desktop.exit ) &
 wait
 printf '%-14s %-5s %s\n' suite exit summary
-for n in scoring flow input audio park anims clips handling ragdoll camera fullrun levelsel $EXTRA; do
+for n in scoring flow input audio park anims clips handling ragdoll camera fullrun levelsel $EXTRA desktop; do
 	e=$(cat "tests/results/logs/$n.exit" 2>/dev/null || echo "?")
 	s=$(grep -aE "passed|PASSED|failed|\[run\] finished|checks" "tests/results/logs/$n.log" | tail -1 | cut -c1-150)
 	printf '%-14s %-5s %s\n' "$n" "$e" "$s"
