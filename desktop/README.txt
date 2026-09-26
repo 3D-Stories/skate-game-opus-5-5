@@ -1,15 +1,15 @@
 PRO SKATER: THE WAREHOUSE - Windows build
 ==========================================
 
-Run ProSkater.exe. Nothing to install; Windows 10 or 11, 64-bit, with an OpenGL 3.3 graphics
-driver (any GPU from the last ten years; without one the game switches to Direct3D 11 by
-itself).
+Run ProSkater.exe. Nothing to install; 64-bit Windows 10 or 11 (tested on 11), with an OpenGL 3.3 graphics
+driver (without one the game switches to Direct3D 11 by itself).
 
 The exe is not code-signed, so the first time you start it Windows SmartScreen may say
 "Windows protected your PC". Click "More info", then "Run anyway".
 
 The game starts fullscreen. F11 or Alt+Enter switches between fullscreen and a window
-(1920x1080, or smaller on a smaller screen); the choice is kept for next time.
+(1920x1080, or smaller on a smaller screen); the choice is kept for next time. If the
+picture ever stops moving after leaving fullscreen, restart the game: it opens in the window.
 
 CONTROLS            Keyboard                 Gamepad (Xbox layout)
 Steer / push / brake  W A S D or arrow keys   Left stick or D-pad

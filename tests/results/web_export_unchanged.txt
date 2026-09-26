@@ -1,4 +1,4 @@
-web export: base 696364b vs working tree of 696364b (6 changed paths), same import cache
+web export: base 696364b vs working tree of dda0414 (4 changed paths), same import cache
 --- files (sha256)
 index.apple-touch-icon.png   identical  01d4f63e525941e0
 index.audio.position.worklet.js identical  be33985bc7160d6b
@@ -6,11 +6,11 @@ index.audio.worklet.js       identical  5b476a9c9ce642c0
 index.html                   identical  84b2dcd16c582df1
 index.icon.png               identical  ad3c35ad0facf487
 index.js                     identical  9fbacd77c17a69d7
-index.pck                    identical  3757be3097ed4fc1
+index.pck                    identical  da9d1f05fc1cea0a
 index.png                    identical  3cb4495c0b98dfbe
 index.wasm                   identical  3a8f85ad2390e25f
 --- pck entries
-/tmp/web_export_check.8nArZg/base.out/index.pck: Godot 4.7.2, 508 entries
-/tmp/web_export_check.8nArZg/new.out/index.pck: Godot 4.7.2, 508 entries
+/tmp/web_export_check.J5R9Yy/base.out/index.pck: Godot 4.7.2, 508 entries
+/tmp/web_export_check.J5R9Yy/new.out/index.pck: Godot 4.7.2, 508 entries
 identical entries: 508; only in A: 0; only in B: 0; different: 0
 RESULT: PASS - the web export is byte-for-byte identical
