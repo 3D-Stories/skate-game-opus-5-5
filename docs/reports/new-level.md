@@ -192,4 +192,17 @@ the signal and one text line in `menus.gd`; the level select is its own scene.
 
 ## Commits
 
-FILL
+- `bf1d029` Level kit: geometry, materials and lighting modules; the Warehouse builds through them
+- `a89c807` Data-driven levels: registry, runtime level switch, level select, generic goals and breakables
+- `de95edb` Eastside Baths built through the level kit; web level packs
+- `7acdd60` Level park-test template: tests/test_level.gd --level=<id>, 52/52 on the Baths
+- `b092be5` Camera for pools and high boards; roofs with collision; scaffold command; LEVELS.md
+- `7167580` Baths: final full build; live-vs-headless parity; whole-run camera capture 0 flagged
+- `ee958af` Level select headless test (19/19); shared normal maps for kit levels; Baths renders
+- `b82a479` Level select test, shared normals code, render exposure, Baths renders (rest of ee958af)
+- `629ab0f` Web level packs work in the browser; HUD goal-width check
+- `ff1636c` Web: level textures sized like the Warehouse's (pack 61 -> 38 MB); first-visit shader compile moved out of the run
+- `b1d0698` Final evidence: full rebuild, parity on the final Baths, 1080p benches, browser checks, report
+- the commit that adds this list to the report (the last on the branch)
+
+No remote: committed on `new-level`, not pushed. Base: `696364b`.
