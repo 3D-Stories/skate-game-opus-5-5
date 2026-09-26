@@ -5,8 +5,13 @@
 # Keyboard: every step posts WM_KEYDOWN / WM_KEYUP to the game's window (PostMessage), the same
 # window messages a key press turns into, so the window never needs (or takes) the focus.
 #   wait:<ms>  tap:<key>  hold:<key>:<ms>  down:<key>  up:<key>   (<key>: a System.Windows.Forms.Keys name)
+#   resize:<w>x<h>    resize the window from outside, as a user dragging its border would
+#   plainstyle        drop the test window's no-activate and topmost styles (WS_EX_NOACTIVATE,
+#                     WS_EX_TOPMOST), without activating it, so it is styled like a player's window
 #   shot:<png file>   picture of the game's window alone, frame and title bar included
-#                     (PrintWindow: nothing else on the screen is captured)
+#                     (PrintWindow: the window draws itself; nothing else on the screen is
+#                     captured. Never copy screen pixels instead: where the game window does
+#                     not paint, they are the user's own windows behind it.)
 # Sound: while the steps run, the game process's audio session on the default output device is
 # found through the Windows Core Audio API and its peak meter (what the volume mixer shows) is
 # read every 50 ms: proof that Windows' audio engine gets sound from the game.
@@ -21,6 +26,9 @@ public static class Win {
   [DllImport("user32.dll")] public static extern bool PrintWindow(IntPtr h, IntPtr dc, uint flags);
   [StructLayout(LayoutKind.Sequential)] public struct RECT { public int L, T, R, B; }
   [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr h, out RECT r);
+  [DllImport("user32.dll")] public static extern bool SetWindowPos(IntPtr h, IntPtr a, int x, int y, int cx, int cy, uint f);
+  [DllImport("user32.dll")] public static extern int GetWindowLong(IntPtr h, int i);
+  [DllImport("user32.dll")] public static extern int SetWindowLong(IntPtr h, int i, int v);
 }
 [ComImport, Guid("BCDE0395-E52F-467C-8E3D-C4579291692E")] public class MMDeviceEnumerator {}
 [Guid("A95664D2-9614-4F35-A746-DE8DB63617E6"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
@@ -117,6 +125,13 @@ foreach ($st in $steps.Split(";")) {
     "down" { Key $p[1] $true }
     "up" { Key $p[1] $false }
     "shot" { Shot ($st.Substring(5)) }
+    "plainstyle" {
+      $ex = [Win]::GetWindowLong($hwnd, -20)
+      [void][Win]::SetWindowLong($hwnd, -20, ($ex -band (-bnot (0x08000000 -bor 0x00000008))))
+      [void][Win]::SetWindowPos($hwnd, [IntPtr](-2), 0, 0, 0, 0, 0x0033)   # HWND_NOTOPMOST; NOSIZE|NOMOVE|NOACTIVATE|FRAMECHANGED
+      [void]$posted.Add(@{ t = [math]::Round($sw.Elapsed.TotalSeconds, 2); plainstyle = ('{0:X8} -> {1:X8}' -f $ex, [Win]::GetWindowLong($hwnd, -20)) })
+    }
+    "resize" { $wh = $p[1].Split("x"); [void][Win]::SetWindowPos($hwnd, [IntPtr]::Zero, 0, 0, [int]$wh[0], [int]$wh[1], 0x0016); [void]$posted.Add(@{ t = [math]::Round($sw.Elapsed.TotalSeconds, 2); resize = $p[1] }) }
   }
 }
 for ($i = 0; $i -lt 100 -and -not $proc.HasExited; $i++) { Start-Sleep -Milliseconds 100 }

@@ -49,7 +49,7 @@ OY="${ORIGIN#*,}"
 	echo "window/size/mode=0"
 	echo "window/size/initial_position_type=0"
 	echo "window/size/initial_position=Vector2i($((PX - OX)), $((PY - OY)))"
-	echo "window/size/always_on_top=true"
+	[ "${TOPMOST:-1}" = 1 ] && echo "window/size/always_on_top=true"
 	[ "${NOFOCUS:-1}" = 1 ] && echo "window/size/no_focus=true"
 } > "$WIN_DIR/override.cfg"
 args=()

@@ -9,3 +9,5 @@ blender/lib/__pycache__/
 node_modules/
 blender/work/
 __pycache__/
+tests/results/windows/*.png
+tests/results/windows/fs_shots/

@@ -1,0 +1,19 @@
+native Windows run of build/windows/ProSkater.exe: opengl3 | NVIDIA GeForce RTX 4080 | Windows 10.0.26200
+PASS  keyboard: Enter on the start screen starts the run
+PASS  keyboard: holding W pushes the skater  (top speed 12.4 m/s)
+PASS  keyboard: Space pops an ollie (the skater is in the air)
+PASS  keyboard: Space then J in the air is a flip trick  (Kickflip)
+PASS  keyboard: Esc pauses, Enter resumes
+PASS  keyboard: Q twice in the pause menu quits, exit code 0  (exit 0)
+PASS  sound: the game's Windows audio session is playing (peak meter above zero)  (185 of 369 samples, max peak 1.000; audio driver WASAPI, device Default, 48000 Hz)
+PASS  sound: the game's master bus carried sound during the run  (671 of 794 frames, peak 0.7 dB, synthesised sounds heard: catch, combo, land, land_hard, letter, pop, ui_select)
+PASS  window pictures (PrintWindow) taken  (kb_window.png 1936x1119, kb_pause.png 1936x1119)
+PASS  F11: fullscreen on the 1920x1080 monitor renders 1920x1080  ([('1920', '1080')])
+PASS  F11 again: a 16:9 window that fits that screen with its title bar and taskbar  ([('1280', '720'), ('1764', '992')])
+PASS  Q twice on the start screen quits, exit code 0  (exit 0)
+PASS  the game's own frame 1 s after the switch is drawn at the new size (fullscreen)  (1920x1080, contrast (std dev) 49)
+PASS  the game's own frame 1 s after the switch is drawn at the new size (windowed)  (1764x992, contrast (std dev) 46)
+PASS  what Windows shows fullscreen matches the game's frame (test window: never focused)  (mean difference 6.0 of 255; ok)
+FAIL  what Windows shows back in a window matches the game's frame (test window: never focused)  (mean difference 44.0 of 255; the window keeps showing a stale pre-fullscreen frame)
+joypads seen by the game (Godot's SDL joypad input): none connected
+15 checks passed, 1 failed

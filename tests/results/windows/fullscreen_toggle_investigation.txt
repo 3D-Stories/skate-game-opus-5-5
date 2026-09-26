@@ -1,0 +1,42 @@
+Leaving fullscreen: what Windows shows vs what the game renders (2026-09-26, this PC)
+====================================================================================
+
+Setup: the Windows build (official Godot 4.7.2 template), a 1280x720 window on the 1920x1080
+monitor (DISPLAY3), the start screen, F11 (desktop.gd: fullscreen) then F11 again (back to a
+fitted 1764x992 window). The test window is never focused: desktop/run_windows.sh sets
+display/window/size/no_focus, which in Godot 4.7.2 gives the window WS_EX_NOACTIVATE and
+WS_EX_TOPMOST. "Shown" = PrintWindow of the game's window (what Windows composites for it);
+"rendered" = the game's own frame (Viewport.get_texture().get_image(), desktop.gd --shots).
+
+Result (desktop/input_test_windows.sh, input_native.txt):
+  fullscreen:          shown matches rendered (mean difference 6.0 of 255)
+  back in a window:    shown does NOT match (44.0 of 255). Windows keeps showing the window's
+                       last frame from before fullscreen (the 1280x720 clear-colour frame with
+                       its old border) inside the new 1764x992 frame; the rest of the client
+                       area is not painted. The game keeps rendering correctly at 1764x992
+                       (fs_shots/toggle2_windowed.png) and keeps running (input, sound, quit).
+  It does not recover later (checked 1 s, 5 s, after a second round trip).
+
+What was tried (each a separate native run, PrintWindow compared by region):
+  plain resize of the window from outside (1296x759 -> 1600x940), no fullscreen   shown OK
+  OpenGL 3.3, Godot WINDOW_MODE_FULLSCREEN, then windowed + fitted size            stale
+  same, windowed without the fitted resize (Godot restores 1280x720)               stale
+  same, fitted resize 0.6 s later                                                  stale
+  Godot WINDOW_MODE_EXCLUSIVE_FULLSCREEN                                            stale
+  ANGLE on Direct3D 11 instead of OpenGL                                            stale
+  borderless window covering the monitor (flags + size) instead of a fullscreen mode stale
+  without display/window/size/always_on_top (no_focus still adds WS_EX_TOPMOST)    stale
+  after leaving: minimise + restore / vsync off + on / always-on-top off + on /
+    transparent on + off                                                          stale
+  after leaving: WS_EX_NOACTIVATE and WS_EX_TOPMOST removed from outside           stale
+
+So it follows the window covering the whole monitor and then shrinking, for both renderers
+and every way of going fullscreen, in a window that has never been activated.
+
+NOT VERIFIED: a normal, focused window (how a player runs the game). Testing it needs a window
+that can be activated, and the user of this PC was away from the keyboard for 17 minutes
+(past Windows' 200 s foreground-lock timeout), so such a window could have taken the
+foreground from their browser; the task rules out taking focus. To check it by hand (10 s):
+run ProSkater.exe, press F11 (a window), F11 (fullscreen), F11 (a window again): the park
+must keep moving in the window. The game remembers the choice, so the next start opens in
+whichever mode was left last.

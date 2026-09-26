@@ -7,8 +7,8 @@
 #   build/windows/ProSkater-<version>-windows-x86_64.zip  the exe and README.txt, to hand out
 #   build/windows/SHA256SUMS.txt, build/windows/export.log
 #
-# The export runs on a staged copy of the project (build/windows/stage, made by
-# desktop/stage.sh): there desktop/ is visible to Godot and project.godot has
+# The export runs on a staged copy of the project (made by desktop/stage.sh, outside the
+# project tree): there desktop/ is visible to Godot and project.godot has
 # desktop/project_windows.cfg appended. In the project itself desktop/ is .gdignore'd, so the
 # Windows-only files and settings (the Desktop autoload, the icon, fullscreen start, the
 # renderer) never touch the editor, the tests or the web export, which stays byte-for-byte
@@ -27,9 +27,8 @@ VER="$("$GODOT" --version | cut -d. -f1-3)"
 TPL="${GODOT_TEMPLATES:-$HOME/.local/share/godot/export_templates}/$VER.stable"
 [ -f "$TPL/windows_${MODE}_x86_64.exe" ] || bash desktop/install_windows_templates.sh
 OUT="$ROOT/build/windows"
-STAGE="$OUT/stage"
 mkdir -p "$OUT"
-bash desktop/stage.sh "$STAGE"
+STAGE="$(bash desktop/stage.sh stage)"
 
 rm -f "$OUT/ProSkater.exe" "$OUT/ProSkater.console.exe"
 "$GODOT" --headless --path "$STAGE" "--export-$MODE" "Windows Desktop" "$OUT/ProSkater.exe" > "$OUT/export.log" 2>&1 || true

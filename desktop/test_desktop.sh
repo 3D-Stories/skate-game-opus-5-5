@@ -15,11 +15,10 @@ set -u
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 GODOT="${GODOT:-godot}"
-STAGE="$ROOT/build/windows/stage-test"
 RES="$ROOT/tests/results"
 T="$(mktemp -d /tmp/desktop_test.XXXXXX)"
 mkdir -p "$RES/logs"
-bash desktop/stage.sh "$STAGE" || { echo "staging failed"; exit 1; }
+STAGE="$(bash desktop/stage.sh stage-test)" || { echo "staging failed"; exit 1; }
 timeout 600 "$GODOT" --headless --path "$STAGE" --fixed-fps 60 -s res://desktop/test_desktop.gd -- "$T/unit.txt" > "$RES/logs/desktop_unit.log" 2>&1
 unit=$?
 timeout 900 "$GODOT" --headless --path "$STAGE" --fixed-fps 60 -- --autopilot --bench --quit-at-end \

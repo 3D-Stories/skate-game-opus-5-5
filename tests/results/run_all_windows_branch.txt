@@ -1,0 +1,15 @@
+tests/run_all.sh on the windows-build branch, 2026-09-26T14:53:33-06:00, 12 suites (the 11 game suites + desktop), 32.6 s
+(the 11 existing suites' own result files are left as committed: this run only changed their timestamps and timings)
+suite      exit  summary
+scoring    0     40 passed, 0 failed
+flow       0     24 passed, 0 failed
+input      0     178 passed, 0 failed
+audio      0     69 passed, 0 failed
+park       0     111 passed, 0 failed
+anims      0     53 passed, 0 failed
+clips      0     28 passed, 0 failed
+handling   0     48 passed, 0 failed
+ragdoll    0     RAGDOLL 75 passed 0 failed
+camera     0     27 passed, 0 failed
+fullrun    0     [run] finished score=69043 goals=[["score", true], ["skate", true], ["tape", true], ["rafters", true], ["windows", true]]
+desktop    0     desktop: 47 checks passed, 0 failed

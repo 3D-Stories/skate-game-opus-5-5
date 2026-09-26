@@ -1,0 +1,20 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 610.74 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4080
+
+[desktop] opengl3 | NVIDIA GeForce RTX 4080 | 3.3.0 NVIDIA 610.74 | window windowed (1280, 720) on screen 1
+[desktop] skater GROUND  speed 0.0 m/s
+[desktop] info (start) -> C:/Temp/ProSkater/out/fs_info.json
+[desktop] screenshot -> C:/Temp/ProSkater/out/fs_shots/start_screen.png
+[desktop] key F11 down  actions: 
+[desktop] window fullscreen (1920, 1080)
+[desktop] key F11 up  actions: 
+[desktop] screenshot -> C:/Temp/ProSkater/out/fs_shots/toggle1_fullscreen.png
+[desktop] key F11 down  actions: 
+[desktop] window windowed (1764, 992)
+[desktop] key F11 up  actions: 
+[desktop] screenshot -> C:/Temp/ProSkater/out/fs_shots/toggle2_windowed.png
+[desktop] key Q down  actions: spin_left
+[desktop] key Q up  actions: spin_left
+[desktop] key Q down  actions: spin_left
+[desktop] quit from the start screen
+[desktop] info (quit from the start screen) -> C:/Temp/ProSkater/out/fs_info.json

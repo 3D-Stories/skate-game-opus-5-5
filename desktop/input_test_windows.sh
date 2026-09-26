@@ -32,13 +32,17 @@ game=$!
 drive kb "$KB"
 wait $game
 kb_code=$?
-FS="wait:7000;tap:F11;wait:3000;shot:C:\\Temp\\ProSkater\\out\\fs_fullscreen.png;tap:F11;wait:3000;shot:C:\\Temp\\ProSkater\\out\\fs_windowed.png;tap:Q;wait:600;tap:Q"
-WIN_SCREEN="${FS_SCREEN:-DISPLAY3}" WIN_SIZE=1280x720 bash desktop/run_windows.sh fs -- --input-log "--info-out={out}/fs_info.json" &
+O='C:\Temp\ProSkater\out'
+FS="wait:7000;tap:F11;wait:3000;shot:$O\\fs_fullscreen.png;tap:F11;wait:3000;shot:$O\\fs_windowed.png;tap:Q;wait:600;tap:Q"
+rm -rf "$W/out/fs_shots"
+WIN_SCREEN="${FS_SCREEN:-DISPLAY3}" WIN_SIZE=1280x720 bash desktop/run_windows.sh fs -- --input-log "--info-out={out}/fs_info.json" "--shots={out}/fs_shots" &
 game=$!
 drive fs "$FS"
 wait $game
 fs_code=$?
-cp "$W/out/kb_drive.json" "$W/out/fs_drive.json" "$W/out/kb_window.png" "$W/out/kb_pause.png" "$W/out/fs_fullscreen.png" "$W/out/fs_windowed.png" "$RES/" 2>/dev/null
+cp "$W/out/kb_drive.json" "$W/out/fs_drive.json" "$W/out/kb_window.png" "$W/out/kb_pause.png" "$W/out/fs_fullscreen.png" \
+	"$W/out/fs_windowed.png" "$RES/" 2>/dev/null
+mkdir -p "$RES/fs_shots" && cp "$W/out/fs_shots/"*.png "$RES/fs_shots/" 2>/dev/null
 APPDATA_DIR="$(wslpath "$(powershell.exe -NoProfile -Command '$env:APPDATA' | tr -d '\r')")"
 rm -f "$APPDATA_DIR/ProSkater/desktop.cfg"
 python3 - "$RES" "$kb_code" "$fs_code" <<'EOF' | tee "$RES/input_native.txt"
@@ -81,6 +85,29 @@ check(full == [("1920", "1080")], "F11: fullscreen on the 1920x1080 monitor rend
 ok = bool(win) and int(win[-1][1]) + 39 <= 1032 and abs(int(win[-1][0]) / int(win[-1][1]) - 16 / 9) < 0.01
 check(ok, "F11 again: a 16:9 window that fits that screen with its title bar and taskbar", str(win))
 check("quit from the start screen" in fs and fs_code == 0, "Q twice on the start screen quits, exit code 0", "exit %d" % fs_code)
+from PIL import Image, ImageStat
+for name, want in (("toggle1_fullscreen.png", (1920, 1080)), ("toggle2_windowed.png", None)):
+    try:
+        im = Image.open(res + "/fs_shots/" + name).convert("L")
+        sd = ImageStat.Stat(im).stddev[0]
+        size_ok = im.size == want if want else (win and im.size == (int(win[-1][0]), int(win[-1][1])))
+        check(size_ok and sd > 20, "the game's own frame 1 s after the switch is drawn at the new size (%s)" % name.split("_")[1][:-4],
+              "%dx%d, contrast (std dev) %.0f" % (im.size[0], im.size[1], sd))
+    except Exception as e:
+        check(False, "the game's own frame after the switch (%s)" % name, str(e))
+# what Windows shows (PrintWindow of the game's window) against the game's own frame
+from PIL import ImageChops
+for pic, frame, what in (("fs_fullscreen.png", "toggle1_fullscreen.png", "fullscreen"), ("fs_windowed.png", "toggle2_windowed.png", "back in a window")):
+    try:
+        shown = Image.open(res + "/" + pic).convert("L")
+        game = Image.open(res + "/fs_shots/" + frame).convert("L")
+        ox, oy = (0, 0) if what == "fullscreen" else ((shown.size[0] - game.size[0]) // 2, shown.size[1] - game.size[1] - (shown.size[0] - game.size[0]) // 2)
+        client = shown.crop((ox, oy, ox + game.size[0], oy + game.size[1]))
+        diff = ImageStat.Stat(ImageChops.difference(client, game)).mean[0]
+        check(diff < 12, "what Windows shows %s matches the game's frame (test window: never focused)" % what,
+              "mean difference %.1f of 255; %s" % (diff, "the window keeps showing a stale pre-fullscreen frame" if diff >= 12 else "ok"))
+    except Exception as e:
+        check(False, "what Windows shows %s" % what, str(e))
 pads = info.get("joypads", [])
 print("\n".join(out))
 print("joypads seen by the game (Godot's SDL joypad input): %s" % (json.dumps(pads) if pads else "none connected"))

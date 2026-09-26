@@ -21,8 +21,10 @@ extends Node
 ##   --gpu-time               also measure the GPU time of every frame (for --frametimes-out)
 ##   --info-out=<file>        settings and system report as JSON: renderer, driver, GPU,
 ##                            window, vsync, audio output and levels, joypads, input counts
+##                            (written 2 s after start, then again at the end screen or on quit)
 ##   --shots=<dir>            screenshots: the start screen, the run every --shot-every=<s>
-##                            (default 15) run seconds, and the end screen
+##                            (default 15) run seconds, the end screen, and 1 s after each
+##                            fullscreen / window switch
 ##   --input-log              print every key and joypad button, the skater's state changes and
 ##                            tricks, and its speed once a second of the run
 ##   --quit-at-end            quit once the run is over and the files above are written
@@ -186,6 +188,9 @@ func toggle_fullscreen() -> void:
 	cf.set_value("window", "mode", _mode_name())
 	cf.save(PREFS)
 	print("[desktop] window %s %s" % [_mode_name(), str(DisplayServer.window_get_size())])
+	if opts.has("shots"):                  # the game's own frame at the new size
+		await get_tree().create_timer(1.0).timeout
+		_shot("toggle%d_%s" % [window_toggles, _mode_name()])
 
 
 # --- menus: quit, hint ------------------------------------------------------------------
@@ -235,7 +240,10 @@ func _input(event: InputEvent) -> void:
 		return
 	get_viewport().set_input_as_handled()
 	if _quit_armed > 0.0:
-		print("[desktop] quit from the %s screen" % ["", "start", "pause", "end"][main.menus.mode])
+		var screen: String = ["", "start", "pause", "end"][main.menus.mode]
+		print("[desktop] quit from the %s screen" % screen)
+		if opts.has("info-out"):
+			_write_info("quit from the %s screen" % screen)
 		quit_game.call()
 	else:
 		_quit_armed = QUIT_CONFIRM_S
@@ -277,6 +285,8 @@ static func _actions(event: InputEvent) -> String:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
 		pause_game()
+	elif what == NOTIFICATION_WM_CLOSE_REQUEST and opts.has("info-out") and main != null:
+		_write_info("window closed")
 
 
 ## Pauses a run in progress the way the player does: by pressing the game's "pause" action.
@@ -439,7 +449,7 @@ func _write_info(when: String) -> void:
 	var au := _audio.duplicate(true)
 	au["sounds_played"] = au["sounds_played"].keys()
 	info["audio"]["run_levels"] = au
-	if when == "end" and main:
+	if when != "start" and main:
 		info["run"] = {"score": main.score.total, "goals": main.goals.map(func(g): return {g["id"]: g["done"]})}
 	info["screenshots"] = _shots_taken
 	var f := _open_for_write(opts["info-out"])

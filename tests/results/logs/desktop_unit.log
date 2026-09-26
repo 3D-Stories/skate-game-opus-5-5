@@ -1,0 +1,58 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
+[desktop] opengl3 |  |  | window windowed (0, 0) on screen -1
+[desktop] window windowed (0, 0)
+[desktop] window windowed (0, 0)
+[desktop] window windowed (0, 0)
+[desktop] window windowed (0, 0)
+[desktop] quit from the start screen
+[desktop] quit from the start screen
+[run] started
+[desktop] window lost focus: pausing
+[run] paused at 119.3 s left
+[run] resumed at 119.3 s left
+[bench] {"avg_fps":60.0,"frames":7,"msaa":"4x"}
+[desktop] bench report -> /home/rocky/.local/share/ProSkater/desktop_test/bench.json
+desktop layer (desktop/desktop.gd), headless: 38 passed, 0 failed
+PASS  the Desktop autoload is loaded
+PASS  it finds the Main scene
+PASS  start screen: the game waits in a menu
+PASS  start screen: the quit / fullscreen hint shows  (Q / B  QUIT        F11 / ALT+ENTER  FULLSCREEN)
+PASS  Alt+Enter does not also start the run
+PASS  Alt+Enter toggles the window mode and saves it  (windowed)
+PASS  F11 toggles the window mode too
+PASS  Q once: asks to press again, does not quit  (PRESS  Q / B  AGAIN TO QUIT)
+PASS  the quit prompt goes away after 3 s
+PASS  Q twice quits  (quit calls: 1)
+PASS  gamepad B twice quits  (quit calls: 2)
+PASS  Enter starts the run
+PASS  the hint is hidden while riding
+PASS  the mouse cursor is hidden while riding (requested)
+PASS  Q during the run does not quit
+PASS  losing window focus pauses the run
+PASS  the mouse cursor shows again in the pause menu (requested)
+PASS  the clock stops while paused  (0.02)
+PASS  the hint shows in the pause menu
+PASS  a second focus loss keeps it paused (does not toggle back)
+PASS  Enter resumes
+PASS  losing focus does not pause the scripted run (--autopilot)
+PASS  windowed: 1920x1080 on a 3440x1440 screen
+PASS  windowed: 1920x1080 on a 2560x1440 screen
+PASS  windowed: fits a 1920x1080 screen with its taskbar, 16:9  ((1764, 992))
+PASS  windowed: fits a 1366x768 laptop screen  ((1224, 688))
+PASS  the bench report is written to its file, with the desktop settings added  (/home/rocky/.local/share/ProSkater/desktop_test/bench.json)
+PASS  settings report has rendering_method  (gl_compatibility)
+PASS  settings report has rendering_driver  (opengl3)
+PASS  settings report has adapter
+PASS  settings report has window_mode  (windowed)
+PASS  settings report has render_size  (1920x1920)
+PASS  settings report has vsync  (enabled)
+PASS  settings report has msaa_3d  (4x)
+PASS  settings report has audio  ({ "driver": "Dummy", "output_device": "Default", "devices": 1, "mix_rate": 44100.0, "output_latency_ms": 0.0, "speaker_mode": "stereo" })
+PASS  settings report has joypads  ([])
+PASS  settings report has environment  ({ "tonemap": "agx", "ssao": true, "glow": true, "fog": true, "sun_shadows": true, "adaptive_quality_step": "full" })
+PASS  settings report: 4x MSAA, SSAO, glow, AgX tone mapping, sun shadows  ({ "tonemap": "agx", "ssao": true, "glow": true, "fog": true, "sun_shadows": true, "adaptive_quality_step": "full" })
+
+WARNING: 12 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

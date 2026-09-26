@@ -1,0 +1,80 @@
+{
+  "adapter": "NVIDIA GeForce RTX 4080",
+  "adapter_vendor": "NVIDIA",
+  "api_version": "3.3.0 NVIDIA 610.74",
+  "audio": {
+    "devices": 8,
+    "driver": "WASAPI",
+    "mix_rate": 48000.0,
+    "output_device": "Default",
+    "output_latency_ms": 10.0,
+    "run_levels": {
+      "frames": 0,
+      "frames_with_sound": 0,
+      "max_peak_db": -200.0,
+      "sounds_played": []
+    },
+    "speaker_mode": "stereo"
+  },
+  "cpu": "12th Gen Intel(R) Core(TM) i9-12900KF (24 threads)",
+  "engine": "4.7.2-stable (official)",
+  "environment": {
+    "adaptive_quality_step": "full",
+    "fog": true,
+    "glow": true,
+    "ssao": true,
+    "sun_shadows": true,
+    "tonemap": "agx"
+  },
+  "executable": "C:/Temp/ProSkater/ProSkater.exe",
+  "input": {
+    "keys": {
+      "F11": 2,
+      "Q": 2
+    },
+    "pad_axes": {},
+    "pad_buttons": {}
+  },
+  "joypads": [],
+  "max_fps": 0,
+  "msaa_3d": "4x",
+  "os": "Windows 10.0.26200",
+  "physics_ticks": 60,
+  "render_size": "1920x1080",
+  "rendering_driver": "opengl3",
+  "rendering_method": "gl_compatibility",
+  "run": {
+    "goals": [
+      {
+        "score": false
+      },
+      {
+        "skate": false
+      },
+      {
+        "tape": false
+      },
+      {
+        "rafters": false
+      },
+      {
+        "windows": false
+      }
+    ],
+    "score": 0
+  },
+  "scale_3d": 1.0,
+  "screen": 1,
+  "screen_refresh_hz": 60.0,
+  "screen_size": "1920x1080",
+  "screenshots": [
+    "start_screen.png",
+    "toggle1_fullscreen.png",
+    "toggle2_windowed.png"
+  ],
+  "user_dir": "C:/Users/rocky/AppData/Roaming/ProSkater",
+  "vsync": "enabled",
+  "when": "quit from the start screen",
+  "window_mode": "windowed",
+  "window_size": "1764x992"
+}
