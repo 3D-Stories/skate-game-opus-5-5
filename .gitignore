@@ -1,5 +1,6 @@
 .godot/
 build/web/
+build/windows/
 *.blend1
 blender/__pycache__/
 blender/lib/__pycache__/
