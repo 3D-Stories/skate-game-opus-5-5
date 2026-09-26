@@ -445,7 +445,7 @@ def render_park():
 
 def render_level(level_id):
     """A kit-built level (levels/<id>/level.json "render": target, dist, elev, az, lens, cut_z,
-    samples): renders/<id>.png (high three-quarter cutaway), _sheet.png and _turntable.mp4,
+    samples, exposure in stops): renders/<id>.png (high three-quarter cutaway), _sheet.png and _turntable.mp4,
     lit by the level's own lights and sky exactly as its lightmap bake."""
     import json
     with open(os.path.join(C.PROJECT_DIR, "levels", level_id, "level.json")) as f:
@@ -453,6 +453,7 @@ def render_level(level_id):
     open_blend(level_id)
     scn = settings(rs.get("samples", 160), (1920, 1080))
     scn.cycles.max_bounces = 6
+    scn.view_settings.exposure = rs.get("exposure", 0.0)
     for o in bpy.data.objects:
         if o.name.startswith("COL_"):
             o.hide_render = True

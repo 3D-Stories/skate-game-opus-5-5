@@ -35,13 +35,16 @@ def entry(v):
                 rough_invert=False, desat=0.0)
 
 
-def build_textures(table, prefix, albedo_fns=None, rough_invert=(), size=1024):
+def build_textures(table, prefix, albedo_fns=None, rough_invert=(), size=1024, share_normals=False):
     """Seamless albedo (roughness packed in alpha) + normal maps for every material in
     table. albedo_fns: name -> f(photo, luminance) for a hand-made albedo; rough_invert:
-    names whose roughness follows the photo's darkness. Returns
+    names whose roughness follows the photo's darkness. share_normals: materials made from
+    the same photo with the same normal strength (tinted variants) use one normal map
+    (a lighter level download; the Warehouse keeps one per material). Returns
     name -> (albedo image, normal image, tile metres, metallic, mean roughness)."""
     albedo_fns = albedo_fns or {}
     cache = {}
+    normals = {}
     imgs = {}
     for name, raw in table.items():
         e = entry(raw)
@@ -64,12 +67,16 @@ def build_textures(table, prefix, albedo_fns=None, rough_invert=(), size=1024):
         ln = (lum - lum.min()) / max(1e-6, lum.max() - lum.min())
         inv = name in rough_invert or e["rough_invert"]
         rough = rr[0] + (rr[1] - rr[0]) * (1 - ln if inv else ln)
-        height = C.highpass(lum, 8)
-        height = height / (height.std() + 1e-6)
-        nrm = C.height_to_normal(height, ns * 0.35)
         rgba = np.concatenate([alb, rough[..., None]], -1)
-        imgs[name] = (C.save_png(rgba, prefix + name + "_albedo"),
-                      C.save_png(nrm, prefix + name + "_normal", 'Non-Color'), e["tile"], e["metallic"], float(np.mean(rr)))
+        alb_img = C.save_png(rgba, prefix + name + "_albedo")
+        nkey = (src, ns) if share_normals else name
+        if nkey not in normals:
+            height = C.highpass(lum, 8)
+            height = height / (height.std() + 1e-6)
+            nrm = C.height_to_normal(height, ns * 0.35)
+            nname = f"{src}_n{int(round(ns * 10))}" if share_normals else name
+            normals[nkey] = C.save_png(nrm, prefix + nname + "_normal", 'Non-Color')
+        imgs[name] = (alb_img, normals[nkey], e["tile"], e["metallic"], float(np.mean(rr)))
     return imgs
 
 

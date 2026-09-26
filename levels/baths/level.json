@@ -343,6 +343,6 @@
    {"id": "pool_to_quarter", "name": "Shallow End Transfer", "points": 300, "from": [[7.6, -9.0, -0.5], [9.4, 4.0, 1.8]], "to": [[12.7, -6.0, 0.3], [16.0, 13.0, 2.6]]},
    {"id": "rail_to_pool", "name": "Handrail Hucker", "points": 300, "from": [[-7.2, 4.0, 0.5], [-5.4, 18.0, 1.5]], "to": [[-3.5, -9.0, -3.6], [8.5, 16.0, -0.3]]}
   ],
-  "render": {"target": [2.5, 0.0, 0.0], "dist": 66.0, "elev": 42.0, "az": -35.0, "lens": 30, "cut_z": 7.9, "samples": 160}
+  "render": {"target": [2.5, 0.0, 0.0], "dist": 66.0, "elev": 42.0, "az": -35.0, "lens": 30, "cut_z": 7.9, "samples": 160, "exposure": 0.5}
  }
 }

@@ -541,7 +541,7 @@ def build_level(level_id, export=True, bake=True):
     L.coll = C.collection(L.obj_prefix.rstrip("_"))
     import graffiti
     # materials: textured (photo sources) + specials (emissive / glass)
-    L.imgs = KM.build_textures(b["materials"], L.prefix)
+    L.imgs = KM.build_textures(b["materials"], L.prefix, share_normals=b.get("share_normals", True))
     L.mats = KM.make_materials(L.imgs, L.prefix)
     L.mats.update(KM.specials(b.get("special_materials", {}), L.prefix))
     # decal atlases: "graffiti" (also the signs' faces) and any extra "decals" sets (e.g. grime)
