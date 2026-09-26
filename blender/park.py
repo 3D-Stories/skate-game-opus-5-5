@@ -31,7 +31,8 @@ import numpy as np
 from mathutils import Matrix, Vector
 
 from lib import common as C
-import park_geo as G
+from levelkit import geo as G
+from levelkit import materials as KM
 
 HALL = dict(x0=-20.0, x1=20.0, y0=-16.0, y1=50.0, h=11.5)
 START_Z = 5.0
@@ -84,49 +85,22 @@ LIGHTMAPPED_EXCLUDE = set(SPECIAL)
 
 
 def build_textures():
-    """Seamless albedo (roughness packed in alpha) + normal maps for every material."""
-    cache = {}
-    imgs = {}
-    for name, (src, tile, tint, rr, ns, metal) in MATS.items():
-        if src not in cache:
-            a = C.make_seamless(C.src_array(src, 1024))
-            cache[src] = a
-        a = cache[src]
-        lum = C.luminance(a)
-        alb = np.clip(a * np.array(tint), 0, 1)
-        if name == "paint_line":
-            alb = np.clip(np.array([0.85, 0.66, 0.08]) * (0.75 + 0.35 * lum[..., None]), 0, 1)
-        if name == "coping":
-            alb = np.clip(np.full_like(a, 0.62) * (0.8 + 0.3 * lum[..., None]), 0, 1)
-        # roughness: brighter/smoother polish where the photo is darker (worn tracks)
-        ln = (lum - lum.min()) / max(1e-6, lum.max() - lum.min())
-        rough = rr[0] + (rr[1] - rr[0]) * (1 - ln if name == "concrete_floor" else ln)
-        height = C.highpass(lum, 8)
-        height = height / (height.std() + 1e-6)
-        nrm = C.height_to_normal(height, ns * 0.35)
-        rgba = np.concatenate([alb, rough[..., None]], -1)
-        imgs[name] = (C.save_png(rgba, "park_" + name + "_albedo"),
-                      C.save_png(nrm, "park_" + name + "_normal", 'Non-Color'), tile, metal, float(np.mean(rr)))
-    return imgs
+    """Seamless albedo (roughness packed in alpha) + normal maps for every material
+    (levelkit/materials.py); painted lines and coping get a hand-made albedo."""
+    return KM.build_textures(MATS, "park_", albedo_fns={
+        "paint_line": lambda a, lum: np.clip(np.array([0.85, 0.66, 0.08]) * (0.75 + 0.35 * lum[..., None]), 0, 1),
+        "coping": lambda a, lum: np.clip(np.full_like(a, 0.62) * (0.8 + 0.3 * lum[..., None]), 0, 1),
+    }, rough_invert=("concrete_floor",))
 
 
 def make_materials(imgs):
-    mats = {}
-    for name, (alb, nrm, tile, metal, rough) in imgs.items():
-        m = C.pbr_material("park_" + name, base=alb, normal=nrm, roughness=rough, metallic=metal, normal_strength=1.0)
-        mats[name] = m
-    em = C.pbr_material("park_lamp", base_color=(1, 1, 1, 1), roughness=0.3, emission=(1.0, 0.97, 0.9, 1), emission_strength=25.0)
-    mats["lamp"] = em
-    sk = C.pbr_material("park_skylight", base_color=(0.8, 0.85, 0.9, 1), roughness=0.1, emission=(0.85, 0.92, 1.0, 1), emission_strength=6.0)
-    mats["skylight"] = sk
+    mats = KM.make_materials(imgs, "park_")
+    mats["lamp"] = KM.emissive("park_lamp", (1, 1, 1, 1), (1.0, 0.97, 0.9, 1), 25.0, roughness=0.3)
+    mats["skylight"] = KM.emissive("park_skylight", (0.8, 0.85, 0.9, 1), (0.85, 0.92, 1.0, 1), 6.0, roughness=0.1)
     # the yard outside the east windows: bright overcast daylight (unlit in the game)
-    mats["yard"] = C.pbr_material("park_yard", base_color=(0.85, 0.9, 1.0, 1), roughness=0.9,
-                                  emission=(0.85, 0.9, 1.0, 1), emission_strength=3.0)
-    gl = C.pbr_material("park_glass", base_color=(0.6, 0.7, 0.72, 1), roughness=0.05, metallic=0.0)
-    C.principled(gl).inputs['Alpha'].default_value = 0.35
-    mats["glass"] = gl
-    ex = C.pbr_material("park_exit_sign", base_color=(0.1, 0.6, 0.2, 1), emission=(0.2, 1.0, 0.35, 1), emission_strength=8.0)
-    mats["exit_sign"] = ex
+    mats["yard"] = KM.emissive("park_yard", (0.85, 0.9, 1.0, 1), (0.85, 0.9, 1.0, 1), 3.0, roughness=0.9)
+    mats["glass"] = KM.glass("park_glass", (0.6, 0.7, 0.72, 1), 0.35)
+    mats["exit_sign"] = KM.emissive("park_exit_sign", (0.1, 0.6, 0.2, 1), (0.2, 1.0, 0.35, 1), 8.0, roughness=None)
     return mats
 
 

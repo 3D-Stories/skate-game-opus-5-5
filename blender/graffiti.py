@@ -1,4 +1,7 @@
-"""Original graffiti for the Warehouse, drawn in code (no downloaded art or fonts).
+"""Original graffiti and signage, drawn in code (no downloaded art or fonts).
+
+The module-level CELLS / PIECES / PLACEMENTS / SIGN are the Warehouse's; other levels pass
+their own (from their level definition) to build() - see levelkit/level.py.
 
 Every piece is laid out from Blender text curves (Blender's built-in font) with per-letter
 jitter, stacked outline layers, a 3D block shadow, disc "clouds" behind throw-ups, stars
@@ -395,6 +398,27 @@ def draw_stencil(cv, P):
     ob.data.space_character = 1.12
 
 
+def draw_sign(cv, P):
+    """Painted signage (not graffiti): a panel with a border and one or more centred lines of
+    capitals, e.g. a baths' name board or a NO DIVING plate. P: lines, color (text), panel,
+    border, size (text height, panel units), aspect (panel width / height)."""
+    lines = P["text"].split("\n")
+    n = len(lines)
+    size = P.get("size", 0.8)
+    H = size * 1.35 * n + size * 0.7
+    W = H * P.get("aspect", 3.0)
+    b = P.get("border_w", 0.08) * H
+    if P.get("panel") is not None:
+        cv.poly([(-W / 2, -H / 2), (W / 2, -H / 2), (W / 2, H / 2), (-W / 2, H / 2)], P.get("border", P["color"]), 0.0)
+        cv.poly([(-W / 2 + b, -H / 2 + b), (W / 2 - b, -H / 2 + b), (W / 2 - b, H / 2 - b), (-W / 2 + b, H / 2 - b)],
+                P["panel"], 0.1)
+    for i, line in enumerate(lines):
+        y = (n - 1) * size * 0.675 - i * size * 1.35
+        ob = cv.text(line, size * P.get("scale", [1.0] * n)[i] if isinstance(P.get("scale"), list) else size, 0.0,
+                     P.get("bold", 0.02), P["color"], loc=(0, y, 1.0 + 0.01 * i))
+        ob.data.space_character = P.get("spacing", 1.05)
+
+
 def draw_smiley(cv, P):
     cv.disc((0, 0), 1.0, (0.02, 0.02, 0.02), 0.0)
     cv.disc((0, 0), 0.9, P["color"], 0.1)
@@ -467,12 +491,15 @@ def spray(img, seed, drips=True, wear=0.3, stencil=False):
 
 # ------------------------------------------------------------------ atlas + decals
 
-def build_atlas():
+def build_atlas(cells=None, pieces=None, name="park_graffiti", atlas_px=None):
+    cells = CELLS if cells is None else cells
+    pieces = PIECES if pieces is None else pieces
+    atlas_px = ATLAS if atlas_px is None else atlas_px
     cv = Canvas()
-    atlas = np.zeros((ATLAS, ATLAS, 4), np.float32)
+    atlas = np.zeros((atlas_px, atlas_px, 4), np.float32)
     tmp = os.path.join(C.WORK, "gfx_tmp.png")
-    for key, (x, y, w, h) in CELLS.items():
-        P = PIECES[key]
+    for key, (x, y, w, h) in cells.items():
+        P = pieces[key]
         st = P["style"]
         if st == "piece":
             draw_piece(cv, P)
@@ -486,22 +513,26 @@ def build_atlas():
             draw_stencil(cv, P)
         elif st == "smiley":
             draw_smiley(cv, P)
-        img = cv.render(w, h, tmp, margin=1.12 if st != "banner" else 1.04)
-        img = spray(img, P["seed"], drips=st not in ("smiley",), wear=0.35 if st != "stencil" else 0.5,
-                    stencil=st == "stencil")
+        elif st == "sign":
+            draw_sign(cv, P)
+        img = cv.render(w, h, tmp, margin=P.get("margin", 1.12 if st != "banner" else 1.04))
+        img = spray(img, P["seed"], drips=P.get("drips", st not in ("smiley", "sign")),
+                    wear=P.get("wear", 0.35 if st != "stencil" else 0.5), stencil=st == "stencil")
         atlas[y:y + h, x:x + w] = img
         cv.clear()
         print(f"[graffiti] {key}")
     cv.free()
     if os.path.exists(tmp):
         os.remove(tmp)
-    img = C.save_png(atlas, "park_graffiti")
-    m = C.pbr_material("park_graffiti", base=img, roughness=0.72, alpha='texture')
+    img = C.save_png(atlas, name)
+    m = C.pbr_material(name, base=img, roughness=0.72, alpha='texture')
     return m
 
 
-def _quad(key, center, normal, width, roll):
-    x, y, w, h = CELLS[key]
+def _quad(key, center, normal, width, roll, cells=None, atlas_px=None):
+    cells = CELLS if cells is None else cells
+    A = ATLAS if atlas_px is None else atlas_px
+    x, y, w, h = cells[key]
     n = Vector(normal).normalized()
     up = Vector((0, 0, 1))
     right = (-n).cross(up).normalized()
@@ -511,8 +542,8 @@ def _quad(key, center, normal, width, roll):
     c = Vector(center)
     pts = [c - right * width / 2 - up * hh / 2, c + right * width / 2 - up * hh / 2,
            c + right * width / 2 + up * hh / 2, c - right * width / 2 + up * hh / 2]
-    u0, u1 = x / ATLAS, (x + w) / ATLAS
-    v1, v0 = 1 - y / ATLAS, 1 - (y + h) / ATLAS
+    u0, u1 = x / A, (x + w) / A
+    v1, v0 = 1 - y / A, 1 - (y + h) / A
     uvs = [(u0, v0), (u1, v0), (u1, v1), (u0, v1)]
     return pts, uvs
 
@@ -535,9 +566,13 @@ def _decal_object(name, quads, mat, coll):
     return ob
 
 
-def build(coll):
-    """Returns (walls_decal_object, breakable_sign_object)."""
-    mat = build_atlas()
-    decals = _decal_object("Park_graffiti", [_quad(*p) for p in PLACEMENTS], mat, coll)
-    sign = _decal_object("BreakWall_sign", [_quad(*SIGN)], mat, coll)
-    return decals, sign
+def build(coll, cells=None, pieces=None, placements=None, sign=None, name="park_graffiti",
+          object_name="Park_graffiti", sign_name="BreakWall_sign", atlas_px=None):
+    """Returns (walls_decal_object, breakable_sign_object or None). With no arguments it
+    builds the Warehouse's atlas and decals."""
+    if cells is None:
+        cells, pieces, placements, sign = CELLS, PIECES, PLACEMENTS, SIGN
+    mat = build_atlas(cells, pieces, name, atlas_px)
+    decals = _decal_object(object_name, [_quad(*p, cells=cells, atlas_px=atlas_px) for p in placements], mat, coll)
+    so = _decal_object(sign_name, [_quad(*sign, cells=cells, atlas_px=atlas_px)], mat, coll) if sign else None
+    return decals, so
