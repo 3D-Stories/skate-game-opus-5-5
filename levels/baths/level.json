@@ -32,6 +32,43 @@
   }
  },
  "test": {
+  "scale": [
+   {"what": "the south deck is the hall floor, at 0 m", "down": [6.0, -17.0], "expect": [-0.02, 0.02]},
+   {"what": "the deep end's floor is 3.2 m below the deck", "down": [2.5, 12.0], "expect": [-3.23, -3.17]},
+   {"what": "the shallow end's floor is 1.7 m below the deck", "down": [2.5, -5.0], "expect": [-1.73, -1.67]},
+   {"what": "the pool is 12 m wide, wall to wall under the coping", "width": [2.5, 11.0, -0.3], "axis": [1, 0, 0], "expect": [11.9, 12.05]},
+   {"what": "the pool is 25 m long, end to end under the coping", "width": [2.5, 3.5, -0.05], "axis": [0, 1, 0], "expect": [24.8, 25.05]},
+   {"what": "the hall is 32 m wide", "width": [0.0, -22.5, 2.0], "axis": [1, 0, 0], "expect": [31.8, 32.05]},
+   {"what": "the hall is 48 m long", "width": [-10.0, 0.0, 6.5], "axis": [0, 1, 0], "expect": [47.8, 48.05]},
+   {"what": "the vaulted roof's crown is 12.5 m up (the roof mesh)", "mesh_top": "Baths_roof", "expect": [12.3, 12.6]},
+   {"what": "the bleacher concourse is 4.2 m up", "down": [-14.8, 0.0], "expect": [4.18, 4.23]},
+   {"what": "the high board is 4.2 m above the deck", "down": [-2.0, 13.0], "expect": [4.18, 4.23]},
+   {"what": "the bleacher steps rise 0.6 m (7 steps to the concourse)", "steps": {"from": [-7.0, -16.5], "to": [-14.2, -16.5], "n": 9, "count": 7}, "expect": [0.57, 0.63]},
+   {"what": "the east quarterpipe's deck is 2.4 m up", "down": [15.5, 3.5], "expect": [2.37, 2.43]},
+   {"what": "the north quarterpipe's deck is 3.0 m up", "down": [2.0, 23.6], "expect": [2.97, 3.03]},
+   {"what": "the boiler room's ceiling is 4.5 m up", "up": [23.5, 17.0, 0.5], "expect": [4.45, 4.52]}
+  ],
+  "rides": [
+   {"what": "deep end: carve across the pool and back, wall to wall", "at": [2.5, 11.0, -3.2], "dir": [1, 0, 0], "speed": 7.5, "frames": 300,
+    "expect": {"rev": true, "top_above": -1.6}},
+   {"what": "deep end: vert air out over the north coping and land back in", "at": [2.5, 8.0, -3.2], "dir": [0, 1, 0], "speed": 10.5, "frames": 240,
+    "expect": {"air": true, "air_above": 0.8, "end_below": -1.5, "rev": true}},
+   {"what": "shallow end: pump up the east wall, air out over the coping onto the deck", "at": [2.5, -3.0, -1.7], "dir": [1, 0, 0], "speed": 9.0, "frames": 150, "hold": ["up"],
+    "expect": {"air": true, "end_above": -0.05, "far": 7.0}},
+   {"what": "east quarterpipe: up and back down", "at": [10.5, 3.0, 0.0], "dir": [1, 0, 0], "speed": 7.0, "frames": 200,
+    "expect": {"rev": true, "wood_above": 1.5}},
+   {"what": "north quarterpipe (3 m): up and back down", "at": [2.0, 18.0, 0.0], "dir": [0, 1, 0], "speed": 7.5, "frames": 200,
+    "expect": {"rev": true, "wood_above": 2.0}},
+   {"what": "bleacher bank: roll off the concourse down to the floor", "at": [-14.0, -1.0, 4.2], "dir": [1, 0, 0], "speed": 2.0, "frames": 120,
+    "expect": {"below": 0.1, "steep": 30.0}},
+   {"what": "kicker: pool hop into the shallow end", "at": [4.5, -16.5, 0.0], "dir": [0, 1, 0], "speed": 7.0, "frames": 150,
+    "expect": {"air": true, "air_above": 0.9, "end_below": -1.0}},
+   {"what": "funbox: up the bank, along the top beside its rail, down the far side", "at": [-6.5, -16.2, 0.0], "dir": [1, 0, 0], "speed": 5.5, "frames": 200,
+    "expect": {"top_above": 0.75, "far": 8.0}},
+   {"what": "boiler room quarterpipe: up and back down", "at": [22.0, 19.0, 0.0], "dir": [1, 0, 0], "speed": 6.0, "frames": 200,
+    "expect": {"rev": true, "wood_above": 1.0}}
+  ],
+  "pump": {"what": "deep end's side walls", "at": [2.5, 11.0, -3.2], "axis": [1, 0, 0], "speed": 6.0, "seconds": 20},
   "shots": [
    {"name": "spawn", "at": [-14.8, -1.0, 4.22], "dir": [1, 0, 0]},
    {"name": "concourse", "at": [-14.8, 9.0, 4.22], "dir": [0, -1, 0]},

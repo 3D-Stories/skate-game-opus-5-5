@@ -45,7 +45,7 @@ static func route() -> Array:
 	r.append(R.until(func(ap): return not R.grinding(ap), "grind the flat rail", {"timeout": 4.0}))
 	r.append(R.until(R.on_ground, "land", {"timeout": 2.0}))
 	r.append(R.go(Vector3(8.6, 0.0, 17.8), "round the footbath", {"radius": 1.2, "max_speed": 6.0, "timeout": 4.0}))
-	r.append(R.go(Vector3(5.6, 0.0, 16.9), "west along the south deck", {"radius": 1.6, "max_speed": 6.0, "timeout": 4.0}))
+	r.append(R.go(Vector3(5.0, 0.0, 17.5), "west along the south deck", {"radius": 1.2, "max_speed": 6.0, "timeout": 4.0}))
 	r.append(R.go(Vector3(4.6, 0.0, 14.4), "turn up to the kicker (sign)", {"radius": 0.9, "max_speed": 6.0, "timeout": 4.0}))
 	r.append(R.until(R.in_air, "kicker (S)", {"steer": Vector3(4.5, 0.0, 0.0), "timeout": 4.0}))
 	r.append(R.tap(["flip"], "heelflip the pool hop", {"tap_stick": Vector2(1, 0), "tap_time": 0.05}))

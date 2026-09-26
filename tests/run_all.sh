@@ -21,12 +21,26 @@ run handling   1200 --fixed-fps 60 -s tests/test_handling.gd
 run ragdoll    600  --fixed-fps 60 -s tests/test_ragdoll.gd
 run camera     1500 --fixed-fps 60 -s tests/test_camera_run.gd -- --autopilot=test
 run fullrun    600  --fixed-fps 60 -- --autopilot=test
+# every kit-built level in levels/registry.json: its park suite (tests/test_level.gd) and its
+# own autopilot two-minute run
+LEVELS=$(python3 -c "import json
+for i in json.load(open('levels/registry.json'))['levels']:
+    if 'features' in json.load(open(f'levels/{i}/level.json')).get('build', {}): print(i)")
+EXTRA=""
+for id in $LEVELS; do
+	run "level_$id" 900 --fixed-fps 60 -s tests/test_level.gd -- --level="$id"
+	run "fullrun_$id" 600 --fixed-fps 60 -- --level="$id" --autopilot=test --verbose
+	EXTRA="$EXTRA level_$id fullrun_$id"
+done
 wait
-printf '%-10s %-5s %s\n' suite exit summary
-for n in scoring flow input audio park anims clips handling ragdoll camera fullrun; do
+printf '%-14s %-5s %s\n' suite exit summary
+for n in scoring flow input audio park anims clips handling ragdoll camera fullrun $EXTRA; do
 	e=$(cat "tests/results/logs/$n.exit" 2>/dev/null || echo "?")
 	s=$(grep -aE "passed|PASSED|failed|\[run\] finished|checks" "tests/results/logs/$n.log" | tail -1 | cut -c1-150)
-	printf '%-10s %-5s %s\n' "$n" "$e" "$s"
+	printf '%-14s %-5s %s\n' "$n" "$e" "$s"
+done
+for id in $LEVELS; do
+	grep -aE "^\[ap|^\[run\]" "tests/results/logs/fullrun_$id.log" | grep -v "  hp st" > "tests/results/fullrun_$id.txt"
 done
 grep -aE "\[run\] finished" tests/results/logs/fullrun.log > tests/results/fullrun.txt
 grep -aE "\[run\]|\[goal\]|\[route\]" tests/results/logs/fullrun.log >> tests/results/fullrun.txt
