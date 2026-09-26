@@ -5,7 +5,7 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 PASS  wall vert-air drills: all 16 drills rode a vert air (20 airs, 1323 vert-air frames, 3971 frames; probe self-test 20/20)
 PASS  vert air next to a wall, drills at the east quarterpipe (window wall): 10 drills, 10 airs up to y 5.44 m; 1873 frames (679 in vert air): clip col/rend 0/0, near-clip volume 0/0, inside a solid 0/0, outside 0, completely hidden 0, body centre off screen 0 (all must be 0); vert air occluded col 0.00% / rend 0.00% (< 2%); <0.9m 0.00% (< 1%); head/feet off screen 0.00% (< 1%); closest 3.10 m
 PASS  vert air next to a wall, drills at the south-east corner quarter: 2 drills, 2 airs up to y 5.06 m; 470 frames (166 in vert air): clip col/rend 0/0, near-clip volume 0/0, inside a solid 0/0, outside 0, completely hidden 0, body centre off screen 0 (all must be 0); vert air occluded col 0.00% / rend 0.00% (< 2%); <0.9m 0.00% (< 1%); head/feet off screen 0.00% (< 1%); closest 3.71 m
-PASS  vert air next to a wall, drills at the secret room quarter (5 m ceiling): 2 drills, 2 airs up to y 3.20 m; 428 frames (82 in vert air): clip col/rend 0/0, near-clip volume 0/0, inside a solid 0/0, outside 0, completely hidden 0, body centre off screen 0 (all must be 0); vert air occluded col 0.00% / rend 0.00% (< 2%); <0.9m 0.00% (< 1%); head/feet off screen 0.00% (< 1%); closest 3.08 m
+PASS  vert air next to a wall, drills at the secret room quarter (5 m ceiling): 2 drills, 2 airs up to y 3.20 m; 428 frames (82 in vert air): clip col/rend 0/0, near-clip volume 0/0, inside a solid 0/0, outside 0, completely hidden 0, body centre off screen 0 (all must be 0); vert air occluded col 0.00% / rend 0.00% (< 2%); <0.9m 0.00% (< 1%); head/feet off screen 0.00% (< 1%); closest 3.09 m
 PASS  vert air next to a wall, drills at the halfpipe by the north wall / open end: 2 drills, 6 airs up to y 5.35 m; 1200 frames (396 in vert air): clip col/rend 0/0, near-clip volume 0/0, inside a solid 0/0, outside 0, completely hidden 0, body centre off screen 0 (all must be 0); vert air occluded col 0.00% / rend 0.00% (< 2%); <0.9m 0.00% (< 1%); head/feet off screen 0.00% (< 1%); closest 2.93 m
 frames by category                           visits frames occ c occ c% occ r occ r%  clip c/r  nvol c/r    in c/r outside  <0.9m closest rend<.15m rend<.30m hidden off c/edge body blk
 drills (all frames)                              16   3971     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   2.93m         0        14      0       0/0     0.3%
@@ -16,7 +16,7 @@ east quarterpipe (window wall)                   10   1873     0  0.00%     0  0
     east QP z=-42.6 under rafter_east             1    165     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.58m         0         0      0       0/0     0.0%
     east QP z=-29.8 window 4                      1    180     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.10m         0         0      0       0/0     0.0%
     east QP z=-24.6 window 3                      1    198     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.49m         0         0      0       0/0     0.0%
-    east QP z=-19.4 window 2                      1    189     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.50m         0         0      0       0/0     0.7%
+    east QP z=-19.4 window 2                      1    189     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.51m         0         0      0       0/0     0.7%
     east QP z=-9.0 window 0                       1    198     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.29m         0         0      0       0/0     0.0%
     east QP z=2.0 south of the windows            1    198     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.49m         0         0      0       0/0     0.0%
     east QP z=10.0 south-east end                 1    191     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.57m         0         0      0       0/0     0.0%
@@ -26,10 +26,10 @@ south-east corner quarter                         2    470     0  0.00%     0  0
   vert air: south-east corner quarter             2    166     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.89m         0         0      0       0/0     0.0%
     SE quarter x=9.6                              1    235     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.71m         0         0      0       0/0     0.0%
     SE quarter x=12.2                             1    235     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.71m         0         0      0       0/0     3.4%
-secret room quarter (5 m ceiling)                 2    428     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.08m         0        14      0       0/0     0.0%
+secret room quarter (5 m ceiling)                 2    428     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.09m         0        14      0       0/0     0.0%
   vert air: secret room quarter (5 m ceiling)      2     82     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.33m         0        14      0       0/0     0.0%
     secret room quarter z=-38.6                   1    214     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.09m         0         7      0       0/0     0.0%
-    secret room quarter z=-35.2                   1    214     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.08m         0         7      0       0/0     0.0%
+    secret room quarter z=-35.2                   1    214     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.09m         0         7      0       0/0     0.0%
 halfpipe by the north wall / open end             2   1200     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   2.93m         0         0      0       0/0     0.0%
   vert air: halfpipe by the north wall / open end      6    396     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.07m         0         0      0       0/0     0.0%
     halfpipe z=-48.2                              1    600     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   2.93m         0         0      0       0/0     0.0%
@@ -44,7 +44,7 @@ every drill (spawned on the floor, holding push until the first vert air; halfpi
   east QP z=-42.6 under rafter_east                165 fr  1 vert airs ( 54 fr, top y  4.62)  bails 0  windows broken 0  occ col/rend 0/0  clip 0/0  nvol 0/0  inside 0/0  outside 0  <0.9m 0  closest 3.58 m
   east QP z=-29.8 window 4                         180 fr  1 vert airs ( 58 fr, top y  4.00)  bails 0  windows broken 1  occ col/rend 0/0  clip 0/0  nvol 0/0  inside 0/0  outside 0  <0.9m 0  closest 3.10 m
   east QP z=-24.6 window 3                         198 fr  1 vert airs ( 79 fr, top y  5.35)  bails 0  windows broken 1  occ col/rend 0/0  clip 0/0  nvol 0/0  inside 0/0  outside 0  <0.9m 0  closest 3.49 m
-  east QP z=-19.4 window 2                         189 fr  1 vert airs ( 80 fr, top y  5.44)  bails 0  windows broken 1  occ col/rend 0/0  clip 0/0  nvol 0/0  inside 0/0  outside 0  <0.9m 0  closest 3.50 m
+  east QP z=-19.4 window 2                         189 fr  1 vert airs ( 80 fr, top y  5.44)  bails 0  windows broken 1  occ col/rend 0/0  clip 0/0  nvol 0/0  inside 0/0  outside 0  <0.9m 0  closest 3.51 m
   east QP z=-9.0 window 0                          198 fr  1 vert airs ( 73 fr, top y  4.95)  bails 0  windows broken 1  occ col/rend 0/0  clip 0/0  nvol 0/0  inside 0/0  outside 0  <0.9m 0  closest 3.29 m
   east QP z=2.0 south of the windows               198 fr  1 vert airs ( 79 fr, top y  5.35)  bails 0  windows broken 0  occ col/rend 0/0  clip 0/0  nvol 0/0  inside 0/0  outside 0  <0.9m 0  closest 3.49 m
   east QP z=10.0 south-east end                    191 fr  1 vert airs ( 70 fr, top y  4.71)  bails 0  windows broken 0  occ col/rend 0/0  clip 0/0  nvol 0/0  inside 0/0  outside 0  <0.9m 0  closest 3.57 m
@@ -53,7 +53,7 @@ every drill (spawned on the floor, holding push until the first vert air; halfpi
   SE quarter x=9.6                                 235 fr  1 vert airs ( 83 fr, top y  5.06)  bails 0  windows broken 0  occ col/rend 0/0  clip 0/0  nvol 0/0  inside 0/0  outside 0  <0.9m 0  closest 3.71 m
   SE quarter x=12.2                                235 fr  1 vert airs ( 83 fr, top y  5.06)  bails 0  windows broken 0  occ col/rend 0/0  clip 0/0  nvol 0/0  inside 0/0  outside 0  <0.9m 0  closest 3.71 m
   secret room quarter z=-38.6                      214 fr  1 vert airs ( 41 fr, top y  3.20)  bails 1  windows broken 0  wall down  occ col/rend 0/0  clip 0/0  nvol 0/0  inside 0/0  outside 0  <0.9m 0  closest 3.09 m
-  secret room quarter z=-35.2                      214 fr  1 vert airs ( 41 fr, top y  3.20)  bails 1  windows broken 0  wall down  occ col/rend 0/0  clip 0/0  nvol 0/0  inside 0/0  outside 0  <0.9m 0  closest 3.08 m
+  secret room quarter z=-35.2                      214 fr  1 vert airs ( 41 fr, top y  3.20)  bails 1  windows broken 0  wall down  occ col/rend 0/0  clip 0/0  nvol 0/0  inside 0/0  outside 0  <0.9m 0  closest 3.09 m
   halfpipe z=-48.2                                 600 fr  3 vert airs (198 fr, top y  5.35)  bails 0  windows broken 0  occ col/rend 0/0  clip 0/0  nvol 0/0  inside 0/0  outside 0  <0.9m 0  closest 2.93 m
   halfpipe z=-37.8                                 600 fr  3 vert airs (198 fr, top y  5.35)  bails 0  windows broken 0  occ col/rend 0/0  clip 0/0  nvol 0/0  inside 0/0  outside 0  <0.9m 0  closest 2.93 m
 
@@ -73,8 +73,8 @@ every vert air of the drills:
   t=  0.95-  1.87 s  [east QP z=-45.6 north-east corner (4 m from the north wall)]  vert air               east quarterpipe (19.2, 3.3, -45.6)  56 fr  top y  3.95  occluded col 0 / rend 0  clip 0  inside 0  outside 0  <0.9m 0  closest 3.22 m
   t=  0.85-  1.73 s  [east QP z=-42.6 under rafter_east]  vert air               east quarterpipe (19.2, 3.2, -42.6)  54 fr  top y  4.62  occluded col 0 / rend 0  clip 0  inside 0  outside 0  <0.9m 0  closest 3.63 m
   t=  1.03-  1.98 s  [east QP z=-29.8 window 4]  vert air               east quarterpipe (19.2, 3.2, -29.8)  58 fr  top y  4.00  occluded col 0 / rend 0  clip 0  inside 0  outside 0  <0.9m 0  closest 3.19 m
-  t=  0.98-  2.28 s  [east QP z=-24.6 window 3]  vert air               east quarterpipe (19.2, 3.2, -24.6)  79 fr  top y  5.35  occluded col 0 / rend 0  clip 0  inside 0  outside 0  <0.9m 0  closest 3.50 m
-  t=  0.82-  2.13 s  [east QP z=-19.4 window 2]  vert air               east quarterpipe (19.2, 3.3, -19.4)  80 fr  top y  5.44  occluded col 0 / rend 0  clip 0  inside 0  outside 0  <0.9m 0  closest 3.50 m
+  t=  0.98-  2.28 s  [east QP z=-24.6 window 3]  vert air               east quarterpipe (19.2, 3.2, -24.6)  79 fr  top y  5.35  occluded col 0 / rend 0  clip 0  inside 0  outside 0  <0.9m 0  closest 3.53 m
+  t=  0.82-  2.13 s  [east QP z=-19.4 window 2]  vert air               east quarterpipe (19.2, 3.3, -19.4)  80 fr  top y  5.44  occluded col 0 / rend 0  clip 0  inside 0  outside 0  <0.9m 0  closest 3.54 m
   t=  1.08-  2.28 s  [east QP z=-9.0 window 0]  vert air               east quarterpipe (19.2, 3.3, -9.0)  73 fr  top y  4.95  occluded col 0 / rend 0  clip 0  inside 0  outside 0  <0.9m 0  closest 3.35 m
   t=  0.98-  2.28 s  [east QP z=2.0 south of the windows]  vert air               east quarterpipe (19.2, 3.2, 2.0)   79 fr  top y  5.35  occluded col 0 / rend 0  clip 0  inside 0  outside 0  <0.9m 0  closest 3.53 m
   t=  1.02-  2.17 s  [east QP z=10.0 south-east end]  vert air               east quarterpipe (19.2, 3.2, 10.0)  70 fr  top y  4.71  occluded col 0 / rend 0  clip 0  inside 0  outside 0  <0.9m 0  closest 3.63 m

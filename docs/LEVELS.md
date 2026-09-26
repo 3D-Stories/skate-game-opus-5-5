@@ -281,6 +281,13 @@ what blocks it, the swing, lift and glide. Shared camera rules belong in
   `assets/levels/*`, then `tools/pack_level.gd` for every level with a `pack`. The first time
   a player picks the level, the game downloads `levels/<id>.pck` next to `index.html` and
   mounts it. Deploy the whole `build/web/` folder.
+- **Frame times:** `BENCH_PROFILE=<name> sh tests/chrome_bench.sh "level=<id>&autopilot&bench"`
+  (Chrome on the Windows host, 1920x1080; needs `tests/bench_server.py` serving `build/web`,
+  and `BENCH_PORT` / `BENCH_OUT` if it is not the default one). Run it twice with the same
+  profile: the first run shows the first-visit cost (the browser compiling shaders; the
+  report's `long_frames_outside_run` lists what happened behind the loading screen), the
+  second is the steady state to compare with the Warehouse. On a shared machine, compare
+  levels in alternating runs.
 - **Renders:** `blender --background --python blender/build_all.py -- --only <id>_renders`:
   a 1920x1080 hero still, an 8-view contact sheet and a 24-frame turntable, lit by the bake's
   own lights.

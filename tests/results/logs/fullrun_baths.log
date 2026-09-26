@@ -1,0 +1,273 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
+[run] started
+[ap   0.02] step 0: north along the concourse (sign)  pos=(-14.8, 4.2, 1.0) v=0.0 st=0
+[ap   1.93] step 1: to the gantry  pos=(-14.8, 4.2, -5.1) v=4.9 st=0
+[ap   2.03] broke Sign_1 (signs 1/5)
+[ap   3.45] step 2: onto the gantry  pos=(-14.9, 4.2, -10.7) v=3.5 st=0
+[ap   4.30] step 3: along the gantry (A)  pos=(-12.9, 4.2, -12.7) v=3.5 st=0
+[ap   5.12] letter A
+[ap   5.78] step 4: off the high board  pos=(-5.5, 4.2, -13.0) v=5.4 st=0
+[ap   6.63] step 5: kickflip the high dive  pos=(-1.1, 4.2, -13.0) v=5.1 st=1
+[ap   6.75] step 6: splash down in the deep end (E)  pos=(-0.5, 4.1, -13.0) v=5.4 st=1
+[ap   6.82] letter E
+[ap   7.65] GAP High Dive (+500)
+[ap   7.68] step 7: deep end airs (T)  pos=(4.2, -3.2, -13.0) v=5.0 st=0
+[ap   7.93] combo +1200  total 1200  [Kickflip + High Dive]
+[ap   8.02]   hp st=0 pos=(5.9, -3.2, -12.8) v=5.8 up.y=1.00 i=0
+[ap   8.50]   hp st=0 pos=(8.5, -1.0, -12.3) v=7.5 up.y=0.22 i=0
+[ap   9.00]   hp st=1 pos=(8.400001, 1.2, -11.9) v=1.3 up.y=0.01 i=0
+[ap   9.50]   hp st=1 pos=(8.2, 0.0, -11.7) v=5.5 up.y=0.01 i=0
+[ap  10.00]   hp st=0 pos=(6.4, -3.2, -11.5) v=10.2 up.y=0.96 i=1
+[ap  10.05] combo +260  total 1460  [Indy]
+[ap  10.50]   hp st=0 pos=(1.4, -3.2, -10.9) v=10.0 up.y=1.00 i=1
+[ap  11.00]   hp st=0 pos=(-3.2, -2.0, -10.2) v=9.3 up.y=0.64 i=1
+[ap  11.27] letter T
+[ap  11.50]   hp st=1 pos=(-3.4, 1.3, -9.7) v=3.8 up.y=0.01 i=1
+[ap  12.00]   hp st=1 pos=(-3.3, 1.4, -9.5) v=3.1 up.y=0.01 i=1
+[ap  12.50]   hp st=1 pos=(-3.2, -1.8, -9.3) v=9.7 up.y=0.01 i=1
+[ap  12.78] combo +1572  total 3032  [360 Flip + Tailgrab]
+[ap  13.00]   hp st=0 pos=(1.5, -3.2, -9.2) v=10.7 up.y=1.00 i=2
+[ap  13.50]   hp st=0 pos=(6.8, -3.1, -9.1) v=10.4 up.y=0.99 i=2
+[ap  14.00]   hp st=1 pos=(8.5, 0.6, -9.0) v=6.6 up.y=0.02 i=2
+[ap  14.50]   hp st=1 pos=(8.400001, 2.2, -9.0) v=0.3 up.y=0.02 i=2
+[ap  15.00]   hp st=1 pos=(8.2, 0.3, -9.0) v=6.9 up.y=0.02 i=2
+[ap  15.50]   hp st=0 pos=(6.1, -3.2, -9.0) v=11.2 up.y=0.98 i=3
+[ap  15.53] combo +1326  total 4358  [Heelflip + Indy + BS 180]
+[ap  16.00]   hp st=0 pos=(0.6, -3.2, -9.0) v=10.9 up.y=1.00 i=3
+[ap  16.50]   hp st=0 pos=(-3.5, -1.0, -9.0) v=9.3 up.y=0.21 i=3
+[ap  17.00]   hp st=1 pos=(-3.4, 2.1, -9.0) v=3.0 up.y=0.02 i=3
+[ap  17.50]   hp st=1 pos=(-3.3, 1.9, -9.0) v=3.8 up.y=0.02 i=3
+[ap  18.00]   hp st=1 pos=(-3.2, -1.7, -9.0) v=10.5 up.y=0.02 i=3
+[ap  18.05] step 8: south into the shallow end  pos=(-3.0, -2.2, -9.0) v=9.8 st=0
+[ap  18.30] combo +784  total 5142  [Pop Shove-It + Nosegrab]
+[ap  19.42] step 9: charge the shallow east wall  pos=(1.1, -1.9, -0.5) v=8.9 st=0
+[ap  20.75] step 10: melon over the deck (K)  pos=(8.6, 0.2, 3.7) v=8.7 st=1
+[ap  20.87] step 11: land by the east quarter  pos=(9.2, 0.9, 3.5) v=7.5 st=1
+[ap  21.07] letter K
+[ap  21.80] step 12: back down the quarter  pos=(13.4, 0.1, 1.3) v=3.4 st=0
+[ap  22.05] combo +1012  total 6154  [Melon + Indy]
+[ap  22.82] step 13: south along the east deck (sign)  pos=(13.4, 0.1, -0.9) v=3.2 st=0
+[ap  24.33] broke Sign_3 (signs 2/5)
+[ap  24.35] step 14: onto the flat rail (sign)  pos=(11.3, 0.0, 4.5) v=5.9 st=0
+[ap  24.75] broke Sign_4 (signs 3/5)
+[ap  25.00] step 15: grind the flat rail  pos=(11.5, 0.5, 9.0) v=6.7 st=2
+[ap  26.18] step 16: land  pos=(11.5, 0.5, 16.6) v=6.4 st=1
+[ap  26.55] step 17: round the footbath  pos=(11.5, 0.0, 18.9) v=6.3 st=0
+[ap  26.80] combo +279  total 6433  [50-50]
+[ap  27.97] step 18: west along the south deck  pos=(7.6, 0.0, 18.1) v=6.0 st=0
+[ap  28.77] broke Sign_0 (signs 4/5)
+[ap  29.70] step 19: turn up to the kicker (sign)  pos=(4.1, 0.0, 18.3) v=5.2 st=0
+[ap  31.18] step 20: kicker (S)  pos=(5.3, 0.0, 14.6) v=5.9 st=0
+[ap  31.88] step 21: heelflip the pool hop  pos=(3.9, 0.7, 10.4) v=9.4 st=1
+[ap  32.00] step 22: land in the shallow end  pos=(3.9, 1.2, 9.5) v=8.6 st=1
+[ap  32.05] letter S
+[ap  32.92] GAP Pool Hop (+250)
+[ap  32.95] step 23: north into the deep end  pos=(4.0, -1.7, 1.9) v=7.9 st=0
+[ap  33.20] combo +700  total 7133  [Heelflip + Pool Hop]
+[ap  33.82] step 24: line up on the deep end wall  pos=(2.8, -3.2, -6.4) v=11.8 st=0
+[ap  34.15] step 25: up the deep end wall  pos=(2.4, -3.2, -10.3) v=11.6 st=0
+[ap  34.90] step 26: lip grind the deep end coping  pos=(2.5, 0.2, -16.0) v=7.9 st=1
+[ap  34.93] step 27: grind it  pos=(2.5, 0.0, -16.0) v=2.5 st=2
+[ap  36.33] step 28: hop off onto the deck  pos=(5.7, 0.0, -16.0) v=2.0 st=2
+[ap  36.45] step 29: land on the north deck  pos=(5.9, 0.5, -16.1) v=4.1 st=1
+[ap  37.07] step 30: east along the north deck  pos=(7.2, 0.0, -16.6) v=2.3 st=0
+[ap  37.32] combo +316  total 7449  [50-50]
+[ap  37.37] step 31: sign by the boiler room  pos=(7.8, 0.0, -17.0) v=2.8 st=0
+[ap  37.97] broke Sign_2 (signs 5/5)
+[ap  38.13] step 32: smash the grille, the boiler room kicker  pos=(12.2, 0.0, -18.6) v=7.2 st=0
+[ap  38.60] broke grille (grille 1/1)
+[ap  39.20] step 33: grab to the tape  pos=(19.9, 0.6, -19.0) v=7.2 st=1
+[ap  39.20] secret tape
+[ap  39.32] step 34: land in the boiler room  pos=(20.7, 0.8, -19.0) v=6.6 st=1
+[ap  39.82] step 35: back off the room's quarter  pos=(23.9, 0.0, -19.0) v=6.3 st=0
+[ap  40.07] combo +984  total 8433  [Nosegrab + Indy]
+[ap  41.40] step 36: round the kicker  pos=(24.9, 0.0, -19.0) v=5.8 st=0
+[ap  42.13] step 37: past the boilers  pos=(21.6, 0.0, -20.4) v=5.0 st=0
+[ap  42.88] step 38: out of the boiler room  pos=(17.9, 0.0, -20.6) v=4.9 st=0
+[ap  43.62] step 39: west along the north deck  pos=(14.0, 0.0, -19.4) v=5.9 st=0
+[ap  45.53] step 40: drop in over the deep end coping  pos=(4.6, 0.0, -17.8) v=4.9 st=0
+[ap  46.30] step 41: deep end airs to the buzzer  pos=(3.2, -1.2, -16.0) v=5.6 st=0
+[ap  46.52]   hp st=0 pos=(3.2, -2.5, -15.3) v=8.4 up.y=0.63 i=0
+[ap  47.02]   hp st=0 pos=(2.0, -3.2, -11.0) v=9.5 up.y=1.00 i=0
+[ap  47.52]   hp st=0 pos=(-2.5, -2.7, -9.3) v=10.0 up.y=0.89 i=0
+[ap  48.02]   hp st=1 pos=(-3.5, 1.0, -8.8) v=5.4 up.y=0.01 i=0
+[ap  48.52]   hp st=1 pos=(-3.3, 2.0, -8.6) v=1.4 up.y=0.01 i=0
+[ap  49.02]   hp st=1 pos=(-3.2, -0.4, -8.5) v=8.1 up.y=0.01 i=0
+[ap  49.47] combo +684  total 9117  [Kickflip + Indy]
+[ap  49.52]   hp st=0 pos=(-0.1, -3.2, -8.3) v=11.1 up.y=1.00 i=1
+[ap  50.02]   hp st=0 pos=(5.3, -3.2, -8.6) v=10.8 up.y=1.00 i=1
+[ap  50.52]   hp st=0 pos=(8.5, -0.3, -8.8) v=8.5 up.y=0.03 i=1
+[ap  51.02]   hp st=1 pos=(8.400001, 2.3, -8.900001) v=1.8 up.y=0.02 i=1
+[ap  51.52]   hp st=1 pos=(8.3, 1.4, -8.900001) v=5.0 up.y=0.02 i=1
+[ap  52.02]   hp st=0 pos=(7.8, -2.5, -9.0) v=10.3 up.y=0.62 i=2
+[ap  52.22] combo +1572  total 10689  [360 Flip + Tailgrab]
+[ap  52.52]   hp st=0 pos=(2.3, -3.2, -9.0) v=11.2 up.y=1.00 i=2
+[ap  53.02]   hp st=0 pos=(-3.0, -2.3, -9.0) v=10.5 up.y=0.76 i=2
+[ap  53.52]   hp st=1 pos=(-3.4, 1.7, -9.0) v=5.0 up.y=0.02 i=2
+[ap  54.02]   hp st=1 pos=(-3.3, 2.4, -9.0) v=1.8 up.y=0.02 i=2
+[ap  54.52]   hp st=1 pos=(-3.2, -0.2, -9.0) v=8.4 up.y=0.02 i=2
+[ap  54.97] combo +1326  total 12015  [Heelflip + Indy + BS 180]
+[ap  55.02]   hp st=0 pos=(-0.1, -3.2, -9.0) v=11.5 up.y=1.00 i=3
+[ap  55.52]   hp st=0 pos=(5.6, -3.2, -9.0) v=11.2 up.y=1.00 i=3
+[ap  56.02]   hp st=1 pos=(8.5, 0.1, -9.0) v=8.4 up.y=0.02 i=3
+[ap  56.52]   hp st=1 pos=(8.400001, 2.5, -9.0) v=1.6 up.y=0.02 i=3
+[ap  57.02]   hp st=1 pos=(8.3, 1.6, -9.0) v=5.2 up.y=0.02 i=3
+[ap  57.52]   hp st=0 pos=(7.8, -2.5, -9.0) v=10.4 up.y=0.62 i=4
+[ap  57.72] combo +784  total 12799  [Pop Shove-It + Nosegrab]
+[ap  58.02]   hp st=0 pos=(2.2, -3.2, -9.0) v=11.4 up.y=1.00 i=4
+[ap  58.52]   hp st=0 pos=(-3.0, -2.2, -9.0) v=10.6 up.y=0.71 i=4
+[ap  59.02]   hp st=1 pos=(-3.4, 1.8, -9.0) v=5.0 up.y=0.02 i=4
+[ap  59.52]   hp st=1 pos=(-3.3, 2.5, -9.0) v=1.8 up.y=0.02 i=4
+[ap  60.02]   hp st=1 pos=(-3.2, -0.2, -9.0) v=8.5 up.y=0.02 i=4
+[ap  60.47] combo +784  total 13583  [Pop Shove-It + Nosegrab]
+[ap  60.52]   hp st=0 pos=(-0.1, -3.2, -9.0) v=11.5 up.y=1.00 i=5
+[ap  61.02]   hp st=0 pos=(5.6, -3.2, -9.0) v=11.2 up.y=1.00 i=5
+[ap  61.52]   hp st=1 pos=(8.5, 0.1, -9.0) v=8.3 up.y=0.02 i=5
+[ap  62.02]   hp st=1 pos=(8.400001, 2.5, -9.0) v=1.6 up.y=0.02 i=5
+[ap  62.52]   hp st=1 pos=(8.3, 1.6, -9.0) v=5.2 up.y=0.02 i=5
+[ap  63.02]   hp st=0 pos=(7.8, -2.5, -9.0) v=10.5 up.y=0.62 i=6
+[ap  63.22] combo +684  total 14267  [Kickflip + Indy]
+[ap  63.52]   hp st=0 pos=(2.2, -3.2, -9.0) v=11.4 up.y=1.00 i=6
+[ap  64.02]   hp st=0 pos=(-3.1, -2.2, -9.0) v=10.6 up.y=0.70 i=6
+[ap  64.52]   hp st=1 pos=(-3.4, 1.8, -9.0) v=4.9 up.y=0.02 i=6
+[ap  65.02]   hp st=1 pos=(-3.3, 2.5, -9.0) v=1.9 up.y=0.02 i=6
+[ap  65.52]   hp st=1 pos=(-3.2, -0.2, -9.0) v=8.6 up.y=0.02 i=6
+[ap  65.97] special meter full
+[ap  65.97] combo +1572  total 15839  [360 Flip + Tailgrab]
+[ap  66.02]   hp st=0 pos=(-0.1, -3.2, -9.0) v=11.5 up.y=1.00 i=7
+[ap  66.52]   hp st=0 pos=(5.6, -3.2, -9.0) v=11.3 up.y=1.00 i=7
+[ap  67.02]   hp st=1 pos=(8.5, 0.2, -9.0) v=8.3 up.y=0.02 i=7
+[ap  67.52]   hp st=1 pos=(8.400001, 2.6, -9.0) v=1.5 up.y=0.02 i=7
+[ap  68.02]   hp st=1 pos=(8.3, 1.6, -9.0) v=5.2 up.y=0.02 i=7
+[ap  68.52]   hp st=0 pos=(7.8, -2.5, -9.0) v=10.5 up.y=0.62 i=8
+[ap  68.72] combo +1326  total 17165  [Heelflip + Indy + BS 180]
+[ap  69.02]   hp st=0 pos=(2.2, -3.2, -9.0) v=11.4 up.y=1.00 i=8
+[ap  69.52]   hp st=0 pos=(-3.1, -2.2, -9.0) v=10.6 up.y=0.70 i=8
+[ap  70.02]   hp st=1 pos=(-3.4, 1.8, -9.0) v=4.9 up.y=0.02 i=8
+[ap  70.52]   hp st=1 pos=(-3.3, 2.5, -9.0) v=1.9 up.y=0.02 i=8
+[ap  71.02]   hp st=1 pos=(-3.2, -0.2, -9.0) v=8.6 up.y=0.02 i=8
+[ap  71.47] combo +6412  total 23577  [Tiger Claw Tre + Melon]
+[ap  71.52]   hp st=0 pos=(-0.1, -3.2, -9.0) v=11.5 up.y=1.00 i=9
+[ap  72.02]   hp st=0 pos=(5.6, -3.2, -9.0) v=11.3 up.y=1.00 i=9
+[ap  72.52]   hp st=1 pos=(8.5, 0.2, -9.0) v=8.3 up.y=0.02 i=9
+[ap  73.02]   hp st=1 pos=(8.400001, 2.5, -9.0) v=1.5 up.y=0.02 i=9
+[ap  73.52]   hp st=1 pos=(8.3, 1.6, -9.0) v=5.2 up.y=0.02 i=9
+[ap  74.02]   hp st=0 pos=(7.8, -2.5, -9.0) v=10.5 up.y=0.62 i=10
+[ap  74.22] combo +784  total 24361  [Pop Shove-It + Nosegrab]
+[ap  74.52]   hp st=0 pos=(2.2, -3.2, -9.0) v=11.4 up.y=1.00 i=10
+[ap  75.02]   hp st=0 pos=(-3.1, -2.2, -9.0) v=10.6 up.y=0.70 i=10
+[ap  75.52]   hp st=1 pos=(-3.4, 1.8, -9.0) v=4.9 up.y=0.02 i=10
+[ap  76.02]   hp st=1 pos=(-3.3, 2.5, -9.0) v=1.9 up.y=0.02 i=10
+[ap  76.52]   hp st=1 pos=(-3.2, -0.2, -9.0) v=8.6 up.y=0.02 i=10
+[ap  76.97] combo +684  total 25045  [Kickflip + Indy]
+[ap  77.02]   hp st=0 pos=(-0.1, -3.2, -9.0) v=11.5 up.y=1.00 i=11
+[ap  77.52]   hp st=0 pos=(5.6, -3.2, -9.0) v=11.3 up.y=1.00 i=11
+[ap  78.02]   hp st=1 pos=(8.5, 0.2, -9.0) v=8.3 up.y=0.02 i=11
+[ap  78.52]   hp st=1 pos=(8.400001, 2.6, -9.0) v=1.5 up.y=0.02 i=11
+[ap  79.02]   hp st=1 pos=(8.3, 1.6, -9.0) v=5.2 up.y=0.02 i=11
+[ap  79.52]   hp st=0 pos=(7.8, -2.5, -9.0) v=10.5 up.y=0.62 i=12
+[ap  79.72] combo +1572  total 26617  [360 Flip + Tailgrab]
+[ap  80.02]   hp st=0 pos=(2.2, -3.2, -9.0) v=11.4 up.y=1.00 i=12
+[ap  80.52]   hp st=0 pos=(-3.1, -2.2, -9.0) v=10.6 up.y=0.70 i=12
+[ap  81.02]   hp st=1 pos=(-3.4, 1.8, -9.0) v=4.9 up.y=0.02 i=12
+[ap  81.52]   hp st=1 pos=(-3.3, 2.5, -9.0) v=1.9 up.y=0.02 i=12
+[ap  82.02]   hp st=1 pos=(-3.2, -0.2, -9.0) v=8.6 up.y=0.02 i=12
+[ap  82.47] combo +1326  total 27943  [Heelflip + Indy + BS 180]
+[ap  82.52]   hp st=0 pos=(-0.1, -3.2, -9.0) v=11.5 up.y=1.00 i=13
+[ap  83.02]   hp st=0 pos=(5.6, -3.2, -9.0) v=11.3 up.y=1.00 i=13
+[ap  83.52]   hp st=1 pos=(8.5, 0.2, -9.0) v=8.3 up.y=0.02 i=13
+[ap  84.02]   hp st=1 pos=(8.400001, 2.6, -9.0) v=1.5 up.y=0.02 i=13
+[ap  84.52]   hp st=1 pos=(8.3, 1.6, -9.0) v=5.2 up.y=0.02 i=13
+[ap  85.02]   hp st=0 pos=(7.8, -2.5, -9.0) v=10.5 up.y=0.62 i=14
+[ap  85.22] combo +6412  total 34355  [Tiger Claw Tre + Melon]
+[ap  85.52]   hp st=0 pos=(2.2, -3.2, -9.0) v=11.4 up.y=1.00 i=14
+[ap  86.02]   hp st=0 pos=(-3.1, -2.2, -9.0) v=10.6 up.y=0.70 i=14
+[ap  86.52]   hp st=1 pos=(-3.4, 1.8, -9.0) v=4.9 up.y=0.02 i=14
+[ap  87.02]   hp st=1 pos=(-3.3, 2.5, -9.0) v=1.9 up.y=0.02 i=14
+[ap  87.52]   hp st=1 pos=(-3.2, -0.2, -9.0) v=8.6 up.y=0.02 i=14
+[ap  87.97] combo +784  total 35139  [Pop Shove-It + Nosegrab]
+[ap  88.02]   hp st=0 pos=(-0.1, -3.2, -9.0) v=11.5 up.y=1.00 i=15
+[ap  88.52]   hp st=0 pos=(5.6, -3.2, -9.0) v=11.3 up.y=1.00 i=15
+[ap  89.02]   hp st=1 pos=(8.5, 0.2, -9.0) v=8.3 up.y=0.02 i=15
+[ap  89.52]   hp st=1 pos=(8.400001, 2.5, -9.0) v=1.5 up.y=0.02 i=15
+[ap  90.02]   hp st=1 pos=(8.3, 1.6, -9.0) v=5.2 up.y=0.02 i=15
+[ap  90.52]   hp st=0 pos=(7.8, -2.5, -9.0) v=10.5 up.y=0.62 i=16
+[ap  90.72] combo +684  total 35823  [Kickflip + Indy]
+[ap  91.02]   hp st=0 pos=(2.2, -3.2, -9.0) v=11.4 up.y=1.00 i=16
+[ap  91.52]   hp st=0 pos=(-3.1, -2.2, -9.0) v=10.6 up.y=0.70 i=16
+[ap  92.02]   hp st=1 pos=(-3.4, 1.8, -9.0) v=4.9 up.y=0.02 i=16
+[ap  92.52]   hp st=1 pos=(-3.3, 2.5, -9.0) v=1.9 up.y=0.02 i=16
+[ap  93.02]   hp st=1 pos=(-3.2, -0.2, -9.0) v=8.6 up.y=0.02 i=16
+[ap  93.47] combo +1572  total 37395  [360 Flip + Tailgrab]
+[ap  93.52]   hp st=0 pos=(-0.1, -3.2, -9.0) v=11.5 up.y=1.00 i=17
+[ap  94.02]   hp st=0 pos=(5.6, -3.2, -9.0) v=11.3 up.y=1.00 i=17
+[ap  94.52]   hp st=1 pos=(8.5, 0.2, -9.0) v=8.3 up.y=0.02 i=17
+[ap  95.02]   hp st=1 pos=(8.400001, 2.6, -9.0) v=1.5 up.y=0.02 i=17
+[ap  95.52]   hp st=1 pos=(8.3, 1.6, -9.0) v=5.2 up.y=0.02 i=17
+[ap  96.02]   hp st=0 pos=(7.8, -2.5, -9.0) v=10.5 up.y=0.62 i=18
+[ap  96.22] combo +1326  total 38721  [Heelflip + Indy + BS 180]
+[ap  96.52]   hp st=0 pos=(2.2, -3.2, -9.0) v=11.4 up.y=1.00 i=18
+[ap  97.02]   hp st=0 pos=(-3.1, -2.2, -9.0) v=10.6 up.y=0.70 i=18
+[ap  97.52]   hp st=1 pos=(-3.4, 1.8, -9.0) v=4.9 up.y=0.02 i=18
+[ap  98.02]   hp st=1 pos=(-3.3, 2.5, -9.0) v=1.9 up.y=0.02 i=18
+[ap  98.52]   hp st=1 pos=(-3.2, -0.2, -9.0) v=8.6 up.y=0.02 i=18
+[ap  98.97] combo +6412  total 45133  [Tiger Claw Tre + Melon]
+[ap  99.02]   hp st=0 pos=(-0.1, -3.2, -9.0) v=11.5 up.y=1.00 i=19
+[ap  99.52]   hp st=0 pos=(5.6, -3.2, -9.0) v=11.3 up.y=1.00 i=19
+[ap 100.02]   hp st=1 pos=(8.5, 0.2, -9.0) v=8.3 up.y=0.02 i=19
+[ap 100.52]   hp st=1 pos=(8.400001, 2.6, -9.0) v=1.5 up.y=0.02 i=19
+[ap 101.02]   hp st=1 pos=(8.3, 1.6, -9.0) v=5.2 up.y=0.02 i=19
+[ap 101.52]   hp st=0 pos=(7.8, -2.5, -9.0) v=10.5 up.y=0.62 i=20
+[ap 101.72] combo +784  total 45917  [Pop Shove-It + Nosegrab]
+[ap 102.02]   hp st=0 pos=(2.2, -3.2, -9.0) v=11.4 up.y=1.00 i=20
+[ap 102.52]   hp st=0 pos=(-3.1, -2.2, -9.0) v=10.6 up.y=0.70 i=20
+[ap 103.02]   hp st=1 pos=(-3.4, 1.8, -9.0) v=4.9 up.y=0.02 i=20
+[ap 103.52]   hp st=1 pos=(-3.3, 2.5, -9.0) v=1.9 up.y=0.02 i=20
+[ap 104.02]   hp st=1 pos=(-3.2, -0.2, -9.0) v=8.6 up.y=0.02 i=20
+[ap 104.47] combo +684  total 46601  [Kickflip + Indy]
+[ap 104.52]   hp st=0 pos=(-0.1, -3.2, -9.0) v=11.5 up.y=1.00 i=21
+[ap 105.02]   hp st=0 pos=(5.6, -3.2, -9.0) v=11.3 up.y=1.00 i=21
+[ap 105.52]   hp st=1 pos=(8.5, 0.2, -9.0) v=8.3 up.y=0.02 i=21
+[ap 106.02]   hp st=1 pos=(8.400001, 2.5, -9.0) v=1.5 up.y=0.02 i=21
+[ap 106.52]   hp st=1 pos=(8.3, 1.6, -9.0) v=5.2 up.y=0.02 i=21
+[ap 107.02]   hp st=0 pos=(7.8, -2.5, -9.0) v=10.5 up.y=0.62 i=22
+[ap 107.22] combo +1572  total 48173  [360 Flip + Tailgrab]
+[ap 107.52]   hp st=0 pos=(2.2, -3.2, -9.0) v=11.4 up.y=1.00 i=22
+[ap 108.02]   hp st=0 pos=(-3.1, -2.2, -9.0) v=10.6 up.y=0.70 i=22
+[ap 108.52]   hp st=1 pos=(-3.4, 1.8, -9.0) v=4.9 up.y=0.02 i=22
+[ap 109.02]   hp st=1 pos=(-3.3, 2.5, -9.0) v=1.9 up.y=0.02 i=22
+[ap 109.52]   hp st=1 pos=(-3.2, -0.2, -9.0) v=8.6 up.y=0.02 i=22
+[ap 109.97] combo +1326  total 49499  [Heelflip + Indy + BS 180]
+[ap 110.02]   hp st=0 pos=(-0.1, -3.2, -9.0) v=11.5 up.y=1.00 i=23
+[ap 110.52]   hp st=0 pos=(5.6, -3.2, -9.0) v=11.3 up.y=1.00 i=23
+[ap 111.02]   hp st=1 pos=(8.5, 0.2, -9.0) v=8.3 up.y=0.02 i=23
+[ap 111.52]   hp st=1 pos=(8.400001, 2.6, -9.0) v=1.5 up.y=0.02 i=23
+[ap 112.02]   hp st=1 pos=(8.3, 1.6, -9.0) v=5.2 up.y=0.02 i=23
+[ap 112.52]   hp st=0 pos=(7.8, -2.5, -9.0) v=10.5 up.y=0.62 i=24
+[ap 112.72] combo +6412  total 55911  [Tiger Claw Tre + Melon]
+[ap 113.02]   hp st=0 pos=(2.2, -3.2, -9.0) v=11.4 up.y=1.00 i=24
+[ap 113.52]   hp st=0 pos=(-3.1, -2.2, -9.0) v=10.6 up.y=0.70 i=24
+[ap 114.02]   hp st=1 pos=(-3.4, 1.8, -9.0) v=4.9 up.y=0.02 i=24
+[ap 114.52]   hp st=1 pos=(-3.3, 2.5, -9.0) v=1.9 up.y=0.02 i=24
+[ap 115.02]   hp st=1 pos=(-3.2, -0.2, -9.0) v=8.6 up.y=0.02 i=24
+[ap 115.47] combo +784  total 56695  [Pop Shove-It + Nosegrab]
+[ap 115.52]   hp st=0 pos=(-0.1, -3.2, -9.0) v=11.5 up.y=1.00 i=25
+[ap 116.02]   hp st=0 pos=(5.6, -3.2, -9.0) v=11.3 up.y=1.00 i=25
+[ap 116.52]   hp st=1 pos=(8.5, 0.2, -9.0) v=8.3 up.y=0.02 i=25
+[ap 117.02]   hp st=1 pos=(8.400001, 2.6, -9.0) v=1.5 up.y=0.02 i=25
+[ap 117.52]   hp st=1 pos=(8.3, 1.6, -9.0) v=5.2 up.y=0.02 i=25
+[ap 118.02]   hp st=0 pos=(7.8, -2.5, -9.0) v=10.5 up.y=0.62 i=26
+[ap 118.22] combo +684  total 57379  [Kickflip + Indy]
+[ap 118.52]   hp st=0 pos=(2.2, -3.2, -9.0) v=11.4 up.y=1.00 i=26
+[ap 119.02]   hp st=0 pos=(-3.1, -2.2, -9.0) v=10.6 up.y=0.70 i=26
+[ap 119.52]   hp st=1 pos=(-3.4, 1.8, -9.0) v=4.9 up.y=0.02 i=26
+[ap 120.02]   hp st=1 pos=(-3.3, 2.5, -9.0) v=1.9 up.y=0.02 i=26
+[ap 120.52]   hp st=1 pos=(-3.2, -0.2, -9.0) v=8.6 up.y=0.02 i=26
+[ap 120.97] combo +1572  total 58951  [360 Flip + Tailgrab]
+[run] finished score=58951 goals=[["score", true], ["skate", true], ["tape", true], ["signs", true], ["deep_coping", true], ["high_dive", true]]
+[run] frames: process=7289 physics=7290
+[run] clips played: { "idle": 4, "push": 64, "ride": 93, "air": 11, "kickflip": 7, "land": 37, "vert_air": 93, "indy": 15, "treflip": 7, "tailgrab": 7, "heelflip": 7, "shoveit": 7, "nosegrab": 8, "melon": 5, "ollie": 2, "grind_5050": 2, "ride_fakie": 1, "special": 4 }
+WARNING: 14 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

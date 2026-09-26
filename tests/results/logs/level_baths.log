@@ -1,3 +1,19 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
+[run] started
+[run] started
+[ap   2.03] broke Sign_1 (signs 1/5)
+[ap   7.65] GAP High Dive (+500)
+[ap  24.33] broke Sign_3 (signs 2/5)
+[ap  24.75] broke Sign_4 (signs 3/5)
+[ap  28.77] broke Sign_0 (signs 4/5)
+[ap  32.92] GAP Pool Hop (+250)
+[ap  37.97] broke Sign_2 (signs 5/5)
+[ap  38.60] broke grille (grille 1/1)
+WARNING: Jolt Physics job system exceeded the maximum number of jobs. This should not happen. Please report this. Waiting for jobs to become available...
+     at: CreateJob (modules/jolt_physics/spaces/jolt_job_system.cpp:123)
+[run] finished score=58951 goals=[["score", true], ["skate", true], ["tape", true], ["signs", true], ["deep_coping", true], ["high_dive", true]]
 Pro Skater level tests: Eastside Baths (baths)  2026-09-26T17:23:05
 PASS  the level loads through LevelRegistry (levels/registry.json -> levels/baths/level.json)  [Eastside Baths, 26 grind lines, 6 breakables]
 PASS  a high-score goal plus at least two goals of the level's own, on one two-minute run  [score, skate, tape, signs, deep_coping, high_dive]
@@ -53,3 +69,4 @@ PASS  the secret tape is in a hidden area
 PASS  every pickup is reachable: the autopilot route collects S-K-A-T-E and the tape  [A 5.1s, E 6.8s, T 11.3s, K 21.1s, S 32.0s, tape 39.2s]
 PASS  the autopilot two-minute run completes every goal of the level  [score done, skate done, tape done, signs done, deep_coping done, high_dive done; score 58951 in 121.0 s]
 53 passed, 0 failed
+

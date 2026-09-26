@@ -1,8 +1,8 @@
 {
  "baths.glb": {
   "file": "baths.glb",
-  "bytes": 37251948,
-  "sha256": "4b1e839c47d5ee93",
+  "bytes": 32930144,
+  "sha256": "e29018dbf7b3c533",
   "nodes": [
    [
     "Baths_boiler",
@@ -2266,17 +2266,12 @@
     "hash": "1d62889bc12208da"
    },
    {
-    "name": "baths_boiler_normal",
-    "mime": "image/webp",
-    "hash": "cc60e0967daac58f"
-   },
-   {
     "name": "baths_brick_albedo",
     "mime": "image/webp",
     "hash": "c2f98e7f2d16446f"
    },
    {
-    "name": "baths_brick_normal",
+    "name": "baths_brick_n40_normal",
     "mime": "image/webp",
     "hash": "0ff5258d2c225f61"
    },
@@ -2286,19 +2281,9 @@
     "hash": "60d2e20585258fc4"
    },
    {
-    "name": "baths_cabin_normal",
-    "mime": "image/webp",
-    "hash": "04d46fea0f200e11"
-   },
-   {
     "name": "baths_chrome_albedo",
     "mime": "image/webp",
     "hash": "6de6d0dcc4dca0e4"
-   },
-   {
-    "name": "baths_chrome_normal",
-    "mime": "image/webp",
-    "hash": "4ef50ba6f6916352"
    },
    {
     "name": "baths_concrete_albedo",
@@ -2311,12 +2296,12 @@
     "hash": "f8a3033a9034cdf8"
    },
    {
-    "name": "baths_concrete_floor_normal",
+    "name": "baths_concrete_floor_n20_normal",
     "mime": "image/webp",
     "hash": "9c7a36d3224d0769"
    },
    {
-    "name": "baths_concrete_normal",
+    "name": "baths_concrete_floor_n25_normal",
     "mime": "image/webp",
     "hash": "ae0bd3a271d33c8a"
    },
@@ -2326,19 +2311,14 @@
     "hash": "d583165fed32b86c"
    },
    {
-    "name": "baths_coping_normal",
-    "mime": "image/webp",
-    "hash": "2cd8e6dc413619a1"
-   },
-   {
     "name": "baths_coping_stone_albedo",
     "mime": "image/webp",
     "hash": "fa29a3d042135ba4"
    },
    {
-    "name": "baths_coping_stone_normal",
+    "name": "baths_cotton_tee_n5_normal",
     "mime": "image/webp",
-    "hash": "9c7a36d3224d0769"
+    "hash": "a3ecf255d591fb52"
    },
    {
     "name": "baths_crate_albedo",
@@ -2346,7 +2326,7 @@
     "hash": "97494e95a8cda45e"
    },
    {
-    "name": "baths_crate_normal",
+    "name": "baths_crate_wood_n20_normal",
     "mime": "image/webp",
     "hash": "42c31aa242cf7260"
    },
@@ -2356,19 +2336,19 @@
     "hash": "9ccf505dd48dd9c7"
    },
    {
-    "name": "baths_deck_normal",
-    "mime": "image/webp",
-    "hash": "cc656e805f2fec6f"
-   },
-   {
     "name": "baths_diamond_albedo",
     "mime": "image/webp",
     "hash": "aedfd6c4a8eb487c"
    },
    {
-    "name": "baths_diamond_normal",
+    "name": "baths_diamond_plate_n30_normal",
     "mime": "image/webp",
     "hash": "69c6ebc0d4940a2f"
+   },
+   {
+    "name": "baths_diamond_plate_n5_normal",
+    "mime": "image/webp",
+    "hash": "2cd8e6dc413619a1"
    },
    {
     "name": "baths_flag_a_albedo",
@@ -2376,19 +2356,9 @@
     "hash": "eac743fff782d82c"
    },
    {
-    "name": "baths_flag_a_normal",
-    "mime": "image/webp",
-    "hash": "a3ecf255d591fb52"
-   },
-   {
     "name": "baths_flag_b_albedo",
     "mime": "image/webp",
     "hash": "7a57add9e85f1418"
-   },
-   {
-    "name": "baths_flag_b_normal",
-    "mime": "image/webp",
-    "hash": "a3ecf255d591fb52"
    },
    {
     "name": "baths_graffiti",
@@ -2401,14 +2371,34 @@
     "hash": "214bdabcec25fe76"
    },
    {
-    "name": "baths_grille_normal",
+    "name": "baths_grime",
+    "mime": "image/webp",
+    "hash": "53fbbe827ec47a73"
+   },
+   {
+    "name": "baths_painted_steel_n15_normal",
+    "mime": "image/webp",
+    "hash": "3afb455b2b2e3081"
+   },
+   {
+    "name": "baths_painted_steel_n20_normal",
+    "mime": "image/webp",
+    "hash": "4af2240d4ad8d102"
+   },
+   {
+    "name": "baths_painted_steel_n25_normal",
     "mime": "image/webp",
     "hash": "cc60e0967daac58f"
    },
    {
-    "name": "baths_grime",
+    "name": "baths_painted_steel_n3_normal",
     "mime": "image/webp",
-    "hash": "53fbbe827ec47a73"
+    "hash": "4ef50ba6f6916352"
+   },
+   {
+    "name": "baths_painted_steel_n6_normal",
+    "mime": "image/webp",
+    "hash": "5ca7eb507ff9a576"
    },
    {
     "name": "baths_plaster_albedo",
@@ -2416,7 +2406,7 @@
     "hash": "e6cab447d9a43f6d"
    },
    {
-    "name": "baths_plaster_normal",
+    "name": "baths_plaster_n25_normal",
     "mime": "image/webp",
     "hash": "3594b3d60f20a3b5"
    },
@@ -2426,7 +2416,12 @@
     "hash": "4ee3709359ed14a6"
    },
    {
-    "name": "baths_plywood_normal",
+    "name": "baths_plywood_n12_normal",
+    "mime": "image/webp",
+    "hash": "04d46fea0f200e11"
+   },
+   {
+    "name": "baths_plywood_n15_normal",
     "mime": "image/webp",
     "hash": "a3d8504f80567f30"
    },
@@ -2436,19 +2431,9 @@
     "hash": "4de6dd25be5ba94c"
    },
    {
-    "name": "baths_pool_band_normal",
-    "mime": "image/webp",
-    "hash": "a28271f76e6bcec9"
-   },
-   {
     "name": "baths_pool_floor_albedo",
     "mime": "image/webp",
     "hash": "c3237ec512525a52"
-   },
-   {
-    "name": "baths_pool_floor_normal",
-    "mime": "image/webp",
-    "hash": "72aa8ef9b1017de2"
    },
    {
     "name": "baths_pool_line_albedo",
@@ -2456,17 +2441,22 @@
     "hash": "d189ed3976b968f6"
    },
    {
-    "name": "baths_pool_line_normal",
-    "mime": "image/webp",
-    "hash": "f753f77c2b257d29"
-   },
-   {
     "name": "baths_pool_tile_albedo",
     "mime": "image/webp",
     "hash": "d482bb1a9224e244"
    },
    {
-    "name": "baths_pool_tile_normal",
+    "name": "baths_pool_tile_n10_normal",
+    "mime": "image/webp",
+    "hash": "f753f77c2b257d29"
+   },
+   {
+    "name": "baths_pool_tile_n11_normal",
+    "mime": "image/webp",
+    "hash": "72aa8ef9b1017de2"
+   },
+   {
+    "name": "baths_pool_tile_n13_normal",
     "mime": "image/webp",
     "hash": "a28271f76e6bcec9"
    },
@@ -2476,19 +2466,9 @@
     "hash": "0b5d3ea003d81d1e"
    },
    {
-    "name": "baths_rail_normal",
-    "mime": "image/webp",
-    "hash": "3afb455b2b2e3081"
-   },
-   {
     "name": "baths_rampside_albedo",
     "mime": "image/webp",
     "hash": "d9e49c413e1d0645"
-   },
-   {
-    "name": "baths_rampside_normal",
-    "mime": "image/webp",
-    "hash": "a3d8504f80567f30"
    },
    {
     "name": "baths_roof_albedo",
@@ -2496,19 +2476,9 @@
     "hash": "2e10bb0fee024386"
    },
    {
-    "name": "baths_roof_normal",
-    "mime": "image/webp",
-    "hash": "04d46fea0f200e11"
-   },
-   {
     "name": "baths_springboard_albedo",
     "mime": "image/webp",
     "hash": "ae198ae22391410e"
-   },
-   {
-    "name": "baths_springboard_normal",
-    "mime": "image/webp",
-    "hash": "5ca7eb507ff9a576"
    },
    {
     "name": "baths_steel_albedo",
@@ -2516,19 +2486,14 @@
     "hash": "8fca9d7ce30cee83"
    },
    {
-    "name": "baths_steel_normal",
-    "mime": "image/webp",
-    "hash": "4af2240d4ad8d102"
-   },
-   {
     "name": "baths_steel_paint_albedo",
     "mime": "image/webp",
     "hash": "e8cdaefc9748d804"
    },
    {
-    "name": "baths_steel_paint_normal",
+    "name": "baths_terrazzo_n14_normal",
     "mime": "image/webp",
-    "hash": "4af2240d4ad8d102"
+    "hash": "cc656e805f2fec6f"
    },
    {
     "name": "baths_tile_band_albedo",
@@ -2536,17 +2501,12 @@
     "hash": "3dc418d573e54fa6"
    },
    {
-    "name": "baths_tile_band_normal",
-    "mime": "image/webp",
-    "hash": "09ec4dd29aba154a"
-   },
-   {
     "name": "baths_wall_tile_albedo",
     "mime": "image/webp",
     "hash": "079b75e6350cd1f7"
    },
    {
-    "name": "baths_wall_tile_normal",
+    "name": "baths_wall_tile_n25_normal",
     "mime": "image/webp",
     "hash": "09ec4dd29aba154a"
    }
@@ -2558,7 +2518,7 @@
   "bytes": 21636
  },
  "baths_lightmap.png": {
-  "sha256": "c3ddaf1372bf8335",
-  "bytes": 4859933
+  "sha256": "18a80d5d3f6568d0",
+  "bytes": 4859968
  }
 }

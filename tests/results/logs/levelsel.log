@@ -1,3 +1,11 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
+[level] baths loaded
+[run] started
+[run] finished score=0 goals=[["score", false], ["skate", false], ["tape", false], ["signs", false], ["deep_coping", false], ["high_dive", false]]
+[run] started
+[level] warehouse loaded
 Pro Skater level select tests  2026-09-26T17:22:43
 PASS  levels come from levels/registry.json; the Warehouse is the default  [["warehouse", "baths"]]
 PASS  the game starts on the Warehouse, at the start screen  [21 grind lines, 5 windows, goals ["score", "skate", "tape", "rafters", "windows"]]
@@ -19,3 +27,6 @@ PASS  gamepad: B closes it without a change (still on Eastside Baths, start scre
 PASS  keyboard: Tab opens it again, Esc closes it without a change  [opened true, open after Esc false, level baths]
 PASS  gamepad: D-pad left + A switch back; the Warehouse loads exactly as at startup  [data, 21 grind lines, 5 windows, spawn, goals ["score", "skate", "tape", "rafters", "windows"]]
 19 passed, 0 failed
+
+WARNING: 10 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
