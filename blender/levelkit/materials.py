@@ -12,7 +12,9 @@ or, in a level definition (JSON), the same as a dict:
      "metallic": 0.0, "flat": [0.1, 0.3, 0.6], "flat_mix": [0.75, 0.35], "rough_invert": false}
 
 "flat" paints the surface one colour, modulated by the photo's luminance (painted lines,
-coping); "rough_invert" makes darker (worn) areas rougher instead of smoother. Albedo keeps
+coping); "desat" (0..1) pulls the photo's colour toward its luminance before the tint (dry,
+dusty, sun-bleached surfaces); "rough_invert" makes darker (worn) areas rougher instead of
+smoother. Albedo keeps
 the roughness in its alpha channel; the normal map comes from the photo's high-passed
 luminance. Every level's textures are written as <prefix><name>_albedo / _normal.
 """
@@ -27,10 +29,10 @@ def entry(v):
         return dict(src=v["src"], tile=float(v.get("tile", 2.0)), tint=tuple(v.get("tint", (1.0, 1.0, 1.0))),
                     rough=tuple(v.get("rough", (0.5, 0.8))), normal=float(v.get("normal", 2.0)),
                     metallic=float(v.get("metallic", 0.0)), flat=v.get("flat"), flat_mix=tuple(v.get("flat_mix", (0.75, 0.35))),
-                    rough_invert=bool(v.get("rough_invert", False)))
+                    rough_invert=bool(v.get("rough_invert", False)), desat=float(v.get("desat", 0.0)))
     src, tile, tint, rr, ns, metal = v
     return dict(src=src, tile=tile, tint=tint, rough=rr, normal=ns, metallic=metal, flat=None, flat_mix=None,
-                rough_invert=False)
+                rough_invert=False, desat=0.0)
 
 
 def build_textures(table, prefix, albedo_fns=None, rough_invert=(), size=1024):
@@ -49,7 +51,10 @@ def build_textures(table, prefix, albedo_fns=None, rough_invert=(), size=1024):
             cache[src] = a
         a = cache[src]
         lum = C.luminance(a)
-        alb = np.clip(a * np.array(tint), 0, 1)
+        if e["desat"] > 0.0:
+            alb = np.clip((a * (1.0 - e["desat"]) + lum[..., None] * e["desat"]) * np.array(tint), 0, 1)
+        else:
+            alb = np.clip(a * np.array(tint), 0, 1)
         if name in albedo_fns:
             alb = albedo_fns[name](a, lum)
         elif e["flat"] is not None:

@@ -139,6 +139,7 @@ func _setup_visuals(root: Node) -> void:
 	var prefix := String(data.get("material_prefix", "park_"))
 	var shading: Dictionary = data.get("shading", {})
 	var unshaded: Dictionary = data.get("unshaded", {"lamp": 2.2, "skylight": 1.4, "exit_sign": 1.4})
+	var decal_keys: Array = data.get("decal_materials", ["graffiti"])
 	for mi in _meshes(root):
 		var n := String(mi.name)
 		if n.begins_with("Window_"):
@@ -157,7 +158,7 @@ func _setup_visuals(root: Node) -> void:
 			if m == null:
 				continue
 			var key := m.resource_name.trim_prefix(prefix)
-			if key == "graffiti":
+			if key in decal_keys:
 				var dm := ShaderMaterial.new()
 				dm.shader = DECAL_SHADER
 				dm.set_shader_parameter("albedo_tex", m.albedo_texture)

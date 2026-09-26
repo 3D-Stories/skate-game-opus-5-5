@@ -193,8 +193,17 @@ def f_room(L, s):
         ops = [_opening_s(side, s["rect"], door)] if door and door["side"] == side else []
         G.wall(B, a, b, bands, True, ops)
     if s.get("hidden", True):
-        L.data.setdefault("hidden_areas", []).append(dict(name=s.get("label", s.get("name", "room")),
-                                                          **L.box_g((x0, y0, 0.0), (x1, y1, h))))
+        area = dict(name=s.get("label", s.get("name", "room")), **L.box_g((x0, y0, 0.0), (x1, y1, h)))
+        if door:
+            # the doorway (Godot): its centre on the wall, the way in, its width and height
+            sd = door["side"]
+            inward = {"west": (1, 0), "east": (-1, 0), "south": (0, 1), "north": (0, -1)}[sd]
+            wx = x0 if sd == "west" else x1 if sd == "east" else sum(door["x"]) / 2
+            wy = y0 if sd == "south" else y1 if sd == "north" else sum(door["y"]) / 2
+            span = door["y"] if sd in ("east", "west") else door["x"]
+            area["door"] = dict(center=to_godot((wx, wy, sum(door["z"]) / 2)), inward=to_godot((inward[0], inward[1], 0)),
+                                width=round(span[1] - span[0], 4), height=round(door["z"][1] - door["z"][0], 4))
+        L.data.setdefault("hidden_areas", []).append(area)
 
 
 def f_quarterpipe(L, s):
@@ -321,11 +330,11 @@ def f_bowl(L, s):
         L.add_rail(pts, "concrete", s.get("coping_tag", "coping"), name)
     # lane lines (dark tile strips on the floor) and the vert zone for THPS auto-align airs
     depth = res["depth"]
-    R = s["radius"]
+    Rof = res["R"]
     zf = lambda x, y: z0 - depth(y)
     for ln in s.get("lanes", []):
         xa = xc + ln
-        ya, yb = y0 + R + 1.6, y1 - R - 1.6
+        ya, yb = y0 + Rof(y0) + 1.6, y1 - Rof(y1) - 1.6
         G.floor_strip(L.B, m.get("line", "pool_line"), [(xa, ya), (xa, yb)], 0.25, zf)
         for yy in (ya, yb):
             G.floor_strip(L.B, m.get("line", "pool_line"), [(xa - 0.5, yy), (xa + 0.5, yy)], 0.25, zf, lift=0.009)
@@ -335,7 +344,45 @@ def f_bowl(L, s):
         L.data.setdefault("vert_zones", []).append(dict(center=to_godot((xc, cy, 0.0)), axis=0.0,
                                                         half=[(x1 - x0) / 2 + 1.0, (vz[1] - vz[0]) / 2]))
     L.data.setdefault("bowls", []).append(dict(name=s.get("name", "bowl"), rect=[to_godot((x0, y1, z0)), to_godot((x1, y0, z0))],
-                                               corner=rc, radius=R, depth=s["depth"], z=z0))
+                                               corner=rc, radius=s["radius"], depth=s["depth"], z=z0))
+
+
+def f_bridge(L, s):
+    """A raised walkway (gantry, gallery bridge) from a to b (2D) at height z: deck, fascias,
+    underside, posts down to given bottoms, optional grindable handrails on both sides.
+    posts: [[x, y, z_bottom], ...]; rails: {"left": name, "right": name} (left of a->b)."""
+    B = L.B
+    a, b = Vector((*s["a"], 0)), Vector((*s["b"], 0))
+    z = s["z"]
+    w = s.get("width", 1.8) / 2
+    t = s.get("thick", 0.25)
+    d = (b - a).normalized()
+    n = Vector((-d.y, d.x, 0))
+    c = [a - n * w, b - n * w, b + n * w, a + n * w]
+    top = [tuple(p + Vector((0, 0, z))) for p in c]
+    bot = [tuple(p + Vector((0, 0, z - t))) for p in c]
+    B.quad(s.get("deck_mat", "diamond"), top, col=s.get("col", "metal"))
+    B.quad(s.get("under_mat", "steel_paint"), list(reversed(bot)))
+    for i in range(4):
+        if i == 3 and s.get("open_start", True):
+            continue                      # the start end joins the landing it leaves from
+        j = (i + 1) % 4
+        B.quad(s.get("fascia_mat", "steel_paint"), [bot[i], bot[j], top[j], top[i]], col="wall")
+    for p in s.get("posts", []):
+        for side in (-1, 1):
+            q = Vector((p[0], p[1], 0)) + n * side * (w - 0.12)
+            B.box(s.get("post_mat", "steel_paint"), (q.x - 0.07, q.y - 0.07, p[2]), (q.x + 0.07, q.y + 0.07, z - t), col="wall")
+            L.data.setdefault("hangers", []).append([to_godot((q.x, q.y, p[2])), to_godot((q.x, q.y, z - t))])
+    for side, key in ((1, "left"), (-1, "right")):
+        name = s.get("rails", {}).get(key)
+        if not name:
+            continue
+        o = n * side * (w - 0.06)
+        ra = a + o + Vector((0, 0, z))
+        rb = b + o + Vector((0, 0, z))
+        topl = G.rail(B, [tuple(ra), tuple(rb)], s.get("rail_height", 1.0), r=0.025, post_every=2.0,
+                      mat=s.get("rail_mat", "rail"), post_mat=s.get("post_mat", "steel_paint"))
+        L.add_rail(topl, "metal", "rail", name)
 
 
 def f_box(L, s):
@@ -497,11 +544,15 @@ def build_level(level_id, export=True, bake=True):
     L.imgs = KM.build_textures(b["materials"], L.prefix)
     L.mats = KM.make_materials(L.imgs, L.prefix)
     L.mats.update(KM.specials(b.get("special_materials", {}), L.prefix))
+    # decal atlases: "graffiti" (also the signs' faces) and any extra "decals" sets (e.g. grime)
     gf = b.get("graffiti")
+    decal_sets = ([dict(gf, name="graffiti")] if gf else []) + list(b.get("decals", []))
+    for ds in decal_sets:
+        ds["cells"] = {k: tuple(v) for k, v in ds["cells"].items()}
+        ds["_mat"] = graffiti.build_atlas(ds["cells"], ds["pieces"], L.prefix + ds["name"], ds.get("atlas", 2048))
     if gf:
-        cells = {k: tuple(v) for k, v in gf["cells"].items()}
-        gf["cells"] = cells
-        L.gfx = graffiti.build_atlas(cells, gf["pieces"], L.prefix + "graffiti", gf.get("atlas", 2048))
+        gf["cells"] = decal_sets[0]["cells"]
+        L.gfx = decal_sets[0]["_mat"]
     extra = _features_module(level_id)
     for spec in b["features"]:
         t = spec["type"]
@@ -517,13 +568,15 @@ def build_level(level_id, export=True, bake=True):
         G.floor_minus(L.B, x0, y0, x1, y1, L.holes + [tuple(h) for h in fl.get("holes", [])],
                       fl.get("mat", "concrete_floor"), fl.get("col", "concrete"),
                       cell=tuple(fl.get("cell", (8.0, 6.0))))
-    # graffiti / signage decals
-    decals = None
-    if gf and gf.get("placements"):
-        quads = [_floor_decal(p, gf["cells"], gf.get("atlas", 2048)) if isinstance(p, dict) else
-                 graffiti._quad(p[0], tuple(p[1]), tuple(p[2]), p[3], p[4], cells=gf["cells"], atlas_px=gf.get("atlas", 2048))
-                 for p in gf["placements"]]
-        decals = graffiti._decal_object(L.obj_prefix + "graffiti", quads, L.gfx, L.coll)
+    # graffiti / signage / grime decals
+    decal_objs = []
+    for ds in decal_sets:
+        if not ds.get("placements"):
+            continue
+        quads = [_floor_decal(p, ds["cells"], ds.get("atlas", 2048)) if isinstance(p, dict) else
+                 graffiti._quad(p[0], tuple(p[1]), tuple(p[2]), p[3], p[4], cells=ds["cells"], atlas_px=ds.get("atlas", 2048))
+                 for p in ds["placements"]]
+        decal_objs.append(graffiti._decal_object(L.obj_prefix + ds["name"], quads, ds["_mat"], L.coll))
     # merge per material; collision per surface
     special = set(b.get("special_materials", {}).keys())
     visual = []
@@ -546,14 +599,14 @@ def build_level(level_id, export=True, bake=True):
         ob.display_type = 'WIRE'
         ob.hide_render = True
         cols.append(ob)
-    lm_objs = [o for o in visual if o.name[len(L.obj_prefix):] not in special] + L.breakables + ([decals] if decals else [])
+    lm_objs = [o for o in visual if o.name[len(L.obj_prefix):] not in special] + L.breakables + decal_objs
     lmc = b.get("lightmap", {})
     weights = {L.obj_prefix + k if not k.startswith(("Sign", "Break")) else k: v for k, v in lmc.get("weights", {}).items()}
     for o in L.breakables:
         if o.name not in weights:
             weights[o.name] = lmc.get("breakable_weight", 0.6)
-    if decals:
-        weights.setdefault(decals.name, lmc.get("decal_weight", 0.35))
+    for o in decal_objs:
+        weights.setdefault(o.name, lmc.get("decal_weight", 0.35))
     C.lightmap_uv(lm_objs, "Lightmap", margin=lmc.get("margin", 0.0015), weights=weights)
     C.show(visual, 'MATERIAL', azimuth=210, elevation=35, margin=0.55)
     # data for the game
@@ -574,6 +627,7 @@ def build_level(level_id, export=True, bake=True):
     if "hall_centre" in b:
         D["hall_centre"] = to_godot(b["hall_centre"])
     D["material_prefix"] = L.prefix
+    D["decal_materials"] = [ds["name"] for ds in decal_sets]
     D["shading"] = b.get("shading", {})
     D["unshaded"] = {k: v.get("game_boost", 1.4) for k, v in b.get("special_materials", {}).items() if v.get("kind", "emissive") != "glass"}
     D["lightmapped"] = [o.name for o in lm_objs]
@@ -597,7 +651,7 @@ def build_level(level_id, export=True, bake=True):
                          lm_scale=lm_scale, size=lt.get("size"), samples=lt.get("samples"))
         print(f"[levelkit] {level_id}: baked in {time.time() - t0:.0f}s")
     if export:
-        export_objs = visual + ([decals] if decals else []) + cols + L.breakables
+        export_objs = visual + decal_objs + cols + L.breakables
         C.export_glb(os.path.join(out_dir, f"{level_id}.glb"), objects=export_objs, extra=dict(
             export_image_format='WEBP', export_image_quality=90, export_lights=False))
         C.save_blend(level_id)

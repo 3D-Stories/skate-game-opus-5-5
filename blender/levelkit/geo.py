@@ -686,7 +686,8 @@ def bowl(B, rect, corner, radius, depth_knots, z0=0.0, wall_mat="pool_tile", flo
     """A pool-style bowl sunk into the floor: rounded-rectangle coping line `rect` (x0, y0, x1,
     y1) with corner radius `corner`, circular transitions of `radius` from the flat floor up to
     the lip (a vertical section above them where the pool is deeper than the radius), depth
-    varying along y through depth_knots [(y, depth)]. Also builds the coping stones (a ring
+    varying along y through depth_knots [(y, depth)]. radius may also be knots [(y, r)] (a
+    tighter transition in a shallow end keeps its lip vertical). Also builds the coping stones (a ring
     ring_w wide), a deck frame out to `margin` from the lip (so the rest of the floor can be
     plain rectangles round rect +/- margin) and a waterline tile band. Everything shares one
     closed outline, so the pieces meet without cracks.
@@ -697,9 +698,11 @@ def bowl(B, rect, corner, radius, depth_knots, z0=0.0, wall_mat="pool_tile", flo
     east = rounded_rect_chain(x0, y0, x1, y1, corner)
     west = [((2 * xc - p[0], p[1]), (-n[0], n[1]), (2 * xc - c[0], c[1]) if c else None) for (p, n, c) in east]
     ring = east + list(reversed(west))[1:-1]           # closed, anticlockwise from south-middle
-    R = radius
+    r_knots = [tuple(k) for k in radius] if isinstance(radius, (list, tuple)) else [(0.0, float(radius))]
+    Rof = lambda y: smooth_knots(r_knots, y)
 
     def prof(p, n):
+        R = Rof(p[1])
         h = smooth_knots(depth_knots, p[1])
         ah = min(R, h)
         amax = math.acos(1 - ah / R)
@@ -716,13 +719,13 @@ def bowl(B, rect, corner, radius, depth_knots, z0=0.0, wall_mat="pool_tile", flo
         for i in range(1, k_vert + 1):
             z = z0 - v + v * i / k_vert
             pts.append((p[0], p[1], z))
-        return pts, h, e
+        return pts, h, e, R
     rows = []
     info = []
     for (p, n, c) in ring:
-        pts, h, e = prof(p, n)
+        pts, h, e, R = prof(p, n)
         rows.append(pts)
-        info.append((p, n, h, e))
+        info.append((p, n, h, e, R))
     # the walls: quads between consecutive profiles (closed loop), facing into the pool
     for i in range(len(rows)):
         a, b = rows[i], rows[(i + 1) % len(rows)]
@@ -738,7 +741,7 @@ def bowl(B, rect, corner, radius, depth_knots, z0=0.0, wall_mat="pool_tile", flo
         for m in range(floor_cols):
             B.quad(floor_mat, [tuple(ra[m]), tuple(ra[m + 1]), tuple(rb[m + 1]), tuple(rb[m])], col=col)
     # waterline band: a strip laid 4 mm in front of the tiles over the top 0.3 m of the wall
-    def wall_at(p, n, h, e, t):
+    def wall_at(p, n, h, e, R, t):
         # point + surface normal t metres below the lip
         N = Vector((n[0], n[1], 0))
         v = h - min(R, h)
@@ -749,10 +752,10 @@ def bowl(B, rect, corner, radius, depth_knots, z0=0.0, wall_mat="pool_tile", flo
         u = e - R * math.sin(a)
         return Vector((p[0], p[1], z0 - t)) + N * u, (N * math.sin(a) + Vector((0, 0, math.cos(a)))).normalized()
     band_rows = []
-    for (p, n, h, e) in info:
+    for (p, n, h, e, R) in info:
         row = []
         for t in (0.03, 0.12, 0.21, 0.3):
-            q, sn = wall_at(p, n, h, e, min(t, h - 0.02))
+            q, sn = wall_at(p, n, h, e, R, min(t, h - 0.02))
             row.append(tuple(q + sn * 0.004))
         band_rows.append(row)
     for i in range(len(band_rows)):
@@ -779,7 +782,7 @@ def bowl(B, rect, corner, radius, depth_knots, z0=0.0, wall_mat="pool_tile", flo
             for q, (p, n, c) in zip(lip, ring)]
     for i in range(len(nose)):
         B.cylinder(coping_mat, nose[i], nose[(i + 1) % len(nose)], coping_r, 10, caps=False)
-    return dict(ring=ring, lip=[tuple(q) for q in lip], info=info, R=R,
+    return dict(ring=ring, lip=[tuple(q) for q in lip], info=info, R=Rof,
                 outer=(x0 - margin, y0 - margin, x1 + margin, y1 + margin),
                 depth=lambda y: smooth_knots(depth_knots, y), wall_at=wall_at)
 

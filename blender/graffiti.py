@@ -489,6 +489,77 @@ def spray(img, seed, drips=True, wear=0.3, stencil=False):
     return np.concatenate([np.clip(rgb, 0, 1), np.clip(a, 0, 1)[..., None]], -1)
 
 
+# ------------------------------------------------------------------ grime (numpy, no text)
+
+GRIME_STYLES = ("stain", "ring", "streaks", "leaves")
+
+
+def _smooth(e0, e1, x):
+    t = np.clip((x - e0) / (e1 - e0), 0, 1)
+    return t * t * (3 - 2 * t)
+
+
+def draw_grime(w, h, P):
+    """Dirt for abandoned places, straight into an RGBA array: "stain" (a soft irregular
+    blotch), "ring" (a ring stain round a drain), "streaks" (rust / dirt runs down from the
+    top edge), "leaves" (scattered dead leaves, clustered)."""
+    st, seed = P["style"], P["seed"]
+    r = C.rng(seed)
+    n = max(w, h)
+    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+    u, v = (xx + 0.5) / w * 2 - 1, (yy + 0.5) / h * 2 - 1
+    col = np.array(P.get("color", (0.2, 0.16, 0.12)), np.float32)
+    nz = C.resize(C.value_noise(256, 5, seed, 4)[..., None], n)[:h, :w, 0]
+    fine = C.resize(C.value_noise(256, 24, seed + 7, 2)[..., None], n)[:h, :w, 0]
+    rgb = np.broadcast_to(col, (h, w, 3)).copy()
+    if st == "stain":
+        d = np.sqrt(u * u + v * v) + (nz - 0.5) * 0.9
+        a = (1 - _smooth(0.35, 0.95, d)) * (0.55 + 0.45 * fine)
+        a *= P.get("alpha", 0.6)
+        rgb *= (0.7 + 0.6 * nz)[..., None]
+    elif st == "ring":
+        d = np.sqrt(u * u + v * v) + (nz - 0.5) * 0.25
+        a = np.exp(-((d - 0.55) / 0.16) ** 2) * 0.8 + (1 - _smooth(0.0, 0.45, d)) * 0.35
+        a *= (0.6 + 0.4 * fine) * P.get("alpha", 0.65)
+        rgb *= (0.75 + 0.5 * fine)[..., None]
+    elif st == "streaks":
+        a = np.zeros((h, w), np.float32)
+        for _ in range(int(P.get("count", 14))):
+            x0 = r.uniform(0.05, 0.95) * w
+            wd = r.uniform(0.006, 0.03) * w
+            ln = r.uniform(0.3, 1.0) * h
+            prof = np.exp(-((xx - x0 - (nz - 0.5) * wd * 3) / wd) ** 2)
+            fall = np.clip(1 - yy / ln, 0, 1) ** 0.8
+            a = np.maximum(a, prof * fall * r.uniform(0.5, 1.0))
+        a *= (0.6 + 0.4 * fine) * P.get("alpha", 0.7)
+        rgb *= (0.8 + 0.4 * nz)[..., None]
+    elif st == "leaves":
+        a = np.zeros((h, w), np.float32)
+        palette = np.array(P.get("palette", [(0.42, 0.28, 0.12), (0.55, 0.4, 0.16), (0.3, 0.2, 0.1), (0.5, 0.33, 0.18)]), np.float32)
+        dens = nz
+        for _ in range(int(P.get("count", 260))):
+            cx, cy = r.uniform(0, w), r.uniform(0, h)
+            if r.random() > dens[int(cy) % h, int(cx) % w] ** 1.5 * 1.8:
+                continue
+            L = r.uniform(0.012, 0.03) * n
+            W = L * r.uniform(0.35, 0.55)
+            t = r.uniform(0, np.pi)
+            dx, dy = xx - cx, yy - cy
+            pu = dx * np.cos(t) + dy * np.sin(t)
+            pv = -dx * np.sin(t) + dy * np.cos(t)
+            m = np.clip(1.4 - np.sqrt((pu / L) ** 2 + (pv / W) ** 2) * 1.4, 0, 1)
+            m = np.clip(m * 3, 0, 1)
+            sel = m > a
+            c = palette[int(r.integers(0, len(palette)))] * r.uniform(0.75, 1.15)
+            # a darker midrib
+            rib = np.exp(-(pv / (W * 0.12)) ** 2) * (np.abs(pu) < L * 0.9)
+            rgb[sel] = (c[None, :] * (1 - 0.35 * rib[sel][:, None]))
+            a = np.maximum(a, m)
+        a *= P.get("alpha", 0.95)
+    a *= 1 - _smooth(0.92, 1.0, np.maximum(np.abs(u), np.abs(v)))   # nothing at the cell edges
+    return np.concatenate([np.clip(rgb, 0, 1), np.clip(a, 0, 1)[..., None]], -1)
+
+
 # ------------------------------------------------------------------ atlas + decals
 
 def build_atlas(cells=None, pieces=None, name="park_graffiti", atlas_px=None):
@@ -501,6 +572,10 @@ def build_atlas(cells=None, pieces=None, name="park_graffiti", atlas_px=None):
     for key, (x, y, w, h) in cells.items():
         P = pieces[key]
         st = P["style"]
+        if st in GRIME_STYLES:
+            atlas[y:y + h, x:x + w] = draw_grime(w, h, P)
+            print(f"[graffiti] {key}")
+            continue
         if st == "piece":
             draw_piece(cv, P)
         elif st == "banner":
