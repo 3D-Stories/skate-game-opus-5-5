@@ -50,7 +50,10 @@ def eye_texture(size=1024, iris_frac=0.54, pupil_frac=0.30):
     sx = (0.5 + 0.5 * src_r * np.cos(ang)) * 1023
     sy = (0.5 + 0.5 * src_r * np.sin(ang)) * 1023
     iris_col = iris[sy.astype(int).clip(0, 1023), sx.astype(int).clip(0, 1023)]
-    iris_col = iris_col * 0.8
+    # a natural medium brown (the source photo is a light hazel that reads orange under a
+    # warm key light), matching the brown eyes of the face photo
+    lum = (iris_col * np.array([0.2126, 0.7152, 0.0722])).sum(-1, keepdims=True)
+    iris_col = (iris_col * 0.45 + lum * np.array([1.2, 0.86, 0.6]) * 0.55) * 0.62
     pupil = np.clip((pupil_frac - t) / 0.02, 0, 1)[..., None]
     iris_col = iris_col * (1 - pupil) + np.array([0.01, 0.01, 0.012]) * pupil
     # sclera
@@ -72,8 +75,15 @@ def eye_texture(size=1024, iris_frac=0.54, pupil_frac=0.30):
     return C.save_png(np.clip(col, 0, 1), "eye_albedo")
 
 
-def make_eyeball(name, center, radius, coll):
-    """UV sphere with its pole on the view axis (-Y); iris region slightly flattened."""
+def gaze_matrix(gaze):
+    """Rotation taking the eye's rest view axis (-Y) onto `gaze`."""
+    if gaze is None:
+        return Matrix.Identity(4)
+    return Vector((0, -1, 0)).rotation_difference(Vector(gaze).normalized()).to_matrix().to_4x4()
+
+
+def make_eyeball(name, center, radius, coll, gaze=None):
+    """UV sphere with its pole on the view axis (-Y, turned to `gaze`); iris slightly flattened."""
     bm = bmesh.new()
     bmesh.ops.create_uvsphere(bm, u_segments=48, v_segments=32, radius=radius)
     rot = Matrix.Rotation(math.radians(90), 4, 'X')  # pole Z -> -Y
@@ -90,13 +100,17 @@ def make_eyeball(name, center, radius, coll):
                 l[uv].uv = (0.5 + 0.5 * p.x, 0.5 + 0.5 * p.z)
             else:
                 l[uv].uv = (0.5 + 0.5 * math.copysign(1, p.x) * 0.99, 0.5 + 0.5 * p.z)
+    bmesh.ops.transform(bm, matrix=gaze_matrix(gaze), verts=bm.verts)
+    # fixed triangulation: a sphere's quads have equal diagonals, so leaving the split to
+    # the exporter lets float noise pick it (different triangle order build to build)
+    bmesh.ops.triangulate(bm, faces=bm.faces[:], quad_method='FIXED', ngon_method='BEAUTY')
     ob = C.bm_to_object(bm, name, coll, smooth=True)
     ob.location = center
     C.apply_transform(ob)
     return ob
 
 
-def make_cornea(name, center, radius, coll):
+def make_cornea(name, center, radius, coll, gaze=None):
     bm = bmesh.new()
     bmesh.ops.create_uvsphere(bm, u_segments=48, v_segments=32, radius=radius * 1.012)
     bmesh.ops.transform(bm, matrix=Matrix.Rotation(math.radians(90), 4, 'X'), verts=bm.verts)
@@ -109,6 +123,8 @@ def make_cornea(name, center, radius, coll):
             vtx.co += d * radius * 0.085 * (k ** 0.8)
     # keep only the front half: the eyeball does the rest
     bmesh.ops.delete(bm, geom=[v for v in bm.verts if v.co.y > radius * 0.25], context='VERTS')
+    bmesh.ops.transform(bm, matrix=gaze_matrix(gaze), verts=bm.verts)
+    bmesh.ops.triangulate(bm, faces=bm.faces[:], quad_method='FIXED', ngon_method='BEAUTY')
     ob = C.bm_to_object(bm, name, coll, smooth=True)
     ob.location = center
     C.apply_transform(ob)
@@ -200,12 +216,11 @@ def lash_uvs(obj, eye_center, upper=True):
 def eyebrow_cards(body, eye_center, side, coll, seed):
     """Short hair cards laid on the brow ridge, growing medial->lateral like real brows."""
     r = C.rng(seed)
-    deps = bpy.context.evaluated_depsgraph_get()
-    bvh = BVHTree.FromObject(body, deps)
+    bvh = C.rest_bvh(body)
     ex, ey, ez = eye_center
     s = 1 if side == 'L' else -1
     verts, faces, uvs = [], [], []
-    count = 230
+    count = 140        # the photo face texture carries the brow colour; cards add depth
     for i in range(count):
         t = r.random()  # 0 medial -> 1 lateral
         dx = (-0.013 + t * 0.041)
@@ -256,9 +271,16 @@ def build(rig, body, helpers, coll=None):
         wv = _world_verts(sock)
         center = wv.mean(0)
         radius = float(np.mean((wv.max(0) - wv.min(0)) * 0.5)) * 0.97
-        eye = make_eyeball(f"Eye_{side}", Vector(center), radius, coll)
+        # The socket helper sits a few mm medial of the lid opening, so an eye looking
+        # straight out reads cross-eyed. Seat the eyeball under the opening (between the
+        # lash strips) and aim both eyes at a point 1.2 m ahead: a relaxed, level gaze.
+        lash = np.concatenate([_world_verts(helpers[f"Lashes{p}_{side}"]) for p in ("Top", "Bot")])
+        ap = np.array([(lash[:, 0].min() + lash[:, 0].max()) / 2, center[1], np.median(lash[:, 2])])
+        eye_c = center + (ap - center) * np.array([0.7, 0.0, 0.7])
+        gaze = Vector((0.0, center[1] - 1.2, center[2] - 0.01)) - Vector(eye_c)
+        eye = make_eyeball(f"Eye_{side}", Vector(eye_c), radius, coll, gaze)
         C.assign(eye, eye_mat)
-        cor = make_cornea(f"Cornea_{side}", Vector(center), radius, coll)
+        cor = make_cornea(f"Cornea_{side}", Vector(eye_c), radius, coll, gaze)
         C.assign(cor, cornea_mat)
         for o in (eye, cor):
             weight_all(o, "head", rig)

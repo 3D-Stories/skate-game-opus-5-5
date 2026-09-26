@@ -19,6 +19,7 @@ var special := 0.0              # 0..100
 var special_ready := false
 var in_combo := false
 var last_land := 0
+var last_combo: PackedStringArray = []   # trick names of the last landed combo
 
 
 func begin_trick(name: String, base_points: int) -> int:
@@ -76,6 +77,7 @@ func land() -> int:
 	if not in_combo:
 		return 0
 	var pts := combo_score()
+	last_combo = PackedStringArray(tricks.map(func(t): return String(t["name"])))
 	total += pts
 	best_combo = maxi(best_combo, pts)
 	last_land = pts

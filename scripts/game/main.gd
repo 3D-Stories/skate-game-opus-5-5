@@ -22,6 +22,13 @@ var goals: Array = []
 var stats := {"tricks": 0, "bails": 0, "longest_grind": 0.0}
 var _grind_start := 0.0
 var autopilot_mode := ""
+var run_start_phys := 0          # Engine physics frame count when the current run started
+var bench: Node = null        # scripts/game/bench.gd while benchmarking (?bench / --bench)
+## Adaptive quality: a slower GPU (a laptop) steps down until frames fit in ~16.7 ms.
+var quality := 0
+var _q_window: PackedFloat32Array = []
+var _q_auto := true
+const QUALITY_STEPS := ["full", "no SSAO", "MSAA 2x + 85% scale", "70% scale"]
 
 
 func _ready() -> void:
@@ -51,19 +58,37 @@ func _ready() -> void:
 	menus.restart_pressed.connect(restart)
 	skater.spawn(level.spawn_pos, level.spawn_forward)
 	cam.snap()
+	level.warm_up(cam.global_position, -cam.global_basis.z)
+	hud.warm_glyphs()
+	# fixed-step movie recording and headless runs have no real frame times to adapt to
+	_q_auto = Engine.get_write_movie_path() == "" and DisplayServer.get_name() != "headless"
 	var args := OS.get_cmdline_user_args()
 	for a in args:
 		if a.begins_with("--autopilot"):
 			autopilot_mode = a.get_slice("=", 1) if "=" in a else "run"
 		if a == "--fps":
 			hud.fps_label.visible = true
+		if a.begins_with("--bench"):
+			_start_bench(" ".join(args))
+		if a == "--quality=full":
+			_q_auto = false
 	if OS.has_feature("web"):
 		var q = JavaScriptBridge.eval("window.location.search", true)
 		if q is String and "autopilot" in q:
 			autopilot_mode = "run"
 		if q is String and "fps" in q:
 			hud.fps_label.visible = true
+		if q is String and "quality=full" in q:
+			_q_auto = false
+		if q is String and "bench" in q:
+			_start_bench(q)
+			JavaScriptBridge.eval("fetch('bench-start?' + innerWidth + 'x' + innerHeight + '@' + devicePixelRatio).catch(function(){})")
 	if autopilot_mode != "":
+		# the scripted run skips the start screen, which is where shaders get compiled
+		# for a player: give the first frames the same half second before the run starts
+		await get_tree().create_timer(0.5).timeout
+		skater.spawn(level.spawn_pos, level.spawn_forward)
+		cam.snap()
 		var ap := preload("res://scripts/game/autopilot.gd").new()
 		ap.name = "Autopilot"
 		add_child(ap)
@@ -75,7 +100,7 @@ func _ready() -> void:
 		level.window_broken.connect(func(i, n): ap.note("window %d (%d/5)" % [i, n]))
 		level.wall_broken.connect(func(): ap.note("wall broken"))
 		skater.rafter_grind.connect(func(): ap.note("rafter grind"))
-		score.combo_landed.connect(func(p): ap.note("combo +%d  total %d" % [p, score.total]))
+		score.combo_landed.connect(func(p): ap.note("combo +%d  total %d  [%s]" % [p, score.total, " + ".join(score.last_combo)]))
 		score.special_full.connect(func(): ap.note("special meter full"))
 		start_run()
 	else:
@@ -124,15 +149,18 @@ func start_run() -> void:
 	running = true
 	ending = false
 	time_left = RUN_TIME
-	Sfx.play("ui_select")
+	run_start_phys = Engine.get_physics_frames()
+	print("[run] started")      # (the menu that started the run already played its confirm blip)
 
 
 func resume() -> void:
 	menus.hide_all()
 	get_tree().paused = false
+	print("[run] resumed at %.1f s left" % time_left)
 
 
 func restart() -> void:
+	level.clear_blood()
 	score.reset()
 	level.reset_run()
 	_make_goals()
@@ -146,6 +174,8 @@ func restart() -> void:
 
 func _process(delta: float) -> void:
 	hud.set_time(time_left)
+	if running and not get_tree().paused:
+		_adapt_quality(delta)
 	if not running or get_tree().paused:
 		if running and menus.mode == Menus.NONE and Input.is_action_just_pressed("pause"):
 			pass
@@ -153,6 +183,7 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("pause") and autopilot_mode == "":
 		get_tree().paused = true
 		menus.show_pause(goals, score)
+		print("[run] paused at %.1f s left" % time_left)
 		return
 	if Input.is_action_just_pressed("restart") and autopilot_mode == "":
 		restart()
@@ -181,9 +212,48 @@ func _finish() -> void:
 	hud.visible = false
 	menus.show_end(goals, score, stats)
 	print("[run] finished score=%d goals=%s" % [score.total, str(goals.map(func(g): return [g["id"], g["done"]]))])
+	if bench:
+		bench.report()
 	if autopilot_mode == "test":
 		print("[run] frames: process=%d physics=%d" % [Engine.get_process_frames(), Engine.get_physics_frames()])
+		print("[run] clips played: %s" % str(skater.model.played))
 		get_tree().quit()
+
+
+func _adapt_quality(delta: float) -> void:
+	if not _q_auto or quality >= QUALITY_STEPS.size() - 1:
+		return
+	_q_window.append(delta * 1000.0)
+	if _q_window.size() < 150:
+		return
+	var sorted := Array(_q_window)
+	sorted.sort()
+	var median: float = sorted[sorted.size() / 2]
+	_q_window.clear()
+	if median <= 18.0:
+		return
+	quality += 1
+	match quality:
+		1:
+			env.environment.ssao_enabled = false
+		2:
+			get_viewport().msaa_3d = Viewport.MSAA_2X
+			get_viewport().scaling_3d_scale = 0.85
+		3:
+			get_viewport().scaling_3d_scale = 0.7
+	print("[quality] median frame %.1f ms -> %s" % [median, QUALITY_STEPS[quality]])
+
+
+func _start_bench(query: String) -> void:
+	if bench:
+		return
+	_q_auto = false            # measure one fixed quality level
+	hud.fps_label.visible = true
+	bench = preload("res://scripts/game/bench.gd").new()
+	bench.name = "Bench"
+	bench.main = self
+	add_child(bench)
+	bench.setup(query)
 
 
 func _check_score() -> void:

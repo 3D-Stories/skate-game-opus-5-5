@@ -145,6 +145,7 @@ def bake_lightmap(lm_objs, visual, P, size=None):
 def _bake_diffuse(objs, img, passes, samples):
     scn = bpy.context.scene
     scn.render.bake.margin = 6
+    scn.render.bake.margin_type = 'EXTEND'
     scn.render.bake.use_clear = True
     added = []
     mats = set()
@@ -157,12 +158,23 @@ def _bake_diffuse(objs, img, passes, samples):
                 n.image = img
                 s.material.node_tree.nodes.active = n
                 added.append((s.material, n))
+    # the lightmap stores irradiance, which does not depend on the surface: bake every
+    # material as a dielectric (a fully metallic coping has no diffuse lobe and would bake
+    # black), then restore the real metallic values that are exported for the game
+    metal = []
+    for m in mats:
+        pn = next((n for n in m.node_tree.nodes if n.type == 'BSDF_PRINCIPLED'), None)
+        if pn is not None and not pn.inputs['Metallic'].is_linked:
+            metal.append((pn, pn.inputs['Metallic'].default_value))
+            pn.inputs['Metallic'].default_value = 0.0
     C.deselect_all()
     for o in objs:
         o.select_set(True)
     bpy.context.view_layer.objects.active = objs[0]
     bpy.ops.object.bake(type='DIFFUSE', pass_filter=passes, margin=6, use_clear=True)
     arr = C.image_array(img)[..., :3].copy()
+    for pn, v in metal:
+        pn.inputs['Metallic'].default_value = v
     for m, n in added:
         m.node_tree.nodes.remove(n)
     for o in objs:

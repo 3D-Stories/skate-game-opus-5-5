@@ -70,19 +70,28 @@ class Builder:
             else:
                 self.quad(mat, pts, col)
 
-    def cylinder(self, mat, a, b, r, seg=12, col=None, caps=True):
+    def cylinder(self, mat, a, b, r, seg=12, col=None, caps=True, chunk=2.0):
+        """A pipe from a to b. Long pipes are built as <= chunk m pieces with a 1.5 mm gap
+        at each join (wider than finish_mesh's 0.5 mm weld, far too small to see), so each
+        piece is its own short lightmap UV island: a 60 m coping would otherwise unwrap
+        into one strip longer than the whole atlas."""
         a, b = Vector(a), Vector(b)
         d = (b - a).normalized()
         up = Vector((0, 0, 1)) if abs(d.z) < 0.9 else Vector((1, 0, 0))
         u = d.cross(up).normalized()
         v = d.cross(u).normalized()
-        ra, rb = [], []
+        offs = []
         for k in range(seg):
             t = 2 * math.pi * k / seg
-            off = u * math.cos(t) * r + v * math.sin(t) * r
-            ra.append(a + off)
-            rb.append(b + off)
-        self.strip(mat, [ra, rb], col, closed=True)
+            offs.append(u * math.cos(t) * r + v * math.sin(t) * r)
+        n = max(1, math.ceil((b - a).length / chunk - 1e-6))
+        gap = d * 0.00075 if n > 1 else Vector((0, 0, 0))
+        for i in range(n):
+            pa = a.lerp(b, i / n) + (gap if i > 0 else Vector((0, 0, 0)))
+            pb = a.lerp(b, (i + 1) / n) - (gap if i < n - 1 else Vector((0, 0, 0)))
+            self.strip(mat, [[pa + o for o in offs], [pb + o for o in offs]], col, closed=True)
+        ra = [a + o for o in offs]
+        rb = [b + o for o in offs]
         if caps:
             bm = self._bm(self.parts, mat)
             for ring, fl in ((ra, True), (rb, False)):

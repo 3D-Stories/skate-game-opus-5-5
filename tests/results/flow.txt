@@ -1,0 +1,26 @@
+Pro Skater game-flow tests  2026-09-25T23:21:52
+PASS  game opens paused on the start screen
+PASS  Enter starts the run
+PASS  timer counts down in real time
+PASS  keyboard: holding W pushes and builds speed
+PASS  Esc opens the pause menu
+PASS  pause freezes the clock and the skater
+PASS  Esc resumes and the clock runs again
+PASS  gamepad: holding A crouches (charges the ollie)
+PASS  gamepad: releasing A pops an ollie
+PASS  gamepad: left stick steers
+PASS  gamepad button 2 maps to flip
+PASS  gamepad button 1 maps to grab
+PASS  gamepad button 3 maps to grind
+PASS  grind button snaps onto the rail
+PASS  the grind is in the combo
+PASS  landing sideways bails
+PASS  the board comes off and tumbles as a rigid body
+PASS  the bail loses the combo
+PASS  the skater gets back up after the bail
+PASS  losing the manual balance bails
+PASS  five goals in the goals list
+PASS  the run ends at 0:00 on the end-of-run screen
+PASS  end screen shows the score
+PASS  Enter on the end screen restarts the run
+24 passed, 0 failed

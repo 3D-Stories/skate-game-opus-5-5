@@ -1,0 +1,212 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
+[run] started
+[run] paused at 65.3 s left
+[run] resumed at 65.3 s left
+[run] paused at 64.9 s left
+[run] resumed at 64.9 s left
+[run] paused at 64.1 s left
+[run] resumed at 64.1 s left
+[run] started
+[run] paused at 117.6 s left
+[run] started
+[run] finished score=0 goals=[["score", false], ["skate", false], ["tape", false], ["rafters", false], ["windows", false]]
+[run] started
+[run] started
+WARNING: Jolt Physics job system exceeded the maximum number of jobs. This should not happen. Please report this. Waiting for jobs to become available...
+     at: CreateJob (modules/jolt_physics/spaces/jolt_job_system.cpp:123)
+[run] paused at 65.2 s left
+[run] resumed at 65.2 s left
+[run] paused at 64.4 s left
+[run] resumed at 64.4 s left
+[run] paused at 64.0 s left
+[run] resumed at 64.0 s left
+[run] started
+[run] paused at 117.6 s left
+[run] started
+[run] finished score=0 goals=[["score", false], ["skate", false], ["tape", false], ["rafters", false], ["windows", false]]
+[run] started
+Pro Skater input tests (keyboard + gamepad)  2026-09-25T23:21:48
+PASS  the game boots paused on the start screen
+PASS  start screen shows the controls table as visible Labels (10 rows x 3 columns)
+PASS  controls table has a KEYBOARD and a GAMEPAD column
+PASS  start screen row 'Steer  /  push (Up)  /  brake (Down)': 'W A S D  or  arrow keys' | 'Left stick  or  D-pad' names A, arrow keys, D, W, S, Left stick, D-pad
+PASS  start screen row 'Ollie (hold to crouch, release to pop)': 'Space' | 'A  /  Cross' names Space, A
+PASS  start screen row 'Flip trick  + direction': 'J' | 'X  /  Square' names J, X
+PASS  start screen row 'Grab trick  + direction (hold)': 'K' | 'B  /  Circle' names K, B
+PASS  start screen row 'Grind  (rail, ledge, coping, pipe, rafter)': 'L' | 'Y  /  Triangle' names L, Y
+PASS  start screen row 'Spin in the air': 'Left / Right,  Q / E' | 'Left stick,  LB / RB' names Q, E, LB, RB
+PASS  start screen row 'Manual  /  Nose manual': 'Up, Down  /  Down, Up' | 'Up, Down  /  Down, Up' names Up, Down, Down, Up
+PASS  start screen row 'Special trick (special meter full)': 'Left, Right + J' | 'Left, Right + X' names J, X, Left, Right
+PASS  start screen row 'Pause  /  Restart run': 'Esc or P  /  R' | 'Start  /  Back' names Esc, P, R, Start, Back
+PASS  start screen hint 'PRESS ENTER / A TO SKATE' names a bound confirm key (Enter) and button (A)
+PASS  every input-map action is shown on the start screen
+PASS  [keyboard] fresh game on the start screen
+PASS  [keyboard] Enter (confirm) on the start screen starts the run
+PASS  [keyboard] input map: 'left' has a key binding (A, Left)
+PASS  [keyboard] input map: 'right' has a key binding (D, Right)
+PASS  [keyboard] input map: 'up' has a key binding (W, Up)
+PASS  [keyboard] input map: 'down' has a key binding (S, Down)
+PASS  [keyboard] input map: 'jump' has a key binding (Space)
+PASS  [keyboard] input map: 'flip' has a key binding (J)
+PASS  [keyboard] input map: 'grab' has a key binding (K)
+PASS  [keyboard] input map: 'grind' has a key binding (L)
+PASS  [keyboard] input map: 'spin_left' has a key binding (Q)
+PASS  [keyboard] input map: 'spin_right' has a key binding (E)
+PASS  [keyboard] input map: 'pause' has a key binding (Escape, P)
+PASS  [keyboard] input map: 'confirm' has a key binding (Enter, Space)
+PASS  [keyboard] input map: 'restart' has a key binding (R)
+PASS  [keyboard] A / Left fire(s) 'left' through Godot Input
+PASS  [keyboard] D / Right fire(s) 'right' through Godot Input
+PASS  [keyboard] W / Up fire(s) 'up' through Godot Input
+PASS  [keyboard] S / Down fire(s) 'down' through Godot Input
+PASS  [keyboard] Space fire(s) 'jump' through Godot Input
+PASS  [keyboard] J fire(s) 'flip' through Godot Input
+PASS  [keyboard] K fire(s) 'grab' through Godot Input
+PASS  [keyboard] L fire(s) 'grind' through Godot Input
+PASS  [keyboard] Q fire(s) 'spin_left' through Godot Input
+PASS  [keyboard] E fire(s) 'spin_right' through Godot Input
+PASS  [keyboard] holding W (up) pushes and builds speed from a standstill
+PASS  [keyboard] holding Up (up) pushes and builds speed from a standstill
+PASS  [keyboard] holding S (down) brakes
+PASS  [keyboard] holding Down (down) brakes
+PASS  [keyboard] holding A (left) turns the heading left
+PASS  [keyboard] holding Left (left) turns the heading left
+PASS  [keyboard] holding D (right) turns the heading right
+PASS  [keyboard] holding Right (right) turns the heading right
+PASS  [keyboard] holding Space (jump) crouches to charge the ollie
+PASS  [keyboard] releasing Space pops an ollie into AIR
+PASS  [keyboard] J (flip) with no direction in the air gives Kickflip in the combo and plays the 'kickflip' clip
+PASS  [keyboard] J (flip) with no direction in the air: the Kickflip lands clean and the combo banks
+PASS  [keyboard] J (flip) + A (left) in the air gives Kickflip in the combo and plays the 'kickflip' clip
+PASS  [keyboard] J (flip) + A (left) in the air: the Kickflip lands clean and the combo banks
+PASS  [keyboard] J (flip) + D (right) in the air gives Heelflip in the combo and plays the 'heelflip' clip
+PASS  [keyboard] J (flip) + D (right) in the air: the Heelflip lands clean and the combo banks
+PASS  [keyboard] J (flip) + S (down) in the air gives Pop Shove-It in the combo and plays the 'shoveit' clip
+PASS  [keyboard] J (flip) + S (down) in the air: the Pop Shove-It lands clean and the combo banks
+PASS  [keyboard] J (flip) + W (up) in the air gives 360 Flip in the combo and plays the 'treflip' clip
+PASS  [keyboard] J (flip) + W (up) in the air: the 360 Flip lands clean and the combo banks
+PASS  [keyboard] K (grab) with no direction in the air gives Indy in the combo and plays the 'indy' clip
+PASS  [keyboard] K (grab) with no direction in the air: the Indy lands clean and the combo banks
+PASS  [keyboard] K (grab) + D (right) in the air gives Indy in the combo and plays the 'indy' clip
+PASS  [keyboard] K (grab) + D (right) in the air: the Indy lands clean and the combo banks
+PASS  [keyboard] K (grab) + A (left) in the air gives Melon in the combo and plays the 'melon' clip
+PASS  [keyboard] K (grab) + A (left) in the air: the Melon lands clean and the combo banks
+PASS  [keyboard] K (grab) + W (up) in the air gives Nosegrab in the combo and plays the 'nosegrab' clip
+PASS  [keyboard] K (grab) + W (up) in the air: the Nosegrab lands clean and the combo banks
+PASS  [keyboard] K (grab) + S (down) in the air gives Tailgrab in the combo and plays the 'tailgrab' clip
+PASS  [keyboard] K (grab) + S (down) in the air: the Tailgrab lands clean and the combo banks
+PASS  [keyboard] Q (spin_left) in the air spins the skater left (counter-clockwise)
+PASS  [keyboard] Q (spin_left) in the air scores the spin (FS 180)
+PASS  [keyboard] E (spin_right) in the air spins the skater right (clockwise)
+PASS  [keyboard] E (spin_right) in the air scores the spin (BS 180)
+PASS  [keyboard] A (left) in the air spins the skater left (counter-clockwise)
+PASS  [keyboard] A (left) in the air scores the spin (FS 180)
+PASS  [keyboard] D (right) in the air spins the skater right (clockwise)
+PASS  [keyboard] D (right) in the air scores the spin (BS 180)
+PASS  [keyboard] L (grind) near the rail snaps into GRIND as a 50-50
+PASS  [keyboard] L (grind) near the rail plays the 'grind_5050' clip
+PASS  [keyboard] L (grind) + A (left) near the rail snaps into GRIND as a Boardslide
+PASS  [keyboard] L (grind) + A (left) near the rail plays the 'boardslide' clip
+PASS  [keyboard] L (grind) + D (right) near the rail snaps into GRIND as a Boardslide
+PASS  [keyboard] L (grind) + D (right) near the rail plays the 'boardslide' clip
+PASS  [keyboard] tapping W then S (up, down) starts a Manual (clip 'manual')
+PASS  [keyboard] tapping S then W (down, up) starts a Nose Manual (clip 'nose_manual')
+PASS  [keyboard] with the special meter not full, A, D + J is a regular flip (Kickflip)
+PASS  [keyboard] with the special meter full, A, D + J (left, right + flip) performs the special 'Tiger Claw Tre' and plays the 'special' clip
+PASS  [keyboard] the special lands clean and the combo banks
+PASS  [keyboard] Escape (pause) pauses the tree and opens the pause menu (skater and clock frozen)
+PASS  [keyboard] Enter (confirm) resumes from the pause menu
+PASS  [keyboard] P (pause) pauses the tree and opens the pause menu (skater and clock frozen)
+PASS  [keyboard] Space (confirm) resumes from the pause menu
+PASS  [keyboard] Escape (pause) again in the pause menu resumes
+PASS  [keyboard] R (restart) during the run restarts it: score, timer and position reset
+PASS  [keyboard] R (restart) in the pause menu restarts the run: score and timer reset
+PASS  [keyboard] Enter (confirm) on the end-of-run screen starts a new run
+PASS  [gamepad] fresh game on the start screen
+PASS  [gamepad] A (confirm) on the start screen starts the run
+PASS  [gamepad] input map: 'left' has a joypad binding (axis 0 -, button 13 (D-pad))
+PASS  [gamepad] input map: 'right' has a joypad binding (axis 0 +, button 14 (D-pad))
+PASS  [gamepad] input map: 'up' has a joypad binding (axis 1 -, button 11 (D-pad))
+PASS  [gamepad] input map: 'down' has a joypad binding (axis 1 +, button 12 (D-pad))
+PASS  [gamepad] input map: 'jump' has a joypad binding (button 0 (A))
+PASS  [gamepad] input map: 'flip' has a joypad binding (button 2 (X))
+PASS  [gamepad] input map: 'grab' has a joypad binding (button 1 (B))
+PASS  [gamepad] input map: 'grind' has a joypad binding (button 3 (Y))
+PASS  [gamepad] input map: 'spin_left' has a joypad binding (button 9 (LB))
+PASS  [gamepad] input map: 'spin_right' has a joypad binding (button 10 (RB))
+PASS  [gamepad] input map: 'pause' has a joypad binding (button 6 (Start))
+PASS  [gamepad] input map: 'confirm' has a joypad binding (button 0 (A), button 6 (Start))
+PASS  [gamepad] input map: 'restart' has a joypad binding (button 4 (Back))
+PASS  [gamepad] left stick left / D-pad left fire(s) 'left' through Godot Input
+PASS  [gamepad] left stick right / D-pad right fire(s) 'right' through Godot Input
+PASS  [gamepad] left stick up / D-pad up fire(s) 'up' through Godot Input
+PASS  [gamepad] left stick down / D-pad down fire(s) 'down' through Godot Input
+PASS  [gamepad] A fire(s) 'jump' through Godot Input
+PASS  [gamepad] X fire(s) 'flip' through Godot Input
+PASS  [gamepad] B fire(s) 'grab' through Godot Input
+PASS  [gamepad] Y fire(s) 'grind' through Godot Input
+PASS  [gamepad] LB fire(s) 'spin_left' through Godot Input
+PASS  [gamepad] RB fire(s) 'spin_right' through Godot Input
+PASS  [gamepad] holding left stick up (up) pushes and builds speed from a standstill
+PASS  [gamepad] holding D-pad up (up) pushes and builds speed from a standstill
+PASS  [gamepad] holding left stick down (down) brakes
+PASS  [gamepad] holding D-pad down (down) brakes
+PASS  [gamepad] holding left stick left (left) turns the heading left
+PASS  [gamepad] holding D-pad left (left) turns the heading left
+PASS  [gamepad] holding left stick right (right) turns the heading right
+PASS  [gamepad] holding D-pad right (right) turns the heading right
+PASS  [gamepad] holding A (jump) crouches to charge the ollie
+PASS  [gamepad] releasing A pops an ollie into AIR
+PASS  [gamepad] X (flip) with no direction in the air gives Kickflip in the combo and plays the 'kickflip' clip
+PASS  [gamepad] X (flip) with no direction in the air: the Kickflip lands clean and the combo banks
+PASS  [gamepad] X (flip) + left stick left (left) in the air gives Kickflip in the combo and plays the 'kickflip' clip
+PASS  [gamepad] X (flip) + left stick left (left) in the air: the Kickflip lands clean and the combo banks
+PASS  [gamepad] X (flip) + left stick right (right) in the air gives Heelflip in the combo and plays the 'heelflip' clip
+PASS  [gamepad] X (flip) + left stick right (right) in the air: the Heelflip lands clean and the combo banks
+PASS  [gamepad] X (flip) + left stick down (down) in the air gives Pop Shove-It in the combo and plays the 'shoveit' clip
+PASS  [gamepad] X (flip) + left stick down (down) in the air: the Pop Shove-It lands clean and the combo banks
+PASS  [gamepad] X (flip) + left stick up (up) in the air gives 360 Flip in the combo and plays the 'treflip' clip
+PASS  [gamepad] X (flip) + left stick up (up) in the air: the 360 Flip lands clean and the combo banks
+PASS  [gamepad] B (grab) with no direction in the air gives Indy in the combo and plays the 'indy' clip
+PASS  [gamepad] B (grab) with no direction in the air: the Indy lands clean and the combo banks
+PASS  [gamepad] B (grab) + left stick right (right) in the air gives Indy in the combo and plays the 'indy' clip
+PASS  [gamepad] B (grab) + left stick right (right) in the air: the Indy lands clean and the combo banks
+PASS  [gamepad] B (grab) + left stick left (left) in the air gives Melon in the combo and plays the 'melon' clip
+PASS  [gamepad] B (grab) + left stick left (left) in the air: the Melon lands clean and the combo banks
+PASS  [gamepad] B (grab) + left stick up (up) in the air gives Nosegrab in the combo and plays the 'nosegrab' clip
+PASS  [gamepad] B (grab) + left stick up (up) in the air: the Nosegrab lands clean and the combo banks
+PASS  [gamepad] B (grab) + left stick down (down) in the air gives Tailgrab in the combo and plays the 'tailgrab' clip
+PASS  [gamepad] B (grab) + left stick down (down) in the air: the Tailgrab lands clean and the combo banks
+PASS  [gamepad] LB (spin_left) in the air spins the skater left (counter-clockwise)
+PASS  [gamepad] LB (spin_left) in the air scores the spin (FS 180)
+PASS  [gamepad] RB (spin_right) in the air spins the skater right (clockwise)
+PASS  [gamepad] RB (spin_right) in the air scores the spin (BS 180)
+PASS  [gamepad] left stick left (left) in the air spins the skater left (counter-clockwise)
+PASS  [gamepad] left stick left (left) in the air scores the spin (FS 180)
+PASS  [gamepad] left stick right (right) in the air spins the skater right (clockwise)
+PASS  [gamepad] left stick right (right) in the air scores the spin (BS 180)
+PASS  [gamepad] Y (grind) near the rail snaps into GRIND as a 50-50
+PASS  [gamepad] Y (grind) near the rail plays the 'grind_5050' clip
+PASS  [gamepad] Y (grind) + left stick left (left) near the rail snaps into GRIND as a Boardslide
+PASS  [gamepad] Y (grind) + left stick left (left) near the rail plays the 'boardslide' clip
+PASS  [gamepad] Y (grind) + left stick right (right) near the rail snaps into GRIND as a Boardslide
+PASS  [gamepad] Y (grind) + left stick right (right) near the rail plays the 'boardslide' clip
+PASS  [gamepad] tapping left stick up then left stick down (up, down) starts a Manual (clip 'manual')
+PASS  [gamepad] tapping left stick down then left stick up (down, up) starts a Nose Manual (clip 'nose_manual')
+PASS  [gamepad] with the special meter not full, left stick left, left stick right + X is a regular flip (Kickflip)
+PASS  [gamepad] with the special meter full, left stick left, left stick right + X (left, right + flip) performs the special 'Tiger Claw Tre' and plays the 'special' clip
+PASS  [gamepad] the special lands clean and the combo banks
+PASS  [gamepad] Start (pause) pauses the tree and opens the pause menu (skater and clock frozen)
+PASS  [gamepad] A (confirm) resumes from the pause menu
+PASS  [gamepad] Start (pause) pauses the tree and opens the pause menu (skater and clock frozen)
+PASS  [gamepad] Start (confirm) resumes from the pause menu
+PASS  [gamepad] Start (pause) again in the pause menu resumes
+PASS  [gamepad] Back (restart) during the run restarts it: score, timer and position reset
+PASS  [gamepad] Back (restart) in the pause menu restarts the run: score and timer reset
+PASS  [gamepad] A (confirm) on the end-of-run screen starts a new run
+178 passed, 0 failed
+
+WARNING: 19 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

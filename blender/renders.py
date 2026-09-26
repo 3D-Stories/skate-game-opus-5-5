@@ -63,18 +63,26 @@ def studio(center, scale=1.0, floor_z=0.0, backdrop=(0.16, 0.165, 0.18)):
     coll = C.collection("Studio")
     c = Vector(center)
     s = scale
-    # curved cyc: floor that sweeps up into a back wall
-    verts, faces = [], []
-    W, D, R, H = 14 * s, 9 * s, 2.5 * s, 9 * s
-    prof = [(-D, 0.0)]
-    for k in range(13):
+    # infinity cove all the way round: a round floor that sweeps up into a circular wall,
+    # so the orbiting camera sees a seamless backdrop from every side
+    verts, faces = [(c.x, c.y, floor_z)], []
+    RF, RC, H, SEG = 6.0 * s, 2.5 * s, 9.0 * s, 72
+    prof = [(RF * k / 4, 0.0) for k in range(1, 5)]
+    for k in range(1, 13):
         a = math.radians(90 * k / 12)
-        prof.append((D * 0.35 + R * math.sin(a), R * (1 - math.cos(a))))
-    prof.append((D * 0.35 + R, H))
-    for (y, z) in prof:
-        verts += [(c.x - W, c.y + y, floor_z + z), (c.x + W, c.y + y, floor_z + z)]
-    for i in range(len(prof) - 1):
-        faces.append((2 * i, 2 * i + 1, 2 * i + 3, 2 * i + 2))
+        prof.append((RF + RC * math.sin(a), RC * (1 - math.cos(a))))
+    prof.append((RF + RC, H))
+    for j in range(SEG):
+        a = 2 * math.pi * j / SEG
+        for (r, z) in prof:
+            verts.append((c.x + r * math.cos(a), c.y + r * math.sin(a), floor_z + z))
+    n = len(prof)
+    for j in range(SEG):
+        j2 = (j + 1) % SEG
+        faces.append((0, 1 + j * n, 1 + j2 * n))          # wound so the floor faces up, the wall inward
+        for i in range(n - 1):
+            a0, a1 = 1 + j * n + i, 1 + j2 * n + i
+            faces.append((a0, a0 + 1, a1 + 1, a1))
     cyc = C.mesh_object("Cyc", verts, faces, coll, smooth=True)
     m = C.new_material("CycMat")
     p = C.principled(m)
@@ -103,12 +111,20 @@ def pivot(target):
 
 
 def orbit_camera(target, dist, elev_deg, az_deg, lens):
+    """Camera on a pivot at `target`. Studio lights ride along with it, like a classic
+    turntable where the subject turns in front of a fixed camera and lights."""
     piv = pivot(target)
     a, el = math.radians(az_deg), math.radians(elev_deg)
     loc = Vector(target) + Vector((math.sin(a) * math.cos(el), -math.cos(a) * math.cos(el), math.sin(el))) * dist
     cam = C.camera("TurnCam", loc, target, lens=lens)
-    cam.parent = piv
-    cam.matrix_parent_inverse = piv.matrix_world.inverted()
+    riders = [cam]
+    studio_coll = bpy.data.collections.get("Studio")
+    if studio_coll:
+        riders += [o for o in studio_coll.objects if o.type == 'LIGHT']
+    inv = Matrix.Translation(-Vector(target))     # piv.matrix_world is not evaluated yet
+    for o in riders:
+        o.parent = piv
+        o.matrix_parent_inverse = inv
     return cam, piv
 
 
@@ -116,6 +132,8 @@ def render_still(path, res=None):
     scn = bpy.context.scene
     if res:
         scn.render.resolution_x, scn.render.resolution_y = res
+    if hasattr(scn.render.image_settings, "media_type"):
+        scn.render.image_settings.media_type = 'IMAGE'
     scn.render.image_settings.file_format = 'PNG'
     scn.render.image_settings.color_mode = 'RGB'
     scn.render.filepath = path
@@ -153,6 +171,8 @@ def turntable(name, piv, hero_res=(1920, 1080), tile_res=(640, 720), mp4_res=(96
     scn.frame_start, scn.frame_end = 1, TURN_FRAMES
     scn.render.fps = 12
     scn.render.resolution_x, scn.render.resolution_y = mp4_res
+    if hasattr(scn.render.image_settings, "media_type"):
+        scn.render.image_settings.media_type = 'VIDEO'      # Blender 5: video is its own media type
     scn.render.image_settings.file_format = 'FFMPEG'
     scn.render.ffmpeg.format = 'MPEG4'
     scn.render.ffmpeg.codec = 'H264'
@@ -168,6 +188,8 @@ def turntable(name, piv, hero_res=(1920, 1080), tile_res=(640, 720), mp4_res=(96
     if piv.animation_data:
         piv.animation_data_clear()
     piv.rotation_euler.z = base
+    if hasattr(scn.render.image_settings, "media_type"):
+        scn.render.image_settings.media_type = 'IMAGE'
     scn.render.image_settings.file_format = 'PNG'
 
 
@@ -246,8 +268,49 @@ def _bone_world(rig, name):
     return rig.matrix_world @ pb.head, rig.matrix_world @ pb.tail
 
 
+def _cycles_hair():
+    """Renders shade the hair cards with a card shader - diffuse with a little translucency
+    and a highlight tinted by the fibre colour - instead of the exported PBR stand-in, whose
+    untinted grazing (Fresnel) reflections turn edge-on cards grey-white. Colour and alpha
+    still come from the strand atlas."""
+    m = bpy.data.materials.get("Hair")
+    if m is None or not m.use_nodes:
+        return
+    nt = m.node_tree
+    tex = next((n for n in nt.nodes if n.type == 'TEX_IMAGE'), None)
+    out = next((n for n in nt.nodes if n.type == 'OUTPUT_MATERIAL'), None)
+    if tex is None or out is None:
+        return
+
+    def scaled(k):
+        n = nt.nodes.new('ShaderNodeVectorMath')
+        n.operation = 'SCALE'
+        n.inputs["Scale"].default_value = k
+        nt.links.new(tex.outputs["Color"], n.inputs[0])
+        return n.outputs[0]
+
+    dif = nt.nodes.new('ShaderNodeBsdfDiffuse')
+    nt.links.new(tex.outputs["Color"], dif.inputs["Color"])
+    tl = nt.nodes.new('ShaderNodeBsdfTranslucent')
+    nt.links.new(scaled(1.6), tl.inputs["Color"])
+    gl = nt.nodes.new('ShaderNodeBsdfGlossy')
+    nt.links.new(scaled(5.0), gl.inputs["Color"])
+    gl.inputs["Roughness"].default_value = 0.38
+    m1 = nt.nodes.new('ShaderNodeMixShader'); m1.inputs[0].default_value = 0.22
+    nt.links.new(dif.outputs[0], m1.inputs[1]); nt.links.new(tl.outputs[0], m1.inputs[2])
+    m2 = nt.nodes.new('ShaderNodeMixShader'); m2.inputs[0].default_value = 0.14
+    nt.links.new(m1.outputs[0], m2.inputs[1]); nt.links.new(gl.outputs[0], m2.inputs[2])
+    tr = nt.nodes.new('ShaderNodeBsdfTransparent')
+    mix = nt.nodes.new('ShaderNodeMixShader')
+    nt.links.new(tex.outputs["Alpha"], mix.inputs[0])
+    nt.links.new(tr.outputs[0], mix.inputs[1])
+    nt.links.new(m2.outputs[0], mix.inputs[2])
+    nt.links.new(mix.outputs[0], out.inputs["Surface"])
+
+
 def render_portrait():
     open_blend("skater")
+    _cycles_hair()
     rig = bpy.data.objects["SkaterRig"]
     settings(256, (1080, 1350))
     _pose(rig, None)
@@ -272,6 +335,7 @@ def render_portrait():
 
 def render_skater():
     open_blend("skater")
+    _cycles_hair()
     rig = bpy.data.objects["SkaterRig"]
     _attach_board(rig)
     settings(96, (1920, 1080))
@@ -307,8 +371,9 @@ def render_board():
 
 # ------------------------------------------------------------------ park
 
-def _cutaway(mats):
-    """Camera rays pass through back faces, so the orbit sees into the closed hall while
+def _cutaway(mats, cut_z=None):
+    """Camera rays pass through back faces (and, with cut_z, everything above that height:
+    roof trusses, purlins, skylight wells), so the orbit sees into the closed hall while
     light, shadows and bounce stay exactly as in the lightmap bake."""
     for m in mats:
         if not m or not m.use_nodes:
@@ -322,7 +387,20 @@ def _cutaway(mats):
         lp = nt.nodes.new('ShaderNodeLightPath')
         mul = nt.nodes.new('ShaderNodeMath')
         mul.operation = 'MULTIPLY'
-        nt.links.new(geo.outputs["Backfacing"], mul.inputs[0])
+        cut = geo.outputs["Backfacing"]
+        if cut_z is not None:
+            sep = nt.nodes.new('ShaderNodeSeparateXYZ')
+            nt.links.new(geo.outputs["Position"], sep.inputs[0])
+            above = nt.nodes.new('ShaderNodeMath')
+            above.operation = 'GREATER_THAN'
+            above.inputs[1].default_value = cut_z
+            nt.links.new(sep.outputs["Z"], above.inputs[0])
+            either = nt.nodes.new('ShaderNodeMath')
+            either.operation = 'MAXIMUM'
+            nt.links.new(cut, either.inputs[0])
+            nt.links.new(above.outputs[0], either.inputs[1])
+            cut = either.outputs[0]
+        nt.links.new(cut, mul.inputs[0])
         nt.links.new(lp.outputs["Is Camera Ray"], mul.inputs[1])
         tr = nt.nodes.new('ShaderNodeBsdfTransparent')
         mix = nt.nodes.new('ShaderNodeMixShader')
@@ -332,15 +410,32 @@ def _cutaway(mats):
         nt.links.new(mix.outputs[0], out.inputs["Surface"])
 
 
+def _studio_backdrop(world, color=(0.045, 0.048, 0.056)):
+    """Camera rays see a dark studio backdrop; every other ray still sees the sky the bake
+    was lit with, so the lighting is unchanged."""
+    nt = world.node_tree
+    out = next(n for n in nt.nodes if n.type == 'OUTPUT_WORLD' and n.is_active_output)
+    src = out.inputs["Surface"].links[0].from_socket
+    lp = nt.nodes.new('ShaderNodeLightPath')
+    bg = nt.nodes.new('ShaderNodeBackground')
+    bg.inputs[0].default_value = (*color, 1)
+    mix = nt.nodes.new('ShaderNodeMixShader')
+    nt.links.new(lp.outputs["Is Camera Ray"], mix.inputs[0])
+    nt.links.new(src, mix.inputs[1])
+    nt.links.new(bg.outputs[0], mix.inputs[2])
+    nt.links.new(mix.outputs[0], out.inputs["Surface"])
+
+
 def render_park():
     open_blend("park")
     scn = settings(160, (1920, 1080))
     scn.cycles.max_bounces = 6
     for o in bpy.data.objects:
-        if o.name.startswith("COL_"):
-            o.hide_render = True
+        if o.name.startswith("COL_") or o.name == "Park_yard":
+            o.hide_render = True        # collision proxies; the daylight yard outside the windows
     mats = {s.material for o in bpy.data.objects if o.type == 'MESH' for s in o.material_slots}
-    _cutaway(mats)
+    _cutaway(mats, cut_z=9.3)
+    _studio_backdrop(bpy.context.scene.world)
     target = (0.0, 17.0, 0.0)
     cam, piv = orbit_camera(target, 78.0, 42.0, -35.0, 30)
     cam.data.clip_end = 400

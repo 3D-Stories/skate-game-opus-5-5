@@ -23,7 +23,7 @@ const G_GROUND := 10.5         # gravity along ramps: carries more speed up the 
 const JUMP := 5.3
 const MAX_SPEED := 17.0
 const PUSH_MAX := 10.0
-const PUSH_ACCEL := 6.0
+const PUSH_ACCEL := 4.5         # mean over a push stride (the kick itself peaks ~3x)
 const ROLL_FRICTION := 0.35
 const DRAG := 0.0022
 const BRAKE := 5.0
@@ -33,9 +33,16 @@ const GRIND_RADIUS := 1.05
 const GRIND_FRICTION := 0.35
 const LAUNCH_ANGLE := 19.0
 const PROBE_UP := 0.55
+const HEAD_HEIGHT := 1.78       # top of the head above the feet (for ceilings and beams)
 const BODY_RADIUS := 0.22
-const RESPAWN_TIME := 2.2
-const PUMP := 7.0              # extra acceleration dropping into a transition (holding Up)
+const RESPAWN_TIME := 2.2       # (fallback) respawn when a bail never comes to rest
+const BAIL_REST := 0.5         # the ragdoll lies still this long before getting up
+const BAIL_MAX := 5.0          # ... or gets up after this long regardless
+const GETUP_TIME := 2.1        # longest hand-over + getup: 0.3 s + getup_front (54 frames)
+const REVERT_TIME := 0.32      # pushing while fakie turns the skater around first
+const PUMP := 3.6              # acceleration from pumping a transition (holding Up)
+const PUMP_VMAX := 12.2        # pumping stops adding once the ride is worth this at the bottom
+const PUMP_R := 3.2            # typical transition radius (estimates the height up the curve)
 
 var level: Level
 var score: ScoreKeeper
@@ -66,6 +73,33 @@ var land_t := 0.0
 var bank_t := -1.0
 var push_t := 0.0
 var bail_t := 0.0
+var bail_up := Vector3.UP                # surface under the fallen body
+var getup_t := -1.0                      # >= 0 while getting up after a bail
+var revert_t := 0.0                      # > 0 while turning round from fakie
+var bail_grounded := false               # the ragdoll's hips are on the ground
+var impact_t := -1.0                     # bail time of the latest hard impact (camera shake)
+var _impacts := 0
+var _rest_t := 0.0
+var _rag_broken := false
+var getup_clip := "getup"                # which getup the current bail ends with
+const BLOOD_BONES := ["head", "spine_03", "spine_02", "pelvis", "upperarm_l", "upperarm_r", "thigh_l", "thigh_r"]
+var _prev_v: Dictionary = {}              # ragdoll bone -> its velocity last step (impact speed)
+var _head_slam := false
+var bail_stats := {}                      # per bail: impacts, smear stamps, drips, pool (for the tests)
+var _drips := 0
+var _drip_budget := 0
+var _drip_t := 0.0
+var _bail_speed := 0.0
+var _pooled := false
+var bail_tumble := 1.0                   # tumble direction/strength of a bail (tests flip it)
+var _spin_sign := 0.0                    # the way the player is spinning this air step (-1, 0, 1)
+var head_fakie := 0.0                    # 0: regular look (towards the nose) .. 1: fakie look (towards the tail)
+const HEAD_LEAD := deg_to_rad(60.0)      # in a spin the head is this far ahead of the board
+var _last_pelvis := Vector3.ZERO
+var _last_head := Vector3.ZERO
+var _smear_left := 0.0                   # blood streak still to lay along the slide, m
+var _smear_step := 0.0
+var _dust_t := 0.0
 var respawn_pos := Vector3.ZERO
 
 # tricks
@@ -150,6 +184,7 @@ func spawn(pos: Vector3, forward: Vector3, speed := 0.0) -> void:
 	fakie = false
 	state = GROUND
 	_reset_tricks()
+	model.stop_ragdoll_now()
 	model.reattach_board()
 	if loose_board:
 		loose_board = null
@@ -295,17 +330,27 @@ func _ground(h: float) -> void:
 	# forces: gravity along the surface
 	var g := Vector3(0, -G_GROUND, 0)
 	vel += (g - up * g.dot(up)) * h
-	# pumping: dropping down a transition builds speed, more so while holding Up
-	if up.y < 0.97 and up.y > 0.05 and vel.y < -0.3 and manual == "":
-		var pump := PUMP * (1.0 if input_vec.y > 0.5 else 0.4)
-		vel += vel.normalized() * pump * (1.0 - up.y) * h
-	# pushing and braking
+	# pumping: holding Up through the curve of a transition (down into it and back up the
+	# other side) builds speed; without it the ramps only trade height for speed, minus
+	# friction. It fades out once the ride is worth PUMP_VMAX at the bottom of the curve.
+	if up.y < 0.97 and up.y > 0.08 and manual == "" and input_vec.y > 0.5 and vel.length() > 0.5:
+		var worth := vel.length_squared() + 2.0 * G_GROUND * PUMP_R * (1.0 - up.y)
+		vel += vel.normalized() * PUMP * clampf((PUMP_VMAX * PUMP_VMAX - worth) / 12.0, 0.0, 1.0) * h
+	# pushing and braking (pushing while fakie first turns the skater round, like a revert)
+	if fakie and manual == "" and crouch_t <= 0.0 and input_vec.y > 0.5 and up.y > 0.8 and revert_t <= 0.0:
+		fakie = false
+		revert_t = REVERT_TIME
+		Sfx.play("land", null, -14.0, 1.4)
 	var pushing := false
-	if manual == "" and crouch_t <= 0.0 and input_vec.y > 0.5 and up.y > 0.8:
+	if manual == "" and crouch_t <= 0.0 and input_vec.y > 0.5 and up.y > 0.8 and revert_t <= 0.0:
 		pushing = true
 		push_t += h
 		if speed < PUSH_MAX:
-			vel += heading * PUSH_ACCEL * h * (0.6 + 0.8 * clampf(sin(push_t * TAU / 1.2) * 0.5 + 0.5, 0.0, 1.0))
+			# one kick per 1.2 s push-clip cycle: the back foot drives on the ground over
+			# phase 0.15-0.65, then the board glides (the mean equals PUSH_ACCEL)
+			var ph := fmod(push_t / 1.2, 1.0)
+			var kick := sin((ph - 0.15) / 0.5 * PI) if ph > 0.15 and ph < 0.65 else 0.0
+			vel += heading * PUSH_ACCEL * h * (0.1 + 2.83 * kick)
 	else:
 		push_t = 0.0
 	if manual == "" and input_vec.y < -0.5 and crouch_t <= 0.0 and up.y > 0.8:
@@ -374,12 +419,15 @@ func _ground(h: float) -> void:
 	if ang > 75.0 or (hn.y < 0.5 and level.surface_of(hit["collider"]) == "wall"):
 		_leave_ground()
 		return
+	# the probe lifts the skater back onto a concave ramp (the step went along the tangent,
+	# into the ramp): pay for that height out of the speed, or ramps would create energy
+	var snap_dy: float = (hit["position"] as Vector3).y - global_position.y
 	global_position = hit["position"]
 	ground_collider = hit["collider"]
 	if hn.y > 0.9:
 		last_safe = global_position
 	surface = level.surface_of(ground_collider)
-	var sp := vel.length()
+	var sp := sqrt(maxf(0.0, vel.length_squared() - 2.0 * G_GROUND * snap_dy))
 	up = _slerp(up, hn, clampf(h * 22.0, 0.0, 1.0)).normalized()
 	vel -= up * vel.dot(up)
 	if vel.length() > 0.001:
@@ -480,7 +528,9 @@ func _start_vert_air() -> void:
 		# THPS-style auto-align: halfpipe airs come straight back down into the ramp
 		var drift := Vector3(along.x, 0.0, along.z)
 		along -= drift * 0.75
-	var push_in := 0.35
+	# a touch of drift toward the room (~0.28 m over the whole air, however high it goes)
+	var t_air := 2.0 * maxf(along.y, 0.0) / G
+	var push_in := clampf(0.28 / maxf(t_air, 0.4), 0.12, 0.4)
 	vel = along + vert_normal * push_in
 	vert_total_time = maxf(0.2, 2.0 * vel.y / G)
 	vert_takeoff_fwd = _board_dir()
@@ -519,6 +569,7 @@ func _air(h: float) -> void:
 	if grab_idx >= 0 or trick_busy > 0.0:
 		spin_in *= 0.8
 	var d_spin := -spin_in * SPIN_RATE * h
+	_spin_sign = signf(d_spin)
 	if vert_air:
 		# automatic 180 about the ramp normal (finished just before touching back down)
 		# plus any extra player spin, computed from the takeoff direction so it cannot drift
@@ -529,16 +580,40 @@ func _air(h: float) -> void:
 		face_fwd = vert_takeoff_fwd.rotated(vert_normal, rot).normalized()
 		var tilt := 0.62 * sin(PI * u)
 		face_up = _slerp(vert_normal, Vector3.UP, tilt).normalized()
+		if vel.y < 0.0:
+			# coming back down into the same transition: settle the board onto its angle
+			var reach := vel * 0.3
+			var q := PhysicsRayQueryParameters3D.create(global_position, global_position + reach, 1)
+			var lh := get_world_3d().direct_space_state.intersect_ray(q)
+			if not lh.is_empty() and level.surface_of(lh["collider"]) == "wood":
+				var ln: Vector3 = lh["normal"]
+				if ln.dot(vert_normal) > 0.3 and ln.y > 0.05:
+					var k := clampf(1.0 - (lh["position"] - global_position).length() / maxf(reach.length(), 0.01), 0.0, 1.0)
+					face_up = _slerp(face_up, ln, k).normalized()
 	else:
 		face_up = _slerp(face_up, Vector3.UP, clampf(h * 3.5, 0.0, 1.0)).normalized()
 		face_fwd = face_fwd.rotated(face_up.normalized(), d_spin).normalized()
 		spin_deg += rad_to_deg(d_spin)
 	face_fwd = (face_fwd - face_up * face_fwd.dot(face_up)).normalized()
 	_air_tricks()
-	# grind snap
+	# grind snap (a rafter just over the head wins over rails around the feet)
 	if grind_cool <= 0.0 and (buf["grind"] >= 0.0 and _now - buf["grind"] < 0.35 or _action("grind")):
+		var over := _head_hit(HEAD_HEIGHT + 0.5) if vel.y > -2.0 else {}
+		if not over.is_empty() and _grind_from_below(over["position"]):
+			return
 		if _try_grind():
 			return
+	# head clearance: the body sweep below only covers the feet, so a low ceiling or a beam
+	# overhead would pass through the skater's head. Bonk off it - or, holding grind under a
+	# grindable rafter (the east one hangs above the quarter), get up onto it.
+	if vel.y > 0.0:
+		var hh := _head_hit(HEAD_HEIGHT + vel.y * h)
+		if not hh.is_empty():
+			if grind_cool <= 0.0 and (buf["grind"] >= 0.0 and _now - buf["grind"] < 0.35 or _action("grind")) \
+					and _grind_from_below(hh["position"]):
+				return
+			vel.y = -0.5
+			Sfx.play("wall", null, -8.0, 1.3)
 	# move / collide (body sphere, plus a ray along the feet's own path)
 	var motion := vel * h
 	var from := global_position + face_up * (BODY_RADIUS + 0.05)
@@ -644,6 +719,7 @@ func _do_special() -> void:
 
 
 func _trick_timers(delta: float) -> void:
+	revert_t = maxf(0.0, revert_t - delta)
 	if trick_busy > 0.0:
 		trick_busy -= delta
 		if trick_busy <= 0.0:
@@ -672,6 +748,8 @@ func _land(n: Vector3, collider: Object) -> void:
 		var a := rad_to_deg(bp.angle_to(vp.normalized()))
 		if a > 50.0 and a < 130.0:
 			reason = "sideways"
+	if reason == "" and grab_idx >= 0 and _action("grab"):
+		reason = "grab"          # still holding the grab at touchdown (THPS: let go before landing)
 	if grab_idx >= 0:
 		grab_idx = -1
 	if reason != "":
@@ -757,6 +835,39 @@ func _end_manual(keep_combo: bool) -> void:
 
 # ------------------------------------------------------------------ grinds
 
+func _head_hit(reach: float) -> Dictionary:
+	## Anything overhead within reach of the feet: five vertical rays across the shoulders
+	## (a single one slips past the edge of a beam that the body still overlaps).
+	## In a vert air the skater is right against the wall, so no ray starts on the wall's side
+	## (it would begin inside the ramp and find the deck above); back faces never count.
+	var space := get_world_3d().direct_space_state
+	var offs := [Vector3.ZERO, Vector3(0.2, 0, 0), Vector3(-0.2, 0, 0), Vector3(0, 0, 0.2), Vector3(0, 0, -0.2)]
+	if vert_air:
+		var out := Vector3(vert_normal.x, 0.0, vert_normal.z).normalized()
+		var along := out.cross(Vector3.UP).normalized()
+		offs = [Vector3.ZERO, along * 0.2, -along * 0.2, out * 0.2]
+	for o in offs:
+		var q := PhysicsRayQueryParameters3D.create(global_position + o + Vector3.UP * 0.6, global_position + o + Vector3.UP * reach, 1)
+		q.hit_back_faces = false
+		var r := space.intersect_ray(q)
+		if not r.is_empty() and (r["normal"] as Vector3).y < -0.3:
+			return r
+	return {}
+
+
+func _grind_from_below(hit: Vector3) -> bool:
+	## The head met the underside of a beam: if it is a grindable rafter, snap onto its top.
+	var best := level.find_rail(hit, 0.7)
+	if best.is_empty() or (best["rail"] as Rail).tag != Tricks.RAFTER_TAG:
+		return false
+	var keep := global_position
+	global_position = (best["point"] as Vector3) - Vector3.UP * 0.05
+	if _try_grind():
+		return true
+	global_position = keep
+	return false
+
+
 func _try_grind() -> bool:
 	var probe := global_position + Vector3.UP * 0.1
 	var best := level.find_rail(probe, GRIND_RADIUS)
@@ -780,7 +891,9 @@ func _try_grind() -> bool:
 	grind_rail = rail
 	grind_s = best["s"]
 	grind_sign = 1.0 if along >= 0.0 else -1.0
-	grind_speed = maxf(2.5, absf(along) + hv.length() * 0.15)
+	# keep the speed along the rail, plus a little of the rest of the approach (never more
+	# than the approach speed itself)
+	grind_speed = maxf(2.5, lerpf(absf(along), vel.length(), 0.25))
 	grind_info = info
 	grind_idx = score.begin_trick(info["name"], info["points"])
 	grind_bal = _rng.randf_range(-0.2, 0.2)
@@ -860,6 +973,8 @@ func _end_grind() -> void:
 # ------------------------------------------------------------------ bails
 
 func _bail(reason: String) -> void:
+	## A bail throws the skater into a ragdoll (the current pose, flung along the skater's
+	## velocity with a forward tumble); the board flies off as a rigid body of its own.
 	if state == BAIL:
 		return
 	state = BAIL
@@ -870,48 +985,246 @@ func _bail(reason: String) -> void:
 	balance_changed.emit("manual", 0.0, false)
 	balance_changed.emit("grind", 0.0, false)
 	loose_board = model.detach_board(get_parent(), vel * 0.8 + Vector3.UP * 2.5)
+	getup_t = -1.0
+	revert_t = 0.0
+	impact_t = -1.0
+	_impacts = 0
+	_prev_v.clear()
+	_head_slam = false
+	_pooled = false
+	bail_stats = {"impacts": 0, "smears": 0, "slide_frames": 0, "drips": 0, "pool": false}
+	_bail_speed = vel.length()
+	_drips = 0
+	_drip_t = 0.0
+	_drip_budget = int(clampf((_bail_speed - 3.0) * 2.5, 0.0, 22.0))
+	_rag_broken = false
+	_last_pelvis = global_position
+	_last_head = global_position + Vector3.UP
+	_rest_t = 0.0
+	_smear_left = clampf(vel.length() * 0.6, 1.2, 5.0)
+	_smear_step = 0.0
+	if fakie:
+		heading = -heading
+		fakie = false
+	var v := vel.limit_length(9.0)
+	# on (or just above) a surface the fall starts along it: the part of the velocity going
+	# into the ramp or floor turns into a small bounce, so the body skids off the transition
+	var under := _probe(global_position + Vector3.UP * 0.3, Vector3.UP, 0.3, 1.2)
+	if not under.is_empty():
+		var un: Vector3 = (under["normal"] as Vector3).normalized()
+		var into := v.dot(un)
+		if into < 0.0:
+			v -= un * into * 1.15
+	var fwd := Vector3(v.x, 0.0, v.z)
+	fwd = fwd.normalized() if fwd.length() > 0.5 else Vector3(heading.x, 0.0, heading.z).normalized()
+	var spin := Vector3.UP.cross(fwd) * clampf(v.length() * 0.8, 1.5, 6.5) * bail_tumble + Vector3.UP * _rng.randf_range(-1.5, 1.5)
 	model.restart("bail", 0.05)
+	model.start_ragdoll(v + Vector3.UP * 0.8, spin)
 	Sfx.play("bail")
 	Sfx.play("bail_voice", null, -6.0, _rng.randf_range(0.9, 1.1))
-	# settle on the ground below
 	var hit := _probe(global_position, Vector3.UP, 1.0, 30.0)
 	if not hit.is_empty():
 		respawn_pos = hit["position"]
-		up = hit["normal"] if hit["normal"].y > 0.7 else Vector3.UP
 	bailed.emit(reason)
 	state_changed.emit(state)
 
 
 func _bail_update(h: float) -> void:
+	## Follow the ragdoll (the skater node sits on the ground under its hips, for the camera
+	## and the sounds); blood where the head, chest or hips slam into the ground, a smeared
+	## streak and scrape dust while the body slides; once it lies still, get up.
 	bail_t += h
-	# slide to a stop along the floor
-	var hit := _probe(global_position, Vector3.UP, 0.6, 3.0)
-	vel += Vector3(0, -G, 0) * h
-	if not hit.is_empty() and global_position.y - hit["position"].y < 0.05 + absf(vel.y) * h:
-		global_position.y = hit["position"].y
-		vel.y = 0.0
-		vel = vel.move_toward(Vector3.ZERO, 7.0 * h)
-	var motion := vel * h
-	var col := _sweep(global_position + Vector3.UP * 0.4, motion)
-	if col.size() > 0:
-		global_position += motion * col["safe"]
-		vel = Vector3.ZERO
+	if getup_t >= 0.0:
+		_getup_update(h)
+		return
+	var P := model.rag_pos("pelvis")
+	var pv: Vector3 = (model.rag["pelvis"] as PhysicalBone3D).linear_velocity
+	var g := _probe(P, Vector3.UP, 0.3, 3.0)
+	bail_grounded = false
+	if not g.is_empty():
+		global_position = g["position"]
+		surface = level.surface_of(g["collider"])
+		bail_up = (g["normal"] as Vector3).normalized()
+		bail_grounded = P.distance_to(g["position"]) < 0.35
 	else:
-		global_position += motion
-	face_up = _slerp(face_up, Vector3.UP, h * 4.0).normalized()
-	if bail_t > RESPAWN_TIME:
-		var fwd := heading
-		fwd.y = 0.0
-		if fwd.length() < 0.1:
-			fwd = Vector3.FORWARD
-		var at := global_position
-		var g := _probe(at, Vector3.UP, 1.0, 30.0)
-		if not g.is_empty() and g["normal"].y > 0.8:
-			at = g["position"]
-		else:
-			at = last_safe if last_safe != Vector3.ZERO else level.spawn_pos
-		loose_board = null
-		spawn(at, fwd.normalized(), 0.0)
+		global_position = P
+	vel = pv
+	# impacts come from the ragdoll's own contacts, so a slam registers on any surface angle
+	# (the floor, a transition, a wall): blood where the head, chest, hips or a limb hits hard
+	var sliding := false
+	var slide_n := Vector3.UP
+	var slide_p := Vector3.ZERO
+	var slide_v := Vector3.ZERO
+	for k in BLOOD_BONES:
+		var pb: PhysicalBone3D = model.rag[k]
+		var st := PhysicsServer3D.body_get_direct_state(pb.get_rid())
+		var prev: Vector3 = _prev_v.get(k, pb.linear_velocity)
+		_prev_v[k] = pb.linear_velocity
+		if st == null:
+			continue
+		for i in st.get_contact_count():
+			if st.get_contact_collider_object(i) is PhysicalBone3D:
+				continue                  # the ragdoll touching itself (an arm on the chest): no impact
+			var cp := st.get_contact_local_position(i)
+			var n := st.get_contact_local_normal(i).normalized()
+			if n.dot(pb.global_position - cp) < 0.0:
+				n = -n                                      # from the surface towards the body
+			var slam := -prev.dot(n)
+			var heavy: bool = k in ["head", "spine_03", "spine_02", "pelvis"]
+			if slam > (1.2 if heavy else 2.0) and bail_t - impact_t > 0.1:
+				impact_t = bail_t
+				_impacts += 1
+				bail_stats["impacts"] = _impacts
+				Sfx.play("land_hard", cp, -1.0, _rng.randf_range(0.7, 0.85))
+				if _impacts <= 10:
+					level.blood_splat(cp + n * 0.004, n, clampf(0.35 + slam * 0.1, 0.4, 1.0) * (1.0 if heavy else 0.7), prev)
+					# spatter around it on the same surface, thrown mostly ahead along the travel
+					# and to the sides - so some shows beside the body, not only under it
+					var along := prev - n * prev.dot(n)
+					var fwd := along.normalized() if along.length() > 0.3 else n.cross(Vector3.RIGHT).normalized()
+					var side := n.cross(fwd).normalized()
+					for sat in (2 if slam > 2.0 else 1):
+						var off := fwd * _rng.randf_range(0.25, 0.7) + side * _rng.randf_range(-0.45, 0.45)
+						level.blood_splat(cp + off + n * 0.004, n, _rng.randf_range(0.2, 0.45), prev)
+				if _impacts <= 3 or k == "head":
+					level.blood_burst(cp + n * 0.05, n * 0.7 + prev.normalized() * 0.5)
+				if k == "head" and slam > 2.5:
+					_head_slam = true
+			if heavy:
+				var along := pb.linear_velocity - n * pb.linear_velocity.dot(n)
+				if along.length() > slide_v.length():
+					sliding = true
+					slide_n = n
+					slide_p = cp
+					slide_v = along
+	bail_grounded = bail_grounded or sliding
+	# once it has hit, blood drips from the head and chest while the body tumbles on: each
+	# drop stains whatever is below it (floor or ramp) - a trail along the path, in view
+	if _impacts > 0 and _drips < _drip_budget:
+		_drip_t -= h
+		var src: PhysicalBone3D = model.rag["head" if _rng.randf() < 0.5 else "spine_03"]
+		if _drip_t <= 0.0 and src.linear_velocity.length() > 1.5:
+			_drip_t = _rng.randf_range(0.04, 0.09)
+			var below := get_world_3d().direct_space_state.intersect_ray(
+					PhysicsRayQueryParameters3D.create(src.global_position, src.global_position + Vector3.DOWN * 3.0, 1))
+			if not below.is_empty():
+				_drips += 1
+				bail_stats["drips"] = _drips
+				var jit := Vector3(_rng.randf_range(-0.15, 0.15), 0.0, _rng.randf_range(-0.15, 0.15))
+				level.blood_splat((below["position"] as Vector3) + jit, below["normal"], _rng.randf_range(0.08, 0.2), src.linear_velocity)
+	if sliding and slide_v.length() > 0.7:
+		bail_stats["slide_frames"] = int(bail_stats.get("slide_frames", 0)) + 1
+		# the slide: a smeared streak along the surface (a ramp too) for the first metres
+		if _smear_left > 0.0 and _impacts > 0:
+			_smear_step += slide_v.length() * h
+			if _smear_step > 0.2:
+				_smear_step = 0.0
+				_smear_left -= 0.2
+				bail_stats["smears"] = int(bail_stats.get("smears", 0)) + 1
+				level.blood_splat(slide_p + slide_n * 0.004, slide_n, _rng.randf_range(0.24, 0.36), slide_v, true)
+		_dust_t -= h
+		if _dust_t <= 0.0 and slide_v.length() > 2.0:
+			_dust_t = 0.09
+			level.dust(slide_p + slide_n * 0.1, slide_v)
+	_rest_t = _rest_t + h if model.rag_speed() < 0.35 else 0.0
+	# a broken simulation (a capsule caught behind a surface and flung) never shows: keep
+	# the body at its last sane place and get up there
+	if model.rag_speed() > 22.0 or not P.is_finite():
+		model.stop_ragdoll_now()
+		_rag_broken = true
+		_start_getup()
+		return
+	model.rag_clamp(16.0)
+	_last_pelvis = P
+	_last_head = model.rag_pos("head")
+	if _rest_t > 0.2 and not _pooled and (_head_slam or _impacts >= 3 or _bail_speed > 3.5):
+		# it hurt: a pool spreads under the head where the body came to rest
+		_pooled = true
+		bail_stats["pool"] = true
+		var hp := model.rag_pos("head")
+		var gh := _probe(hp, Vector3.UP, 0.4, 1.0)
+		if not gh.is_empty():
+			level.blood_splat((gh["position"] as Vector3) + (gh["normal"] as Vector3) * 0.005, gh["normal"], _rng.randf_range(0.7, 0.95))
+	if P.y < -5.0:
+		_respawn_safe()
+	elif (_rest_t > BAIL_REST and bail_t > 1.0) or bail_t > BAIL_MAX:
+		_start_getup()
+
+
+func _start_getup() -> void:
+	## Hand the settled ragdoll over to the getup clip that starts the way it lies (on its
+	## back or its front): turn and place the model so the clip's first pose lies where the
+	## body is, steer the ragdoll into that pose, fade it out into the clip, and bring the
+	## board back.
+	getup_t = 0.0
+	vel = Vector3.ZERO
+	getup_clip = model.getup_for_rest() if not _rag_broken else "getup"
+	var lie: Dictionary = model.lie.get(getup_clip, {})
+	var P := model.rag_pos("pelvis") if not _rag_broken else _last_pelvis
+	var ax := (model.rag_pos("head") if not _rag_broken else _last_head) - P
+	ax.y = 0.0
+	ax = ax.normalized() if ax.length() > 0.05 else Vector3(heading.x, 0.0, heading.z).normalized()
+	var g := _probe(P, Vector3.UP, 0.5, 3.0)
+	var n := Vector3.UP
+	var ground := Vector3(P.x, global_position.y, P.z)
+	if not g.is_empty():
+		n = (g["normal"] as Vector3).normalized()
+		ground = g["position"]
+	if n.y < 0.5:
+		n = Vector3.UP
+	bail_up = n
+	up = n
+	face_up = n
+	# the model's forward f such that basis * clip axis == ax (the clip axis is in model space)
+	var lie_axis: Vector3 = lie.get("axis", Vector3.RIGHT)
+	var lie_pelvis: Vector3 = lie.get("pelvis", Vector3.ZERO)
+	var beta := Vector3.RIGHT.signed_angle_to(lie_axis, Vector3.UP)
+	var f := (ax - n * ax.dot(n)).normalized().rotated(n, -beta)
+	heading = f
+	var b := Basis(f, n, f.cross(n))
+	global_position = ground - b * Vector3(lie_pelvis.x, 0.0, lie_pelvis.z)
+	model.global_transform = Transform3D(b, global_position)
+	model.restart(getup_clip, 0.0)
+	if model.ragdoll_on:
+		model.begin_handover()
+	model.recall_board(model.HANDOVER_HOLD + 0.4)
+	loose_board = null
+
+
+func _getup_update(h: float) -> void:
+	getup_t += h
+	vel = Vector3.ZERO
+	face_up = _slerp(face_up, bail_up, clampf(h * 6.0, 0.0, 1.0))
+	if getup_t < model.HANDOVER_HOLD + model.clip_length(getup_clip):
+		return
+	getup_t = -1.0
+	state = GROUND
+	up = bail_up
+	face_up = up
+	heading = (heading - up * heading.dot(up)).normalized()
+	face_fwd = heading
+	fakie = false
+	_reset_tricks()
+	model.play("idle", 0.2)
+	state_changed.emit(state)
+
+
+func _respawn_safe() -> void:
+	## Fell somewhere the body cannot come to rest (off the park): start again at the last
+	## safe spot on the flat.
+	var fwd := heading
+	fwd.y = 0.0
+	if fwd.length() < 0.1:
+		fwd = Vector3.FORWARD
+	var at := global_position
+	var g := _probe(at, Vector3.UP, 1.0, 30.0)
+	if not g.is_empty() and g["normal"].y > 0.8 and at.y > -5.0:
+		at = g["position"]
+	else:
+		at = last_safe if last_safe != Vector3.ZERO else level.spawn_pos
+	loose_board = null
+	getup_t = -1.0
+	spawn(at, fwd.normalized(), 0.0)
 
 
 # ------------------------------------------------------------------ visuals & sound
@@ -940,6 +1253,9 @@ func _place_model(delta: float) -> void:
 		f = u.cross(Vector3.RIGHT)
 	f = f.normalized()
 	var b := Basis(f, u, f.cross(u))
+	if revert_t > 0.0:
+		# turning round from fakie: the body and board swing the last half-turn into place
+		b = b.rotated(u, PI * smoothstep(0.0, 1.0, revert_t / REVERT_TIME))
 	if state == GRIND:
 		var lean := grind_bal * 0.45
 		b = b.rotated(f, lean)
@@ -950,7 +1266,47 @@ func _place_model(delta: float) -> void:
 		b = b.rotated(f, lean)
 	elif manual != "":
 		b = b.rotated(f, manual_bal * 0.25)
-	model.global_transform = Transform3D(b.orthonormalized(), global_position)
+	var at := global_position
+	if state == BAIL:
+		# the ragdoll places the bones itself; the model stays where the bail (or the
+		# hand-over to the getup) put it
+		pass
+	else:
+		model.global_transform = Transform3D(b.orthonormalized(), at)
+	# the head spots the landing. In the air it tracks the direction of travel relative to
+	# the chest (the chest faces the model's +Z; the nose is at +90 deg, where the authored
+	# regular look turns the head 45 deg), leading into a spin: frontside it swings through
+	# the travel direction, backside it whips early over the leading shoulder, up to the
+	# neck's range. head_fakie 0 = the regular look, 1 = the fakie look (ride_fakie).
+	var want_look := head_fakie
+	var rate := 6.0
+	if state == AIR and not vert_air:
+		var vh := Vector3(vel.x, 0.0, vel.z)
+		var chest := face_fwd.cross(face_up)
+		chest.y = 0.0
+		if vh.length() > 1.0 and chest.length() > 0.1:
+			var psi := rad_to_deg(chest.normalized().signed_angle_to(vh.normalized(), Vector3.UP))
+			# spinning, the travel direction moves round the chest the other way (sigma):
+			# look ahead to where it is going, and once it is about to pass behind the back
+			# turn straight to the shoulder it will come round on (no swing the wrong way first)
+			var sigma := -_spin_sign
+			if sigma != 0.0:
+				psi = wrapf(psi + rad_to_deg(HEAD_LEAD) * sigma, -180.0, 180.0)
+				if sigma > 0.0 and psi > 90.0:
+					psi -= 360.0
+				elif sigma < 0.0 and psi < -90.0:
+					psi += 360.0
+			var yaw := psi * 0.5 if absf(psi) <= 90.0 else signf(psi) * minf(45.0 + (absf(psi) - 90.0), 100.0)
+			want_look = (45.0 - yaw) / 95.0
+			rate = 12.0
+	elif state == GROUND or state == GRIND:
+		want_look = 1.0 if fakie and revert_t <= 0.0 and model.current != "ride_fakie" else 0.0
+	else:
+		want_look = 0.0
+	_spin_sign = 0.0 if state != AIR else _spin_sign
+	head_fakie = move_toward(head_fakie, want_look, delta * rate)
+	if model.head_look:
+		model.head_look.amount = head_fakie
 	# animation choice on the ground
 	if state == GROUND:
 		if land_t > 0.0:
@@ -964,7 +1320,7 @@ func _place_model(delta: float) -> void:
 		elif vel.length() < 0.35:
 			model.play("idle", 0.3)
 		else:
-			model.play("ride", 0.2)
+			model.play("ride_fakie" if fakie and revert_t <= 0.0 else "ride", 0.2)
 	if state != AIR and state != BAIL:
 		model.spin_wheels(vel.length() * delta)
 
@@ -980,7 +1336,14 @@ func _sounds(delta: float) -> void:
 	if rolling and roll_player.stream != Sfx.stream(want):
 		roll_player.stream = Sfx.stream(want)
 		roll_player.play()
-	if state == GRIND:
+	if state == BAIL and getup_t < 0.0 and bail_grounded and Vector3(vel.x, 0, vel.z).length() > 0.8:
+		var scrape := Sfx.stream("grind_" + ("wood" if surface == "wood" else "concrete"))
+		if grind_player.stream != scrape or not grind_player.playing:
+			grind_player.stream = scrape
+			grind_player.play()
+		grind_player.volume_db = linear_to_db(clampf(sp / 7.0, 0.05, 0.8))
+		grind_player.pitch_scale = clampf(0.45 + sp * 0.05, 0.4, 0.9)
+	elif state == GRIND:
 		grind_player.volume_db = lerpf(grind_player.volume_db, linear_to_db(clampf(0.4 + grind_speed / 12.0, 0.0, 1.0)), clampf(delta * 15.0, 0.0, 1.0))
 		grind_player.pitch_scale = clampf(0.8 + grind_speed * 0.04, 0.6, 1.5)
 	else:

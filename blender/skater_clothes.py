@@ -252,8 +252,8 @@ def build_hoodie(body, rig, lab, coll):
     hip = bone(rig, "thigh_l")[0]
     neck = bone(rig, "neck_01")[0]
     z_hem = hip[2] - 0.035
-    z_col_back = neck[2] - 0.035
-    z_col_front = neck[2] - 0.06
+    z_col_back = neck[2] - 0.015      # neckline close round the base of the neck
+    z_col_front = neck[2] - 0.04
     arm = {}
     for side, labn in (("l", "arm_l"), ("r", "arm_r")):
         ua = bone(rig, f"upperarm_{side}")[0]
@@ -346,6 +346,9 @@ def build_hoodie(body, rig, lab, coll):
         tn = t / L
         r = ax["r"]
         rmean = binned_mean(r, t, 30, 0, L)
+        # the body cut at the wrist takes in the base of the thumb, far off the forearm
+        # axis; clip those outliers so the cuff is a clean ring, not a hanging flap
+        r = np.minimum(r, rmean * (1.35 - 0.25 * sstep(0.8, 0.92, tn)))
         r_round = r * 0.55 + rmean * 0.45
         r_min = np.interp(tn, [0, 0.2, 0.45, 0.8, 0.92, 1.0], [0.07, 0.062, 0.056, 0.05, 0.041, 0.037])
         s_str = sstep(0.04, 0.2, tn)
@@ -359,13 +362,26 @@ def build_hoodie(body, rig, lab, coll):
         f += 0.003 * np.sin(th * 3 + t * 20) * sstep(0.1, 0.3, tn) * sstep(0.55, 0.4, tn)
         r_t = r_t + f
         r_final = r * (1 - s_str) + r_t * s_str + 0.012 * (1 - s_str)
-        out[am] = ax["foot"] + ax["rad"] * r_final[:, None]
+        sub = ax["foot"] + ax["rad"] * r_final[:, None]
+        # the cut at the wrist is a clean ring: nothing may reach past it onto the hand
+        # (a ragged tongue there is skinned to the hand and flaps when the wrist bends)
+        over = t > L
+        if over.any():
+            sub[over] = axis_snap([ua, la, ha], L)(sub[over])
+        out[am] = sub
         fu[am] = th * 0.055 + (1.9 if side == "l" else 2.4)
         fv[am] = t
         per[am] = 2 * np.pi * 0.055
     set_verts(hood, out)
     smooth(hood, 2, 0.5)
-    snap_openings(hood, [(lambda c: np.abs(c[:, 2] - z_hem) < 0.02, lambda c: np.column_stack([c[:, 0], c[:, 1], np.full(len(c), z_hem)]))])
+    final_rules = [(lambda c: np.abs(c[:, 2] - z_hem) < 0.02, lambda c: np.column_stack([c[:, 0], c[:, 1], np.full(len(c), z_hem)])),
+                   (lambda c: (c[:, 2] > z_col_front - 0.04) & (np.abs(c[:, 0]) < 0.12), lambda c: np.column_stack([c[:, 0], c[:, 1], col_z(c)]))]
+    for side in ("l", "r"):
+        ua, la, ha = arm[side]
+        sx = 1 if side == "l" else -1
+        final_rules.append((lambda c, sx=sx, ha=ha: (c[:, 0] * sx > 0.3) & (np.linalg.norm(c - ha, axis=1) < 0.09),
+                            axis_snap([ua, la, ha], wrist_t[side])))
+    snap_openings(hood, final_rules)
     fabric_uv(hood, fu, fv, wrap=per)
     rim(hood, 0.007)
     return hood, dict(z_hem=z_hem, z_col_back=z_col_back, z_col_front=z_col_front, wrist_t=wrist_t)
@@ -413,8 +429,7 @@ def build_hood(body, rig, hoodie, info, coll):
     roll = C.mesh_object("HoodRoll", verts, faces, coll, smooth=True)
     # the hood itself lies on the back: a smooth parametric panel projected onto the hoodie
     from mathutils.bvhtree import BVHTree
-    deps = bpy.context.evaluated_depsgraph_get()
-    bvh = BVHTree.FromObject(hoodie, deps)
+    bvh = C.rest_bvh(hoodie)
     zc = info["z_col_back"]
     nu_, nv_ = 26, 18
     pv, pf = [], []
@@ -470,9 +485,7 @@ def build_hood(body, rig, hoodie, info, coll):
 def build_drawstrings(hoodie, rig, info, coll):
     """Two cords hanging from the neckline with metal aglets."""
     neck = bone(rig, "neck_01")[0]
-    deps = bpy.context.evaluated_depsgraph_get()
-    from mathutils.bvhtree import BVHTree
-    bvh = BVHTree.FromObject(hoodie, deps)
+    bvh = C.rest_bvh(hoodie)
     objs = []
     for s in (-1, 1):
         pts = []
@@ -827,6 +840,101 @@ def build_shoe(body, rig, side, coll, lab):
 
 # ------------------------------------------------------------------ body trim
 
+def _neighbour_mean(ob, f):
+    """Mean of a per-vertex field over each vertex's edge neighbours."""
+    e = np.zeros(len(ob.data.edges) * 2, np.int64)
+    ob.data.edges.foreach_get("vertices", e)
+    e = e.reshape(-1, 2)
+    acc = np.zeros(len(f)); cnt = np.zeros(len(f))
+    np.add.at(acc, e[:, 0], f[e[:, 1]]); np.add.at(acc, e[:, 1], f[e[:, 0]])
+    np.add.at(cnt, e[:, 0], 1); np.add.at(cnt, e[:, 1], 1)
+    return acc / np.maximum(cnt, 1)
+
+
+def fit_layers(hoodie, jeans, hinfo, margin=0.008):
+    """Layer the garments like real clothes: the hoodie hem hangs over the jeans' hips and
+    no denim shows through the fleece. Radii are measured with ray casts outward from the
+    torso's vertical axis (rest pose, where both garments were built)."""
+    from mathutils.bvhtree import BVHTree
+    z_hem = hinfo["z_hem"]
+    hco = verts_np(hoodie)
+    tors = np.abs(hco[:, 0]) < 0.25
+    yc_bins = binned_mean(hco[tors, 1], hco[tors, 2], 30, z_hem - 0.05, z_hem + 0.6)
+
+    def axis_y(z):
+        idx = np.clip(((z - (z_hem - 0.05)) / 0.65 * 30).astype(int), 0, 29)
+        return yc_bins[idx]
+
+    def bvh_of(ob):
+        return C.rest_bvh(ob)
+
+    def far_hit(bvh, o, u, maxd=0.45):
+        """Distance to the farthest surface along a horizontal ray from inside."""
+        far, trav, o = None, 0.0, Vector(o)
+        for _ in range(8):
+            loc, _n, _i, dist = bvh.ray_cast(o, u, maxd - trav)
+            if loc is None:
+                break
+            trav += dist
+            far = trav
+            o = loc + u * 1e-4
+            trav += 1e-4
+        return far
+
+    def first_hit(bvh, o, u, maxd=0.45):
+        loc, _n, _i, dist = bvh.ray_cast(Vector(o), u, maxd)
+        return dist if loc is not None else None
+
+    # 1) hoodie: flare the lower 20 cm just enough to clear the jeans
+    bj = bvh_of(jeans)
+    zone = tors & (hco[:, 2] > z_hem - 0.01) & (hco[:, 2] < z_hem + 0.22)
+    push = np.zeros(len(hco))
+    dirs = np.zeros_like(hco)
+    for i in np.nonzero(zone)[0]:
+        p = hco[i]
+        a = np.array([0.0, axis_y(np.array([p[2]]))[0], p[2]])
+        d = p - a; d[2] = 0
+        R = np.linalg.norm(d)
+        if R < 1e-4:
+            continue
+        u = Vector(d / R)
+        dirs[i] = d / R
+        need = 0.0
+        for dz in (0.0, -0.03):      # the jeans just below the hem must fit inside it too
+            rj = far_hit(bj, (a[0], a[1], p[2] + dz), u)
+            if rj is not None:
+                need = max(need, rj + margin - R)
+        push[i] = min(need, 0.045)
+    for _ in range(6):               # spread smoothly so the flare reads as drape, not bumps
+        push = np.maximum(push, 0.55 * push + 0.45 * _neighbour_mean(hoodie, push))
+    push *= sstep(z_hem + 0.24, z_hem + 0.12, hco[:, 2]) * tors
+    hco = hco + dirs * push[:, None]
+    set_verts(hoodie, hco)
+    # 2) jeans: anything above the hem stays inside the (flared) hoodie
+    bh = bvh_of(hoodie)
+    jco = verts_np(jeans)
+    w_all = sstep(z_hem - 0.03, z_hem + 0.005, jco[:, 2])
+    moved = 0
+    for i in np.nonzero(w_all > 0)[0]:
+        p = jco[i]
+        a = np.array([0.0, axis_y(np.array([max(p[2], z_hem)]))[0], p[2]])
+        d = p - a; d[2] = 0
+        R = np.linalg.norm(d)
+        if R < 1e-4:
+            continue
+        u = Vector(d / R)
+        rh = first_hit(bh, (a[0], a[1], max(p[2], z_hem + 0.006)), u)
+        if rh is None:
+            continue
+        lim = rh - margin
+        if R > lim:
+            jco[i] = a + (d / R) * (R + (lim - R) * w_all[i]) + np.array([0, 0, p[2] - a[2]])
+            moved += 1
+    set_verts(jeans, jco)
+    print(f"[clothes] layering: hoodie hem flared on {int((push > 1e-4).sum())} verts "
+          f"(max {push.max() * 100:.1f} cm), {moved} jeans verts tucked inside the hoodie")
+
+
 def trim_body(body, rig, lab, hinfo, jinfo):
     """Delete skin that is fully covered, keeping a margin under each opening."""
     co = verts_np(body)
@@ -1045,6 +1153,7 @@ def build(body, rig, coll=None):
     roll, pillow = build_hood(body, rig, hoodie, hinfo, coll)
     strings = build_drawstrings(hoodie, rig, hinfo, coll)
     jeans, jinfo = build_jeans(body, rig, lab, coll)
+    fit_layers(hoodie, jeans, hinfo)
     shoes = [build_shoe(body, rig, s, coll, lab) for s in ("l", "r")]
     trim_body(body, rig, lab, hinfo, jinfo)
     return dict(hoodie=hoodie, hood_roll=roll, hood_back=pillow, strings=strings, jeans=jeans,

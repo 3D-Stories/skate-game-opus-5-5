@@ -110,6 +110,45 @@ func _place(c: Control, anchor: Vector2, r: Rect2) -> void:
 	c.offset_bottom = r.position.y + r.size.y
 
 
+func warm_glyphs() -> void:
+	## Draws every character the HUD can show once, at each font / size / outline it uses,
+	## almost invisibly for a few frames at load. Rasterising glyphs is slow in the web
+	## build, so otherwise the first "GOAL COMPLETE", letter or combo string hitches.
+	const CHARS := "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 +-x×:;!?.,'\"/()[]%&#=*"
+	var seen := {}
+	var layer_node := CanvasLayer.new()
+	layer_node.layer = 1
+	add_child(layer_node)
+	for c in find_children("*", "Control", true, false):
+		var f: Font = null
+		var sz := 0
+		var ol := 0
+		if c is Label:
+			f = c.get_theme_font("font")
+			sz = c.get_theme_font_size("font_size")
+			ol = c.get_theme_constant("outline_size")
+		elif c is RichTextLabel:
+			f = c.get_theme_font("normal_font")
+			sz = c.get_theme_font_size("normal_font_size")
+			ol = c.get_theme_constant("outline_size")
+		if f == null:
+			continue
+		var key := "%d/%d/%d" % [f.get_instance_id(), sz, ol]
+		if seen.has(key):
+			continue
+		seen[key] = true
+		var l := Label.new()
+		l.text = CHARS
+		l.add_theme_font_override("font", f)
+		l.add_theme_font_size_override("font_size", sz)
+		l.add_theme_constant_override("outline_size", ol)
+		l.add_theme_color_override("font_outline_color", Color.BLACK)
+		l.modulate = Color(1, 1, 1, 0.02)
+		l.position = Vector2(8, 8 + seen.size() * 4)
+		layer_node.add_child(l)
+	get_tree().create_timer(0.4, true).timeout.connect(layer_node.queue_free)
+
+
 func _label(parent: Control, text: String, size: int, color: Color, pos: Vector2) -> Label:
 	var l := Label.new()
 	l.text = text

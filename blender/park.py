@@ -1,7 +1,7 @@
 """The Warehouse - an homage to the THPS1 Warehouse (Woodland Hills), all assets original.
 
 Real-world scale (metres). Layout (Blender coords, +Y = north, Z up):
-  * South end: the start deck at 5 m with the steep drop-in (5 m radius roll-in).
+  * South end: the start deck at 5 m with the steep drop-in (9 m radius roll-in).
   * Main hall 40 x 66 m, 11.5 m to the roof, brick below / corrugated steel above,
     steel columns, roof trusses and ten skylights.
   * Halfpipe (3.7 m, 3.2 m transitions + vert, coping, 1.5 m decks) at the north end,
@@ -140,6 +140,11 @@ class Park:
         self.windows = []
         self.breakables = []
 
+    def hanger(self, bottom, top):
+        """A thin vertical hanger rod (catwalks, rafters): the game gives the chase camera a
+        blocker for each, so a rod never ends up right in front of the lens."""
+        self.data.setdefault("hangers", []).append([to_godot(bottom), to_godot(top)])
+
     def add_rail(self, pts, kind="metal", tag="", name=""):
         self.rails.append(dict(name=name or f"rail_{len(self.rails)}", kind=kind, tag=tag,
                                points=[to_godot(p) for p in pts]))
@@ -165,6 +170,8 @@ class Park:
         # columns along the walls
         for yy in np.arange(y0 + 4, y1 - 1, 8.0):
             for x, s in ((x0 + 0.2, 1), (x1 - 0.2, -1)):
+                if s == 1 and 33.5 < yy < 39.5:
+                    continue        # no column in the boarded-up doorway to the secret room
                 B.box("steel_paint", (x - 0.15, yy - 0.15, 0), (x + 0.15, yy + 0.15, h), col="wall")
 
     def window_spans(self):
@@ -290,6 +297,7 @@ class Park:
             for s in (-1, 1):
                 q = p + n * s * 0.95
                 B.cylinder("steel", (q.x, q.y, z), (q.x, q.y, HALL["h"] - 2.0), 0.02, 6)
+                self.hanger((q.x, q.y, z), (q.x, q.y, HALL["h"] - 2.0))
         if rail_side:
             e = b if rail_to is None else a + d * (rail_to - a.y if abs(d.y) > 0.5 else rail_to - a.x)
             ra = a + n * rail_side * 0.95
@@ -357,13 +365,16 @@ class Park:
         # hangers from the truss above
         for yy in np.arange(28.0, 47.1, 4.0):
             B.cylinder("steel", (-18.8, yy, 6.0), (-18.8, yy, HALL["h"] - 2.0), 0.03, 6)
+            self.hanger((-18.8, yy, 6.0), (-18.8, yy, HALL["h"] - 2.0))
         self.add_rail([(a[0], a[1], a[2] + 0.01), (b[0], b[1], b[2] + 0.01)], "metal", "rafter", "rafter_west")
-        # a second rafter above the east quarter's coping: grind it from a diagonal vert air
-        c = (19.0, 32.0, 5.6)
-        d = (19.0, 46.0, 5.6)
+        # a second rafter high above the east quarter's coping (clear of ordinary airs): a big
+        # vert air meets its underside, and holding grind there pops the skater up onto it
+        c = (19.0, 32.0, 6.8)
+        d = (19.0, 46.0, 6.8)
         G.ibeam(B, c, d, h=0.36, w=0.24, mat="rafter", col="metal")
         for yy in np.arange(32.0, 46.1, 3.5):
-            B.cylinder("steel", (19.0, yy, 5.6), (19.0, yy, HALL["h"] - 2.0), 0.03, 6)
+            B.cylinder("steel", (19.0, yy, 6.8), (19.0, yy, HALL["h"] - 2.0), 0.03, 6)
+            self.hanger((19.0, yy, 6.8), (19.0, yy, HALL["h"] - 2.0))
         self.add_rail([(c[0], c[1], c[2] + 0.01), (d[0], d[1], d[2] + 0.01)], "metal", "rafter", "rafter_east")
 
     # -------------------------------------------------------------- secret room
@@ -371,7 +382,7 @@ class Park:
         B = self.B
         x0, x1, y0, y1, h = -30.0, -20.0, 31.0, 43.0, 5.0
         B.quad("concrete_floor", [(x0, y0, 0), (x1, y0, 0), (x1, y1, 0), (x0, y1, 0)], col="concrete")
-        B.quad("roof", [(x0, y1, h), (x1, y1, h), (x1, y0, h), (x0, y0, h)])
+        B.quad("roof", [(x0, y1, h), (x1, y1, h), (x1, y0, h), (x0, y0, h)], col="wall")   # solid ceiling: airs off the room's quarter stop here
         for pts in ([(x0, y0, 0), (x1, y0, 0), (x1, y0, h), (x0, y0, h)],
                     [(x1, y1, 0), (x0, y1, 0), (x0, y1, h), (x1, y1, h)],
                     [(x0, y1, 0), (x0, y0, 0), (x0, y0, h), (x0, y1, h)]):
@@ -549,10 +560,13 @@ def build(export=True, bake=True):
         pass
     import bake as BK
     lm_objs = [o for o in visual if o.name.replace("Park_", "") not in LIGHTMAPPED_EXCLUDE] + walls + [gfx]
-    # roof, trusses and props get less lightmap space than the skateable surfaces
+    # roof, trusses and props get less lightmap space than the skateable surfaces; the thin
+    # coping and rail pipes (2-3 cm, built as <= 2 m pieces) get twice the density, or their
+    # islands would be only a few texels round and bleed into the black margin
     C.lightmap_uv(lm_objs, "Lightmap", margin=0.0015,
                   weights={"Park_roof": 0.3, "Park_steel_paint": 0.45, "Park_steel": 0.5, "Park_corrugated": 0.6,
-                           "Park_crate_frame": 0.6, "Park_lamp": 0.3, "Park_graffiti": 0.35, "BreakWall_sign": 0.3})
+                           "Park_crate_frame": 0.6, "Park_lamp": 0.3, "Park_graffiti": 0.35, "BreakWall_sign": 0.3,
+                           "Park_coping": 2.0, "Park_rail": 2.0})
     C.show(visual, 'MATERIAL', azimuth=210, elevation=35, margin=0.55)
     P.data["rails"] = P.rails
     P.data["lightmapped"] = [o.name for o in lm_objs]

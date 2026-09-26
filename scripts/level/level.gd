@@ -5,6 +5,8 @@ extends Node3D
 ## the rails used for grinding, the breakable windows and wall, and the pickups.
 
 signal window_broken(index: int, total: int)
+
+const CAMERA_BLOCK_LAYER := 8     # physics layer 4: only the chase camera collides with it
 signal wall_broken
 signal letter_collected(letter: String)
 signal tape_collected
@@ -53,6 +55,7 @@ func _ready() -> void:
 	for r in data.get("rails", []):
 		rails.append(Rail.from_dict(r))
 	_setup_windows()
+	_setup_hangers()
 	_setup_wall()
 	_setup_pickups()
 	var sp: Dictionary = data["spawn"]
@@ -143,6 +146,37 @@ func _setup_windows() -> void:
 		var c := _v(w["center"])
 		windows.append({"node": node, "broken": false, "center": c, "half": float(w["size"][0]) * 0.5,
 				"bottom": c.y - float(w["size"][1]) * 0.5})
+		# the glass is visual only (the skater flies through it); this camera-only blocker
+		# keeps the chase camera inside the hall once a window is open
+		var blk := StaticBody3D.new()
+		blk.collision_layer = CAMERA_BLOCK_LAYER
+		blk.collision_mask = 0
+		var cs := CollisionShape3D.new()
+		var box := BoxShape3D.new()
+		box.size = Vector3(0.3, float(w["size"][1]), float(w["size"][0]))
+		cs.shape = box
+		blk.add_child(cs)
+		add_child(blk)
+		blk.global_position = c
+
+
+func _setup_hangers() -> void:
+	## Camera-only blockers around the thin hanger rods (visual geometry without collision),
+	## so the chase camera swings round a rod instead of parking right behind it.
+	for hg in data.get("hangers", []):
+		var a := _v(hg[0])
+		var b := _v(hg[1])
+		var blk := StaticBody3D.new()
+		blk.collision_layer = CAMERA_BLOCK_LAYER
+		blk.collision_mask = 0
+		var cs := CollisionShape3D.new()
+		var cyl := CylinderShape3D.new()
+		cyl.radius = 0.12
+		cyl.height = maxf(0.1, b.y - a.y)
+		cs.shape = cyl
+		blk.add_child(cs)
+		add_child(blk)
+		blk.global_position = (a + b) * 0.5
 
 
 ## A window breaks when the skater flies up into it (vert air off the east quarter) or
@@ -319,7 +353,178 @@ func _process(delta: float) -> void:
 		tape.rotation.y = _t * 1.6
 
 
-func _spawn_debris(pos: Vector3, color: Color, amount: int, size: float, push: Vector3) -> void:
+var _debris_meshes: Dictionary = {}     # "color/size" -> BoxMesh with its material (built once)
+
+
+func _debris_mesh(color: Color, size: float) -> BoxMesh:
+	var key := "%s/%.3f" % [color.to_html(), size]
+	if not _debris_meshes.has(key):
+		var mesh := BoxMesh.new()
+		mesh.size = Vector3(size, size * 0.2, size * 0.7)
+		var m := StandardMaterial3D.new()
+		m.albedo_color = color
+		m.roughness = 0.3
+		mesh.material = m
+		_debris_meshes[key] = mesh
+	return _debris_meshes[key]
+
+
+func warm_up(cam_pos: Vector3, cam_fwd: Vector3) -> void:
+	## Called behind the start screen: one tiny burst of each debris kind (and a tiny blood
+	## splat) in front of the camera, so their shaders are compiled before they are needed.
+	var at := cam_pos + cam_fwd * 2.0
+	_spawn_debris(at, Color(0.55, 0.42, 0.3), 1, 0.25, Vector3(0, 0.1, 0), 0.02)
+	_spawn_debris(at, Color(0.7, 0.85, 0.9), 1, 0.08, Vector3(0, 0.1, 0), 0.02)
+	_spawn_debris(at, BLOOD_DROP, 1, 0.035, Vector3(0, 0.1, 0), 0.02)
+	_spawn_debris(at, DUST, 1, 0.06, Vector3(0, 0.1, 0), 0.02)
+	# blood splats lie on a surface: warm them up on the floor in view
+	var fl := get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(at, at + Vector3.DOWN * 20.0, 1))
+	if not fl.is_empty():
+		blood_splat(fl["position"], fl["normal"], 0.01)
+		blood_splat(fl["position"], fl["normal"], 0.01, Vector3.FORWARD, true)
+	get_tree().create_timer(0.5, true).timeout.connect(clear_blood)
+
+
+# ------------------------------------------------------------------ bails: blood and dust
+
+const BLOOD_MAX := 64
+const BLOOD_DROP := Color(0.42, 0.02, 0.02)
+const DUST := Color(0.62, 0.6, 0.56)
+var _blood: Array = []                  # splat MeshInstance3Ds, oldest first
+var _blood_mats: Array = []             # [splat, smear]
+
+
+func _blood_materials() -> Array:
+	## Both textures are drawn in code at load: a splat (a few overlapping pools plus flung
+	## droplets) and a smear (a ragged streak along +Y) - dark, wet-looking red.
+	if not _blood_mats.is_empty():
+		return _blood_mats
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 911
+	var mats := []
+	for smear in [false, true]:
+		var w := 128
+		var h := 128 if not smear else 192
+		var img := Image.create(w, h, false, Image.FORMAT_RGBA8)
+		img.fill(Color(0, 0, 0, 0))
+		var blobs := []
+		if not smear:
+			for i in 7:
+				blobs.append([Vector2(64, 64) + Vector2(rng.randf_range(-18, 18), rng.randf_range(-18, 18)), rng.randf_range(12, 26)])
+			for i in 26:
+				var a := rng.randf() * TAU
+				var r := rng.randf_range(30, 60)
+				blobs.append([Vector2(64, 64) + Vector2(cos(a), sin(a)) * r, rng.randf_range(1.5, 5.0)])
+		else:
+			for i in 40:
+				var y := rng.randf_range(10, h - 10)
+				blobs.append([Vector2(64 + rng.randf_range(-16, 16) * (1.0 - absf(y - h * 0.5) / h), y), rng.randf_range(5, 14)])
+		for bl in blobs:
+			var c: Vector2 = bl[0]
+			var rad: float = bl[1]
+			for yy in range(maxi(0, int(c.y - rad - 2)), mini(h, int(c.y + rad + 3))):
+				for xx in range(maxi(0, int(c.x - rad - 2)), mini(w, int(c.x + rad + 3))):
+					var d := Vector2(xx, yy).distance_to(c)
+					var a := clampf(rad + 0.7 - d, 0.0, 1.0)
+					if a <= 0.0:
+						continue
+					var old := img.get_pixel(xx, yy)
+					var k := rng.randf_range(0.0, 1.0)
+					var col := Color(lerpf(0.26, 0.4, k), 0.012, 0.012, maxf(old.a, a * 0.93))
+					img.set_pixel(xx, yy, col if old.a == 0.0 else Color(minf(old.r, col.r), old.g, old.b, col.a))
+		img.generate_mipmaps()
+		var m := StandardMaterial3D.new()
+		m.albedo_texture = ImageTexture.create_from_image(img)
+		m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		m.vertex_color_use_as_albedo = true      # the splat grid fades out past an edge
+		m.roughness = 0.22
+		m.metallic_specular = 0.7
+		mats.append(m)
+	_blood_mats = mats
+	return mats
+
+
+func blood_splat(pos: Vector3, normal: Vector3, size: float, dir := Vector3.ZERO, smear := false) -> void:
+	## A splat (or a smear, 1.9x longer along `dir`) that lies ON the surface: a small grid
+	## whose every vertex is projected onto the park, so it wraps over a ramp's curve and
+	## bends flat where a transition meets the floor instead of hanging in the air; past an
+	## edge (off a ledge) it fades out. Nothing is drawn if there is no surface there.
+	var space := get_world_3d().direct_space_state
+	var n := normal.normalized()
+	var hit := space.intersect_ray(PhysicsRayQueryParameters3D.create(pos + n * 0.4, pos - n * 0.4, 1))
+	if hit.is_empty():
+		return
+	n = (hit["normal"] as Vector3).normalized()
+	var c: Vector3 = hit["position"]
+	var z := dir - n * dir.dot(n)
+	if z.length() < 0.05:
+		z = n.cross(Vector3.RIGHT if absf(n.x) < 0.9 else Vector3.FORWARD)
+	z = z.normalized()
+	var x := n.cross(z).normalized()
+	var w := size
+	var l := size * (1.9 if smear else 1.0)
+	var N := 6 if size > 0.35 else 4
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	for j in N + 1:
+		for i in N + 1:
+			var u := float(i) / N
+			var v := float(j) / N
+			var q := c + x * (u - 0.5) * w + z * (v - 0.5) * l
+			var r := space.intersect_ray(PhysicsRayQueryParameters3D.create(q + n * 0.3, q - n * 0.35, 1))
+			var alpha := 1.0
+			var at := q
+			var vn := n
+			if r.is_empty():
+				alpha = 0.0
+			else:
+				at = r["position"]
+				vn = (r["normal"] as Vector3).normalized()
+				if vn.dot(n) < 0.3:
+					alpha = 0.0           # round a corner onto a wall: fade instead of folding
+			st.set_color(Color(1, 1, 1, alpha))
+			st.set_uv(Vector2(u, v))
+			st.set_normal(vn)
+			st.add_vertex(at + vn * 0.006)
+	for j in N:
+		for i in N:
+			var k := j * (N + 1) + i
+			st.add_index(k)
+			st.add_index(k + 1)
+			st.add_index(k + N + 1)
+			st.add_index(k + 1)
+			st.add_index(k + N + 2)
+			st.add_index(k + N + 1)
+	var mi := MeshInstance3D.new()
+	mi.mesh = st.commit()
+	mi.material_override = _blood_materials()[1 if smear else 0]
+	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	mi.top_level = true               # the vertices are in world space
+	add_child(mi)
+	mi.global_transform = Transform3D.IDENTITY
+	_blood.append(mi)
+	while _blood.size() > BLOOD_MAX:
+		var old: Node = _blood.pop_front()
+		if is_instance_valid(old):
+			old.queue_free()
+
+
+func blood_burst(pos: Vector3, dir: Vector3) -> void:
+	_spawn_debris(pos, BLOOD_DROP, 30, 0.035, dir.normalized() * 3.5)
+
+
+func dust(pos: Vector3, vel: Vector3) -> void:
+	_spawn_debris(pos, DUST, 5, 0.06, Vector3.UP * 1.2 - vel * 0.15)
+
+
+func clear_blood() -> void:
+	for mi in _blood:
+		if is_instance_valid(mi):
+			mi.queue_free()
+	_blood.clear()
+
+
+func _spawn_debris(pos: Vector3, color: Color, amount: int, size: float, push: Vector3, scale := 1.0) -> void:
 	var p := CPUParticles3D.new()
 	p.one_shot = true
 	p.emitting = true
@@ -333,13 +538,9 @@ func _spawn_debris(pos: Vector3, color: Color, amount: int, size: float, push: V
 	p.gravity = Vector3(0, -12, 0)
 	p.emission_shape = CPUParticles3D.EMISSION_SHAPE_BOX
 	p.emission_box_extents = Vector3(0.1, 1.0, 1.2)
-	var mesh := BoxMesh.new()
-	mesh.size = Vector3(size, size * 0.2, size * 0.7)
-	var m := StandardMaterial3D.new()
-	m.albedo_color = color
-	m.roughness = 0.3
-	mesh.material = m
-	p.mesh = mesh
+	p.scale_amount_min = scale
+	p.scale_amount_max = scale
+	p.mesh = _debris_mesh(color, size)
 	add_child(p)
 	p.global_position = pos
 	get_tree().create_timer(2.5).timeout.connect(p.queue_free)

@@ -9,7 +9,7 @@ metadata={
 "vram_texture": true
 }
 generator_parameters={
-"md5": "5f38077b34b3fb5e0dd05a713cebf3a0"
+"md5": "4d6a72050e3278d27bfbc92724f7e65d"
 }
 
 [deps]
@@ -25,7 +25,7 @@ compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
-compress/normal_map=0
+compress/normal_map=1
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1

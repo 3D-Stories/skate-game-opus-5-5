@@ -23,6 +23,11 @@ func _ready() -> void:
 		add_child(p)
 		_pool.append(p)
 	_build_all()
+	# the web build plays sounds as Web Audio samples; hand every buffer over now, at load,
+	# instead of on its first play (a long loop costs several ms to convert mid-game)
+	if OS.has_feature("web"):
+		for k in streams:
+			AudioServer.register_stream_as_sample(streams[k])
 	ready_flag = true
 
 
@@ -216,7 +221,7 @@ func _build_all() -> void:
 	streams["land_hard"] = _wav(_land(true))
 	streams["catch"] = _wav(_catch())
 	streams["bail"] = _wav(_bail())
-	streams["clatter"] = _wav(_clatter(0.9, 6))
+	streams["clatter"] = _wav(_normalize(_clatter(0.9, 6), 0.85))
 	streams["glass"] = _wav(_glass())
 	streams["wall"] = _wav(_wall())
 	streams["letter"] = _wav(_chime([880.0, 1108.7, 1318.5], 0.07, 0.6))

@@ -16,25 +16,33 @@ from lib import common as C
 from bl_ext.blender_org.mpfb.services.humanservice import HumanService
 from bl_ext.blender_org.mpfb.services.targetservice import TargetService
 
-MACRO = {"gender": 1.0, "age": 0.44, "muscle": 0.64, "weight": 0.40, "height": 0.58,
+MACRO = {"gender": 1.0, "age": 0.44, "muscle": 0.64, "weight": 0.36, "height": 0.58,
          "proportions": 0.80, "cupsize": 0.5, "firmness": 0.5,
-         "race": {"asian": 0.12, "caucasian": 0.68, "african": 0.20}}
+         "race": {"asian": 0.07, "caucasian": 0.78, "african": 0.15}}
 
-# Face and body targets (name, weight). Chosen to give a lean, angular, original face.
+# Face and body targets (name, weight). Chosen to give a lean, angular, original face:
+# an oval head with a defined jaw, lean cheeks, a long straight nose, open eyes and a
+# medium mouth with a clear cupid's bow and philtrum.
 TARGETS = [
-    ("head-oval", 0.35), ("head-square", 0.25), ("head-age-decr", 0.2),
-    ("chin-prominent-incr", 0.35), ("chin-width-decr", 0.15), ("chin-cleft-incr", 0.15),
-    ("chin-bones-incr", 0.35),
-    ("nose-scale-horiz-decr", 0.2), ("nose-hump-incr", 0.25), ("nose-point-width-decr", 0.3),
-    ("nose-nostrils-width-decr", 0.15), ("nose-trans-up", 0.1),
-    ("mouth-scale-horiz-decr", 0.18), ("mouth-lowerlip-volume-decr", 0.2),
-    ("mouth-cupidsbow-incr", 0.3), ("mouth-upperlip-volume-decr", 0.15),
-    ("cheek-bones-incr", 0.35), ("l-cheek-bones-incr", 0.2), ("r-cheek-bones-incr", 0.2),
-    ("l-cheek-volume-decr", 0.35), ("r-cheek-volume-decr", 0.35),
-    ("eyebrows-trans-down", 0.25), ("eyebrows-angle-down", 0.2),
-    ("l-eye-height2-incr", 0.15), ("r-eye-height2-incr", 0.15),
+    ("head-oval", 0.4), ("head-square", 0.12), ("head-age-decr", 0.2),
+    ("head-fat-decr", 0.6), ("head-scale-horiz-decr", 0.22),
+    ("chin-prominent-incr", 0.3), ("chin-width-decr", 0.25), ("chin-cleft-incr", 0.12),
+    ("chin-bones-incr", 0.3), ("chin-height-incr", 0.2),
+    ("nose-scale-horiz-decr", 0.18), ("nose-hump-incr", 0.15), ("nose-point-width-decr", 0.3),
+    ("nose-nostrils-width-decr", 0.12), ("nose-scale-vert-incr", 0.2),
+    ("mouth-scale-horiz-decr", 0.2), ("mouth-lowerlip-volume-decr", 0.05),
+    ("mouth-cupidsbow-incr", 0.4), ("mouth-upperlip-volume-decr", 0.12),
+    ("mouth-philtrum-volume-incr", 0.3),
+    ("l-cheek-bones-incr", 0.3), ("r-cheek-bones-incr", 0.3),
+    ("l-cheek-volume-decr", 0.6), ("r-cheek-volume-decr", 0.6),
+    ("l-cheek-inner-decr", 0.15), ("r-cheek-inner-decr", 0.15),
+    ("eyebrows-trans-down", 0.15), ("eyebrows-angle-up", 0.12), ("mouth-angles-up", 0.25),
+    ("l-eye-height2-incr", 0.35), ("r-eye-height2-incr", 0.35),
+    ("l-eye-scale-incr", 0.25), ("r-eye-scale-incr", 0.25),
+    ("l-eye-trans-in", 0.15), ("r-eye-trans-in", 0.15),
     ("l-eye-bag-decr", 0.3), ("r-eye-bag-decr", 0.3),
-    ("forehead-temple-decr", 0.2), ("neck-scale-horiz-incr", 0.25),
+    ("forehead-temple-decr", 0.2), ("forehead-scale-vert-incr", 0.15),
+    ("neck-scale-horiz-incr", 0.2),
     ("torso-scale-horiz-incr", 0.1), ("torso-vshape-incr", 0.35),
     ("l-lowerarm-muscle-incr", 0.3), ("r-lowerarm-muscle-incr", 0.3),
     ("l-upperarm-muscle-incr", 0.2), ("r-upperarm-muscle-incr", 0.2),

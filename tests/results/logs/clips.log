@@ -1,0 +1,39 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
+[run] started
+[run] started
+Pro Skater clips in real gameplay  2026-09-25T23:21:57
+PASS  autopilot test run finished and reported its clips: score=69043 goals=[["score", true], ["skate", true], ["tape", true], ["rafters", true], ["windows", true]]
+PASS  tests/test_flow.gd ran (24 passed, 0 failed) and reported its clips
+PASS  Enter on the start screen starts the run (injected-input part)
+PASS  idle        plays in real gameplay - autopilot run x3 (count includes the idle at load / respawn); test_flow x5 (count includes the idle at load / respawn); injected input: hold Down (S) to brake to a stop (11 frames on screen)
+PASS  push        plays in real gameplay - autopilot run x29; test_flow x1; injected input: hold Up (W) from a standstill (40 frames on screen)
+PASS  ride        plays in real gameplay - autopilot run x49; test_flow x6; injected input: let go of Up while rolling (25 frames on screen)
+PASS  crouch      plays in real gameplay - autopilot run x1; test_flow x2; injected input: hold Jump (Space) while rolling (20 frames on screen)
+PASS  ollie       plays in real gameplay - autopilot run x3; test_flow x2; injected input: release Jump (45 frames on screen)
+PASS  kickflip    plays in real gameplay - autopilot run x8; injected input: Flip (J) in the air, no direction (24 frames on screen, game announced 'Kickflip')
+PASS  heelflip    plays in real gameplay - autopilot run x7; injected input: Flip (J) + Right (D) in the air (24 frames on screen, game announced 'Heelflip')
+PASS  shoveit     plays in real gameplay - autopilot run x1; injected input: Flip (J) + Down (S) in the air (24 frames on screen, game announced 'Pop Shove-It')
+PASS  treflip     plays in real gameplay - autopilot run x6; injected input: Flip (J) + Up (W) in the air (27 frames on screen, game announced '360 Flip')
+PASS  indy        plays in real gameplay - autopilot run x15; injected input: Grab (K) in the air, no direction (21 frames on screen, game announced 'Indy')
+PASS  melon       plays in real gameplay - autopilot run x8; injected input: Grab (K) + Left (A) in the air (21 frames on screen, game announced 'Melon')
+PASS  nosegrab    plays in real gameplay - injected input: Grab (K) + Up (W) in the air (21 frames on screen, game announced 'Nosegrab')
+PASS  tailgrab    plays in real gameplay - autopilot run x6; injected input: Grab (K) + Down (S) in the air (21 frames on screen, game announced 'Tailgrab')
+PASS  grind_5050  plays in real gameplay - autopilot run x2; test_flow x1; injected input: ollie beside the long rail + hold Grind (L) (13 frames on screen, game announced '50-50')
+PASS  boardslide  plays in real gameplay - autopilot run x1; injected input: ollie beside the long rail + Grind (L) + Left (A) (13 frames on screen, game announced 'Boardslide')
+PASS  manual      plays in real gameplay - autopilot run x1; test_flow x1; injected input: tap Up, Down (W, S) while rolling (24 frames on screen, game announced 'Manual')
+PASS  nose_manual plays in real gameplay - autopilot run x1; injected input: tap Down, Up (S, W) while rolling (24 frames on screen, game announced 'Nose Manual')
+PASS  vert_air    plays in real gameplay - autopilot run x75; injected input: roll across the halfpipe and up the walls past the coping (9 vert airs) (366 frames on screen)
+PASS  air         plays in real gameplay - autopilot run x14; injected input: flip finished before touchdown -> the game goes back to the air pose (24 frames on screen)
+PASS  land        plays in real gameplay - autopilot run x33; test_flow x1; injected input: clean landing of the ollie (13 frames on screen)
+PASS  bail        plays in real gameplay - test_flow x2; injected input: late kickflip on a small ollie, landed mid-flip -> bail (reason 'mid-trick') (21 frames on screen)
+PASS  special     plays in real gameplay - autopilot run x5; injected input: halfpipe vert airs with tricks until the special meter is full (after 9 airs), then Left, Right + Flip (47 frames on screen, game announced 'Tiger Claw Tre')
+PASS  ride_fakie  plays in real gameplay - autopilot run x1; injected input: ollie with a 180 (E held), landed fakie and coasting (fakie=true) (10 frames on screen)
+PASS  getup       plays in real gameplay - test_flow x1; injected input: after that bail the ragdoll settles, then the matching getup ('getup_front': from face down) brings the skater back onto the board [the face-down variant 'getup_front' played this time] (8 frames on screen)
+PASS  every required clip also played from injected keyboard / gamepad input alone (24/24)
+28 passed, 0 failed
+
+[clips] halfpipe (injected input): 9 airs, 9 vert airs, bails 0, special meter full after air 9, specials 1
+WARNING: 20 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

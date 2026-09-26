@@ -1,0 +1,119 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
+[run] started
+Pro Skater park (Warehouse) tests  2026-09-25T23:21:42
+PASS  main hall footprint is ~40 x 66 m (wall collision raycasts from the centre)  [40.00 x 66.00 m]
+PASS  hall is ~11.5 m to the roof (wall collision top and roof mesh)  [walls 11.50 m, roof 11.50 m]
+PASS  brick / corrugated wall meshes span 40 x 66 x 11.5 m  [(40.0, 11.5, 66.0)]
+PASS  concrete floor at y = 0  [0.00 concrete]
+PASS  start deck in the entry room is ~5 m up (spawn on a wooden deck)  [deck 5.00 m, wood]
+PASS  start deck is ~9 m deep (flat at 5 m from the lip to the south wall)  [21/21 samples]
+PASS  steep drop-in off the start deck: wooden roll-in, steep at the lip, falls 5 m to the floor  [lip 62.39 deg at 4.96 m, bottom at z=-0.51, radius 8.98 m]
+PASS  drop-in transition radius ~9 m (measured from slope vs height)  [8.98]
+PASS  the big entry ramp (drop-in) is ~16 m wide  [16.00 m (x -8.00..8.00)]
+PASS  halfpipe has a wooden flat bottom (~5 m)
+PASS  halfpipe has two opposing wooden transitions (west faces east, east faces west)  [21 west / 21 east samples]
+PASS  halfpipe is ~3.7 m high (both decks measured)  [west 3.70 m, east 3.70 m]
+PASS  halfpipe transitions ~3.2 m radius  [3.26 / 3.26 m]
+PASS  halfpipe has vert at the top of both walls  [walls 11.40 apart]
+PASS  halfpipe is ~12 m wide  [11.75]
+PASS  east wall quarterpipe: wooden transition facing into the hall, 3.2 m deck  [deck 3.20 m, radius 2.74 m]
+PASS  east quarterpipe runs along the east wall  [59.00 m long (z -45.50..13.50)]
+PASS  south-east corner quarterpipe: wooden transition facing north, 2.4 m deck  [deck 2.40 m, radius 2.34 m]
+PASS  coping pipe along the lip of dropin_coping (on a wooden deck edge)  [100% of 16.00 m covered, deck at 5.00]
+PASS  coping pipe along the lip of hp_coping_w (on a wooden deck edge)  [100% of 12.00 m covered, deck at 3.70]
+PASS  coping pipe along the lip of hp_coping_e (on a wooden deck edge)  [100% of 12.00 m covered, deck at 3.70]
+PASS  coping pipe along the lip of east_qp_coping (on a wooden deck edge)  [100% of 60.00 m covered, deck at 3.20]
+PASS  coping pipe along the lip of se_qp_coping (on a wooden deck edge)  [100% of 7.60 m covered, deck at 2.40]
+PASS  street kicker: wooden launch ramp facing the run-up  [0.68 m high, 20 sloped samples]
+PASS  north kicker: wooden launch ramp facing the run-up  [0.60 m high, 20 sloped samples]
+PASS  catwalk kicker: wooden launch ramp facing the run-up  [0.41 m high, 18 sloped samples]
+PASS  secret-room kicker: wooden launch ramp facing the run-up  [0.55 m high, 19 sloped samples]
+PASS  funbox: 4 x 3 m wooden top at 0.9 m with banks on all four sides  [top samples 29/33 along z, 39/43 along x (rail excluded), banks [21, 21, 21, 21] deg]
+PASS  high catwalks (south + west walls) are metal decks >= 5 m up  [48/48 samples, lowest 5.00 m, west run 37.00 m]
+PASS  catwalk handrail is a grind line  [33.80 m long at 6.03 m]
+PASS  rafter grind lines exist (rails tagged 'rafter')  [["rafter_west", "rafter_east"]]
+PASS  rafter_west: steel rafter beam up in the roof, solid under the grind line  [19.50 m long at 6.01 m, beam top 6.00]
+PASS  rafter_east: steel rafter beam up in the roof, solid under the grind line  [14.00 m long at 6.81 m, beam top 6.80]
+PASS  rafter beams are I-beams (Park_rafter mesh)  [(38.04, 1.16, 19.5)]
+PASS  steel roof trusses span the 40 m hall  [8 trusses at z [12, 4, -4, -12, -20, -28, -36, -44]]
+PASS  steel columns stand along both long walls (solid, 30 cm, every 8 m; none in the secret doorway)  [15/15 columns hit; a ray through the doorway meets BreakWallBody]
+PASS  crates: stacks of real-size wooden crates you can land on  [21 crate lids (1.01..2.70 m high), 21 solid]
+PASS  graffiti decals painted on real park surfaces  [13 decals, 13 within 6 cm of collision, atlas (2048.0, 2048.0)]
+PASS  graffiti stencil on the boarded-up wall (BreakWall_sign)
+PASS  10 skylights (4 x 6 m glazing) set in openings in the roof  [10 skylights, 10 over roof openings, at 12.00 m]
+PASS  skylights glow (unshaded daylight material)
+PASS  5 breakable windows in the park data and level  [5 / 5]
+PASS  each window is a 2.8 x 2.0 m glass pane in an opening of the east wall, above the quarter and pipe  [0:2.80x2.00@4.40, 1:2.80x2.00@4.40, 2:2.80x2.00@4.40, 3:2.80x2.00@4.40, 4:2.80x2.00@4.40]
+PASS  hidden room behind the west wall measured from inside: ~10 x 12 m, 5 m high  [x -30.00..-20.20, z -43.00..-31.00, h 5.00]
+PASS  the secret tape pickup is inside the hidden room  [(-26.4, 2.5, -37.0)]
+PASS  the hidden room is sealed from the hall before the wall breaks  [15/15 rays stopped at the wall]
+PASS  boarded-up breakable wall: plywood panels + battens + a breakable collision body  [8 panels]
+PASS  baked lightmap texture loads  [(2048.0, 2048.0)]
+PASS  the park and decal shaders sample lightmap_tex on UV2
+PASS  every lightmapped surface has UV2 in [0,1] and a material sampling the baked lightmap  [28 meshes / 28 surfaces]
+PASS  lightmap UV islands fit the atlas without gross overlap (total UV2 area)  [0.385 of the 0..1 square]
+PASS  the baked lightmap has light where every lightmapped surface samples it  [all lit, median mesh mean 0.237]
+PASS  every other park mesh is lightmapped (only lamps, skylights, exit sign, yard backdrop, glass are not)  [Window_4, Window_3, Window_2, Window_1, Window_0, Park_yard, Park_skylight, Park_lamp, Park_exit_sign]
+PASS  grind lines for rails, ledges, copings, the wall pipe, rafters and the catwalk  [{ "coping": 5, "catwalk": 1, "pipe": 1, "ledge": 8, "rail": 4, "rafter": 2 }]
+PASS  grind lines have real-world lengths (18 m flat rail, 56 m wall pipe, 10 m ledge, ...)  [long_rail 18.00, wall_pipe 56.00, ledge_a 10.00, rafter_west 19.50]
+PASS  street rail / ledges at real heights (flat rail ~0.5 m, ledges 0.42-0.5 m)
+PASS  every grind line runs along real geometry (rail / coping / pipe / beam mesh under 20 samples each)  [21 lines, mean coverage 100%]
+PASS  wall pipe runs above the east quarterpipe's deck, below the windows  [4.06 m up]
+PASS  run started from the start screen (Enter)
+PASS  skater pushes off the 5 m deck and rolls down the steep drop-in to the floor  [from 5.02 m to -0.00 m, steepest 57.79 deg on wood, speed 2.68 m/s, bails []]
+PASS  skater rides the halfpipe wall to wall (up the east transition, back, up the west one)  [x -5.44..5.61, highest on wood 2.43 m, steepest 74.42 deg, bails []]
+PASS  skater rides up the east quarterpipe and back down  [up to 2.01 m, steepest 74.42 deg, bails []]
+PASS  skater rides up the south-east quarterpipe and back down  [up to 1.63 m, steepest 70.96 deg, end (11.0, 0.0, 9.53), states [0], bails []]
+PASS  street kicker launches the skater into the air  [air up to 1.31 m, bails []]
+PASS  skater rolls up the funbox bank, across the 0.9 m top and down the far side  [top reached true, reached z -26.17, end (1.0, 0.0, -26.17) speed 4.42, states [0], bails []]
+PASS  grind button snaps the skater into GRIND on dropin_coping (coping)  [50-50 after 2 frames]
+PASS  grind button snaps the skater into GRIND on catwalk_handrail (catwalk)  [50-50 after 2 frames]
+PASS  grind button snaps the skater into GRIND on hp_coping_w (coping)  [50-50 after 2 frames]
+PASS  grind button snaps the skater into GRIND on hp_coping_e (coping)  [50-50 after 2 frames]
+PASS  grind button snaps the skater into GRIND on east_qp_coping (coping)  [50-50 after 2 frames]
+PASS  grind button snaps the skater into GRIND on wall_pipe (pipe)  [50-50 after 2 frames]
+PASS  grind button snaps the skater into GRIND on se_qp_coping (coping)  [50-50 after 2 frames]
+PASS  grind button snaps the skater into GRIND on funbox_edge_0 (ledge)  [50-50 after 2 frames]
+PASS  grind button snaps the skater into GRIND on funbox_edge_1 (ledge)  [50-50 after 2 frames]
+PASS  grind button snaps the skater into GRIND on funbox_edge_2 (ledge)  [50-50 after 2 frames]
+PASS  grind button snaps the skater into GRIND on funbox_edge_3 (ledge)  [50-50 after 2 frames]
+PASS  grind button snaps the skater into GRIND on funbox_rail (rail)  [50-50 after 2 frames]
+PASS  grind button snaps the skater into GRIND on long_rail (rail)  [50-50 after 2 frames]
+PASS  grind button snaps the skater into GRIND on diag_rail (rail)  [50-50 after 2 frames]
+PASS  grind button snaps the skater into GRIND on ledge_a (ledge)  [50-50 after 2 frames]
+PASS  grind button snaps the skater into GRIND on ledge_a (ledge)  [50-50 after 2 frames]
+PASS  grind button snaps the skater into GRIND on ledge_b (ledge)  [50-50 after 2 frames]
+PASS  grind button snaps the skater into GRIND on ledge_b (ledge)  [50-50 after 2 frames]
+PASS  grind button snaps the skater into GRIND on rafter_west (rafter)  [50-50 after 2 frames]
+PASS  grind button snaps the skater into GRIND on rafter_east (rafter)  [50-50 after 2 frames]
+PASS  grind button snaps the skater into GRIND on secret_rail (rail)  [50-50 after 2 frames]
+PASS  rafter goal not yet done before the rafter grind
+PASS  the rafter is reachable: off the catwalk kicker, grind button, onto the rafter  [grind on 'rafter_west' for 3.00 s, bails []]
+PASS  grinding the rafter completes 'Grind the Rafters'
+PASS  windows intact at the start (after reset_run)
+PASS  a window does not break from the ground or from mid-hall airs
+PASS  window 0 breaks when the skater launches a vert air off the east quarter in front of it  [air up to 4.77 m, broken now 1, glass visible false, bails []]
+PASS  window 1 breaks when the skater launches a vert air off the east quarter in front of it  [air up to 4.77 m, broken now 2, glass visible false, bails []]
+PASS  window 2 breaks when the skater launches a vert air off the east quarter in front of it  [air up to 4.77 m, broken now 3, glass visible false, bails []]
+PASS  window 3 breaks when the skater launches a vert air off the east quarter in front of it  [air up to 4.77 m, broken now 4, glass visible false, bails []]
+PASS  window 4 breaks when the skater launches a vert air off the east quarter in front of it  [air up to 4.77 m, broken now 5, glass visible false, bails []]
+PASS  all 5 windows broken, each once (window_broken signal 1/5 .. 5/5)  [[[0, 1], [1, 2], [2, 3], [3, 4], [4, 5]]]
+PASS  breaking the 5 windows completes 'Break the 5 Windows'
+PASS  reset_run restores all 5 windows
+PASS  a grind along the wall pipe breaks all 5 windows above it  [grind from z -2.52 to -43.94, broken 5, bails []]
+PASS  reset_run restores them again
+PASS  before: rays and a skater-sized sphere cast from the hall into the secret room are blocked by the boarded wall  [0/9 rays through, sphere free 51%, first hit BreakWallBody at x=-19.90]
+PASS  tape not yet collected
+PASS  rolling into the boarded wall breaks it (wall_broken, collision body removed)  [broke with the skater at (-19.78, 0.0, -36.8)]
+PASS  the boarded wall's panels, battens and sign are gone
+PASS  the skater rolls through the doorway into the hidden room  [2.98 s inside, reached x=-28.60, bails []]
+PASS  the secret tape is collected in the room (off the room's kicker)  [tape signals 1]
+PASS  collecting the tape completes 'Find the Secret Tape'
+PASS  after: the doorway into the room is open (~5 m wide, 3.2 m high) and a skater-sized sphere passes  [9/9 rays through, sphere free 100%, frame blocked 3/3, first hit COL_wood at x=-29.36]
+PASS  reset_run rebuilds the wall (blocked again) and puts the tape back  [0 rays through, first hit BreakWallBody]
+110 passed, 0 failed
+
+WARNING: 22 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

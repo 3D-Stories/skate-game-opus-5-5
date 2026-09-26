@@ -1,0 +1,66 @@
+{
+  "url": "http://localhost:8765/",
+  "time": "2026-09-25T14:22:11",
+  "checks": {
+    "engine boots (Godot banner in console)": {
+      "pass": true,
+      "detail": ""
+    },
+    "keyboard: Enter starts the run": {
+      "pass": true,
+      "detail": ""
+    },
+    "audio: Web Audio context running": {
+      "pass": true,
+      "detail": "['running']"
+    },
+    "audio: synthesized sample voices play": {
+      "pass": true,
+      "detail": "43 voices started"
+    },
+    "gamepad (Gamepad API): button A starts the run": {
+      "pass": true,
+      "detail": ""
+    },
+    "gamepad (Gamepad API): Start pauses the run": {
+      "pass": true,
+      "detail": "[run] paused at 117.7 s left"
+    },
+    "pause freezes the clock (resumed at the paused time)": {
+      "pass": true,
+      "detail": "[run] paused at 117.7 s left / [run] resumed at 117.7 s left"
+    },
+    "no failed requests": {
+      "pass": true,
+      "detail": ""
+    },
+    "no page or console errors": {
+      "pass": true,
+      "detail": ""
+    }
+  },
+  "console_errors": [],
+  "failed_requests": [],
+  "requests": 10,
+  "audio": {
+    "states": [
+      "running"
+    ],
+    "sources": 43,
+    "starts": 43
+  },
+  "console_keyboard": [
+    "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+    "OpenGL API OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium)) - Compatibility - Using Device: WebKit - WebKit WebGL",
+    "Build configuration: Emscripten 4.0.20, single-threaded, no GDExtension support.",
+    "[run] started"
+  ],
+  "console_gamepad": [
+    "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+    "OpenGL API OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium)) - Compatibility - Using Device: WebKit - WebKit WebGL",
+    "Build configuration: Emscripten 4.0.20, single-threaded, no GDExtension support.",
+    "[run] started",
+    "[run] paused at 117.7 s left",
+    "[run] resumed at 117.7 s left"
+  ]
+}

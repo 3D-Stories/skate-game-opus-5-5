@@ -72,6 +72,7 @@ func _physics_process(delta: float) -> void:
 		note("step %d: %s  pos=%s v=%.1f st=%d" % [step, s.get("note", ""), str(skater.global_position.snapped(Vector3.ONE * 0.1)),
 				skater.vel.length(), skater.state])
 	var done := _run_step(s)
+	_let_go_before_landing()
 	if not done and step_t > float(s.get("timeout", 10.0)):
 		note("step %d TIMEOUT (%s) pos=%s st=%d" % [step, s.get("note", ""), str(skater.global_position.snapped(Vector3.ONE * 0.1)), skater.state])
 		done = true
@@ -81,6 +82,17 @@ func _physics_process(delta: float) -> void:
 	if done:
 		step += 1
 		step_t = 0.0
+
+
+func _let_go_before_landing() -> void:
+	## Like a player, release a held grab just before touching down (landing still in a
+	## grab bails, as in THPS).
+	if not _cur.get("grab", false) or skater.state != Skater.AIR or skater.vel.y >= 0.0:
+		return
+	var p := skater.global_position
+	var q := PhysicsRayQueryParameters3D.create(p, p + Vector3.DOWN * (absf(skater.vel.y) * 0.16 + 0.35), 1)
+	if not skater.get_world_3d().direct_space_state.intersect_ray(q).is_empty():
+		_cur.erase("grab")
 
 
 func _jump_to(label: String) -> void:
@@ -170,6 +182,8 @@ func _halfpipe(s: Dictionary) -> bool:
 		s["_t0"] = 0.0
 	var airs: Array = s["airs"]
 	var sk := skater
+	if verbose and fmod(t, 0.5) < get_physics_process_delta_time():
+		note("  hp st=%d pos=%s v=%.1f up.y=%.2f i=%d" % [sk.state, str(sk.global_position.snapped(Vector3.ONE * 0.1)), sk.vel.length(), sk.up.y, int(s["_i"])])
 	if sk.state == Skater.AIR:
 		if not s["_air"]:
 			s["_air"] = true
@@ -197,7 +211,8 @@ func _halfpipe(s: Dictionary) -> bool:
 			# aim across the flat bottom, correcting any drift along the halfpipe
 			var side := signf(sk.vel.x) if absf(sk.vel.x) > 0.5 else -1.0
 			var zt := float(s["z"])
-			_steer_to(Vector3(side * 6.0, 0.0, zt + (zt - sk.global_position.z) * 2.0), true)
+			var z := sk.global_position.z
+			_steer_to(Vector3(sk.global_position.x + side * 6.0, 0.0, z + clampf(zt - z, -1.5, 1.5) * 0.6), true)
 		else:
 			_stick = Vector2(0, 1)
 	return false

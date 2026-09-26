@@ -51,10 +51,57 @@ def reset_scene():
     for c in list(bpy.data.collections):
         bpy.data.collections.remove(c)
     scn = bpy.context.scene
+    for s in list(bpy.data.scenes):          # scratch scenes left by an earlier step
+        if s != scn:
+            bpy.data.scenes.remove(s)
+    reset_settings(scn)
     scn.frame_start, scn.frame_end = 1, 250
     scn.render.fps = 30
     scn.unit_settings.system = 'METRIC'
     return scn
+
+
+_RESET_SKIP = {"rna_type", "preview_pause", "ffmpeg", "sequencer_colorspace_settings",
+               "linear_colorspace_settings", "colorspace_settings"}   # UI-only or unset in a new scene
+
+
+def _reset_rna(dst, src, depth=0):
+    """Copy every writable property of `src` (a freshly created default struct) onto `dst`."""
+    for prop in src.bl_rna.properties:
+        pid = prop.identifier
+        if pid in _RESET_SKIP:
+            continue
+        if prop.type == 'POINTER':
+            sub = getattr(src, pid, None)
+            if sub is not None and not isinstance(sub, bpy.types.ID) and depth < 3:
+                _reset_rna(getattr(dst, pid), sub, depth + 1)
+            continue
+        if prop.type == 'COLLECTION' or prop.is_readonly:
+            continue
+        try:
+            setattr(dst, pid, getattr(src, pid))
+        except Exception:
+            pass
+
+
+def reset_settings(scn):
+    """Every build step starts from the same scene settings, whatever ran before it (in the
+    live window or in one headless build_all run): render, bake, Cycles, EEVEE and colour
+    management go back to Blender's defaults, the world is new, and the GPU is configured."""
+    tmp = bpy.data.scenes.new("_defaults")
+    try:
+        for attr in ("render", "cycles", "view_settings", "display_settings", "eevee"):
+            if hasattr(tmp, attr) and hasattr(scn, attr):
+                _reset_rna(getattr(scn, attr), getattr(tmp, attr))
+    finally:
+        bpy.data.scenes.remove(tmp)
+    scn.frame_set(1)
+    for w in list(bpy.data.worlds):
+        bpy.data.worlds.remove(w)
+    w = bpy.data.worlds.new("World")
+    w.use_nodes = True
+    scn.world = w
+    use_gpu()
 
 
 def collection(name, parent=None):
@@ -115,6 +162,18 @@ def apply_modifiers(obj):
             bpy.ops.object.modifier_apply(modifier=m.name)
         except RuntimeError:
             obj.modifiers.remove(m)
+
+
+def rest_bvh(ob):
+    """BVH of an object's own mesh data in object space (rest shape, no modifiers) - the
+    same space as BVHTree.FromObject. Built from the mesh data rather than the evaluated
+    depsgraph, so ray casts give the same answer in the interactive window and in a
+    background (headless) build."""
+    from mathutils.bvhtree import BVHTree
+    me = ob.data
+    verts = [v.co.copy() for v in me.vertices]
+    polys = [tuple(p.vertices) for p in me.polygons]
+    return BVHTree.FromPolygons(verts, polys, all_triangles=False)
 
 
 def apply_transform(obj):

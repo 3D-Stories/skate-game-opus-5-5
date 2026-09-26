@@ -50,6 +50,19 @@ static func spin_name(deg: float) -> String:
 	return ("FS " if deg > 0.0 else "BS ") + str(steps * 180)
 
 
+static func category(trick_name: String) -> String:
+	## "flip", "grab", "grind", "manual", "spin" or "special" for a trick name.
+	for d in [FLIPS, GRABS, GRINDS]:
+		for k in d:
+			if d[k]["name"] == trick_name:
+				return "flip" if d == FLIPS else ("grab" if d == GRABS else "grind")
+	if trick_name == MANUAL["name"] or trick_name == NOSE_MANUAL["name"]:
+		return "manual"
+	if trick_name == SPECIAL["name"]:
+		return "special"
+	return "spin" if trick_name.begins_with("FS ") or trick_name.begins_with("BS ") else ""
+
+
 static func all_tricks() -> Array:
 	## Rows for the README / start screen: [name, points, input].
 	return [

@@ -1,0 +1,46 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
+Pro Skater scoring tests  2026-09-25T23:21:37
+PASS  combo sum and multiplier (100 + 200) x 2
+PASS  combo score = base sum x number of tricks
+PASS  landing banks the combo
+PASS  combo cleared after landing
+PASS  landed combo keeps its trick list
+PASS  flip + grind + manual + grab chain into one x4 combo
+PASS  repeated trick loses value 100/75/50/25/10%
+PASS  degraded repeats still count toward the multiplier
+PASS  repeat penalty resets in a new combo
+PASS  grind earns its per-second value while held
+PASS  held value is degraded on a repeat too (75%)
+PASS  bailing loses the combo (no points)
+PASS  bailing empties the special meter
+PASS  landing with no combo scores nothing
+PASS  landing tricks fills the special meter and unlocks the special
+PASS  each landed combo adds points/90 to the meter (fifteen 600-point combos fill it)
+PASS  big combos fill it faster (capped at 45% per combo)
+PASS  a full meter does not drain
+PASS  a partial meter drains slowly between combos
+PASS  the special trick is worth 3000
+PASS  special is categorised
+PASS  spin bonuses 180/360/540
+PASS  a slightly short 180 still counts (25 deg tolerance)
+PASS  an under-rotated spin scores nothing
+PASS  spin names
+PASS  score formatting with thousands separators
+PASS  trick category for Kickflip
+PASS  trick category for Indy
+PASS  trick category for 50-50
+PASS  trick category for Manual
+PASS  trick category for Nose Manual
+PASS  trick category for Boardslide
+PASS  trick category for 360 Flip
+PASS  trick category for Pop Shove-It
+PASS  HUD shows the combo string
+PASS  HUD shows base points X multiplier
+PASS  HUD total updates when the combo lands
+PASS  HUD shows the landed combo value
+PASS  HUD shows BAIL and keeps the total
+PASS  HUD timer shows m:ss
+40 passed, 0 failed
+

@@ -1,0 +1,110 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/dev/anim_gallery.gd" id="1_gal"]
+[ext_resource type="Script" path="res://scripts/skater/skater_model.gd" id="2_model"]
+
+[sub_resource type="ProceduralSkyMaterial" id="SkyMat_1"]
+sky_top_color = Color(0.33, 0.45, 0.62, 1)
+sky_horizon_color = Color(0.66, 0.69, 0.74, 1)
+ground_bottom_color = Color(0.2, 0.2, 0.21, 1)
+ground_horizon_color = Color(0.66, 0.69, 0.74, 1)
+
+[sub_resource type="Sky" id="Sky_1"]
+sky_material = SubResource("SkyMat_1")
+
+[sub_resource type="Environment" id="Env_1"]
+background_mode = 2
+sky = SubResource("Sky_1")
+ambient_light_source = 3
+ambient_light_energy = 0.9
+reflected_light_source = 2
+tonemap_mode = 4
+tonemap_exposure = 1.0
+tonemap_white = 6.0
+glow_enabled = true
+glow_intensity = 0.3
+glow_hdr_threshold = 1.2
+
+[sub_resource type="PlaneMesh" id="Plane_1"]
+size = Vector2(40, 40)
+
+[sub_resource type="BoxShape3D" id="Box_1"]
+size = Vector3(40, 1, 40)
+
+[sub_resource type="LabelSettings" id="TitleLS"]
+font_size = 50
+outline_size = 10
+outline_color = Color(0, 0, 0, 0.85)
+
+[sub_resource type="LabelSettings" id="InfoLS"]
+font_size = 27
+outline_size = 7
+outline_color = Color(0, 0, 0, 0.85)
+
+[sub_resource type="LabelSettings" id="FootLS"]
+font_size = 20
+font_color = Color(0.9, 0.9, 0.9, 0.9)
+outline_size = 5
+outline_color = Color(0, 0, 0, 0.8)
+
+[node name="AnimGallery" type="Node3D"]
+script = ExtResource("1_gal")
+
+[node name="SkaterModel" type="Node3D" parent="."]
+script = ExtResource("2_model")
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("Plane_1")
+
+[node name="Shape" type="CollisionShape3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("Box_1")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.7071068, -0.4545195, 0.5416752, 0, 0.7660444, 0.6427876, -0.7071068, -0.4545195, 0.5416752, 0, 4, 0)
+light_color = Color(1, 0.95, 0.88, 1)
+light_energy = 2.2
+shadow_enabled = true
+directional_shadow_mode = 0
+directional_shadow_max_distance = 12.0
+
+[node name="Fill" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.8660254, 0.1736482, -0.4698463, 0, 0.9381913, 0.3461171, 0.5, 0.3007674, -0.8137977, 0, 3, 0)
+light_color = Color(0.75, 0.82, 1, 1)
+light_energy = 0.45
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Env_1")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+current = true
+fov = 38.0
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Title" type="Label" parent="HUD"]
+offset_left = 34.0
+offset_top = 20.0
+offset_right = 1880.0
+offset_bottom = 92.0
+label_settings = SubResource("TitleLS")
+
+[node name="Info" type="Label" parent="HUD"]
+offset_left = 36.0
+offset_top = 92.0
+offset_right = 1880.0
+offset_bottom = 260.0
+label_settings = SubResource("InfoLS")
+
+[node name="Footer" type="Label" parent="HUD"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 36.0
+offset_top = -46.0
+offset_right = 1880.0
+offset_bottom = -14.0
+grow_vertical = 0
+label_settings = SubResource("FootLS")

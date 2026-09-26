@@ -1,0 +1,5064 @@
+{
+ "board.glb": {
+  "file": "board.glb",
+  "bytes": 6746920,
+  "sha256": "64340a4cedb0c0ef",
+  "nodes": [
+   [
+    "Bolts",
+    "Bolts",
+    0
+   ],
+   [
+    "Deck",
+    "Deck",
+    0
+   ],
+   [
+    "Skateboard",
+    "",
+    8
+   ],
+   [
+    "Truck_B",
+    "Truck_B",
+    0
+   ],
+   [
+    "Truck_F",
+    "Truck_F",
+    0
+   ],
+   [
+    "Wheel_BL",
+    "Wheel_BL",
+    1
+   ],
+   [
+    "Wheel_BL_bearing",
+    "Wheel_BL_bearing",
+    0
+   ],
+   [
+    "Wheel_BR",
+    "Wheel_BR",
+    1
+   ],
+   [
+    "Wheel_BR_bearing",
+    "Wheel_BR_bearing",
+    0
+   ],
+   [
+    "Wheel_FL",
+    "Wheel_FL",
+    1
+   ],
+   [
+    "Wheel_FL_bearing",
+    "Wheel_FL_bearing",
+    0
+   ],
+   [
+    "Wheel_FR",
+    "Wheel_FR",
+    1
+   ],
+   [
+    "Wheel_FR_bearing",
+    "Wheel_FR_bearing",
+    0
+   ]
+  ],
+  "meshes": [
+   {
+    "name": "Bolts",
+    "primitives": [
+     {
+      "verts": 192,
+      "indices": 1056,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "Hardware",
+      "min": [
+       -0.2118,
+       0.006,
+       -0.0258
+      ],
+      "max": [
+       0.2118,
+       0.0075,
+       0.0258
+      ],
+      "hash": {
+       "NORMAL": "c6c4fb215d38351a",
+       "POSITION": "9047566226d893ed",
+       "indices": "544709cc2597d317"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Deck",
+    "primitives": [
+     {
+      "verts": 1455,
+      "indices": 8064,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0"
+      ],
+      "material": "Griptape",
+      "min": [
+       -0.3995,
+       0.006,
+       -0.1015
+      ],
+      "max": [
+       0.3995,
+       0.0577,
+       0.1015
+      ],
+      "hash": {
+       "NORMAL": "247160b478a09434",
+       "POSITION": "e9ee6d62def1b365",
+       "TEXCOORD_0": "08cec6e615057e84",
+       "indices": "77b75092bc6e7a25"
+      },
+      "targets": 0
+     },
+     {
+      "verts": 1455,
+      "indices": 8064,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0"
+      ],
+      "material": "DeckGraphic",
+      "min": [
+       -0.3995,
+       -0.006,
+       -0.1015
+      ],
+      "max": [
+       0.3995,
+       0.0457,
+       0.1015
+      ],
+      "hash": {
+       "NORMAL": "41e2946fc1ca6ed2",
+       "POSITION": "8fc9535e8fac7777",
+       "TEXCOORD_0": "00e0c1c1a3121a90",
+       "indices": "090cfde53f3b2be6"
+      },
+      "targets": 0
+     },
+     {
+      "verts": 440,
+      "indices": 1320,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0"
+      ],
+      "material": "DeckPly",
+      "min": [
+       -0.3995,
+       -0.002,
+       -0.1015
+      ],
+      "max": [
+       0.3995,
+       0.0577,
+       0.1015
+      ],
+      "hash": {
+       "NORMAL": "f7fe0dff51547837",
+       "POSITION": "d97195e75513223b",
+       "TEXCOORD_0": "fe4ef25bf913625a",
+       "indices": "fd4df885c6d7a494"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Truck_B",
+    "primitives": [
+     {
+      "verts": 152,
+      "indices": 396,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "TruckAlu",
+      "min": [
+       -0.215,
+       0.022,
+       -0.065
+      ],
+      "max": [
+       -0.145,
+       0.077,
+       0.065
+      ],
+      "hash": {
+       "NORMAL": "7e8e0e1077761a8c",
+       "POSITION": "66338411f7497e82",
+       "indices": "a904bc59d97d3790"
+      },
+      "targets": 0
+     },
+     {
+      "verts": 52,
+      "indices": 288,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "Steel",
+      "min": [
+       -0.1852,
+       0.0225,
+       -0.105
+      ],
+      "max": [
+       -0.1533,
+       0.0755,
+       0.105
+      ],
+      "hash": {
+       "NORMAL": "0e4810a1009a0ffd",
+       "POSITION": "b310ac2807f94cd7",
+       "indices": "f965761ac5383ba6"
+      },
+      "targets": 0
+     },
+     {
+      "verts": 56,
+      "indices": 312,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "Bushing",
+      "min": [
+       -0.1742,
+       0.045,
+       -0.0095
+      ],
+      "max": [
+       -0.1546,
+       0.0754,
+       0.0095
+      ],
+      "hash": {
+       "NORMAL": "1014cd63439bbb72",
+       "POSITION": "58e31bf59b8a8c15",
+       "indices": "0d5ac3f494bc15b4"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Truck_F",
+    "primitives": [
+     {
+      "verts": 152,
+      "indices": 396,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "TruckAlu",
+      "min": [
+       0.145,
+       0.022,
+       -0.065
+      ],
+      "max": [
+       0.215,
+       0.077,
+       0.065
+      ],
+      "hash": {
+       "NORMAL": "5ccca2e07f16dfd0",
+       "POSITION": "6d407ba500d290f2",
+       "indices": "a904bc59d97d3790"
+      },
+      "targets": 0
+     },
+     {
+      "verts": 52,
+      "indices": 288,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "Steel",
+      "min": [
+       0.1533,
+       0.0225,
+       -0.105
+      ],
+      "max": [
+       0.1852,
+       0.0755,
+       0.105
+      ],
+      "hash": {
+       "NORMAL": "c0fc6c9e84122565",
+       "POSITION": "df65bef5f5dc73d2",
+       "indices": "f965761ac5383ba6"
+      },
+      "targets": 0
+     },
+     {
+      "verts": 56,
+      "indices": 312,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "Bushing",
+      "min": [
+       0.1546,
+       0.045,
+       -0.0095
+      ],
+      "max": [
+       0.1742,
+       0.0754,
+       0.0095
+      ],
+      "hash": {
+       "NORMAL": "d71ef5406ab7f663",
+       "POSITION": "2703c2df103c8c8c",
+       "indices": "0d5ac3f494bc15b4"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Wheel_BL",
+    "primitives": [
+     {
+      "verts": 320,
+      "indices": 1728,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "Wheel",
+      "min": [
+       -0.0265,
+       -0.0265,
+       -0.016
+      ],
+      "max": [
+       0.0265,
+       0.0265,
+       0.016
+      ],
+      "hash": {
+       "NORMAL": "6c6bbf3fd2c6edfb",
+       "POSITION": "881b12539bb74911",
+       "indices": "7b609e134d95aaa9"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Wheel_BL_bearing",
+    "primitives": [
+     {
+      "verts": 40,
+      "indices": 228,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "Bearing",
+      "min": [
+       -0.011,
+       -0.011,
+       -0.0175
+      ],
+      "max": [
+       0.011,
+       0.011,
+       -0.0155
+      ],
+      "hash": {
+       "NORMAL": "ac21954102e4fc39",
+       "POSITION": "93d107e399f32697",
+       "indices": "636e893b47f94aa6"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Wheel_BR",
+    "primitives": [
+     {
+      "verts": 320,
+      "indices": 1728,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "Wheel",
+      "min": [
+       -0.0265,
+       -0.0265,
+       -0.016
+      ],
+      "max": [
+       0.0265,
+       0.0265,
+       0.016
+      ],
+      "hash": {
+       "NORMAL": "6c6bbf3fd2c6edfb",
+       "POSITION": "881b12539bb74911",
+       "indices": "7b609e134d95aaa9"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Wheel_BR_bearing",
+    "primitives": [
+     {
+      "verts": 40,
+      "indices": 228,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "Bearing",
+      "min": [
+       -0.011,
+       -0.011,
+       0.0155
+      ],
+      "max": [
+       0.011,
+       0.011,
+       0.0175
+      ],
+      "hash": {
+       "NORMAL": "ac21954102e4fc39",
+       "POSITION": "1c5fd98ab001a4ea",
+       "indices": "636e893b47f94aa6"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Wheel_FL",
+    "primitives": [
+     {
+      "verts": 320,
+      "indices": 1728,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "Wheel",
+      "min": [
+       -0.0265,
+       -0.0265,
+       -0.016
+      ],
+      "max": [
+       0.0265,
+       0.0265,
+       0.016
+      ],
+      "hash": {
+       "NORMAL": "6c6bbf3fd2c6edfb",
+       "POSITION": "881b12539bb74911",
+       "indices": "7b609e134d95aaa9"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Wheel_FL_bearing",
+    "primitives": [
+     {
+      "verts": 40,
+      "indices": 228,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "Bearing",
+      "min": [
+       -0.011,
+       -0.011,
+       -0.0175
+      ],
+      "max": [
+       0.011,
+       0.011,
+       -0.0155
+      ],
+      "hash": {
+       "NORMAL": "ac21954102e4fc39",
+       "POSITION": "93d107e399f32697",
+       "indices": "636e893b47f94aa6"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Wheel_FR",
+    "primitives": [
+     {
+      "verts": 320,
+      "indices": 1728,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "Wheel",
+      "min": [
+       -0.0265,
+       -0.0265,
+       -0.016
+      ],
+      "max": [
+       0.0265,
+       0.0265,
+       0.016
+      ],
+      "hash": {
+       "NORMAL": "6c6bbf3fd2c6edfb",
+       "POSITION": "881b12539bb74911",
+       "indices": "7b609e134d95aaa9"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Wheel_FR_bearing",
+    "primitives": [
+     {
+      "verts": 40,
+      "indices": 228,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "Bearing",
+      "min": [
+       -0.011,
+       -0.011,
+       0.0155
+      ],
+      "max": [
+       0.011,
+       0.011,
+       0.0175
+      ],
+      "hash": {
+       "NORMAL": "ac21954102e4fc39",
+       "POSITION": "1c5fd98ab001a4ea",
+       "indices": "636e893b47f94aa6"
+      },
+      "targets": 0
+     }
+    ]
+   }
+  ],
+  "skins": [],
+  "materials": [
+   {
+    "name": "Bearing",
+    "textures": [],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "Bushing",
+    "textures": [],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "DeckGraphic",
+    "textures": [
+     "baseColorTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "DeckPly",
+    "textures": [
+     "baseColorTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "Griptape",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "Hardware",
+    "textures": [],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "Steel",
+    "textures": [],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "TruckAlu",
+    "textures": [],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "Wheel",
+    "textures": [],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   }
+  ],
+  "images": [
+   {
+    "name": "deck_graphic_tex",
+    "mime": "image/png",
+    "hash": "3bcf988b4da347c0"
+   },
+   {
+    "name": "deck_ply",
+    "mime": "image/png",
+    "hash": "3979d4d5853271e3"
+   },
+   {
+    "name": "grip_albedo",
+    "mime": "image/png",
+    "hash": "6c318dfee5b53b43"
+   },
+   {
+    "name": "grip_normal",
+    "mime": "image/png",
+    "hash": "a0cc93d1c05067fb"
+   }
+  ],
+  "animations": []
+ },
+ "park.glb": {
+  "file": "park.glb",
+  "bytes": 30610824,
+  "sha256": "2f280a94283d05e8",
+  "nodes": [
+   [
+    "BreakWall_0",
+    "BreakWall_0",
+    0
+   ],
+   [
+    "BreakWall_1",
+    "BreakWall_1",
+    0
+   ],
+   [
+    "BreakWall_2",
+    "BreakWall_2",
+    0
+   ],
+   [
+    "BreakWall_3",
+    "BreakWall_3",
+    0
+   ],
+   [
+    "BreakWall_4",
+    "BreakWall_4",
+    0
+   ],
+   [
+    "BreakWall_batten24",
+    "BreakWall_batten24",
+    0
+   ],
+   [
+    "BreakWall_batten8",
+    "BreakWall_batten8",
+    0
+   ],
+   [
+    "BreakWall_sign",
+    "BreakWall_sign",
+    0
+   ],
+   [
+    "COL_concrete-colonly",
+    "COL_concrete-colonly",
+    0
+   ],
+   [
+    "COL_metal-colonly",
+    "COL_metal-colonly",
+    0
+   ],
+   [
+    "COL_metal_thin-colonly",
+    "COL_metal_thin-colonly",
+    0
+   ],
+   [
+    "COL_wall-colonly",
+    "COL_wall-colonly",
+    0
+   ],
+   [
+    "COL_wood-colonly",
+    "COL_wood-colonly",
+    0
+   ],
+   [
+    "Park_barrel",
+    "Park_barrel",
+    0
+   ],
+   [
+    "Park_brick",
+    "Park_brick",
+    0
+   ],
+   [
+    "Park_cinder",
+    "Park_cinder",
+    0
+   ],
+   [
+    "Park_concrete",
+    "Park_concrete",
+    0
+   ],
+   [
+    "Park_concrete_floor",
+    "Park_concrete_floor",
+    0
+   ],
+   [
+    "Park_coping",
+    "Park_coping",
+    0
+   ],
+   [
+    "Park_corrugated",
+    "Park_corrugated",
+    0
+   ],
+   [
+    "Park_crate",
+    "Park_crate",
+    0
+   ],
+   [
+    "Park_crate_frame",
+    "Park_crate_frame",
+    0
+   ],
+   [
+    "Park_diamond",
+    "Park_diamond",
+    0
+   ],
+   [
+    "Park_dumpster",
+    "Park_dumpster",
+    0
+   ],
+   [
+    "Park_exit_sign",
+    "Park_exit_sign",
+    0
+   ],
+   [
+    "Park_graffiti",
+    "Park_graffiti",
+    0
+   ],
+   [
+    "Park_lamp",
+    "Park_lamp",
+    0
+   ],
+   [
+    "Park_paint_line",
+    "Park_paint_line",
+    0
+   ],
+   [
+    "Park_plywood",
+    "Park_plywood",
+    0
+   ],
+   [
+    "Park_rafter",
+    "Park_rafter",
+    0
+   ],
+   [
+    "Park_rail",
+    "Park_rail",
+    0
+   ],
+   [
+    "Park_rampside",
+    "Park_rampside",
+    0
+   ],
+   [
+    "Park_roof",
+    "Park_roof",
+    0
+   ],
+   [
+    "Park_skylight",
+    "Park_skylight",
+    0
+   ],
+   [
+    "Park_steel",
+    "Park_steel",
+    0
+   ],
+   [
+    "Park_steel_paint",
+    "Park_steel_paint",
+    0
+   ],
+   [
+    "Park_yard",
+    "Park_yard",
+    0
+   ],
+   [
+    "Window_0",
+    "Window_0",
+    0
+   ],
+   [
+    "Window_1",
+    "Window_1",
+    0
+   ],
+   [
+    "Window_2",
+    "Window_2",
+    0
+   ],
+   [
+    "Window_3",
+    "Window_3",
+    0
+   ],
+   [
+    "Window_4",
+    "Window_4",
+    0
+   ]
+  ],
+  "meshes": [
+   {
+    "name": "BreakWall_0",
+    "primitives": [
+     {
+      "verts": 24,
+      "indices": 36,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_boards",
+      "min": [
+       -20.08,
+       0.01,
+       -34.99
+      ],
+      "max": [
+       -20.02,
+       3.19,
+       -34.01
+      ],
+      "hash": {
+       "NORMAL": "575ec3a39b89f666",
+       "POSITION": "982c59c11b45bcf1",
+       "TEXCOORD_0": "5087a86b52d97d1e",
+       "TEXCOORD_1": "6d563e4de552537a",
+       "indices": "1b1a968502cfc78b"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "BreakWall_1",
+    "primitives": [
+     {
+      "verts": 24,
+      "indices": 36,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_boards",
+      "min": [
+       -20.08,
+       0.01,
+       -35.99
+      ],
+      "max": [
+       -20.02,
+       3.19,
+       -35.01
+      ],
+      "hash": {
+       "NORMAL": "575ec3a39b89f666",
+       "POSITION": "6bc64aaef5897961",
+       "TEXCOORD_0": "fb625f9cf1749df5",
+       "TEXCOORD_1": "d962dd8f250d164d",
+       "indices": "1b1a968502cfc78b"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "BreakWall_2",
+    "primitives": [
+     {
+      "verts": 24,
+      "indices": 36,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_boards",
+      "min": [
+       -20.08,
+       0.01,
+       -36.99
+      ],
+      "max": [
+       -20.02,
+       3.19,
+       -36.01
+      ],
+      "hash": {
+       "NORMAL": "575ec3a39b89f666",
+       "POSITION": "263b264993113f93",
+       "TEXCOORD_0": "f3cc771c141d4b5f",
+       "TEXCOORD_1": "2d4bcaca1b83db7e",
+       "indices": "1b1a968502cfc78b"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "BreakWall_3",
+    "primitives": [
+     {
+      "verts": 24,
+      "indices": 36,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_boards",
+      "min": [
+       -20.08,
+       0.01,
+       -37.99
+      ],
+      "max": [
+       -20.02,
+       3.19,
+       -37.01
+      ],
+      "hash": {
+       "NORMAL": "575ec3a39b89f666",
+       "POSITION": "0e8aaa871340418e",
+       "TEXCOORD_0": "4812db09a8fdebd0",
+       "TEXCOORD_1": "b3d7f01faf270373",
+       "indices": "1b1a968502cfc78b"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "BreakWall_4",
+    "primitives": [
+     {
+      "verts": 24,
+      "indices": 36,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_boards",
+      "min": [
+       -20.08,
+       0.01,
+       -38.99
+      ],
+      "max": [
+       -20.02,
+       3.19,
+       -38.01
+      ],
+      "hash": {
+       "NORMAL": "575ec3a39b89f666",
+       "POSITION": "30b6e8d2181e5d1e",
+       "TEXCOORD_0": "3690bf4c4cc52d57",
+       "TEXCOORD_1": "b1d3a53d1bcbbef3",
+       "indices": "1b1a968502cfc78b"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "BreakWall_batten24",
+    "primitives": [
+     {
+      "verts": 24,
+      "indices": 36,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_crate_frame",
+      "min": [
+       -20.005,
+       1.9629,
+       -38.9882
+      ],
+      "max": [
+       -19.955,
+       2.8371,
+       -34.0118
+      ],
+      "hash": {
+       "NORMAL": "35809e1d2aa49a79",
+       "POSITION": "923b1457f4737938",
+       "TEXCOORD_0": "6bb34fe0ec2d7f87",
+       "TEXCOORD_1": "a2be087dff703c2a",
+       "indices": "98b54497dc877f38"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "BreakWall_batten8",
+    "primitives": [
+     {
+      "verts": 24,
+      "indices": 36,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_crate_frame",
+      "min": [
+       -20.005,
+       0.3629,
+       -38.9882
+      ],
+      "max": [
+       -19.955,
+       1.2371,
+       -34.0118
+      ],
+      "hash": {
+       "NORMAL": "5ba145aa7af4d9c2",
+       "POSITION": "56c3b1ebcecc7687",
+       "TEXCOORD_0": "9c6d7235a11e2813",
+       "TEXCOORD_1": "45d5ccd4ac31a2d8",
+       "indices": "a0e76b345c00164c"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "BreakWall_sign",
+    "primitives": [
+     {
+      "verts": 4,
+      "indices": 6,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_graffiti",
+      "min": [
+       -20.008,
+       1.0305,
+       -38.5162
+      ],
+      "max": [
+       -20.008,
+       2.1695,
+       -34.4838
+      ],
+      "hash": {
+       "NORMAL": "afefd1546babde90",
+       "POSITION": "bdbd7cde20eff58f",
+       "TEXCOORD_0": "9767678cf033e8b9",
+       "TEXCOORD_1": "763f3f58095965eb",
+       "indices": "4a16b824acb5d55f"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "COL_concrete-colonly",
+    "primitives": [
+     {
+      "verts": 736,
+      "indices": 1350,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "",
+      "min": [
+       -30,
+       0,
+       -50
+      ],
+      "max": [
+       20,
+       2.7014,
+       16
+      ],
+      "hash": {
+       "NORMAL": "9443fd12421ccc4b",
+       "POSITION": "7ef980a9057ec823",
+       "indices": "2fa34eaf9ac8bd74"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "COL_metal-colonly",
+    "primitives": [
+     {
+      "verts": 4135,
+      "indices": 6204,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "",
+      "min": [
+       -20,
+       0,
+       -47
+      ],
+      "max": [
+       19.12,
+       6.8,
+       15.8
+      ],
+      "hash": {
+       "NORMAL": "b517844c64e0ad7b",
+       "POSITION": "4f904a8e6407b527",
+       "indices": "30a62a9a0d69f135"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "COL_metal_thin-colonly",
+    "primitives": [
+     {
+      "verts": 2112,
+      "indices": 3168,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "",
+      "min": [
+       -27,
+       0.376,
+       -32.524
+      ],
+      "max": [
+       13.0156,
+       6.025,
+       15.8
+      ],
+      "hash": {
+       "NORMAL": "f7730b54a3f85161",
+       "POSITION": "dc2c30d1c2b68dfd",
+       "indices": "f5a463d4a5eb21f1"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "COL_wall-colonly",
+    "primitives": [
+     {
+      "verts": 1521,
+      "indices": 3618,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "",
+      "min": [
+       -30,
+       0,
+       -50
+      ],
+      "max": [
+       20,
+       11.5,
+       16
+      ],
+      "hash": {
+       "NORMAL": "200f052a087e4aa3",
+       "POSITION": "4df26ca5177d9f27",
+       "indices": "012a6d9f39b2f95b"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "COL_wood-colonly",
+    "primitives": [
+     {
+      "verts": 962,
+      "indices": 1452,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "",
+      "min": [
+       -30,
+       0,
+       -49
+      ],
+      "max": [
+       20,
+       5.45,
+       16
+      ],
+      "hash": {
+       "NORMAL": "4350f67d1b726664",
+       "POSITION": "80f146f989339506",
+       "indices": "07f10b62b97b1a8a"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Park_barrel",
+    "primitives": [
+     {
+      "verts": 2151,
+      "indices": 6342,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_barrel",
+      "min": [
+       -14.3958,
+       0,
+       -44.8958
+      ],
+      "max": [
+       16.1958,
+       0.88,
+       1.2958
+      ],
+      "hash": {
+       "NORMAL": "91b594fe3b80596f",
+       "POSITION": "aec809870b93438b",
+       "TEXCOORD_0": "1a058bea43dd6644",
+       "TEXCOORD_1": "637bb6d758025a23",
+       "indices": "7b7169f8c57663b6"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Park_brick",
+    "primitives": [
+     {
+      "verts": 64,
+      "indices": 96,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_brick",
+      "min": [
+       -20,
+       0,
+       -50
+      ],
+      "max": [
+       20,
+       4.5,
+       16
+      ],
+      "hash": {
+       "NORMAL": "1f625f6bed8de0bd",
+       "POSITION": "4d4f29ae3d8e059b",
+       "TEXCOORD_0": "5113ee2efc3feb4d",
+       "TEXCOORD_1": "6720671c5b4dd9a5",
+       "indices": "adad7746168c8c54"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Park_cinder",
+    "primitives": [
+     {
+      "verts": 24,
+      "indices": 36,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_cinder",
+      "min": [
+       -30,
+       0,
+       -43
+      ],
+      "max": [
+       -20,
+       5,
+       -31
+      ],
+      "hash": {
+       "NORMAL": "8791d0fd4492e7d8",
+       "POSITION": "a05f3c57d6601306",
+       "TEXCOORD_0": "3165dbb8ffdd83d7",
+       "TEXCOORD_1": "cf81b86588d6b355",
+       "indices": "de8b86fafea59b52"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Park_concrete",
+    "primitives": [
+     {
+      "verts": 76,
+      "indices": 114,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_concrete",
+      "min": [
+       -8,
+       0,
+       -25
+      ],
+      "max": [
+       8.8,
+       5,
+       16
+      ],
+      "hash": {
+       "NORMAL": "5d56373fb8435803",
+       "POSITION": "6160fb19d3773d22",
+       "TEXCOORD_0": "c3f8a88d616920c0",
+       "TEXCOORD_1": "5f847fbd3248ff9c",
+       "indices": "12a9810b95fbd767"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Park_concrete_floor",
+    "primitives": [
+     {
+      "verts": 76,
+      "indices": 336,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_concrete_floor",
+      "min": [
+       -30,
+       0,
+       -50
+      ],
+      "max": [
+       20,
+       0,
+       16
+      ],
+      "hash": {
+       "NORMAL": "be7903465f55756f",
+       "POSITION": "b50a408bacaa35db",
+       "TEXCOORD_0": "0fa40ee004f15f24",
+       "TEXCOORD_1": "e6251857da185925",
+       "indices": "1eda2817b0356b66"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Park_coping",
+    "primitives": [
+     {
+      "verts": 3376,
+      "indices": 6408,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_coping",
+      "min": [
+       -29.46,
+       0.4096,
+       -49
+      ],
+      "max": [
+       19.26,
+       5.45,
+       15.26
+      ],
+      "hash": {
+       "NORMAL": "e68eeb1535e5d0b6",
+       "POSITION": "710954a66d1b497c",
+       "TEXCOORD_0": "f84d2cee094585b3",
+       "TEXCOORD_1": "eabd3dd2e5c9e447",
+       "indices": "4cea37dc8bd391c2"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Park_corrugated",
+    "primitives": [
+     {
+      "verts": 64,
+      "indices": 102,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_corrugated",
+      "min": [
+       -20,
+       0,
+       -50
+      ],
+      "max": [
+       20,
+       11.5,
+       16
+      ],
+      "hash": {
+       "NORMAL": "c597726a901f4d61",
+       "POSITION": "17f9365eb4938e54",
+       "TEXCOORD_0": "d59b0d11def5da8d",
+       "TEXCOORD_1": "4a0b3e4eb0f7b447",
+       "indices": "51b11942ddcc8124"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Park_crate",
+    "primitives": [
+     {
+      "verts": 612,
+      "indices": 918,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_crate",
+      "min": [
+       -29.0265,
+       0,
+       -47.8384
+      ],
+      "max": [
+       17.4223,
+       2.7014,
+       13.1692
+      ],
+      "hash": {
+       "NORMAL": "4024907a723affe6",
+       "POSITION": "076480cb59cec2a9",
+       "TEXCOORD_0": "f62b5271688ddf26",
+       "TEXCOORD_1": "38490d124fcd95bb",
+       "indices": "d0fea6dcc052d74a"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Park_crate_frame",
+    "primitives": [
+     {
+      "verts": 2016,
+      "indices": 3024,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_crate_frame",
+      "min": [
+       -29.0286,
+       0.01,
+       -47.8484
+      ],
+      "max": [
+       17.4243,
+       2.6914,
+       13.179
+      ],
+      "hash": {
+       "NORMAL": "f5dd36dcea366d6a",
+       "POSITION": "9cca0b3429d61b92",
+       "TEXCOORD_0": "fe9efe8712475b85",
+       "TEXCOORD_1": "33d53c3e2e8cbe60",
+       "indices": "cbc8682688da259c"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Park_diamond",
+    "primitives": [
+     {
+      "verts": 8,
+      "indices": 12,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_diamond",
+      "min": [
+       -20,
+       5,
+       -24
+      ],
+      "max": [
+       -8,
+       5,
+       15.8
+      ],
+      "hash": {
+       "NORMAL": "d11e8bde7c98cd81",
+       "POSITION": "9b9e061750e7b60a",
+       "TEXCOORD_0": "dfc4b6a074a0c870",
+       "TEXCOORD_1": "c6e1a3d884b121c0",
+       "indices": "3323b44f9bef9906"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Park_dumpster",
+    "primitives": [
+     {
+      "verts": 48,
+      "indices": 72,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_dumpster",
+      "min": [
+       12.95,
+       0,
+       6.85
+      ],
+      "max": [
+       15.55,
+       1.38,
+       8.55
+      ],
+      "hash": {
+       "NORMAL": "f11e2bc1242b85b6",
+       "POSITION": "a630fa3b1945f21d",
+       "TEXCOORD_0": "ae9a0c1dd6355bf8",
+       "TEXCOORD_1": "10a500f854da535f",
+       "indices": "ba0385e4e376735a"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Park_exit_sign",
+    "primitives": [
+     {
+      "verts": 24,
+      "indices": 36,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0"
+      ],
+      "material": "park_exit_sign",
+      "min": [
+       -1,
+       7,
+       -50
+      ],
+      "max": [
+       1,
+       7.5,
+       -49.9
+      ],
+      "hash": {
+       "NORMAL": "2390b895a04a8ba4",
+       "POSITION": "f52c1a224000b91f",
+       "TEXCOORD_0": "6d128d8a2a76b00c",
+       "indices": "03e55c9f5b769945"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Park_graffiti",
+    "primitives": [
+     {
+      "verts": 52,
+      "indices": 78,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_graffiti",
+      "min": [
+       -29.985,
+       0.554,
+       -49.985
+      ],
+      "max": [
+       19.985,
+       10.65,
+       15.985
+      ],
+      "hash": {
+       "NORMAL": "fcc48359e9e8f4e5",
+       "POSITION": "8b11ccecfe7d88c8",
+       "TEXCOORD_0": "383198ddc18ef6ef",
+       "TEXCOORD_1": "68a924276caf0c5c",
+       "indices": "ead98fd03e533681"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Park_lamp",
+    "primitives": [
+     {
+      "verts": 744,
+      "indices": 1116,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0"
+      ],
+      "material": "park_lamp",
+      "min": [
+       -25.5,
+       4.92,
+       -44.06
+      ],
+      "max": [
+       13.2,
+       8.2,
+       12.06
+      ],
+      "hash": {
+       "NORMAL": "52ee8d7c72e23257",
+       "POSITION": "06f3f013934499f3",
+       "TEXCOORD_0": "b806cb79cfc8eda9",
+       "indices": "dcfa7d5b8e698818"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Park_paint_line",
+    "primitives": [
+     {
+      "verts": 8,
+      "indices": 12,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_paint_line",
+      "min": [
+       -15,
+       0.004,
+       -33.06
+      ],
+      "max": [
+       15,
+       0.004,
+       3.06
+      ],
+      "hash": {
+       "NORMAL": "d11e8bde7c98cd81",
+       "POSITION": "db7b6f0bda406b68",
+       "TEXCOORD_0": "18d8efaad5a1ab33",
+       "TEXCOORD_1": "30f37a14078f2f35",
+       "indices": "668b099db30af4b0"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Park_plywood",
+    "primitives": [
+     {
+      "verts": 542,
+      "indices": 1452,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_plywood",
+      "min": [
+       -30,
+       0,
+       -49
+      ],
+      "max": [
+       20,
+       5.45,
+       16
+      ],
+      "hash": {
+       "NORMAL": "17a3c6388eb5e0a7",
+       "POSITION": "bdee1d70d1c4f129",
+       "TEXCOORD_0": "e76f39a9d82b046d",
+       "TEXCOORD_1": "a3d817c7d828528a",
+       "indices": "ed2bb90949687b9b"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Park_rafter",
+    "primitives": [
+     {
+      "verts": 144,
+      "indices": 216,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_rafter",
+      "min": [
+       -18.92,
+       5.64,
+       -47
+      ],
+      "max": [
+       19.12,
+       6.8,
+       -27.5
+      ],
+      "hash": {
+       "NORMAL": "13ab593f44c67d7b",
+       "POSITION": "495329cfbf2df29b",
+       "TEXCOORD_0": "6989bbc596cd25c4",
+       "TEXCOORD_1": "ea0542aa0839a4f0",
+       "indices": "2f2201bfeacdd801"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Park_rail",
+    "primitives": [
+     {
+      "verts": 1604,
+      "indices": 3168,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_rail",
+      "min": [
+       -27,
+       0.376,
+       -32.524
+      ],
+      "max": [
+       13.0156,
+       6.025,
+       15.8
+      ],
+      "hash": {
+       "NORMAL": "921dcde6e4566d36",
+       "POSITION": "959001e19735943d",
+       "TEXCOORD_0": "15889de62ab80f8f",
+       "TEXCOORD_1": "3843418321970eda",
+       "indices": "458b3a9013298ba9"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Park_rampside",
+    "primitives": [
+     {
+      "verts": 1000,
+      "indices": 2742,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_rampside",
+      "min": [
+       -30,
+       0,
+       -49
+      ],
+      "max": [
+       20,
+       5.45,
+       16
+      ],
+      "hash": {
+       "NORMAL": "baccf62c23207c0e",
+       "POSITION": "9241d468835e7472",
+       "TEXCOORD_0": "0bc83aeab25b8afb",
+       "TEXCOORD_1": "430a5c5b8cec3f30",
+       "indices": "66ef72bfd3741fa1"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Park_roof",
+    "primitives": [
+     {
+      "verts": 76,
+      "indices": 276,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_roof",
+      "min": [
+       -30,
+       5,
+       -50
+      ],
+      "max": [
+       20,
+       11.5,
+       16
+      ],
+      "hash": {
+       "NORMAL": "aea0c082eb05c8d6",
+       "POSITION": "90498dccab455e6f",
+       "TEXCOORD_0": "e2170253bef5e076",
+       "TEXCOORD_1": "cd099d920d7d1549",
+       "indices": "cdb126e4e9f03479"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Park_skylight",
+    "primitives": [
+     {
+      "verts": 40,
+      "indices": 60,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0"
+      ],
+      "material": "park_skylight",
+      "min": [
+       -11,
+       12,
+       -47
+      ],
+      "max": [
+       11,
+       12,
+       11
+      ],
+      "hash": {
+       "NORMAL": "33a76dce5cde4b33",
+       "POSITION": "6db54fdfcec85a44",
+       "TEXCOORD_0": "9a565d3758e69d9c",
+       "indices": "a1da5dd9d9dfe4a3"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Park_steel",
+    "primitives": [
+     {
+      "verts": 10012,
+      "indices": 16596,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_steel",
+      "min": [
+       -27.09,
+       0,
+       -46.03
+      ],
+      "max": [
+       20,
+       11.98,
+       15.89
+      ],
+      "hash": {
+       "NORMAL": "f023e8349b4f9913",
+       "POSITION": "f74b75a3058aaf45",
+       "TEXCOORD_0": "8733fee3429674d3",
+       "TEXCOORD_1": "38852ce233325aef",
+       "indices": "f7b44978a926f2b8"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Park_steel_paint",
+    "primitives": [
+     {
+      "verts": 10280,
+      "indices": 16140,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "park_steel_paint",
+      "min": [
+       -20,
+       0,
+       -50
+      ],
+      "max": [
+       20,
+       12,
+       16
+      ],
+      "hash": {
+       "NORMAL": "a233d95e49b1e45b",
+       "POSITION": "845138b22371be54",
+       "TEXCOORD_0": "51eb99300db49e05",
+       "TEXCOORD_1": "80e93f448d847ab1",
+       "indices": "278371fca516943a"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Park_yard",
+    "primitives": [
+     {
+      "verts": 8,
+      "indices": 12,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0"
+      ],
+      "material": "park_yard",
+      "min": [
+       20.4,
+       0,
+       -50
+      ],
+      "max": [
+       26,
+       12,
+       16
+      ],
+      "hash": {
+       "NORMAL": "ec3cee2237ab5938",
+       "POSITION": "31013c618b1ec17e",
+       "TEXCOORD_0": "52edb793188a7369",
+       "indices": "6f9e5c3056e229c0"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Window_0",
+    "primitives": [
+     {
+      "verts": 4,
+      "indices": 6,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0"
+      ],
+      "material": "park_glass",
+      "min": [
+       19.95,
+       4.4,
+       -10.4
+      ],
+      "max": [
+       19.95,
+       6.4,
+       -7.6
+      ],
+      "hash": {
+       "NORMAL": "c06c589b4778dac1",
+       "POSITION": "85c5ee5347f01973",
+       "TEXCOORD_0": "6248dd31c3b072d7",
+       "indices": "f13b7176013e2e5d"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Window_1",
+    "primitives": [
+     {
+      "verts": 4,
+      "indices": 6,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0"
+      ],
+      "material": "park_glass",
+      "min": [
+       19.95,
+       4.4,
+       -15.6
+      ],
+      "max": [
+       19.95,
+       6.4,
+       -12.8
+      ],
+      "hash": {
+       "NORMAL": "c06c589b4778dac1",
+       "POSITION": "d5c55227c88a54a6",
+       "TEXCOORD_0": "51ded1753cc7a4b3",
+       "indices": "f13b7176013e2e5d"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Window_2",
+    "primitives": [
+     {
+      "verts": 4,
+      "indices": 6,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0"
+      ],
+      "material": "park_glass",
+      "min": [
+       19.95,
+       4.4,
+       -20.8
+      ],
+      "max": [
+       19.95,
+       6.4,
+       -18
+      ],
+      "hash": {
+       "NORMAL": "c06c589b4778dac1",
+       "POSITION": "74c9e5a2593f636a",
+       "TEXCOORD_0": "d44cc355433c0799",
+       "indices": "f13b7176013e2e5d"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Window_3",
+    "primitives": [
+     {
+      "verts": 4,
+      "indices": 6,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0"
+      ],
+      "material": "park_glass",
+      "min": [
+       19.95,
+       4.4,
+       -26
+      ],
+      "max": [
+       19.95,
+       6.4,
+       -23.2
+      ],
+      "hash": {
+       "NORMAL": "c06c589b4778dac1",
+       "POSITION": "fd178077de57c049",
+       "TEXCOORD_0": "61a460175ac2509b",
+       "indices": "f13b7176013e2e5d"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Window_4",
+    "primitives": [
+     {
+      "verts": 4,
+      "indices": 6,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0"
+      ],
+      "material": "park_glass",
+      "min": [
+       19.95,
+       4.4,
+       -31.2
+      ],
+      "max": [
+       19.95,
+       6.4,
+       -28.4
+      ],
+      "hash": {
+       "NORMAL": "c06c589b4778dac1",
+       "POSITION": "c32e30fa145023c8",
+       "TEXCOORD_0": "3f5c83865236748d",
+       "indices": "f13b7176013e2e5d"
+      },
+      "targets": 0
+     }
+    ]
+   }
+  ],
+  "skins": [],
+  "materials": [
+   {
+    "name": "park_barrel",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "park_boards",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "park_brick",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "park_cinder",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "park_concrete",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "park_concrete_floor",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "park_coping",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "park_corrugated",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "park_crate",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "park_crate_frame",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "park_diamond",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "park_dumpster",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "park_exit_sign",
+    "textures": [],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "park_glass",
+    "textures": [],
+    "alpha": "BLEND",
+    "double_sided": true
+   },
+   {
+    "name": "park_graffiti",
+    "textures": [
+     "baseColorTexture"
+    ],
+    "alpha": "BLEND",
+    "double_sided": true
+   },
+   {
+    "name": "park_lamp",
+    "textures": [],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "park_paint_line",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "park_plywood",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "park_rafter",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "park_rail",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "park_rampside",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "park_roof",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "park_skylight",
+    "textures": [],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "park_steel",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "park_steel_paint",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "park_yard",
+    "textures": [],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   }
+  ],
+  "images": [
+   {
+    "name": "park_barrel_albedo",
+    "mime": "image/webp",
+    "hash": "3b469708a196b204"
+   },
+   {
+    "name": "park_barrel_normal",
+    "mime": "image/webp",
+    "hash": "3afb455b2b2e3081"
+   },
+   {
+    "name": "park_boards_albedo",
+    "mime": "image/webp",
+    "hash": "6b25c8eb216e20a3"
+   },
+   {
+    "name": "park_boards_normal",
+    "mime": "image/webp",
+    "hash": "6d312f645c6e9982"
+   },
+   {
+    "name": "park_brick_albedo",
+    "mime": "image/webp",
+    "hash": "c2f98e7f2d16446f"
+   },
+   {
+    "name": "park_brick_normal",
+    "mime": "image/webp",
+    "hash": "0ff5258d2c225f61"
+   },
+   {
+    "name": "park_cinder_albedo",
+    "mime": "image/webp",
+    "hash": "1ff65e6d1deadc08"
+   },
+   {
+    "name": "park_cinder_normal",
+    "mime": "image/webp",
+    "hash": "a61c94cf1bbb9311"
+   },
+   {
+    "name": "park_concrete_albedo",
+    "mime": "image/webp",
+    "hash": "22cec3f4a47aa14d"
+   },
+   {
+    "name": "park_concrete_floor_albedo",
+    "mime": "image/webp",
+    "hash": "65d45ad80624c3b5"
+   },
+   {
+    "name": "park_concrete_floor_normal",
+    "mime": "image/webp",
+    "hash": "9c7a36d3224d0769"
+   },
+   {
+    "name": "park_concrete_normal",
+    "mime": "image/webp",
+    "hash": "ae0bd3a271d33c8a"
+   },
+   {
+    "name": "park_coping_albedo",
+    "mime": "image/webp",
+    "hash": "d583165fed32b86c"
+   },
+   {
+    "name": "park_coping_normal",
+    "mime": "image/webp",
+    "hash": "2cd8e6dc413619a1"
+   },
+   {
+    "name": "park_corrugated_albedo",
+    "mime": "image/webp",
+    "hash": "b18c523f4f38abb5"
+   },
+   {
+    "name": "park_corrugated_normal",
+    "mime": "image/webp",
+    "hash": "40481da418adbf83"
+   },
+   {
+    "name": "park_crate_albedo",
+    "mime": "image/webp",
+    "hash": "97494e95a8cda45e"
+   },
+   {
+    "name": "park_crate_frame_albedo",
+    "mime": "image/webp",
+    "hash": "b6440ad609fe7f70"
+   },
+   {
+    "name": "park_crate_frame_normal",
+    "mime": "image/webp",
+    "hash": "42c31aa242cf7260"
+   },
+   {
+    "name": "park_crate_normal",
+    "mime": "image/webp",
+    "hash": "42c31aa242cf7260"
+   },
+   {
+    "name": "park_diamond_albedo",
+    "mime": "image/webp",
+    "hash": "aedfd6c4a8eb487c"
+   },
+   {
+    "name": "park_diamond_normal",
+    "mime": "image/webp",
+    "hash": "69c6ebc0d4940a2f"
+   },
+   {
+    "name": "park_dumpster_albedo",
+    "mime": "image/webp",
+    "hash": "5f7148528e85d27b"
+   },
+   {
+    "name": "park_dumpster_normal",
+    "mime": "image/webp",
+    "hash": "4af2240d4ad8d102"
+   },
+   {
+    "name": "park_graffiti",
+    "mime": "image/webp",
+    "hash": "228776891236ff54"
+   },
+   {
+    "name": "park_paint_line_albedo",
+    "mime": "image/webp",
+    "hash": "3aca1ebe3e3af136"
+   },
+   {
+    "name": "park_paint_line_normal",
+    "mime": "image/webp",
+    "hash": "7c80d8b2d35421e4"
+   },
+   {
+    "name": "park_plywood_albedo",
+    "mime": "image/webp",
+    "hash": "4ee3709359ed14a6"
+   },
+   {
+    "name": "park_plywood_normal",
+    "mime": "image/webp",
+    "hash": "a3d8504f80567f30"
+   },
+   {
+    "name": "park_rafter_albedo",
+    "mime": "image/webp",
+    "hash": "a6bad898ae9b2f0a"
+   },
+   {
+    "name": "park_rafter_normal",
+    "mime": "image/webp",
+    "hash": "4af2240d4ad8d102"
+   },
+   {
+    "name": "park_rail_albedo",
+    "mime": "image/webp",
+    "hash": "b01e89fffa4f16e4"
+   },
+   {
+    "name": "park_rail_normal",
+    "mime": "image/webp",
+    "hash": "3afb455b2b2e3081"
+   },
+   {
+    "name": "park_rampside_albedo",
+    "mime": "image/webp",
+    "hash": "d9e49c413e1d0645"
+   },
+   {
+    "name": "park_rampside_normal",
+    "mime": "image/webp",
+    "hash": "a3d8504f80567f30"
+   },
+   {
+    "name": "park_roof_albedo",
+    "mime": "image/webp",
+    "hash": "4ace7702bc6b32d2"
+   },
+   {
+    "name": "park_roof_normal",
+    "mime": "image/webp",
+    "hash": "40481da418adbf83"
+   },
+   {
+    "name": "park_steel_albedo",
+    "mime": "image/webp",
+    "hash": "8fca9d7ce30cee83"
+   },
+   {
+    "name": "park_steel_normal",
+    "mime": "image/webp",
+    "hash": "4af2240d4ad8d102"
+   },
+   {
+    "name": "park_steel_paint_albedo",
+    "mime": "image/webp",
+    "hash": "4b5fd09e2d9b4178"
+   },
+   {
+    "name": "park_steel_paint_normal",
+    "mime": "image/webp",
+    "hash": "4af2240d4ad8d102"
+   }
+  ],
+  "animations": []
+ },
+ "park_data.json": {
+  "sha256": "58a2b3496db4a4d0",
+  "bytes": 9945
+ },
+ "park_lightmap.png": {
+  "sha256": "4db46fc1bb1eed68",
+  "bytes": 4848271
+ },
+ "pickups.glb": {
+  "file": "pickups.glb",
+  "bytes": 92624,
+  "sha256": "e4f2b4cfc4617d65",
+  "nodes": [
+   [
+    "Letter_A",
+    "Letter_A",
+    0
+   ],
+   [
+    "Letter_E",
+    "Letter_E",
+    0
+   ],
+   [
+    "Letter_K",
+    "Letter_K",
+    0
+   ],
+   [
+    "Letter_S",
+    "Letter_S",
+    0
+   ],
+   [
+    "Letter_T",
+    "Letter_T",
+    0
+   ],
+   [
+    "SecretTape",
+    "SecretTape",
+    0
+   ]
+  ],
+  "meshes": [
+   {
+    "name": "Letter_A",
+    "primitives": [
+     {
+      "verts": 220,
+      "indices": 660,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0"
+      ],
+      "material": "LetterGold",
+      "min": [
+       -0.3304,
+       -0.29,
+       -0.09
+      ],
+      "max": [
+       0.3309,
+       0.3674,
+       0.09
+      ],
+      "hash": {
+       "NORMAL": "5e12e95402837bcc",
+       "POSITION": "062cc8a5f7e60b66",
+       "TEXCOORD_0": "80273dc7978f40f3",
+       "indices": "8579ea637bcf21f3"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Letter_E",
+    "primitives": [
+     {
+      "verts": 240,
+      "indices": 708,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0"
+      ],
+      "material": "LetterGold",
+      "min": [
+       -0.1775,
+       -0.29,
+       -0.09
+      ],
+      "max": [
+       0.2189,
+       0.3638,
+       0.09
+      ],
+      "hash": {
+       "NORMAL": "07dc1cefc7cc9eaf",
+       "POSITION": "ce0d14593552121f",
+       "TEXCOORD_0": "ddcd5b33c9d71611",
+       "indices": "fb1e924cf0cf3959"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Letter_K",
+    "primitives": [
+     {
+      "verts": 214,
+      "indices": 648,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0"
+      ],
+      "material": "LetterGold",
+      "min": [
+       -0.2477,
+       -0.29,
+       -0.09
+      ],
+      "max": [
+       0.3436,
+       0.3638,
+       0.09
+      ],
+      "hash": {
+       "NORMAL": "b8af3193afcc6df2",
+       "POSITION": "cfdcb30e28031fde",
+       "TEXCOORD_0": "1f355f7d008cdc4f",
+       "indices": "097d646391db2a07"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Letter_S",
+    "primitives": [
+     {
+      "verts": 946,
+      "indices": 3708,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0"
+      ],
+      "material": "LetterGold",
+      "min": [
+       -0.1904,
+       -0.2982,
+       -0.09
+      ],
+      "max": [
+       0.1976,
+       0.372,
+       0.09
+      ],
+      "hash": {
+       "NORMAL": "7d4da54d13ac3925",
+       "POSITION": "aec855e889625ec3",
+       "TEXCOORD_0": "6dd436cd21c3eb5f",
+       "indices": "930a8a769c68617c"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Letter_T",
+    "primitives": [
+     {
+      "verts": 160,
+      "indices": 468,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0"
+      ],
+      "material": "LetterGold",
+      "min": [
+       -0.2765,
+       -0.29,
+       -0.09
+      ],
+      "max": [
+       0.2765,
+       0.3638,
+       0.09
+      ],
+      "hash": {
+       "NORMAL": "4b35fbdf8a2a91c6",
+       "POSITION": "6fbec14b33658f9a",
+       "TEXCOORD_0": "3814bb87d6727b19",
+       "indices": "583e8e5f88df0d22"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "SecretTape",
+    "primitives": [
+     {
+      "verts": 96,
+      "indices": 180,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0"
+      ],
+      "material": "TapePlastic",
+      "min": [
+       -0.2431,
+       -0.1339,
+       -0.0325
+      ],
+      "max": [
+       0.2431,
+       0.1339,
+       0.0325
+      ],
+      "hash": {
+       "NORMAL": "e2a65d7b7dc9e653",
+       "POSITION": "33a61ffa7ff88212",
+       "TEXCOORD_0": "1ffd72da4dabb234",
+       "indices": "b4b138814f6a3a17"
+      },
+      "targets": 0
+     },
+     {
+      "verts": 96,
+      "indices": 552,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0"
+      ],
+      "material": "TapeReel",
+      "min": [
+       -0.1742,
+       -0.026,
+       -0.0676
+      ],
+      "max": [
+       0.1742,
+       0.0884,
+       0.0676
+      ],
+      "hash": {
+       "NORMAL": "0a04e06cb2195506",
+       "POSITION": "1b3db689f0e021e4",
+       "TEXCOORD_0": "1ffd72da4dabb234",
+       "indices": "37d482206f09e94d"
+      },
+      "targets": 0
+     },
+     {
+      "verts": 24,
+      "indices": 36,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0"
+      ],
+      "material": "TapeWindowMat",
+      "min": [
+       -0.156,
+       -0.0208,
+       -0.0676
+      ],
+      "max": [
+       0.156,
+       0.0832,
+       0.0676
+      ],
+      "hash": {
+       "NORMAL": "575ec3a39b89f666",
+       "POSITION": "558f90e920c7e4ad",
+       "TEXCOORD_0": "e34af2311cfe54f9",
+       "indices": "1b1a968502cfc78b"
+      },
+      "targets": 0
+     },
+     {
+      "verts": 4,
+      "indices": 6,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0"
+      ],
+      "material": "TapeLabelMat",
+      "min": [
+       -0.208,
+       -0.117,
+       0.0341
+      ],
+      "max": [
+       0.208,
+       -0.0312,
+       0.0341
+      ],
+      "hash": {
+       "NORMAL": "796f0b940d4268e7",
+       "POSITION": "6b1cebc8c92d9cda",
+       "TEXCOORD_0": "b8fc5bdd8797cc5a",
+       "indices": "4a16b824acb5d55f"
+      },
+      "targets": 0
+     }
+    ]
+   }
+  ],
+  "skins": [],
+  "materials": [
+   {
+    "name": "LetterGold",
+    "textures": [],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "TapeLabelMat",
+    "textures": [
+     "baseColorTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "TapePlastic",
+    "textures": [],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "TapeReel",
+    "textures": [],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "TapeWindowMat",
+    "textures": [],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   }
+  ],
+  "images": [
+   {
+    "name": "tape_label",
+    "mime": "image/png",
+    "hash": "c80ca826e391a3c3"
+   }
+  ],
+  "animations": []
+ },
+ "skater.glb": {
+  "file": "skater.glb",
+  "bytes": 12765204,
+  "sha256": "6c1c3627de6c5673",
+  "nodes": [
+   [
+    "Aglet",
+    "Aglet",
+    0
+   ],
+   [
+    "Aglet.001",
+    "Aglet.001",
+    0
+   ],
+   [
+    "Cornea_L",
+    "Cornea_L",
+    0
+   ],
+   [
+    "Cornea_R",
+    "Cornea_R",
+    0
+   ],
+   [
+    "Drawstring_L",
+    "Drawstring_L",
+    0
+   ],
+   [
+    "Drawstring_R",
+    "Drawstring_R",
+    0
+   ],
+   [
+    "Eye_L",
+    "Eye_L",
+    0
+   ],
+   [
+    "Eye_R",
+    "Eye_R",
+    0
+   ],
+   [
+    "Eyebrow_L",
+    "Eyebrow_L",
+    0
+   ],
+   [
+    "Eyebrow_R",
+    "Eyebrow_R",
+    0
+   ],
+   [
+    "Hair",
+    "Hair",
+    0
+   ],
+   [
+    "HoodBack",
+    "HoodBack",
+    0
+   ],
+   [
+    "HoodRoll",
+    "HoodRoll",
+    0
+   ],
+   [
+    "Hoodie",
+    "base.010",
+    0
+   ],
+   [
+    "Jeans",
+    "base.011",
+    0
+   ],
+   [
+    "Laces_L",
+    "Laces_L",
+    0
+   ],
+   [
+    "Laces_R",
+    "Laces_R",
+    0
+   ],
+   [
+    "LashesBot_L",
+    "base.007",
+    0
+   ],
+   [
+    "LashesBot_R",
+    "base.009",
+    0
+   ],
+   [
+    "LashesTop_L",
+    "base.006",
+    0
+   ],
+   [
+    "LashesTop_R",
+    "base.008",
+    0
+   ],
+   [
+    "Root",
+    "",
+    2
+   ],
+   [
+    "ShoeSole_L",
+    "ShoeSole_L",
+    0
+   ],
+   [
+    "ShoeSole_R",
+    "ShoeSole_R",
+    0
+   ],
+   [
+    "ShoeTongue_L",
+    "ShoeTongue_L",
+    0
+   ],
+   [
+    "ShoeTongue_R",
+    "ShoeTongue_R",
+    0
+   ],
+   [
+    "ShoeUpper_L",
+    "ShoeUpper_L",
+    0
+   ],
+   [
+    "ShoeUpper_R",
+    "ShoeUpper_R",
+    0
+   ],
+   [
+    "SkaterBody",
+    "base",
+    0
+   ],
+   [
+    "SkaterRig",
+    "",
+    32
+   ],
+   [
+    "TeethLower",
+    "base.004",
+    0
+   ],
+   [
+    "TeethUpper",
+    "base.003",
+    0
+   ],
+   [
+    "Tongue",
+    "base.005",
+    0
+   ],
+   [
+    "ball_l",
+    "",
+    0
+   ],
+   [
+    "ball_r",
+    "",
+    0
+   ],
+   [
+    "board",
+    "",
+    0
+   ],
+   [
+    "calf_l",
+    "",
+    1
+   ],
+   [
+    "calf_r",
+    "",
+    1
+   ],
+   [
+    "clavicle_l",
+    "",
+    1
+   ],
+   [
+    "clavicle_r",
+    "",
+    1
+   ],
+   [
+    "foot_l",
+    "",
+    1
+   ],
+   [
+    "foot_r",
+    "",
+    1
+   ],
+   [
+    "hand_l",
+    "",
+    5
+   ],
+   [
+    "hand_r",
+    "",
+    5
+   ],
+   [
+    "head",
+    "",
+    0
+   ],
+   [
+    "index_01_l",
+    "",
+    1
+   ],
+   [
+    "index_01_r",
+    "",
+    1
+   ],
+   [
+    "index_02_l",
+    "",
+    1
+   ],
+   [
+    "index_02_r",
+    "",
+    1
+   ],
+   [
+    "index_03_l",
+    "",
+    0
+   ],
+   [
+    "index_03_r",
+    "",
+    0
+   ],
+   [
+    "lowerarm_l",
+    "",
+    1
+   ],
+   [
+    "lowerarm_r",
+    "",
+    1
+   ],
+   [
+    "middle_01_l",
+    "",
+    1
+   ],
+   [
+    "middle_01_r",
+    "",
+    1
+   ],
+   [
+    "middle_02_l",
+    "",
+    1
+   ],
+   [
+    "middle_02_r",
+    "",
+    1
+   ],
+   [
+    "middle_03_l",
+    "",
+    0
+   ],
+   [
+    "middle_03_r",
+    "",
+    0
+   ],
+   [
+    "neck_01",
+    "",
+    1
+   ],
+   [
+    "pelvis",
+    "",
+    3
+   ],
+   [
+    "pinky_01_l",
+    "",
+    1
+   ],
+   [
+    "pinky_01_r",
+    "",
+    1
+   ],
+   [
+    "pinky_02_l",
+    "",
+    1
+   ],
+   [
+    "pinky_02_r",
+    "",
+    1
+   ],
+   [
+    "pinky_03_l",
+    "",
+    0
+   ],
+   [
+    "pinky_03_r",
+    "",
+    0
+   ],
+   [
+    "ring_01_l",
+    "",
+    1
+   ],
+   [
+    "ring_01_r",
+    "",
+    1
+   ],
+   [
+    "ring_02_l",
+    "",
+    1
+   ],
+   [
+    "ring_02_r",
+    "",
+    1
+   ],
+   [
+    "ring_03_l",
+    "",
+    0
+   ],
+   [
+    "ring_03_r",
+    "",
+    0
+   ],
+   [
+    "spine_01",
+    "",
+    1
+   ],
+   [
+    "spine_02",
+    "",
+    1
+   ],
+   [
+    "spine_03",
+    "",
+    3
+   ],
+   [
+    "thigh_l",
+    "",
+    1
+   ],
+   [
+    "thigh_r",
+    "",
+    1
+   ],
+   [
+    "thumb_01_l",
+    "",
+    1
+   ],
+   [
+    "thumb_01_r",
+    "",
+    1
+   ],
+   [
+    "thumb_02_l",
+    "",
+    1
+   ],
+   [
+    "thumb_02_r",
+    "",
+    1
+   ],
+   [
+    "thumb_03_l",
+    "",
+    0
+   ],
+   [
+    "thumb_03_r",
+    "",
+    0
+   ],
+   [
+    "upperarm_l",
+    "",
+    1
+   ],
+   [
+    "upperarm_r",
+    "",
+    1
+   ]
+  ],
+  "meshes": [
+   {
+    "name": "Aglet",
+    "primitives": [
+     {
+      "verts": 20,
+      "indices": 108,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "WEIGHTS_0"
+      ],
+      "material": "Aglet",
+      "min": [
+       -0.0352,
+       1.2416,
+       0.1606
+      ],
+      "max": [
+       -0.0281,
+       1.2642,
+       0.1698
+      ],
+      "hash": {
+       "JOINTS_0": "294901e54250a464",
+       "NORMAL": "85cef13161479c3b",
+       "POSITION": "65f6607f9ef54ac4",
+       "WEIGHTS_0": "7eb80b3c4c31a457",
+       "indices": "e2b12ffa492f29a0"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Aglet.001",
+    "primitives": [
+     {
+      "verts": 20,
+      "indices": 108,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "WEIGHTS_0"
+      ],
+      "material": "Aglet",
+      "min": [
+       0.0282,
+       1.2418,
+       0.1611
+      ],
+      "max": [
+       0.0352,
+       1.2645,
+       0.1708
+      ],
+      "hash": {
+       "JOINTS_0": "294901e54250a464",
+       "NORMAL": "fc31d7dd0056eae6",
+       "POSITION": "cc5b1bdbcd543e54",
+       "WEIGHTS_0": "7eb80b3c4c31a457",
+       "indices": "e2b12ffa492f29a0"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Cornea_L",
+    "primitives": [
+     {
+      "verts": 865,
+      "indices": 5040,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "WEIGHTS_0"
+      ],
+      "material": "Cornea",
+      "min": [
+       0.0165,
+       1.6301,
+       0.129
+      ],
+      "max": [
+       0.0454,
+       1.659,
+       0.1478
+      ],
+      "hash": {
+       "JOINTS_0": "2018539e16e9c37c",
+       "NORMAL": "8245d47de1679f4f",
+       "POSITION": "d8346150a2b28757",
+       "WEIGHTS_0": "d01512b621fbf422",
+       "indices": "56570d4856e4a563"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Cornea_R",
+    "primitives": [
+     {
+      "verts": 865,
+      "indices": 5040,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "WEIGHTS_0"
+      ],
+      "material": "Cornea",
+      "min": [
+       -0.0454,
+       1.6301,
+       0.129
+      ],
+      "max": [
+       -0.0165,
+       1.659,
+       0.1478
+      ],
+      "hash": {
+       "JOINTS_0": "2018539e16e9c37c",
+       "NORMAL": "2a04189c84b5fdea",
+       "POSITION": "6f12636018e60990",
+       "WEIGHTS_0": "d01512b621fbf422",
+       "indices": "f4b2f38e1b3305ab"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Drawstring_L",
+    "primitives": [
+     {
+      "verts": 152,
+      "indices": 708,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "WEIGHTS_0"
+      ],
+      "material": "Cord",
+      "min": [
+       0.0191,
+       1.2637,
+       0.0868
+      ],
+      "max": [
+       0.0382,
+       1.4673,
+       0.1678
+      ],
+      "hash": {
+       "JOINTS_0": "2987c1bd570393bd",
+       "NORMAL": "f1e959ecb4d2de0b",
+       "POSITION": "85126bd1ce729d24",
+       "TEXCOORD_0": "29dc250119c85e06",
+       "WEIGHTS_0": "d48a93714234180d",
+       "indices": "03c513547df071f6"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Drawstring_R",
+    "primitives": [
+     {
+      "verts": 152,
+      "indices": 708,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "WEIGHTS_0"
+      ],
+      "material": "Cord",
+      "min": [
+       -0.0382,
+       1.2635,
+       0.0868
+      ],
+      "max": [
+       -0.0191,
+       1.4673,
+       0.1673
+      ],
+      "hash": {
+       "JOINTS_0": "2987c1bd570393bd",
+       "NORMAL": "3dec4fd389c6aabd",
+       "POSITION": "6a031d6a36f9aade",
+       "TEXCOORD_0": "29dc250119c85e06",
+       "WEIGHTS_0": "d48a93714234180d",
+       "indices": "4278c66cb03c624c"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Eye_L",
+    "primitives": [
+     {
+      "verts": 1490,
+      "indices": 8928,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "WEIGHTS_0"
+      ],
+      "material": "Eye",
+      "min": [
+       0.0167,
+       1.6302,
+       0.1179
+      ],
+      "max": [
+       0.0453,
+       1.6588,
+       0.1462
+      ],
+      "hash": {
+       "JOINTS_0": "a58e8c3447be6718",
+       "NORMAL": "f7b8c878da7e6974",
+       "POSITION": "d4edf9ee201c4e30",
+       "TEXCOORD_0": "4cb47a8d5cd39f2b",
+       "WEIGHTS_0": "5f4d535544dd0652",
+       "indices": "5634e9c66122e1eb"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Eye_R",
+    "primitives": [
+     {
+      "verts": 1490,
+      "indices": 8928,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "WEIGHTS_0"
+      ],
+      "material": "Eye",
+      "min": [
+       -0.0453,
+       1.6302,
+       0.1179
+      ],
+      "max": [
+       -0.0167,
+       1.6588,
+       0.1462
+      ],
+      "hash": {
+       "JOINTS_0": "a58e8c3447be6718",
+       "NORMAL": "31c200afe9673022",
+       "POSITION": "2bc5c253a33bafbc",
+       "TEXCOORD_0": "4cb47a8d5cd39f2b",
+       "WEIGHTS_0": "5f4d535544dd0652",
+       "indices": "71275280c254a46d"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Eyebrow_L",
+    "primitives": [
+     {
+      "verts": 1120,
+      "indices": 2520,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "WEIGHTS_0"
+      ],
+      "material": "Eyebrows",
+      "min": [
+       0.0144,
+       1.6566,
+       0.1298
+      ],
+      "max": [
+       0.0597,
+       1.6769,
+       0.1608
+      ],
+      "hash": {
+       "JOINTS_0": "ac6819be984081d2",
+       "NORMAL": "2ef558e495f6f804",
+       "POSITION": "834c551865ff2edc",
+       "TEXCOORD_0": "a09a0716897a35f9",
+       "WEIGHTS_0": "c813e12947974a86",
+       "indices": "ec30e240caa0a6cf"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Eyebrow_R",
+    "primitives": [
+     {
+      "verts": 1120,
+      "indices": 2520,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "WEIGHTS_0"
+      ],
+      "material": "Eyebrows",
+      "min": [
+       -0.0616,
+       1.6568,
+       0.1254
+      ],
+      "max": [
+       -0.0144,
+       1.6769,
+       0.1611
+      ],
+      "hash": {
+       "JOINTS_0": "ac6819be984081d2",
+       "NORMAL": "52a1f29cb635f446",
+       "POSITION": "2d69d4f3ea51e4cd",
+       "TEXCOORD_0": "15b3eec95637eb1d",
+       "WEIGHTS_0": "c813e12947974a86",
+       "indices": "ec30e240caa0a6cf"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Hair",
+    "primitives": [
+     {
+      "verts": 30800,
+      "indices": 79200,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "WEIGHTS_0"
+      ],
+      "material": "Hair",
+      "min": [
+       -0.106,
+       1.5508,
+       -0.0797
+      ],
+      "max": [
+       0.1155,
+       1.8208,
+       0.2218
+      ],
+      "hash": {
+       "JOINTS_0": "34ce711111d8584f",
+       "NORMAL": "3e87a3c7a2c5456c",
+       "POSITION": "66420c087a706f0e",
+       "TEXCOORD_0": "5f73515f2d4efff7",
+       "WEIGHTS_0": "f59e85e5c5b8da88",
+       "indices": "b2c4954207034aae"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "HoodBack",
+    "primitives": [
+     {
+      "verts": 827,
+      "indices": 3336,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1",
+       "WEIGHTS_0"
+      ],
+      "material": "Hood_hood_back",
+      "min": [
+       -0.1463,
+       1.2326,
+       -0.1452
+      ],
+      "max": [
+       0.1466,
+       1.4845,
+       -0.0562
+      ],
+      "hash": {
+       "JOINTS_0": "cf21b7837bd00ec2",
+       "NORMAL": "bf37d017058598a6",
+       "POSITION": "6f33ef81403a2c5d",
+       "TEXCOORD_0": "e7a35aa287210890",
+       "TEXCOORD_1": "faaf569482503597",
+       "WEIGHTS_0": "7dc9a8d8fedc2151",
+       "indices": "b6cc3bae975640a4"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "HoodRoll",
+    "primitives": [
+     {
+      "verts": 1034,
+      "indices": 4704,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1",
+       "WEIGHTS_0"
+      ],
+      "material": "Hood_hood_roll",
+      "min": [
+       -0.1881,
+       1.4701,
+       -0.146
+      ],
+      "max": [
+       0.1881,
+       1.5167,
+       0.1343
+      ],
+      "hash": {
+       "JOINTS_0": "5c0693c99efc9e26",
+       "NORMAL": "cfa0be9196d729fe",
+       "POSITION": "96740c457faa4a61",
+       "TEXCOORD_0": "cebd9c90269fd1ef",
+       "TEXCOORD_1": "c1e7dfe38f341fd0",
+       "WEIGHTS_0": "618978baf5a9e27c",
+       "indices": "50caf1a5ed6fd108"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Laces_L",
+    "primitives": [
+     {
+      "verts": 2160,
+      "indices": 10848,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "WEIGHTS_0"
+      ],
+      "material": "Laces",
+      "min": [
+       0.1817,
+       0.0706,
+       0.0445
+      ],
+      "max": [
+       0.2356,
+       0.1258,
+       0.1545
+      ],
+      "hash": {
+       "JOINTS_0": "27dc8215ba52b1a8",
+       "NORMAL": "f34f53f09e459e83",
+       "POSITION": "143ebe6908adf874",
+       "TEXCOORD_0": "6b96531486fdead3",
+       "WEIGHTS_0": "099f6d7ea10e3d53",
+       "indices": "2ec12d6f3ca65afe"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Laces_R",
+    "primitives": [
+     {
+      "verts": 2160,
+      "indices": 10848,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "WEIGHTS_0"
+      ],
+      "material": "Laces",
+      "min": [
+       -0.2356,
+       0.0706,
+       0.0445
+      ],
+      "max": [
+       -0.1817,
+       0.1258,
+       0.1545
+      ],
+      "hash": {
+       "JOINTS_0": "527891055305ede0",
+       "NORMAL": "5b45873f0a443e50",
+       "POSITION": "5bf4010e738529c0",
+       "TEXCOORD_0": "6b96531486fdead3",
+       "WEIGHTS_0": "6bdf78367d8e6d7e",
+       "indices": "2ec12d6f3ca65afe"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "ShoeSole_L",
+    "primitives": [
+     {
+      "verts": 2600,
+      "indices": 15486,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "WEIGHTS_0"
+      ],
+      "material": "ShoeSole",
+      "min": [
+       0.152,
+       0,
+       -0.0607
+      ],
+      "max": [
+       0.2648,
+       0.044,
+       0.237
+      ],
+      "hash": {
+       "JOINTS_0": "eda0a5cc7a035874",
+       "NORMAL": "1f0b9045546bb372",
+       "POSITION": "3deaefd4b416c008",
+       "TEXCOORD_0": "4e2bc10ec1db5dd1",
+       "WEIGHTS_0": "406441285f0b625a",
+       "indices": "9233ecb6711bdaf9"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "ShoeSole_R",
+    "primitives": [
+     {
+      "verts": 2600,
+      "indices": 15492,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "WEIGHTS_0"
+      ],
+      "material": "ShoeSole",
+      "min": [
+       -0.2648,
+       0,
+       -0.0607
+      ],
+      "max": [
+       -0.152,
+       0.044,
+       0.237
+      ],
+      "hash": {
+       "JOINTS_0": "8fc9bf5ef8ffe0ba",
+       "NORMAL": "83c8a68f23af61ad",
+       "POSITION": "0243691bd23d6785",
+       "TEXCOORD_0": "52e222569914dbd5",
+       "WEIGHTS_0": "c3ce88d6e8ba8450",
+       "indices": "026519d5a37ad48e"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "ShoeTongue_L",
+    "primitives": [
+     {
+      "verts": 239,
+      "indices": 1272,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "WEIGHTS_0"
+      ],
+      "material": "ShoeTongue",
+      "min": [
+       0.1845,
+       0.0756,
+       0.0589
+      ],
+      "max": [
+       0.2327,
+       0.1321,
+       0.1233
+      ],
+      "hash": {
+       "JOINTS_0": "8cf109bb34465faf",
+       "NORMAL": "aafe6a4eea16cefe",
+       "POSITION": "abd8d7362beb2217",
+       "WEIGHTS_0": "b4aa9c0fa74654b5",
+       "indices": "5e89d999c54ba80e"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "ShoeTongue_R",
+    "primitives": [
+     {
+      "verts": 239,
+      "indices": 1272,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "WEIGHTS_0"
+      ],
+      "material": "ShoeTongue",
+      "min": [
+       -0.2327,
+       0.0756,
+       0.0589
+      ],
+      "max": [
+       -0.1845,
+       0.1321,
+       0.1233
+      ],
+      "hash": {
+       "JOINTS_0": "d35b801f615d0386",
+       "NORMAL": "d5883627e711b642",
+       "POSITION": "f4b8dbe1e35e8029",
+       "WEIGHTS_0": "b4aa9c0fa74654b5",
+       "indices": "5e89d999c54ba80e"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "ShoeUpper_L",
+    "primitives": [
+     {
+      "verts": 2657,
+      "indices": 15276,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "WEIGHTS_0"
+      ],
+      "material": "ShoeUpper",
+      "min": [
+       0.1565,
+       0.024,
+       -0.0577
+      ],
+      "max": [
+       0.2603,
+       0.1117,
+       0.234
+      ],
+      "hash": {
+       "JOINTS_0": "5adc245153f8b290",
+       "NORMAL": "d310f9ce2c8f8852",
+       "POSITION": "d2059ef75433b149",
+       "TEXCOORD_0": "3fc8533e2123608e",
+       "WEIGHTS_0": "8140de6c397c08be",
+       "indices": "655e027e97b86d19"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "ShoeUpper_R",
+    "primitives": [
+     {
+      "verts": 2658,
+      "indices": 15306,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "WEIGHTS_0"
+      ],
+      "material": "ShoeUpper",
+      "min": [
+       -0.2603,
+       0.024,
+       -0.0577
+      ],
+      "max": [
+       -0.1565,
+       0.1117,
+       0.234
+      ],
+      "hash": {
+       "JOINTS_0": "206f79c554e7f0ac",
+       "NORMAL": "071c63f281d7f3d2",
+       "POSITION": "8ac24b8c8c2daea7",
+       "TEXCOORD_0": "572af972ccbe3873",
+       "WEIGHTS_0": "df6ccd62f4fb478f",
+       "indices": "1e9e46af7e5ffece"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "base",
+    "primitives": [
+     {
+      "verts": 32860,
+      "indices": 188604,
+      "attributes": [
+       "COLOR_0",
+       "COLOR_1",
+       "COLOR_2",
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "WEIGHTS_0"
+      ],
+      "material": "Skin",
+      "min": [
+       -0.5926,
+       0.9501,
+       -0.0711
+      ],
+      "max": [
+       0.5926,
+       1.7647,
+       0.3761
+      ],
+      "hash": {
+       "COLOR_0": "2ad4e02778862fd1",
+       "COLOR_1": "f0a2953d4d5f6f6a",
+       "COLOR_2": "57ccb421a2cce49e",
+       "JOINTS_0": "4148b3929187b665",
+       "NORMAL": "e6ffd74bac8a320b",
+       "POSITION": "bdb2b105845d8e2e",
+       "TEXCOORD_0": "51774a6334d6c3a6",
+       "WEIGHTS_0": "01a49c56b983f616",
+       "indices": "7b57e793555962fe"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "base.003",
+    "primitives": [
+     {
+      "verts": 68,
+      "indices": 288,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "WEIGHTS_0"
+      ],
+      "material": "Teeth",
+      "min": [
+       -0.031,
+       1.5757,
+       0.1038
+      ],
+      "max": [
+       0.031,
+       1.5961,
+       0.1518
+      ],
+      "hash": {
+       "JOINTS_0": "f8d9104346c0c123",
+       "NORMAL": "90817a28981a4136",
+       "POSITION": "01a5758c7735c260",
+       "TEXCOORD_0": "f6f78d443539afd9",
+       "WEIGHTS_0": "d6fabee4f2e88c07",
+       "indices": "107fd1154d7e4ab9"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "base.004",
+    "primitives": [
+     {
+      "verts": 68,
+      "indices": 288,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "WEIGHTS_0"
+      ],
+      "material": "Teeth",
+      "min": [
+       -0.0311,
+       1.56,
+       0.1031
+      ],
+      "max": [
+       0.0311,
+       1.5816,
+       0.1497
+      ],
+      "hash": {
+       "JOINTS_0": "60b3f5948269fd22",
+       "NORMAL": "6b56b63ab0e3e430",
+       "POSITION": "bca4fd7a03791e6b",
+       "TEXCOORD_0": "7df914287a57b1b1",
+       "WEIGHTS_0": "33c5e538a6bf2794",
+       "indices": "18e41112711a3e2a"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "base.005",
+    "primitives": [
+     {
+      "verts": 253,
+      "indices": 1344,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "WEIGHTS_0"
+      ],
+      "material": "Tongue",
+      "min": [
+       -0.0211,
+       1.5543,
+       0.073
+      ],
+      "max": [
+       0.0211,
+       1.5851,
+       0.1432
+      ],
+      "hash": {
+       "JOINTS_0": "ed8ef22044a42d85",
+       "NORMAL": "6459af7924a9fc9d",
+       "POSITION": "1df23e8751a06dc2",
+       "TEXCOORD_0": "d6c7d74a500483ff",
+       "WEIGHTS_0": "5dc4a9728f64ce3e",
+       "indices": "706c439833ee8191"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "base.006",
+    "primitives": [
+     {
+      "verts": 60,
+      "indices": 264,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "WEIGHTS_0"
+      ],
+      "material": "LashesLower",
+      "min": [
+       0.0163,
+       1.6352,
+       0.1377
+      ],
+      "max": [
+       0.0458,
+       1.643,
+       0.1495
+      ],
+      "hash": {
+       "JOINTS_0": "fc6721415c5ebf63",
+       "NORMAL": "4df2f3459da1fe53",
+       "POSITION": "7bab125f3aa41daa",
+       "TEXCOORD_0": "f877188e1a666dfc",
+       "WEIGHTS_0": "6fbc4de17e1f4a66",
+       "indices": "b71029c06807373e"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "base.007",
+    "primitives": [
+     {
+      "verts": 65,
+      "indices": 288,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "WEIGHTS_0"
+      ],
+      "material": "Lashes",
+      "min": [
+       0.0162,
+       1.6435,
+       0.1389
+      ],
+      "max": [
+       0.0482,
+       1.6519,
+       0.1529
+      ],
+      "hash": {
+       "JOINTS_0": "6e74c2458c1566bf",
+       "NORMAL": "7566a394d54f1639",
+       "POSITION": "a2b82bd5c9ccdbdd",
+       "TEXCOORD_0": "9e577ed654cfe98d",
+       "WEIGHTS_0": "2a339312d14c0493",
+       "indices": "4a4bce2509ae7141"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "base.008",
+    "primitives": [
+     {
+      "verts": 60,
+      "indices": 264,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "WEIGHTS_0"
+      ],
+      "material": "LashesLower",
+      "min": [
+       -0.0458,
+       1.6352,
+       0.1377
+      ],
+      "max": [
+       -0.0163,
+       1.643,
+       0.1495
+      ],
+      "hash": {
+       "JOINTS_0": "fc6721415c5ebf63",
+       "NORMAL": "a97839cd219b3d69",
+       "POSITION": "7ce452ff74e98eb1",
+       "TEXCOORD_0": "b8a3e3c4c4be45f8",
+       "WEIGHTS_0": "6fbc4de17e1f4a66",
+       "indices": "53651b6c3f9f8fc4"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "base.009",
+    "primitives": [
+     {
+      "verts": 65,
+      "indices": 288,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "WEIGHTS_0"
+      ],
+      "material": "Lashes",
+      "min": [
+       -0.0482,
+       1.6435,
+       0.1389
+      ],
+      "max": [
+       -0.0162,
+       1.6519,
+       0.1529
+      ],
+      "hash": {
+       "JOINTS_0": "6e74c2458c1566bf",
+       "NORMAL": "1fdfa4a0d108fd69",
+       "POSITION": "34d9947145389241",
+       "TEXCOORD_0": "88f12ef35f9b1267",
+       "WEIGHTS_0": "2a339312d14c0493",
+       "indices": "77240aa10bcecb46"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "base.010",
+    "primitives": [
+     {
+      "verts": 13460,
+      "indices": 59370,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1",
+       "WEIGHTS_0"
+      ],
+      "material": "Hoodie",
+      "min": [
+       -0.5432,
+       0.9114,
+       -0.1972
+      ],
+      "max": [
+       0.5432,
+       1.4956,
+       0.2338
+      ],
+      "hash": {
+       "JOINTS_0": "6d0f079bd6eebed4",
+       "NORMAL": "09c0b39762b7b205",
+       "POSITION": "97999b4263c03775",
+       "TEXCOORD_0": "c2c5ccf02c22cd9f",
+       "TEXCOORD_1": "1c5e0ec127920d28",
+       "WEIGHTS_0": "24645e0d107d2749",
+       "indices": "7667b6e42e0fc518"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "base.011",
+    "primitives": [
+     {
+      "verts": 6751,
+      "indices": 31752,
+      "attributes": [
+       "JOINTS_0",
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1",
+       "WEIGHTS_0"
+      ],
+      "material": "Jeans",
+      "min": [
+       -0.2723,
+       0.059,
+       -0.0914
+      ],
+      "max": [
+       0.2701,
+       1.0575,
+       0.146
+      ],
+      "hash": {
+       "JOINTS_0": "a78aaa7f127c17a2",
+       "NORMAL": "c55517aa31e28a2f",
+       "POSITION": "c2b859dd9175992e",
+       "TEXCOORD_0": "2bce1ed44091e4d0",
+       "TEXCOORD_1": "ccd437df96c43171",
+       "WEIGHTS_0": "4d80b32454f5acde",
+       "indices": "be88439f4b1d728d"
+      },
+      "targets": 0
+     }
+    ]
+   }
+  ],
+  "skins": [
+   {
+    "name": "SkaterRig",
+    "joints": 54,
+    "ibm": "ef8b73a306713aea"
+   }
+  ],
+  "materials": [
+   {
+    "name": "Aglet",
+    "textures": [],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "Cord",
+    "textures": [],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "Cornea",
+    "textures": [],
+    "alpha": "BLEND",
+    "double_sided": true
+   },
+   {
+    "name": "Eye",
+    "textures": [
+     "baseColorTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "Eyebrows",
+    "textures": [
+     "baseColorTexture"
+    ],
+    "alpha": "BLEND",
+    "double_sided": true
+   },
+   {
+    "name": "Hair",
+    "textures": [
+     "baseColorTexture"
+    ],
+    "alpha": "BLEND",
+    "double_sided": true
+   },
+   {
+    "name": "Hood_hood_back",
+    "textures": [
+     "baseColorTexture",
+     "metallicRoughnessTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "Hood_hood_roll",
+    "textures": [
+     "baseColorTexture",
+     "metallicRoughnessTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "Hoodie",
+    "textures": [
+     "baseColorTexture",
+     "metallicRoughnessTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "Jeans",
+    "textures": [
+     "baseColorTexture",
+     "metallicRoughnessTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "Laces",
+    "textures": [],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "Lashes",
+    "textures": [
+     "baseColorTexture"
+    ],
+    "alpha": "BLEND",
+    "double_sided": true
+   },
+   {
+    "name": "LashesLower",
+    "textures": [
+     "baseColorTexture"
+    ],
+    "alpha": "BLEND",
+    "double_sided": true
+   },
+   {
+    "name": "ShoeSole",
+    "textures": [
+     "baseColorTexture",
+     "metallicRoughnessTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "ShoeTongue",
+    "textures": [],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "ShoeUpper",
+    "textures": [
+     "baseColorTexture",
+     "metallicRoughnessTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "Skin",
+    "textures": [
+     "baseColorTexture",
+     "metallicRoughnessTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "Teeth",
+    "textures": [],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "Tongue",
+    "textures": [],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   }
+  ],
+  "images": [
+   {
+    "name": "Hood_hood_back_albedo",
+    "mime": "image/webp",
+    "hash": "16f7b0ee1e6ffeda"
+   },
+   {
+    "name": "Hood_hood_back_normal",
+    "mime": "image/webp",
+    "hash": "eb4e192dafa8f251"
+   },
+   {
+    "name": "Hood_hood_back_rough",
+    "mime": "image/webp",
+    "hash": "6624c8f05504a1d8"
+   },
+   {
+    "name": "Hood_hood_roll_albedo",
+    "mime": "image/webp",
+    "hash": "92fef7725c548463"
+   },
+   {
+    "name": "Hood_hood_roll_normal",
+    "mime": "image/webp",
+    "hash": "76302643e5a8d5dd"
+   },
+   {
+    "name": "Hood_hood_roll_rough",
+    "mime": "image/webp",
+    "hash": "6624c8f05504a1d8"
+   },
+   {
+    "name": "Hoodie_albedo",
+    "mime": "image/webp",
+    "hash": "404f879045bf6176"
+   },
+   {
+    "name": "Hoodie_normal",
+    "mime": "image/webp",
+    "hash": "7a0c6cae8355d973"
+   },
+   {
+    "name": "Hoodie_rough",
+    "mime": "image/webp",
+    "hash": "6624c8f05504a1d8"
+   },
+   {
+    "name": "Jeans_albedo",
+    "mime": "image/webp",
+    "hash": "1ce96d05d2b2afcc"
+   },
+   {
+    "name": "Jeans_normal",
+    "mime": "image/webp",
+    "hash": "a047c3a40cb8c707"
+   },
+   {
+    "name": "Jeans_rough",
+    "mime": "image/webp",
+    "hash": "8cb8312e6a9ac5b7"
+   },
+   {
+    "name": "ShoeSole_albedo",
+    "mime": "image/webp",
+    "hash": "693efc36019ef2ae"
+   },
+   {
+    "name": "ShoeSole_normal",
+    "mime": "image/webp",
+    "hash": "692d1ba80d904402"
+   },
+   {
+    "name": "ShoeSole_rough",
+    "mime": "image/webp",
+    "hash": "6532430f1e69152d"
+   },
+   {
+    "name": "ShoeUpper_albedo",
+    "mime": "image/webp",
+    "hash": "5fbd94bd55451659"
+   },
+   {
+    "name": "ShoeUpper_normal",
+    "mime": "image/webp",
+    "hash": "912d3d106ca66930"
+   },
+   {
+    "name": "ShoeUpper_rough",
+    "mime": "image/webp",
+    "hash": "dbccb6bd3ce632d3"
+   },
+   {
+    "name": "brow_alpha",
+    "mime": "image/webp",
+    "hash": "b3dc65d8144402ff"
+   },
+   {
+    "name": "eye_albedo",
+    "mime": "image/webp",
+    "hash": "4c82bb49bd50fe5e"
+   },
+   {
+    "name": "hair_atlas",
+    "mime": "image/webp",
+    "hash": "76080555dee358bc"
+   },
+   {
+    "name": "lash_alpha",
+    "mime": "image/webp",
+    "hash": "199c9acb7af0d856"
+   },
+   {
+    "name": "lash_low_alpha",
+    "mime": "image/webp",
+    "hash": "4503b37e74920c99"
+   },
+   {
+    "name": "skin_albedo",
+    "mime": "image/webp",
+    "hash": "3d060958e6269344"
+   },
+   {
+    "name": "skin_normal",
+    "mime": "image/webp",
+    "hash": "e726de21b5883848"
+   },
+   {
+    "name": "skin_rough",
+    "mime": "image/webp",
+    "hash": "9ffc0c425ca66295"
+   }
+  ],
+  "animations": [
+   {
+    "name": "air",
+    "channels": 162,
+    "duration": 1.0333,
+    "hash": "3b4bbb44b76ee7e0"
+   },
+   {
+    "name": "bail",
+    "channels": 162,
+    "duration": 1.5,
+    "hash": "890b65b46dcc0760"
+   },
+   {
+    "name": "boardslide",
+    "channels": 162,
+    "duration": 1.3667,
+    "hash": "c6a30956640f6778"
+   },
+   {
+    "name": "crouch",
+    "channels": 162,
+    "duration": 0.7,
+    "hash": "fcc5554bb7966a75"
+   },
+   {
+    "name": "grind_5050",
+    "channels": 162,
+    "duration": 1.3667,
+    "hash": "f59741f9b5f22930"
+   },
+   {
+    "name": "heelflip",
+    "channels": 162,
+    "duration": 0.6,
+    "hash": "60af10d08b06767e"
+   },
+   {
+    "name": "idle",
+    "channels": 162,
+    "duration": 2.0333,
+    "hash": "a53b1e418a4fa325"
+   },
+   {
+    "name": "indy",
+    "channels": 162,
+    "duration": 0.4667,
+    "hash": "013941b4b646dfcf"
+   },
+   {
+    "name": "kickflip",
+    "channels": 162,
+    "duration": 0.6,
+    "hash": "84236b6e839faf49"
+   },
+   {
+    "name": "land",
+    "channels": 162,
+    "duration": 0.4,
+    "hash": "cb8251894b704b85"
+   },
+   {
+    "name": "manual",
+    "channels": 162,
+    "duration": 1.3667,
+    "hash": "4388fa34318ecff0"
+   },
+   {
+    "name": "melon",
+    "channels": 162,
+    "duration": 0.4667,
+    "hash": "fb3de50d0d86d5f3"
+   },
+   {
+    "name": "nose_manual",
+    "channels": 162,
+    "duration": 1.3667,
+    "hash": "5f89cb499df9b0b4"
+   },
+   {
+    "name": "nosegrab",
+    "channels": 162,
+    "duration": 0.4667,
+    "hash": "c55c5fe657fc1a4b"
+   },
+   {
+    "name": "ollie",
+    "channels": 162,
+    "duration": 0.7333,
+    "hash": "466f2ba8439580a4"
+   },
+   {
+    "name": "push",
+    "channels": 162,
+    "duration": 1.2333,
+    "hash": "4a1c4d891ef782d2"
+   },
+   {
+    "name": "ride",
+    "channels": 162,
+    "duration": 1.3667,
+    "hash": "733b648f7406fffb"
+   },
+   {
+    "name": "shoveit",
+    "channels": 162,
+    "duration": 0.6,
+    "hash": "a28b6c1402cb5215"
+   },
+   {
+    "name": "special",
+    "channels": 162,
+    "duration": 1.4,
+    "hash": "de24a8cf78a40c78"
+   },
+   {
+    "name": "tailgrab",
+    "channels": 162,
+    "duration": 0.4667,
+    "hash": "c09edfb9cb70a7e6"
+   },
+   {
+    "name": "treflip",
+    "channels": 162,
+    "duration": 0.6667,
+    "hash": "178e17db260ea5f9"
+   },
+   {
+    "name": "vert_air",
+    "channels": 162,
+    "duration": 1.0333,
+    "hash": "51139fda9d21b01e"
+   }
+  ]
+ }
+}

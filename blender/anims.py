@@ -47,6 +47,11 @@ BASE = dict(
     clav_r=(0.0, 0.0, 0.0), ua_r=(12.0, 28.0, 0.0), la_r=(0.0, 0.0, 0.0), hand_r=(0.0, 0.0, 0.0),
     ik_hand_l=(0.0, 0.0, 0.0, 0.0), ik_hand_r=(0.0, 0.0, 0.0, 0.0),
     knee_l=0.0, knee_r=0.0, fingers=0.35,
+    # getting up off the floor: hand IK in the root frame (hands planted on the ground), a
+    # foot on the ground pitched about X (90 = toes tucked under, heel up) and the knee pole
+    # height (negative: knees towards the floor, for kneeling)
+    ikw_hand_l=(0.0, 0.0, 0.0, 0.0), ikw_hand_r=(0.0, 0.0, 0.0, 0.0),
+    fl_gp=0.0, fr_gp=0.0, knee_lift_l=0.45, knee_lift_r=0.45,
 )
 
 
@@ -63,6 +68,9 @@ class Clip:
         ks = sorted([(kt, kc[name]) for kt, kc in self.keys if name in kc], key=lambda k: k[0])
         if not ks:
             return BASE[name]
+        if not self.loop and ks[0][0] > 0.0:
+            # before a channel's first key it eases out of the riding pose (not the key's value)
+            ks = [(0.0, BASE[name])] + ks
         if len(ks) == 1:
             return ks[0][1]
         if self.loop:
@@ -154,6 +162,11 @@ def setup_control_rig(rig):
         a.chain_count = 2
         a.influence = 0.0
         a.name = "ArmIK"
+        # a hand planted on the floor (getting up) takes the IK target's orientation
+        hr = pb[f"hand_{s}"].constraints.new('COPY_ROTATION')
+        hr.target, hr.subtarget = rig, f"ik_hand_{s}"
+        hr.influence = 0.0
+        hr.name = "HandPlant"
     bpy.ops.object.mode_set(mode='OBJECT')
     tune_poles(rig)
 
@@ -181,11 +194,27 @@ def tune_poles(rig):
 
 # ------------------------------------------------------------------ pose application
 
+def _plant_rotation(rest, s):
+    """Rotation taking the rest hand to one planted flat on the floor: fingers forward (-Y,
+    a little outward), palm down, the index finger on the inside."""
+    y0 = rest[f"hand_{s}"].to_3x3().col[1].normalized()
+    ip = rest[f"pinky_01_{s}"].translation - rest[f"index_01_{s}"].translation
+    p0 = (ip - y0 * ip.dot(y0)).normalized()
+    side = 1.0 if s == "l" else -1.0
+    f1 = Vector((0.15 * side, -1.0, 0.0)).normalized()
+    p1 = Vector((side, 0.0, 0.0))
+    p1 = (p1 - f1 * p1.dot(f1)).normalized()
+    A = Matrix((y0, p0, y0.cross(p0))).transposed()
+    Bm = Matrix((f1, p1, f1.cross(p1))).transposed()
+    return Bm @ A.transposed()
+
+
 class Poser:
     def __init__(self, rig):
         self.rig = rig
         self.rest = {b.name: b.matrix_local.copy() for b in rig.data.bones}
         self.pb = rig.pose.bones
+        self.plant = {s: _plant_rotation(self.rest, s) for s in "lr"}
 
     def _set_rot(self, name, R3):
         rest3 = self.rest[name].to_3x3()
@@ -226,7 +255,7 @@ class Poser:
             gb = min(1.0, max(0.0, gb))
             Rg = Matrix.Rotation(math.radians(gyaw), 3, 'Z')
             p_ground = Vector((gx, gy, ANKLE_H + gz)) + Rg @ Vector((0, ANKLE_BACK, 0))
-            R_ground = Rg @ self.rest[f"foot_{s}"].to_3x3()
+            R_ground = Rg @ Matrix.Rotation(math.radians(g(key + "_gp")), 3, 'X') @ self.rest[f"foot_{s}"].to_3x3()
             p = p_board.lerp(p_ground, gb)
             q = R_board.to_quaternion().slerp(R_ground.to_quaternion(), gb)
             M = Matrix.Translation(p) @ q.to_matrix().to_4x4()
@@ -234,7 +263,7 @@ class Poser:
             # knee pole: in front of the knee, toward the toes
             kyaw = math.radians(fyaw + wrap180(yaw) * sty + g("knee_" + s)) * (1 - gb) + math.radians(gyaw + g("knee_" + s)) * gb
             toe_dir = Matrix.Rotation(kyaw, 3, 'Z') @ Vector((0, -1, 0))
-            pole = p + toe_dir * 0.7 + Vector((0, 0, 0.45))
+            pole = p + toe_dir * 0.7 + Vector((0, 0, g("knee_lift_" + s)))
             self._set_world(f"pole_{s}", Matrix.Translation(pole) @ self.rest[f"pole_{s}"].to_3x3().to_4x4())
         # --- pelvis + spine
         hx, hy, hz = g("hips")
@@ -255,9 +284,20 @@ class Poser:
             self._set_rot(f"lowerarm_{s}", rot(m(g("la_" + s))))
             self._set_rot(f"hand_{s}", rot(m(g("hand_" + s))))
             inf, ix, iy, iz = g("ik_hand_" + s)
+            winf, wx, wy, wz = g("ikw_hand_" + s)
             c = pb[f"lowerarm_{s}"].constraints["ArmIK"]
-            c.influence = max(0.0, min(1.0, inf))
-            if inf > 0.001:
+            c.influence = max(0.0, min(1.0, max(inf, winf)))
+            hc = pb[f"hand_{s}"].constraints.get("HandPlant")
+            if hc:
+                hc.influence = max(0.0, min(1.0, winf)) if winf > inf else 0.0
+            if winf > inf and winf > 0.001:
+                # a hand planted on the ground (root frame), flat, elbow back towards the feet and out
+                hp = Vector((wx, wy, wz))
+                self._set_world(f"ik_hand_{s}", Matrix.Translation(hp) @ (self.plant[s] @ self.rest[f"hand_{s}"].to_3x3()).to_4x4())
+                side = 1.0 if s == "l" else -1.0
+                self._set_world(f"pole_arm_{s}", Matrix.Translation(hp + Vector((0.35 * side, 0.4, 0.35)))
+                                @ self.rest[f"pole_arm_{s}"].to_3x3().to_4x4())
+            elif inf > 0.001:
                 hp = center + Rfull @ Vector((ix, iy, iz))
                 self._set_world(f"ik_hand_{s}", Matrix.Translation(hp) @ self.rest[f"hand_{s}"].to_3x3().to_4x4())
                 pole = hp + Vector((0.0, 0.45, 0.25)) if s == "r" else hp + Vector((0.0, 0.45, 0.25))
@@ -350,9 +390,19 @@ def clips():
     c.key(0.5, hips=(-0.02, 0.04, -0.07), sp=(6.0, 0.0, 12.0), head=(-5.0, 0.0, 42.0), ua_l=(4.0, 37.0, 0.0), ua_r=(8.0, 35.0, 0.0), la_l=(0, 0, 14.0), la_r=(0, 0, 10.0))
     out.append(c)
 
+    RIDE0 = dict(hips=(-0.03, 0.05, -0.125), ua_l=(12.0, 26.0, 0.0), ua_r=(10.0, 24.0, 0.0), la_l=(0, 0, 18.0), la_r=(0, 0, 15.0))
     c = Clip("ride", 40, loop=True)
-    c.key(0.0, hips=(-0.03, 0.05, -0.125), ua_l=(12.0, 26.0, 0.0), ua_r=(10.0, 24.0, 0.0), la_l=(0, 0, 18.0), la_r=(0, 0, 15.0))
+    c.key(0.0, **RIDE0)
     c.key(0.5, hips=(-0.03, 0.05, -0.135), ua_l=(10.0, 24.0, 0.0), ua_r=(13.0, 27.0, 0.0), la_l=(0, 0, 15.0), la_r=(0, 0, 19.0), sp=(9.0, 0.0, 15.0))
+    out.append(c)
+
+    # riding fakie (tail first): same stance on the board, but hips, spine, neck and head turn
+    # the other way so the skater looks back over the rear shoulder toward travel
+    FAKIE = dict(hips=(-0.02, 0.05, -0.13), hips_rot=(10.0, 0.0, 2.0), sp=(8.0, 0.0, -12.0), neck=(0.0, 0.0, -16.0),
+                 head=(-4.0, 0.0, -50.0), ua_l=(10.0, 24.0, 0.0), ua_r=(16.0, 32.0, 0.0), la_l=(0, 0, 16.0), la_r=(0, 0, 20.0))
+    c = Clip("ride_fakie", 40, loop=True)
+    c.key(0.0, **FAKIE)
+    c.key(0.5, **dict(FAKIE, hips=(-0.02, 0.05, -0.14), head=(-5.0, 0.0, -55.0), ua_l=(12.0, 26.0, 0.0), ua_r=(13.0, 29.0, 0.0)))
     out.append(c)
 
     c = Clip("crouch", 20, loop=True)
@@ -371,11 +421,11 @@ def clips():
     out.append(c)
 
     c = Clip("ollie", 22)
-    c.key(0.0, **CROUCH)
+    c.key(0.0, **dict(CROUCH, fl=BASE["fl"], fr=BASE["fr"]))
     c.key(0.16, **dict(CROUCH, b_pos=(0.0, 0.0, 0.07), b_rot=(0.0, -24.0, 0.0), hips=(-0.03, 0.05, -0.10), sp=(12.0, 0.0, 12.0),
                        fl=(0.23, 0.018, 58.0, 0.02), ua_l=(-10.0, 5.0, 0.0), ua_r=(-10.0, 5.0, 0.0)))
     c.key(0.42, **dict(AIR, b_pos=(0.0, 0.0, 0.2), b_rot=(0.0, -6.0, 0.0), fl=(0.2, 0.018, 55.0, 0.0)))
-    c.key(1.0, **AIR)
+    c.key(1.0, **dict(AIR, fl=BASE["fl"], fr=BASE["fr"]))
     out.append(c)
 
     c = Clip("air", 30, loop=True)
@@ -385,13 +435,14 @@ def clips():
 
     def flip(name, roll=0.0, yaw=0.0, frames=18, lift=0.075, extra=None):
         c = Clip(name, frames)
-        c.key(0.0, **dict(AIR, stick=1.0, stick_yaw=1.0))
+        feet = dict(fl=BASE["fl"], fr=BASE["fr"])      # both feet on the bolts at pop and catch
+        c.key(0.0, **dict(AIR, stick=1.0, stick_yaw=1.0, **feet))
         c.key(0.08, **dict(AIR, stick=0.0, stick_yaw=0.0, fl=(0.24, 0.018 + (0.03 if roll > 0 else -0.03), 55.0, 0.02), b_rot=(roll * 0.02, -8.0, yaw * 0.02), b_pos=(0.0, 0.0, 0.25)))
         c.key(0.4, **dict(AIR, stick=0.0, stick_yaw=0.0, b_rot=(roll * 0.5, -4.0, yaw * 0.5), b_pos=(0.0, 0.0, 0.25),
                           fl=(0.2, 0.018, 52.0, lift), fr=(-0.23, 0.006, 14.0, lift * 0.8), ua_l=(-15.0, -5.0, 0.0), ua_r=(-10.0, 10.0, 0.0)))
         c.key(0.74, **dict(AIR, stick=0.0, stick_yaw=0.0, b_rot=(roll * 0.97, 0.0, yaw * 0.97), fl=(0.17, 0.018, 52.0, 0.02), fr=(-0.225, 0.006, 14.0, 0.015)))
-        c.key(0.84, **dict(AIR, stick=1.0, stick_yaw=1.0, b_rot=(roll, 0.0, yaw)))
-        c.key(1.0, **dict(AIR, b_rot=(roll, 0.0, yaw)))
+        c.key(0.84, **dict(AIR, stick=1.0, stick_yaw=1.0, b_rot=(roll, 0.0, yaw), **feet))
+        c.key(1.0, **dict(AIR, b_rot=(roll, 0.0, yaw), **feet))
         if extra:
             extra(c)
         out.append(c)
@@ -399,6 +450,7 @@ def clips():
     flip("kickflip", roll=-360.0)
     flip("heelflip", roll=360.0)
     flip("shoveit", yaw=180.0, lift=0.05)
+    flip("treflip", roll=-360.0, yaw=360.0, frames=20, lift=0.08)   # 360 flip: kickflip + 360 shove-it
 
     def grab(name, hand, target, board_rot=(0.0, 0.0, 0.0), body=None):
         c = Clip(name, 14)
@@ -461,28 +513,104 @@ def clips():
     c = Clip("land", 12)
     c.key(0.0, **AIR)
     c.key(0.3, **dict(CROUCH, hips=(-0.03, 0.07, -0.28)))
-    c.key(1.0)
+    c.key(1.0, **RIDE0)       # ends on ride's first pose, so the game's blend into ride is seamless
     out.append(c)
 
-    # bail: board kicked away, skater falls back onto the concrete
-    c = Clip("bail", 45)
+    # bail: the board shoots away, the skater tucks (knees to chest, arms in) for the roll the
+    # game spins the body through, then sprawls out and slides to a stop on the back
+    BAIL_END = dict(stick=0.0, stick_yaw=0.0, fl_ground=(1.0, 0.3, -0.62, 0.0, 30.0), fr_ground=(1.0, -0.12, -0.64, 0.0, 0.0),
+                    hips=(0.0, 0.32, -0.88), hips_rot=(-86.0, 5.0, 15.0), sp=(8.0, 0.0, 5.0),
+                    ua_l=(24.0, 32.0, 0.0), ua_r=(45.0, 15.0, 0.0), head=(15.0, 0.0, 20.0),   # hands rest on the floor
+                    la_l=(0.0, 0.0, 0.0), la_r=(0.0, 0.0, 0.0), neck=(0.0, 0.0, 14.0), fingers=0.35)
+    TUCK = dict(stick=0.0, stick_yaw=0.0, b_pos=(0.6, 0.0, 0.3), b_rot=(90.0, 40.0, 60.0),
+                fl_ground=(1.0, 0.12, -0.02, 0.38, 20.0), fr_ground=(1.0, -0.12, 0.02, 0.36, 0.0),
+                hips=(0.0, 0.02, -0.5), hips_rot=(45.0, 0.0, 5.0), sp=(50.0, 0.0, 0.0), neck=(20.0, 0.0, 0.0), head=(25.0, 0.0, 0.0),
+                ua_l=(-70.0, 10.0, 0.0), ua_r=(-70.0, 10.0, 0.0), la_l=(0, 0, 95.0), la_r=(0, 0, 95.0), fingers=0.8)
+    c = Clip("bail", 60)
     c.key(0.0, **dict(AIR, b_pos=(0.0, 0.0, 0.05)))
-    c.key(0.18, **dict(b_pos=(0.35, -0.1, 0.25), b_rot=(60.0, 30.0, 40.0), stick=0.0, stick_yaw=0.0,
-                       fl_ground=(1.0, 0.25, -0.12, 0.1, 50.0), fr_ground=(1.0, -0.15, -0.05, 0.12, 20.0),
-                       hips=(0.0, 0.12, -0.2), hips_rot=(-15.0, 10.0, 25.0), sp=(-10.0, 0.0, 10.0),
-                       ua_l=(-80.0, -40.0, 0.0), ua_r=(-70.0, -45.0, 0.0), head=(10.0, 0.0, 20.0)))
-    c.key(0.45, **dict(b_pos=(1.0, -0.3, 0.1), b_rot=(200.0, 50.0, 90.0), stick=0.0, stick_yaw=0.0,
-                       fl_ground=(1.0, 0.3, -0.35, 0.05, 40.0), fr_ground=(1.0, -0.05, -0.38, 0.15, 10.0),
+    c.key(0.07, **dict(TUCK, hips=(0.0, 0.03, -0.35), sp=(30.0, 0.0, 5.0), b_pos=(0.3, 0.0, 0.2), b_rot=(40.0, 20.0, 30.0)))
+    c.key(0.14, **TUCK)
+    c.key(0.5, **dict(TUCK, hips=(0.0, 0.03, -0.52)))
+    c.key(0.64, **dict(stick=0.0, stick_yaw=0.0, b_pos=(1.0, -0.3, 0.1), b_rot=(200.0, 50.0, 90.0),
+                       fl_ground=(1.0, 0.3, -0.35, 0.12, 40.0), fr_ground=(1.0, -0.05, -0.38, 0.15, 10.0),
                        hips=(0.0, 0.25, -0.75), hips_rot=(-55.0, 8.0, 20.0), sp=(-5.0, 0.0, 10.0),
-                       ua_l=(30.0, -10.0, 0.0), ua_r=(35.0, -15.0, 0.0), head=(25.0, 0.0, 10.0)))
-    c.key(0.7, **dict(b_pos=(1.4, -0.4, -0.08), b_rot=(360.0, 0.0, 120.0), stick=0.0, stick_yaw=0.0,
-                      fl_ground=(1.0, 0.25, -0.55, 0.0, 30.0), fr_ground=(1.0, -0.1, -0.6, 0.06, 0.0),
-                      hips=(0.0, 0.3, -0.86), hips_rot=(-80.0, 5.0, 15.0), sp=(10.0, 0.0, 5.0),
-                      ua_l=(55.0, 20.0, 0.0), ua_r=(55.0, 15.0, 0.0), head=(20.0, 0.0, 15.0)))
-    c.key(1.0, **dict(b_pos=(1.5, -0.45, -0.08), b_rot=(360.0, 0.0, 130.0), stick=0.0, stick_yaw=0.0,
-                      fl_ground=(1.0, 0.3, -0.62, 0.0, 30.0), fr_ground=(1.0, -0.12, -0.64, 0.0, 0.0),
-                      hips=(0.0, 0.32, -0.88), hips_rot=(-86.0, 5.0, 15.0), sp=(8.0, 0.0, 5.0),
-                      ua_l=(60.0, 30.0, 0.0), ua_r=(60.0, 25.0, 0.0), head=(15.0, 0.0, 20.0)))
+                       ua_l=(30.0, -10.0, 0.0), ua_r=(35.0, -15.0, 0.0), head=(25.0, 0.0, 10.0),
+                       la_l=(0, 0, 20.0), la_r=(0, 0, 20.0), neck=(5.0, 0.0, 10.0), fingers=0.5))
+    c.key(0.8, **dict(BAIL_END, hips=(0.0, 0.3, -0.86), hips_rot=(-80.0, 5.0, 15.0), ua_l=(24.0, 26.0, 0.0), ua_r=(45.0, 12.0, 0.0),
+                      head=(20.0, 0.0, 15.0)))
+    c.key(1.0, **BAIL_END)
+    out.append(c)
+
+    # get up after a bail: from the bail's last pose (on the back) sit up while the board is
+    # pulled in along its length (clear of the legs), lift each foot over the deck edge and
+    # step on, stand in the idle stance
+    c = Clip("getup", 42)
+    c.key(0.0, **dict(BAIL_END, b_pos=(1.05, 0.0, 0.0)))
+    c.key(0.28, **dict(BAIL_END, b_pos=(0.6, 0.0, 0.0), hips=(0.0, 0.2, -0.7), hips_rot=(-45.0, 5.0, 15.0), sp=(42.0, 0.0, 6.0),
+                       head=(-5.0, 0.0, 20.0), ua_l=(-30.0, 34.0, 0.0), ua_r=(-30.0, 34.0, 0.0), la_l=(0, 0, 30.0), la_r=(0, 0, 30.0),
+                       fl_ground=(1.0, 0.2, -0.4, 0.0, 40.0), fr_ground=(1.0, -0.2, -0.42, 0.0, 12.0)))
+    c.key(0.44, **dict(CROUCH, b_pos=(0.0, 0.0, 0.0), stick=1.0, stick_yaw=1.0, hips=(-0.02, 0.12, -0.42),
+                       fl_ground=(1.0, 0.2, -0.3, 0.0, 45.0), fr_ground=(1.0, -0.2, -0.32, 0.0, 20.0)))
+    c.key(0.54, **dict(CROUCH, hips=(-0.02, 0.1, -0.38), fl_ground=(0.55, 0.19, -0.2, 0.2, 50.0), fr_ground=(1.0, -0.2, -0.32, 0.0, 20.0)))
+    c.key(0.64, **dict(CROUCH, hips=(-0.03, 0.08, -0.34), fl_ground=(0.0, 0.1, -0.15, 0.0, 60.0), fr_ground=(1.0, -0.2, -0.3, 0.0, 20.0)))
+    c.key(0.76, **dict(RIDE0, hips=(-0.03, 0.07, -0.24), fr_ground=(0.55, -0.2, -0.2, 0.2, 30.0)))
+    c.key(0.86, **dict(RIDE0, hips=(-0.03, 0.06, -0.16), fl_ground=BASE["fl_ground"], fr_ground=BASE["fr_ground"]))
+    c.key(1.0, hips=(-0.02, 0.04, -0.06), sp=(4.0, 0.0, 10.0), head=(-3.0, 0.0, 30.0), ua_l=(6.0, 36.0, 0.0), ua_r=(6.0, 36.0, 0.0),
+          la_l=(0, 0, 12.0), la_r=(0, 0, 12.0), fl_ground=BASE["fl_ground"], fr_ground=BASE["fr_ground"])
+    out.append(c)
+
+    # get up from lying face down (where the ragdoll came to rest on its front): hands under
+    # the shoulders, push up, draw the knees in onto all fours (toes tucked), lunge the front
+    # foot forward, stand into the crouch while the board is pulled in behind the feet, then
+    # step on as in 'getup'
+    PRONE = dict(stick=0.0, stick_yaw=0.0, b_pos=(1.05, 0.0, 0.0),
+                 hips=(0.0, -0.08, -0.9), hips_rot=(84.0, 0.0, 8.0), sp=(-6.0, 0.0, 0.0),
+                 neck=(-12.0, 0.0, 0.0), head=(-18.0, 0.0, 28.0), clav_l=(0.0, 0.0, 0.0), clav_r=(0.0, 0.0, 0.0),
+                 ua_l=(0.0, 0.0, 0.0), ua_r=(0.0, 0.0, 0.0), la_l=(0.0, 0.0, 0.0), la_r=(0.0, 0.0, 0.0),
+                 ikw_hand_l=(1.0, 0.27, -0.5, 0.068), ikw_hand_r=(1.0, -0.27, -0.5, 0.068), fingers=0.1,
+                 fl_ground=(1.0, 0.13, 0.8, 0.165, -6.0), fr_ground=(1.0, -0.13, 0.8, 0.165, 6.0),
+                 fl_gp=72.0, fr_gp=72.0, knee_lift_l=-0.25, knee_lift_r=-0.25)
+    c = Clip("getup_front", 54)
+    c.key(0.0, **PRONE)
+    c.key(0.2, **dict(PRONE, hips=(0.0, -0.02, -0.8), hips_rot=(74.0, 0.0, 6.0), sp=(-22.0, 0.0, 0.0),
+                      neck=(-8.0, 0.0, 0.0), head=(-12.0, 0.0, 12.0),
+                      fl_ground=(1.0, 0.13, 0.72, 0.165, -6.0), fr_ground=(1.0, -0.13, 0.72, 0.165, 6.0)))
+    KNEEL = dict(PRONE, hips=(0.0, 0.1, -0.545), hips_rot=(86.0, 0.0, 4.0), sp=(8.0, 0.0, 0.0),
+                 neck=(-4.0, 0.0, 0.0), head=(-18.0, 0.0, 0.0),
+                 fl_ground=(1.0, 0.12, 0.44, 0.165, -4.0), fr_ground=(1.0, -0.12, 0.44, 0.165, 4.0))
+    # the knees slide in along the floor as the hips rise (hip, knee on the floor and the
+    # tucked toes kept consistent with the leg lengths, so no key forces a knee through it)
+    c.key(0.29, **dict(KNEEL, hips=(0.0, 0.03, -0.665), hips_rot=(80.0, 0.0, 5.0), sp=(-8.0, 0.0, 0.0), head=(-14.0, 0.0, 6.0),
+                       fl_ground=(1.0, 0.125, 0.66, 0.165, -5.0), fr_ground=(1.0, -0.125, 0.66, 0.165, 5.0)))
+    c.key(0.34, **dict(KNEEL, hips=(0.0, 0.07, -0.595), hips_rot=(84.0, 0.0, 4.0), sp=(0.0, 0.0, 0.0), head=(-16.0, 0.0, 3.0),
+                       fl_ground=(1.0, 0.12, 0.56, 0.165, -4.0), fr_ground=(1.0, -0.12, 0.56, 0.165, 4.0)))
+    c.key(0.38, **KNEEL)
+    # front foot swings forward, clear of the floor, and plants flat under the hips
+    c.key(0.46, **dict(KNEEL, hips=(0.0, 0.1, -0.55), hips_rot=(72.0, 0.0, 6.0), sp=(12.0, 0.0, 3.0),
+                       ikw_hand_l=(1.0, 0.27, -0.47, 0.075), ikw_hand_r=(1.0, -0.27, -0.49, 0.07),
+                       fl_ground=(1.0, 0.16, 0.12, 0.2, 14.0), fl_gp=38.0, knee_lift_l=0.1))
+    c.key(0.54, **dict(KNEEL, hips=(0.0, 0.08, -0.54), hips_rot=(40.0, 0.0, 10.0), sp=(20.0, 0.0, 6.0),
+                       neck=(0.0, 0.0, 6.0), head=(-10.0, 0.0, 10.0),
+                       ikw_hand_l=(0.0, 0.2, -0.1, 0.45), ikw_hand_r=(0.0, -0.2, -0.1, 0.45),
+                       ua_l=(-35.0, 30.0, 0.0), ua_r=(-35.0, 30.0, 0.0), la_l=(0, 0, 45.0), la_r=(0, 0, 45.0), fingers=0.35,
+                       fl_ground=(1.0, 0.18, -0.24, 0.0, 30.0), fl_gp=0.0, knee_lift_l=0.45,
+                       fr_ground=(1.0, -0.12, 0.42, 0.165, 4.0)))
+    UP = dict(CROUCH, b_pos=(1.05, 0.0, 0.0), stick=0.0, stick_yaw=0.0, hips=(-0.02, 0.12, -0.42),
+              ikw_hand_l=(0.0, 0.2, -0.1, 0.45), ikw_hand_r=(0.0, -0.2, -0.1, 0.45),
+              fl_ground=(1.0, 0.2, -0.3, 0.0, 45.0), fr_ground=(1.0, -0.2, -0.32, 0.0, 20.0),
+              fl_gp=0.0, fr_gp=0.0, knee_lift_l=0.45, knee_lift_r=0.45)
+    # back foot swings forward the same way as the body rises
+    c.key(0.62, **dict(UP, hips=(-0.02, 0.1, -0.48), fr_ground=(1.0, -0.17, 0.04, 0.2, 12.0), fr_gp=36.0))
+    c.key(0.68, **UP)
+    c.key(0.76, **dict(UP, b_pos=(0.0, 0.0, 0.0), stick=1.0, stick_yaw=1.0))
+    c.key(0.81, **dict(UP, b_pos=(0.0, 0.0, 0.0), stick=1.0, stick_yaw=1.0, hips=(-0.02, 0.1, -0.38),
+                       fl_ground=(0.55, 0.19, -0.2, 0.2, 50.0)))
+    c.key(0.86, **dict(UP, b_pos=(0.0, 0.0, 0.0), stick=1.0, stick_yaw=1.0, hips=(-0.03, 0.08, -0.34),
+                       fl_ground=(0.0, 0.1, -0.15, 0.0, 60.0), fr_ground=(1.0, -0.2, -0.3, 0.0, 20.0)))
+    c.key(0.9, **dict(RIDE0, hips=(-0.03, 0.07, -0.24), fr_ground=(0.55, -0.2, -0.2, 0.2, 30.0)))
+    c.key(0.94, **dict(RIDE0, hips=(-0.03, 0.06, -0.16), fl_ground=BASE["fl_ground"], fr_ground=BASE["fr_ground"]))
+    c.key(1.0, hips=(-0.02, 0.04, -0.06), sp=(4.0, 0.0, 10.0), head=(-3.0, 0.0, 30.0), ua_l=(6.0, 36.0, 0.0), ua_r=(6.0, 36.0, 0.0),
+          la_l=(0, 0, 12.0), la_r=(0, 0, 12.0), fl_ground=BASE["fl_ground"], fr_ground=BASE["fr_ground"])
     out.append(c)
 
     # the special: "Tiger Claw Tre" - a double 360 flip (double tre) with a spread-eagle
@@ -491,14 +619,16 @@ def clips():
     spread = dict(AIR, stick=0.0, stick_yaw=0.0, b_pos=(0.0, 0.0, 0.2), hips=(-0.03, 0.05, -0.02), sp=(-8.0, 0.0, 0.0),
                   ua_l=(0.0, -55.0, 0.0), ua_r=(0.0, -55.0, 0.0), la_l=(0, 0, 0), la_r=(0, 0, 0), head=(12.0, 0.0, 20.0),
                   fl=(0.18, 0.018, 52.0, 0.2), fr=(-0.23, 0.006, 14.0, 0.2), fingers=0.1)
-    c.key(0.0, **AIR)
+    feet = dict(fl=BASE["fl"], fr=BASE["fr"])
+    c.key(0.0, **dict(AIR, **feet))
     c.key(0.1, **dict(AIR, stick=0.0, stick_yaw=0.0, b_rot=(-40.0, -8.0, 40.0), fl=(0.24, -0.02, 55.0, 0.03)))
     c.key(0.35, **dict(spread, b_rot=(-300.0, 0.0, 190.0)))
     c.key(0.55, **dict(spread, b_rot=(-520.0, 0.0, 280.0), sp=(-12.0, 0.0, 0.0)))
-    c.key(0.72, **dict(AIR, stick=0.0, stick_yaw=0.0, b_rot=(-700.0, 0.0, 350.0), fl=(0.17, 0.018, 52.0, 0.03)))
-    c.key(0.8, **dict(AIR, b_rot=(-720.0, 0.0, 360.0)))
+    c.key(0.72, **dict(AIR, stick=0.0, stick_yaw=0.0, b_rot=(-700.0, 0.0, 350.0), fl=(0.17, 0.018, 52.0, 0.03),
+                       fr=(-0.225, 0.006, 14.0, 0.03)))
+    c.key(0.8, **dict(AIR, b_rot=(-720.0, 0.0, 360.0), stick=1.0, stick_yaw=1.0, **feet))
     ind = dict(AIR, b_rot=(-712.0, 0.0, 360.0), b_pos=(0.0, 0.0, 0.34), hips=(-0.03, 0.08, -0.18), sp=(34.0, 0.0, 10.0),
-               ik_hand_r=(1.0, -0.02, -0.108, 0.0), ua_l=(-20.0, -40.0, 0.0), fingers=0.9)
+               ik_hand_r=(1.0, -0.02, -0.108, 0.0), ua_l=(-20.0, -40.0, 0.0), fingers=0.9, stick=1.0, stick_yaw=1.0, **feet)
     c.key(0.92, **ind)
     c.key(1.0, **dict(ind, b_rot=(-720.0, 0.0, 360.0)))
     out.append(c)

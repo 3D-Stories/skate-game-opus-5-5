@@ -1,0 +1,27 @@
+Compatibility renderer: don't make the mid-frame depth copy for SSAO.
+
+With SSAO enabled, RasterizerSceneGLES3::_render_scene() flagged the frame as reading
+the depth texture, which copies the (multisampled) depth + stencil buffer into the back
+buffer before the transparent pass. SSAO never reads that copy: it runs in
+_render_post_processing() on the internal depth buffer, which the MSAA resolve (or the
+render itself, without MSAA) fills anyway. Only materials that sample DEPTH_TEXTURE need
+the copy, and they still set used_depth_texture themselves in _fill_render_list().
+
+On Windows browsers (ANGLE on Direct3D 11) resolving a multisampled stencil buffer goes
+through a CPU readback, so the unused copy stalled every frame by about 3.4 ms on an
+RTX 4080 (SSAO + 4x MSAA at 1080p: 7.2 ms of main-thread time per frame instead of 3.8).
+
+--- a/drivers/gles3/rasterizer_scene_gles3.cpp
++++ b/drivers/gles3/rasterizer_scene_gles3.cpp
+@@ -2701,11 +2701,6 @@
+ 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+ 	glViewport(0, 0, rb->internal_size.x, rb->internal_size.y);
+ 
+-	// If SSAO is enabled, we definitely need the depth buffer.
+-	if (ssao_enabled) {
+-		scene_state.used_depth_texture = true;
+-	}
+-
+ 	// Do depth prepass if it's explicitly enabled
+ 	bool use_depth_prepass = config->use_depth_prepass;
+ 
