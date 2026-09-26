@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://lbl8igmrf33a"
-path.s3tc="res://.godot/imported/baths_baths_crate_normal.webp-715f4f2c598f972017e1a922ee394b9f.s3tc.ctex"
+uid="uid://dketkwpc2cqrc"
+path.s3tc="res://.godot/imported/baths_baths_diamond_plate_n30_normal.webp-97b8ac31db99762716a47fbd5d679201.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "9ee459cc1226f5ff273830e9462f48f2"
+"md5": "f33428e5e100794812854b979a390229"
 }
 
 [deps]
 
-source_file="res://assets/levels/baths/baths_baths_crate_normal.webp"
-dest_files=["res://.godot/imported/baths_baths_crate_normal.webp-715f4f2c598f972017e1a922ee394b9f.s3tc.ctex"]
+source_file="res://assets/levels/baths/baths_baths_diamond_plate_n30_normal.webp"
+dest_files=["res://.godot/imported/baths_baths_diamond_plate_n30_normal.webp-97b8ac31db99762716a47fbd5d679201.s3tc.ctex"]
 
 [params]
 
@@ -30,7 +30,7 @@ compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=1
-roughness/src_normal="res://assets/levels/baths/baths_baths_crate_normal.webp"
+roughness/src_normal="res://assets/levels/baths/baths_baths_diamond_plate_n30_normal.webp"
 process/channel_remap/red=0
 process/channel_remap/green=1
 process/channel_remap/blue=2

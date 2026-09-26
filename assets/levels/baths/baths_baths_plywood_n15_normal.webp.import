@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ckgfmhcewjxuy"
-path.s3tc="res://.godot/imported/baths_baths_deck_normal.webp-3edb795f82b67ad28f4a771c6374e517.s3tc.ctex"
+uid="uid://dwcg155mwro8m"
+path.s3tc="res://.godot/imported/baths_baths_plywood_n15_normal.webp-af9ace6eb807e6008598bf61abc4d14f.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "5e63f715dab1709d5fdbee908586fad3"
+"md5": "9d5f2834d08f627c1f803588c41961e3"
 }
 
 [deps]
 
-source_file="res://assets/levels/baths/baths_baths_deck_normal.webp"
-dest_files=["res://.godot/imported/baths_baths_deck_normal.webp-3edb795f82b67ad28f4a771c6374e517.s3tc.ctex"]
+source_file="res://assets/levels/baths/baths_baths_plywood_n15_normal.webp"
+dest_files=["res://.godot/imported/baths_baths_plywood_n15_normal.webp-af9ace6eb807e6008598bf61abc4d14f.s3tc.ctex"]
 
 [params]
 
@@ -30,7 +30,7 @@ compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=1
-roughness/src_normal="res://assets/levels/baths/baths_baths_deck_normal.webp"
+roughness/src_normal="res://assets/levels/baths/baths_baths_plywood_n15_normal.webp"
 process/channel_remap/red=0
 process/channel_remap/green=1
 process/channel_remap/blue=2

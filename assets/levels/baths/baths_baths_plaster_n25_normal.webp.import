@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cqdtelyq0g1np"
-path.s3tc="res://.godot/imported/baths_baths_rail_normal.webp-8b34f492a0b55e069d0459047ade6f72.s3tc.ctex"
+uid="uid://ds13xnskmux84"
+path.s3tc="res://.godot/imported/baths_baths_plaster_n25_normal.webp-24e0a6ddf00b0e8a81d4bcc4d2197d6f.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "fb87890d060fa2ff2d242dc63d7878f9"
+"md5": "232b363cbc443757d6130d691d688911"
 }
 
 [deps]
 
-source_file="res://assets/levels/baths/baths_baths_rail_normal.webp"
-dest_files=["res://.godot/imported/baths_baths_rail_normal.webp-8b34f492a0b55e069d0459047ade6f72.s3tc.ctex"]
+source_file="res://assets/levels/baths/baths_baths_plaster_n25_normal.webp"
+dest_files=["res://.godot/imported/baths_baths_plaster_n25_normal.webp-24e0a6ddf00b0e8a81d4bcc4d2197d6f.s3tc.ctex"]
 
 [params]
 
@@ -30,7 +30,7 @@ compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=1
-roughness/src_normal="res://assets/levels/baths/baths_baths_rail_normal.webp"
+roughness/src_normal="res://assets/levels/baths/baths_baths_plaster_n25_normal.webp"
 process/channel_remap/red=0
 process/channel_remap/green=1
 process/channel_remap/blue=2
