@@ -7,3 +7,4 @@ blender/lib/__pycache__/
 .vercel
 node_modules/
 blender/work/
+__pycache__/
