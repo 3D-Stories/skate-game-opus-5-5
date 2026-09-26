@@ -86,17 +86,17 @@ def starter(lid, name, blurb):
             "material_prefix": f"{lid}_",
             "object_prefix": f"{P}_",
             "materials": {
-                "concrete": {"src": "concrete_floor", "tile": 2.0, "tint": [1.1, 1.08, 1.04], "rough": [0.7, 0.9], "normal": 2.5},
-                "concrete_floor": {"src": "concrete_floor", "tile": 3.2, "tint": [0.9, 0.9, 0.9], "rough": [0.55, 0.85], "normal": 2.0, "rough_invert": True},
-                "brick": {"src": "brick", "tile": 3.0, "rough": [0.75, 0.95], "normal": 4.0},
+                "concrete": {"texture_px": 1024, "src": "concrete_floor", "tile": 2.0, "tint": [1.1, 1.08, 1.04], "rough": [0.7, 0.9], "normal": 2.5},
+                "concrete_floor": {"texture_px": 1024, "src": "concrete_floor", "tile": 3.2, "tint": [0.9, 0.9, 0.9], "rough": [0.55, 0.85], "normal": 2.0, "rough_invert": True},
+                "brick": {"texture_px": 1024, "src": "brick", "tile": 3.0, "rough": [0.75, 0.95], "normal": 4.0},
                 "roof": {"src": "plywood", "tile": 2.44, "tint": [0.55, 0.52, 0.48], "rough": [0.6, 0.85], "normal": 1.2},
-                "plywood": {"src": "plywood", "tile": 2.44, "rough": [0.55, 0.8], "normal": 1.5},
+                "plywood": {"texture_px": 1024, "src": "plywood", "tile": 2.44, "rough": [0.55, 0.8], "normal": 1.5},
                 "rampside": {"src": "plywood", "tile": 2.44, "tint": [0.5, 0.52, 0.56], "rough": [0.6, 0.85], "normal": 1.5},
                 "coping": {"src": "diamond_plate", "tile": 0.5, "flat": [0.62, 0.62, 0.62], "flat_mix": [0.8, 0.3], "rough": [0.25, 0.45], "normal": 0.5, "metallic": 1.0},
                 "steel": {"src": "painted_steel", "tile": 1.2, "rough": [0.45, 0.75], "normal": 2.0, "metallic": 0.3},
                 "steel_paint": {"src": "painted_steel", "tile": 1.5, "tint": [0.62, 0.6, 0.55], "rough": [0.45, 0.75], "normal": 2.0, "metallic": 0.3},
-                "rail": {"src": "painted_steel", "tile": 0.8, "tint": [0.95, 0.45, 0.12], "rough": [0.35, 0.6], "normal": 1.5, "metallic": 0.4},
-                "grille": {"src": "painted_steel", "tile": 1.0, "tint": [0.62, 0.38, 0.26], "rough": [0.5, 0.8], "normal": 2.5, "metallic": 0.4},
+                "rail": {"texture_px": 256, "src": "painted_steel", "tile": 0.8, "tint": [0.95, 0.45, 0.12], "rough": [0.35, 0.6], "normal": 1.5, "metallic": 0.4},
+                "grille": {"texture_px": 256, "src": "painted_steel", "tile": 1.0, "tint": [0.62, 0.38, 0.26], "rough": [0.5, 0.8], "normal": 2.5, "metallic": 0.4},
                 "crate": {"src": "crate_wood", "tile": 1.3, "rough": [0.7, 0.9], "normal": 2.0}
             },
             "special_materials": {

@@ -179,9 +179,14 @@ adds a grind line. If it would be useful in other levels, move it into the kit.
 
 ### Materials and textures
 
-Each material is `{src, tile, tint?, desat?, flat?, flat_mix?, rough: [lo, hi], normal, metallic?, rough_invert?}`.
+Each material is `{src, tile, tint?, desat?, flat?, flat_mix?, rough: [lo, hi], normal, metallic?, rough_invert?, texture_px?}`.
 `src` is a photo source in `blender/textures_src/`. The kit derives the albedo, roughness and
-normal maps from it at 1024 px. Reuse the sources that are there (concrete, brick, plywood,
+normal maps from it at 1024 px. `texture_px` (256, 512 or 1024; default 512) is the size the
+game loads it at, set by `tools/level_imports.py`: 1024 for the big walls, floors and ramp
+surfaces the camera sees up close, 256 for small props (rails, flags, grilles), as the
+Warehouse does. A shared normal map takes the largest size of its materials. It is the main
+lever on the level's web download (the Baths pack went from 61 to 38 MB when its textures were
+sized this way instead of all at 1024). Reuse the sources that are there (concrete, brick, plywood,
 diamond plate, painted steel, crate wood, pool tile, glazed wall tile, plaster, terrazzo,
 cotton) before making a new one. New sources can only come from the shared image tool, within
 the project's image budget (30 in total; `imagegen-log.jsonl` counts them). No downloaded
@@ -311,4 +316,5 @@ A level ships when every box is ticked, with the evidence saved:
 | Baths: camera through the roof | the roof had no collision, so neither the camera nor the frame detectors saw it | kit roofs have collision; `frames.gd` flags a camera outside the level's volume |
 | Dry run: starter signs | two faced walls and baked nearly black (the suite caught it) | they face the room; brighter starter lighting |
 | Dry run: starter route | ran into the halfpipe at 10 m/s and bailed | slows into the mouth |
+| Baths: web download | every texture was imported at 1024 px, so the level's pack was 61 MB, over twice the Warehouse's texture weight | `texture_px` per material (1024 / 512 / 256, like the Warehouse): 38 MB |
 | Tests | `preload()` of the autopilot in a `-s` script compiles `skater.gd` before the `Sfx` autoload exists | the suite `load()`s it at run time |

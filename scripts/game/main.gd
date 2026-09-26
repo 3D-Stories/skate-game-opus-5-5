@@ -123,6 +123,7 @@ func _ready() -> void:
 		start_run()
 	else:
 		get_tree().paused = true
+		_compile_unpaused()
 		hud.visible = false
 		_show_start()
 
@@ -436,9 +437,27 @@ func switch_level(id: String, screen: Node = null) -> bool:
 	skater.spawn(level.spawn_pos, level.spawn_forward)
 	cam.snap()
 	level.warm_up(cam.global_position, -cam.global_basis.z)
+	await _compile_unpaused()
 	switching = false
 	print("[level] %s loaded" % id)
 	return true
+
+
+func _compile_unpaused() -> void:
+	## In Chrome on Windows (ANGLE on Direct3D 11), the first frames the game runs unpaused
+	## build about 50 more shader executables than the paused start screen does: a 20 s
+	## freeze on a first visit (before the browser has them cached), in the first frame of the
+	## first run. Run a few frames unpaused behind the start or loading screen instead, with
+	## the skater held at its spawn. (Measured: tests/results/bench_levels_1080p.jsonl.)
+	if not OS.has_feature("web") or not get_tree().paused:
+		return
+	get_tree().paused = false
+	for i in 3:
+		await get_tree().process_frame
+	if not running:
+		get_tree().paused = true
+		skater.spawn(level.spawn_pos, level.spawn_forward)
+		cam.snap()
 
 
 func _env_snapshot() -> Dictionary:

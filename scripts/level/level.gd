@@ -679,6 +679,20 @@ func warm_up(cam_pos: Vector3, cam_fwd: Vector3) -> void:
 		blood_splat(fl["position"], fl["normal"], 0.01)
 		blood_splat(fl["position"], fl["normal"], 0.01, Vector3.FORWARD, true)
 	get_tree().create_timer(0.5, true).timeout.connect(clear_blood)
+	# a kit-built level: each of its meshes drawn once, tiny, in front of the camera, so every
+	# material's shader (for that mesh's vertex format) is compiled behind the start screen
+	# rather than the first time it comes into view (a 2 s stall in the web build)
+	if data.has("hall"):
+		for mi in _meshes(park):
+			var w := MeshInstance3D.new()
+			w.mesh = mi.mesh
+			w.material_override = mi.material_override
+			for i in mi.get_surface_override_material_count():
+				w.set_surface_override_material(i, mi.get_surface_override_material(i))
+			w.cast_shadow = mi.cast_shadow
+			add_child(w)
+			w.global_transform = Transform3D(Basis().scaled(Vector3.ONE * 0.0005), at)
+			get_tree().create_timer(0.6).timeout.connect(w.queue_free)
 
 
 # ------------------------------------------------------------------ bails: blood and dust

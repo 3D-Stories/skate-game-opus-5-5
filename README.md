@@ -15,15 +15,24 @@ synthesised in GDScript at startup.
 Gameplay (recorded two-minute run, every goal completed): `evidence/two_minute_run.mp4`;
 ragdoll bails and getups: `evidence/bail_showcase.mp4`.
 
+A second park, **Eastside Baths** (a drained 1930s pool hall), is on the level select (Tab on
+the start screen). It was built with the level kit and the steps in `docs/LEVELS.md`, which
+is how further levels are made. See [Levels](#levels).
+
+![Eastside Baths](renders/baths.png)
+
 ## Commands
 
 | What | Command (run from the project root) |
 |---|---|
 | Rebuild every 3D asset + renders, headless | `blender --background --python blender/build_all.py` |
-| Export the web build (Thread Support off) | `mkdir -p build/web && godot --headless --path . --export-release "Web" build/web/index.html` |
+| Export the web build (Thread Support off) | `tools/export_web.sh build/web` (the "Web" export plus one pack per kit-built level in `build/web/levels/`) |
 | Serve it locally | `python3 -m http.server 8765 --directory build/web` then open http://localhost:8765/ |
 | Deploy (Vercel) | `npx vercel link --yes --project skate-game-opus-5-5 --cwd build/web` then `npx vercel deploy --prod --yes --cwd build/web` |
-| Run every test headless (11 suites, about 25 s) | `bash tests/run_all.sh` (results in `tests/results/`) |
+| Run every test headless (11 suites, then the level select and each kit-built level's suite, about 2 minutes) | `bash tests/run_all.sh` (results in `tests/results/`) |
+| Make a new level | `python3 blender/levelkit/scaffold.py <id> "<Name>"`, then follow `docs/LEVELS.md` |
+| Build one level (geometry, data, Cycles bake) | `blender --background --python blender/build_all.py -- --only <id>` |
+| One level's park tests (scale, UVs, grinds, breakables, hidden area, pickups, the full run) | `godot --headless --path . --fixed-fps 60 -s tests/test_level.gd -- --level=<id>` |
 | Frame-by-frame check of the run | `godot --path . --fixed-fps 60 --resolution 1920x1080 -s tests/frames.gd -- --autopilot=run --segment=windows` (segments: `start`, `rafter`, `wall_tape`, `windows`, `funbox`, `halfpipe`, `end`, or `all --every=6` for the whole run in about 4 minutes); then `python3 tests/frames_sheet.py /tmp/skate-work/frames/windows --flagged` for contact sheets |
 
 The rebuild takes about 8 minutes on an RTX 4080 (assets about 3 minutes, Cycles renders the
@@ -36,7 +45,7 @@ Compatibility-renderer patch (`engine/patches/`: SSAO no longer triggers an unus
 depth copy, which cost about 3.4 ms a frame with 4x MSAA in Chrome on Windows);
 `engine/build_web_template.sh` rebuilds it, and the Web preset points at
 `engine/godot-4.7.2-web_nothreads_release-patched.zip`.
-URL options: `?fps` shows an FPS counter, `?autopilot` plays the scripted two-minute run,
+URL options: `?level=<id>` starts on that level, `?fps` shows an FPS counter, `?autopilot` plays the scripted two-minute run,
 `?bench` records frame-time statistics for the run (`?quality=full` disables adaptive quality).
 
 ## Controls
@@ -99,6 +108,37 @@ screens, and on the end-of-run screen:
 4. Grind the rafters (from the catwalk kicker onto the yellow rafter beam)
 5. Break the 5 windows (vert airs off the east quarterpipe, or grinding the wall pipe under them)
 
+## Levels
+
+The start screen shows the current level; Tab (keyboard) or Select / Back (gamepad) opens
+the level select: one card per level with its blurb and goals, chosen with the arrows / D-pad and
+Enter / A (Esc / B goes back). The Warehouse is the default. The list comes from
+`levels/registry.json`, and each level's name, goals, run time, lighting and assets from its
+`levels/<id>/level.json`; nothing in the game's code names a level. In the web build a
+kit-built level is its own download (`build/web/levels/<id>.pck`), fetched and mounted the
+first time it is chosen.
+
+**Eastside Baths** (`levels/baths/`): a drained municipal pool hall at real scale (hall
+32 x 48 m under a 12.5 m vaulted roof with a glazed lantern). A 25 x 12 m pool, 1.7 m at the
+shallow end and 3.2 m deep: the bowl, with tiled walls that go vertical at the coping, and
+coping to grind; north (3.0 m) and east (2.4 m) quarterpipes; a bank laid over the bleachers
+down from a 4.2 m concourse drop-in; the 4.2 m high board over the deep end; two kickers, a
+funbox with a rail, a flat rail, handrails and ledges, changing cabins, a lifeguard chair and a
+pool clock; five knock-over "No Diving" signs; a boiler room behind a breakable grille (the
+hidden area, with the tape and a 1.8 m quarterpipe); five named gaps; its own graffiti,
+signage and grime decals; a Cycles-baked lightmap. Goals on the same two-minute run:
+
+1. High score: 30,000
+2. Collect S-K-A-T-E
+3. Find the Secret Tape (in the boiler room)
+4. Knock Over 5 No Diving Signs
+5. Grind the Deep End Coping (1.2 s on the pool's deep-end coping)
+6. Take the High Dive (the gap off the high board into the pool)
+
+`docs/LEVELS.md` is the guide to making the next one: the level definition format, the
+kit's feature types, lighting and the bake, breakables and pickups, the autopilot route, the
+tests, parity, web packs, and the checklist of quality gates.
+
 ## What each Blender script builds
 
 `blender/build_all.py` runs them in this order. The same modules were run in the live
@@ -117,19 +157,23 @@ the live and headless builds are the same assets (see Evidence).
 | `skater_clothes.py` | Stage 4: a fleece hoodie with hood, ribbed cuffs and drawstrings, loose denim jeans, suede skate shoes with laces, soles and tongues. Garments are cut from the body so they carry its skin weights; folds are sculpted procedurally; a fabric UV set tiles the photo sources at real scale; a layering pass keeps the hoodie hem over the jeans; colour, folds, seams, wear and AO are baked per garment. |
 | `skater_hair.py` | Stage 5: a textured-crop haircut from ~2,200 layered hair cards grown on the scalp along a styled flow field, with a procedural strand-clump atlas. |
 | `anims.py` | A control rig (foot and hand IK, knee and elbow poles) drives the skeleton; 25 clips authored as Python keyframes: idle, push, ride, ride fakie, crouch, ollie, kickflip, heelflip, pop shove-it, 360 flip, indy, melon, nosegrab, tailgrab, 50-50, boardslide, manual, nose manual, vert air, air, land, bail, two getups (from the back, and from face down: push-up, knees in, lunge, stand) and the special. The board is its own animated bone; the feet are solved onto the deck every frame. Exports `assets/skater.glb`. |
-| `park_geo.py` | Geometry builders: ramps with true circular transitions and coping, boxes, rails, I-beams, pipes. |
-| `graffiti.py` | Twelve original graffiti pieces drawn in code (text curves, outlines, block shadows, drips, overspray, wear) into one atlas, placed as decals. |
+| `levelkit/geo.py` | Geometry builders shared by every level (formerly `park_geo.py`): ramps with true circular transitions and coping, halfpipes, banks, kickers, funboxes, pools with a variable transition radius, stairs and bleachers, boxes, rails, ledges, I-beams, pipes, vaulted and flat roofs. |
+| `levelkit/materials.py`, `lighting.py` | PBR texture sets from the photo sources (albedo, roughness in alpha, normal), shared normal maps, emissive and glass materials; lights and the Cycles lightmap bake from a level's spec. `park.py` and `bake.py` use them too. |
+| `levelkit/level.py`, `props.py`, `breakables.py` | The level builder: reads `levels/<id>/level.json` and builds the GLB, the data JSON and the baked lightmap (hall, feature list, collision by surface, grind lines, breakables, hidden areas, pickups, gaps, graffiti and decals). A level can add its own feature types in `levels/<id>/features.py`. |
+| `levelkit/scaffold.py` | `python3 blender/levelkit/scaffold.py <id> "<Name>"`: a complete starter level (definition, starter autopilot route, registry entry) that builds, imports and plays first time; in the timed dry run it passed 36 of its suite's 38 checks untouched (the other two need the autopilot route written for the layout). |
+| `graffiti.py` | Twelve original graffiti pieces drawn in code (text curves, outlines, block shadows, drips, overspray, wear) into one atlas, placed as decals. A level can bring its own pieces (the Baths' tags, pool signage and depth markings) and a grime atlas (stains, drain rings, rust streaks, leaf litter), all drawn in code. |
 | `bake.py` | Lighting: a warm low sun through the skylights and windows, sky light, 32 hanging fluorescent fixtures, skylight glow, the secret-room lamp; a Cycles lightmap bake (indirect sun + all other light) into `assets/park_lightmap.png`. The game renders the sun in real time with shadows. |
 | `park.py` | `assets/park.glb` + `assets/park_data.json`: the Warehouse at real scale (hall 40 x 66 m, 11.5 m roof) - start deck (5 m) with the steep drop-in, halfpipe (3.7 m), a 3.2 m quarterpipe along the east wall under five breakable windows, a 2.4 m corner quarter, funbox with top rail, two kickers, an 18 m rail, a diagonal rail, concrete ledges, the grindable wall pipe, high catwalks with a kicker onto the rafters, two grindable rafters, the boarded-up breakable wall and the secret room with its own rail, crates, barrels, pallets, dumpster, steel columns and trusses, ten skylights, graffiti, and a closed daylight shell outside the east windows (left out of the bake; the game draws the outside view on it); every visual mesh has a `Lightmap` UV set; collision is tagged by surface (wood, concrete, metal, wall). |
-| `renders.py` | Cycles renders into `renders/`: face portrait, skater T-pose and mid-kickflip, board and park (high three-quarter cutaway), each as a hero still, an 8-view sheet and an MP4 turntable. |
+| `renders.py` | Cycles renders into `renders/`: face portrait, skater T-pose and mid-kickflip, board, park and each kit-built level (high three-quarter cutaway), each as a hero still, an 8-view sheet and an MP4 turntable. |
 | `dev_preview.py` | Development helper only (clip contact sheets); not part of the build. |
 
 `blender/textures_src/` holds the photographic texture sources made with the shared image
 tool (`generate_sources.sh` lists every prompt); the build only reads them.
 
-**Image count (from `imagegen-log.jsonl`): 17 of the 30 allowed.** denim, hoodie fleece,
+**Image count (from `imagegen-log.jsonl`): 21 of the 30 allowed.** denim, hoodie fleece,
 suede, skin pores, plywood, brick, griptape, concrete floor, crate wood, painted steel,
-corrugated metal, diamond plate, cotton tee, cinder block, deck graphic, iris, face albedo.
+corrugated metal, diamond plate, cotton tee, cinder block, deck graphic, iris, face albedo;
+for Eastside Baths: pool mosaic tile, glazed wall tile, peeling plaster, terrazzo.
 No downloaded models, textures, HDRIs, rigs, animations or fonts; the only external generator
 is MPFB2 for the base human.
 
@@ -142,8 +186,10 @@ is MPFB2 for the base human.
 | `scripts/skater/skater_model.gd` | The Blender skater and board: clip blending, board on its bone, wheel spin, and the ragdoll: 14 capsules with cone-twist joints (PhysicalBone3D). A bail blends the authored flinch into the physics; once the body lies still, the ragdoll is steered into the first pose of the matching getup clip (on the back or face down) and fades into it. |
 | `scripts/game/tricks.gd`, `score_keeper.gd` | Trick table and THPS scoring (unit-tested). |
 | `scripts/game/chase_camera.gd` | THPS-style follow camera: ramp-facing view in vert airs, a 3/4 view on grinds with the arm pivoted out towards the open hall (so wall pilasters and rafter hanger rods never cut across it), a sphere-cast spring arm that eases in and out, holds its distance past thin beams and swings round walls instead of collapsing onto the skater, never swings round into a wall after a bounce, turns at most 240 deg/s, and slides sideways past hanger rods to keep them off the line of sight. |
-| `scripts/level/level.gd`, `rail.gd`, `glass_burst.gd` | Loads the park, lightmap PBR materials, collision surfaces, rails, breakable windows and wall, pickups. A breaking window keeps jagged shards in its frame and throws out tumbling glass that lands on the quarterpipe below and lies there before fading. |
-| `scripts/ui/hud.gd`, `menus.gd` | HUD (score, special meter, timer, goals, letters, combo, balance meters) and menus. |
+| `scripts/level/level.gd`, `rail.gd`, `glass_burst.gd` | Loads a level by id (the Warehouse, or any kit-built level from its data), lightmap PBR materials, collision surfaces, rails, breakable windows and wall, generic breakables (impact bodies and knock-over signs), gaps, pickups. A breaking window keeps jagged shards in its frame and throws out tumbling glass that lands on the quarterpipe below and lies there before fading. |
+| `scripts/level/level_registry.gd` | `LevelRegistry`: the level list from `levels/registry.json`, each level's definition, the startup level (`?level=` / `--level=`), and web packs (fetch, mount). |
+| `scripts/ui/level_select.gd`, `scenes/level_select.tscn` | The level select screen (keyboard and gamepad): a card per level with its goals. |
+| `scripts/ui/hud.gd`, `menus.gd` | HUD (score, special meter, timer, goals, letters, combo, balance meters) and menus (the start screen names the level and opens the level select). |
 | `scripts/audio/sfx.gd` | Every sound synthesised into AudioStreamWAV buffers at startup (rolling on concrete/wood/metal, pop, landings, grind scrapes, wind, bail, board clatter, glass, wall break, pickups, UI); pitch and volume driven at runtime. |
 | `shaders/` | `park.gdshader` (lightmap + real-time sun PBR for the park), `park_decal.gdshader` (graffiti decals), `skin.gdshader` (skin with faked subsurface scattering), `hair.gdshader` (alpha-tested hair cards with tinted anisotropic highlights), `window_glass.gdshader` (grimy glass; broken panes get irregular straight-edged holes with shards left in the frame), `yard_sky.gdshader` (the outside: utility poles and wires, trees and the next blocks' rooflines at their real distances, a sky with clouds). |
 | `scripts/game/autopilot*.gd` | Scripted two-minute run used for the recording, the tests and the benchmark. |
