@@ -84,26 +84,60 @@ static func fetch_pack(id: String, host: Node, progress: Callable = Callable()) 
 		return false
 	var dest := "user://levels/%s.pck" % id
 	DirAccess.make_dir_recursive_absolute("user://levels")
+	# (the body is kept in memory and written out here: the web build's HTTPRequest does
+	# not write download_file)
 	var http := HTTPRequest.new()
-	http.download_file = dest
 	http.use_threads = false
+	http.download_chunk_size = 1 << 22      # (the default 64 KB a frame makes a big pack crawl)
 	host.add_child(http)
+	var done := [false, 0, PackedByteArray()]
+	http.request_completed.connect(func(result, code, _h, b):
+		done[0] = true
+		done[1] = code if result == HTTPRequest.RESULT_SUCCESS else -1
+		done[2] = b)
 	var err := http.request(url)
 	if err != OK:
 		http.queue_free()
 		return false
-	var done := [false, 0]
-	http.request_completed.connect(func(result, code, _h, _b): done[0] = true; done[1] = code if result == HTTPRequest.RESULT_SUCCESS else -1)
 	while not done[0]:
 		if progress.is_valid():
 			progress.call(http.get_downloaded_bytes(), http.get_body_size())
 		await host.get_tree().process_frame
 	http.queue_free()
-	if int(done[1]) != 200:
+	var body: PackedByteArray = done[2]
+	print("[level] pack %s: HTTP %d, %d bytes" % [url.get_file(), int(done[1]), body.size()])
+	if int(done[1]) != 200 or body.size() < 16:
 		push_warning("level pack %s: HTTP %s" % [url, str(done[1])])
 		return false
+	var f := FileAccess.open(dest, FileAccess.WRITE)
+	if f == null:
+		push_warning("level pack %s: cannot write %s" % [url, dest])
+		return false
+	f.store_buffer(body)
+	f.close()
 	if not ProjectSettings.load_resource_pack(dest, false):
 		push_warning("level pack %s: could not be mounted" % dest)
 		return false
+	_register_uids(String(game(id).get("assets", {}).get("glb", "")).get_base_dir())
 	_packs_loaded[id] = true
 	return available(id)
+
+
+static func _register_uids(dir: String) -> void:
+	## A mounted pack's resources are not in the main pack's UID cache: add each one's UID
+	## (from its .import file) so references by UID resolve without falling back to paths.
+	for f in DirAccess.get_files_at(dir):
+		if not f.ends_with(".import"):
+			continue
+		var cf := ConfigFile.new()
+		if cf.load(dir.path_join(f)) != OK:
+			continue
+		var uid := String(cf.get_value("remap", "uid", ""))
+		if uid == "":
+			continue
+		var n := ResourceUID.text_to_id(uid)
+		var src := dir.path_join(f.trim_suffix(".import"))
+		if ResourceUID.has_id(n):
+			ResourceUID.set_id(n, src)
+		else:
+			ResourceUID.add_id(n, src)

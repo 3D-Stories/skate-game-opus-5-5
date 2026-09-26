@@ -150,6 +150,17 @@ func _run() -> void:
 	await tap_key(KEY_ENTER)
 	await frames(3)
 	check(main.running and not paused, "run started from the start screen (Enter)")
+	# the HUD's goal list is a 440 px column 30 px from the right edge (hud.gd: goals_box); a
+	# longer line grows the box past the screen's edge. Every goal line, with its progress, fits.
+	await frames(2)
+	var hud_w := 440.0
+	var wide: Array = []
+	for gid in main.hud.goal_labels:
+		var l: Label = main.hud.goal_labels[gid]
+		if l.get_minimum_size().x > hud_w:
+			wide.append("%s %.0f px" % [l.text, l.get_minimum_size().x])
+	check(wide.is_empty(), "every goal line fits the HUD's goal list (%.0f px)" % hud_w,
+			"; ".join(wide) if wide.size() else "widest %.0f px" % main.hud.goals_box.get_combined_minimum_size().x)
 	await grind_snaps()
 	await rides()
 	await pumping()

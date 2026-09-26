@@ -17,7 +17,7 @@
    {"id": "score", "type": "score", "target": 30000},
    {"id": "skate", "type": "letters", "title": "Collect S-K-A-T-E"},
    {"id": "tape", "type": "tape", "title": "Find the Secret Tape"},
-   {"id": "signs", "type": "break", "group": "signs", "count": 5, "title": "Knock Down the 5 NO DIVING Signs"},
+   {"id": "signs", "type": "break", "group": "signs", "count": 5, "title": "Knock Over 5 No Diving Signs"},
    {"id": "deep_coping", "type": "grind", "rails": ["pool_coping_north"], "time": 1.2, "title": "Grind the Deep End Coping"},
    {"id": "high_dive", "type": "gap", "gap": "high_dive", "title": "Take the High Dive"}
   ],

@@ -1,4 +1,4 @@
-Pro Skater level tests: Eastside Baths (baths)  2026-09-26T15:15:36
+Pro Skater level tests: Eastside Baths (baths)  2026-09-26T15:49:43
 PASS  the level loads through LevelRegistry (levels/registry.json -> levels/baths/level.json)  [Eastside Baths, 26 grind lines, 6 breakables]
 PASS  a high-score goal plus at least two goals of the level's own, on one two-minute run  [score, skate, tape, signs, deep_coping, high_dive]
 PASS  the run's goal list is built from the level's data  [6 goals]
@@ -28,6 +28,7 @@ PASS  grind lines for rails, ledges and copings  [{ "coping": 6, "ledge": 14, "r
 PASS  every grind line runs along real geometry (a mesh under 20 samples each)  [26 lines, mean coverage 100%]
 PASS  S-K-A-T-E and the tape each sit in open space above solid ground  [S 2.9 m up, K 1.7 m up, A 1.2 m up, T 3.9 m up, E 6.6 m up, tape 1.8 m up]
 PASS  run started from the start screen (Enter)
+PASS  every goal line fits the HUD's goal list (440 px)  [widest 440 px]
 PASS  every grind line is grindable: the grind button snaps the real skater into GRIND on each of the 26  [{ "50-50": 26 }]
 PASS  ride: deep end: carve across the pool and back, wall to wall  [air peak - m, top -0.79 m, low -3.20 m, steepest 89.67 deg, went 6.00 m, end (-1.2, -3.2, -11.0), surfaces ["pool"]]
 PASS  ride: deep end: vert air out over the north coping and land back in  [air peak 1.21 m, top 1.21 m, low -3.20 m, steepest 89.68 deg, went 8.00 m, end (2.5, -1.9, -0.2), surfaces ["pool"]]
@@ -51,4 +52,4 @@ PASS  Boiler Room: the doorway is open once the breakable is down
 PASS  the secret tape is in a hidden area
 PASS  every pickup is reachable: the autopilot route collects S-K-A-T-E and the tape  [A 5.1s, E 6.8s, T 11.3s, K 21.1s, S 32.0s, tape 39.2s]
 PASS  the autopilot two-minute run completes every goal of the level  [score done, skate done, tape done, signs done, deep_coping done, high_dive done; score 58951 in 121.0 s]
-52 passed, 0 failed
+53 passed, 0 failed
