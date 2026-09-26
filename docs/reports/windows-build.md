@@ -205,4 +205,5 @@ shader compiles at the first broken window, 24 s in.
 
 See `git log 696364b..windows-build`: `baa976d` (preset, templates, desktop layer, staged
 export), `ad25285` (desktop tests, Alt+Enter, quit-at-end), `5a4969d` (native harness),
-`dda0414` (native results), and the final commit with this report and the README section.
+`dda0414` (native results), `057b55b` (README section, this report, final smoke run), and a
+last commit that adds these hashes.
