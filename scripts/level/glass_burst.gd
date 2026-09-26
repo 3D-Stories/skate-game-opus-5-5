@@ -2,8 +2,10 @@ class_name GlassBurst
 extends MultiMeshInstance3D
 ## The shards of one broken window: thin triangles of glass that tumble out into the hall,
 ## land on whatever is below (the east quarterpipe) and lie there glinting, then fade.
-## Each shard's landing is found once, when the window breaks, by following its flight
-## with a few ray segments; after that the flight is pure arithmetic per frame.
+## Each shard's flight is worked out once, when the window breaks, by following it with
+## short ray segments (bouncing off steep surfaces such as a wall column, landing on the
+## first one it can lie on); after that it is pure arithmetic per frame. Glass hidden
+## behind a column is not thrown.
 
 const GRAVITY := 12.0
 const LIE_TIME := 7.0          # seconds a shard lies on the ramp before fading
@@ -12,7 +14,7 @@ const FADE_TIME := 1.0
 static var _mesh: ArrayMesh
 static var _mat: StandardMaterial3D
 
-var _shards: Array = []        # per shard: {p0, v0, axis, spin, size, t_land, land_p, land_b, basis0}
+var _shards: Array = []        # per shard: {segs: [[t0, p0, v0], ...], axis, spin, b0, t_land, land_p, land_b}
 var _t := 0.0
 
 
@@ -49,24 +51,51 @@ func burst(space: PhysicsDirectSpaceState3D, center: Vector3, half: Vector2, int
 	multimesh.instance_count = count
 	cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	for i in count:
-		var p0 := center + Vector3(0.0, rng.randf_range(-half.y, half.y) * 0.8, rng.randf_range(-half.x, half.x) * 0.85)
+		# only glass that is seen from the hall (none from behind a wall column)
+		var p0 := center
+		for attempt in 8:
+			p0 = center + Vector3(0.0, rng.randf_range(-half.y, half.y) * 0.8, rng.randf_range(-half.x, half.x) * 0.85)
+			if space.intersect_ray(PhysicsRayQueryParameters3D.create(p0 + into * 1.2, p0, 1)).is_empty():
+				break
+			p0 = Vector3.INF
+		if p0 == Vector3.INF:
+			multimesh.instance_count -= 1
+			continue
 		var v0 := into * rng.randf_range(1.2, 4.2) + Vector3.UP * rng.randf_range(-0.5, 1.8) \
 				+ Vector3(0, 0, rng.randf_range(-1.2, 1.2)) + carry * rng.randf_range(0.15, 0.45)
 		var size := rng.randf_range(0.04, 0.16)
 		var b0 := Basis.from_euler(Vector3(rng.randf() * TAU, rng.randf() * TAU, rng.randf() * TAU)).scaled(
 				Vector3(size, size * rng.randf_range(0.5, 1.4), size))
-		var sh := {"p0": p0, "v0": v0, "axis": Vector3(rng.randf_range(-1, 1), rng.randf_range(-1, 1), rng.randf_range(-1, 1)).normalized(),
+		var sh := {"segs": [[0.0, p0, v0]], "axis": Vector3(rng.randf_range(-1, 1), rng.randf_range(-1, 1), rng.randf_range(-1, 1)).normalized(),
 				"spin": rng.randf_range(8.0, 24.0), "b0": b0, "t_land": 3.0, "land_p": Vector3.ZERO, "land_b": Basis.IDENTITY}
-		# where it lands: step along the parabola until a segment hits the park
+		# the flight: parabolas, bouncing off anything steep (a column, the wall) until it
+		# comes down on something it can lie on, followed with short ray segments
+		var seg_t := 0.0
+		var sp := p0
+		var sv := v0
 		var prev := p0
 		var t := 0.0
+		var bounces := 0
 		while t < 3.0:
 			t += 1.0 / 30.0
-			var p := p0 + v0 * t + Vector3.DOWN * 0.5 * GRAVITY * t * t
+			var dt := t - seg_t
+			var p := sp + sv * dt + Vector3.DOWN * 0.5 * GRAVITY * dt * dt
 			var hit := space.intersect_ray(PhysicsRayQueryParameters3D.create(prev, p, 1))
 			if not hit.is_empty():
 				var n: Vector3 = hit["normal"]
-				sh["t_land"] = t - 1.0 / 30.0 + prev.distance_to(hit["position"]) / maxf(prev.distance_to(p), 1e-4) / 30.0
+				var th := t - 1.0 / 30.0 + prev.distance_to(hit["position"]) / maxf(prev.distance_to(p), 1e-4) / 30.0
+				if n.y < 0.5 and bounces < 3:
+					var tdt := th - seg_t
+					var vh := sv + Vector3.DOWN * GRAVITY * tdt
+					bounces += 1
+					seg_t = th
+					sp = (hit["position"] as Vector3) + n * 0.01
+					sv = vh.bounce(n) * 0.35
+					sh["segs"].append([seg_t, sp, sv])
+					prev = sp
+					t = th
+					continue
+				sh["t_land"] = th
 				sh["land_p"] = (hit["position"] as Vector3) + n * 0.004
 				# lying flat on the surface (the triangle's normal along the surface normal)
 				var x := n.cross(Vector3(rng.randf_range(-1, 1), 0.3, rng.randf_range(-1, 1))).normalized()
@@ -91,7 +120,12 @@ func _update() -> void:
 		var tl: float = sh["t_land"]
 		var xf: Transform3D
 		if _t < tl:
-			var p: Vector3 = sh["p0"] + sh["v0"] * _t + Vector3.DOWN * 0.5 * GRAVITY * _t * _t
+			var seg: Array = sh["segs"][0]
+			for sg in sh["segs"]:
+				if float(sg[0]) <= _t:
+					seg = sg
+			var dt := _t - float(seg[0])
+			var p: Vector3 = seg[1] + seg[2] * dt + Vector3.DOWN * 0.5 * GRAVITY * dt * dt
 			xf = Transform3D(Basis(sh["axis"], sh["spin"] * _t) * sh["b0"], p)
 		else:
 			var fade := clampf((_t - tl - LIE_TIME) / FADE_TIME, 0.0, 1.0)

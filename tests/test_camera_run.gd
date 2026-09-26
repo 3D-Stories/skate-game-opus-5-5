@@ -123,6 +123,16 @@ var rows: Dictionary = {}        # row name -> stats
 var prev_keys: Array = []
 var selftest: Array = []         # [ok, what]
 var frames_measured := 0
+# the view jumping between two frames (the glitch on the wall-pipe and rafter grinds)
+const POP_MOVE := 0.45           # m in one 1/60 s frame
+const POP_TURN := 12.0           # degrees in one frame
+var last_cam: Transform3D
+var have_last_cam := false
+var pops := 0
+var pops_grind := 0
+var pop_events: Array = []
+var max_move := 0.0
+var max_turn := 0.0
 var frames_skipped := 0          # physics frames of the run that were not measured
 var last_phys := -1
 var run_started := false
@@ -601,6 +611,20 @@ func _measure(t: float) -> Dictionary:
 	var upper := sp + Vector3.UP * LOS_HEIGHT
 	var at_cam := Transform3D(Basis.IDENTITY, cp)
 	var s := {"t": t, "sp": sp, "cp": cp}
+	# frame-to-frame camera motion
+	if have_last_cam:
+		var mv := cp.distance_to(last_cam.origin)
+		var tn := rad_to_deg(cam.global_basis.get_rotation_quaternion().angle_to(last_cam.basis.get_rotation_quaternion()))
+		max_move = maxf(max_move, mv)
+		max_turn = maxf(max_turn, tn)
+		if mv > POP_MOVE or tn > POP_TURN:
+			pops += 1
+			if sk.state == sk.GRIND:
+				pops_grind += 1
+			if pop_events.size() < 10:
+				pop_events.append("t=%.2f s %.2f m %.1f deg %s @ %s" % [t, mv, tn, _state_name(sk.state, sk.vert_air), _v(sp)])
+	last_cam = cam.global_transform
+	have_last_cam = true
 	# line of sight
 	var ch := _ray(cp, upper, ex, true)
 	var vh := _vray(cp, upper, true, true)
@@ -1224,6 +1248,9 @@ func _write_report(final: bool, note := "run in progress") -> int:
 			"the probes can fail: self-test against known spots of the park (%d of %d: collision and rendered clip sphere / near-clip volume / rays incl. a hanger rod that has no collision, window glass, inside-a-solid in the funbox and the deck block, hall bounds, framing vs the engine frustum, broken windows and the smashed wall drop out)" % [
 				st_all.size() - bad.size(), st_all.size()],
 			"failed: " + "; ".join(bad) if st_all.size() > 0 else "self-test did not run"])
+	checks.append([n > 0 and pops == 0,
+			"the view never jumps: at most %.2f m and %.1f deg of camera motion in one frame over the run (a pop = over %.2f m or %.0f deg in one 1/60 s frame): %d pops, %d of them on grinds (must be 0)" % [
+				max_move, max_turn, POP_MOVE, POP_TURN, pops, pops_grind], "first: " + " | ".join(pop_events.slice(0, 3))])
 	# 2. clipping - against the collision the spring arm avoids, and against what is drawn
 	checks.append([A["col_clip"] == 0,
 			"no near-plane clipping into the park collision: collision within %.3f m (cam.near %.2f x 1.5) of the camera in %d of %d frames (vert air %d, grind %d; must be 0)" % [

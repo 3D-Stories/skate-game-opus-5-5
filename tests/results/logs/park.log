@@ -2,7 +2,7 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 
 [godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
 [run] started
-Pro Skater park (Warehouse) tests  2026-09-26T01:52:03
+Pro Skater park (Warehouse) tests  2026-09-26T01:56:24
 PASS  main hall footprint is ~40 x 66 m (wall collision raycasts from the centre)  [40.00 x 66.00 m]
 PASS  hall is ~11.5 m to the roof (wall collision top and roof mesh)  [walls 11.50 m, roof 11.50 m]
 PASS  brick / corrugated wall meshes span 40 x 66 x 11.5 m  [(40.0, 11.5, 66.0)]
@@ -103,7 +103,8 @@ PASS  all 5 windows broken, each once (window_broken signal 1/5 .. 5/5)  [[[0, 1
 PASS  breaking the 5 windows completes 'Break the 5 Windows'
 PASS  reset_run restores all 5 windows
 PASS  a grind along the wall pipe breaks all 5 windows above it  [grind from z -2.52 to -43.94, broken 5, bails []]
-PASS  reset_run restores them again
+PASS  each broken window throws glass shards that land on the park below it (the east quarterpipe) and stay in the hall  [5 bursts, 240 shards, 240 landed, 240 inside the hall below the windows]
+PASS  reset_run restores them again (whole glass, the shards cleared)  [0 bursts left]
 PASS  before: rays and a skater-sized sphere cast from the hall into the secret room are blocked by the boarded wall  [0/9 rays through, sphere free 51%, first hit BreakWallBody at x=-19.90]
 PASS  tape not yet collected
 PASS  rolling into the boarded wall breaks it (wall_broken, collision body removed)  [broke with the skater at (-19.78, 0.0, -36.8)]
@@ -113,7 +114,7 @@ PASS  the secret tape is collected in the room (off the room's kicker)  [tape si
 PASS  collecting the tape completes 'Find the Secret Tape'
 PASS  after: the doorway into the room is open (~5 m wide, 3.2 m high) and a skater-sized sphere passes  [9/9 rays through, sphere free 100%, frame blocked 3/3, first hit COL_wood at x=-29.36]
 PASS  reset_run rebuilds the wall (blocked again) and puts the tape back  [0 rays through, first hit BreakWallBody]
-110 passed, 0 failed
+111 passed, 0 failed
 
 WARNING: 22 ObjectDB instances were leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)

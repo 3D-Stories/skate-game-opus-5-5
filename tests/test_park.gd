@@ -1047,9 +1047,35 @@ func windows_gameplay() -> void:
 	key(KEY_D, false)
 	check(res["got"] and lv.windows_broken() == 5, "a grind along the wall pipe breaks all 5 windows above it",
 			"grind from z %s to %s, broken %d, bails %s" % [fmt(res["pos"].z), fmt(end_z), lv.windows_broken(), str(bails.slice(b0))])
+	# every broken window threw its glass: shards that land on the park below it (the east
+	# quarterpipe) within 3 s, inside the hall, and lie flat on what they hit
+	var n_burst := 0
+	var n_sh := 0
+	var n_landed := 0
+	var n_in_hall := 0
+	for w in lv.windows:
+		var b = w["burst"]
+		if not is_instance_valid(b):
+			continue
+		n_burst += 1
+		for sh in b._shards:
+			n_sh += 1
+			var lp: Vector3 = sh["land_p"]
+			if float(sh["t_land"]) < 3.0:
+				n_landed += 1
+				if lp.x < 20.0 and lp.x > 12.0 and lp.y > -0.01 and lp.y < 4.5:
+					n_in_hall += 1
+	check(n_burst == 5 and n_sh >= 5 * 40 and n_landed == n_sh and n_in_hall == n_sh,
+			"each broken window throws glass shards that land on the park below it (the east quarterpipe) and stay in the hall",
+			"%d bursts, %d shards, %d landed, %d inside the hall below the windows" % [n_burst, n_sh, n_landed, n_in_hall])
 	lv.reset_run()
 	await physics(2)
-	check(lv.windows_broken() == 0, "reset_run restores them again")
+	var left := 0
+	for w in lv.windows:
+		if is_instance_valid(w["burst"]):
+			left += 1
+	check(lv.windows_broken() == 0 and left == 0 and lv.windows.all(func(w): return not glass_broken(w["node"])),
+			"reset_run restores them again (whole glass, the shards cleared)", "%d bursts left" % left)
 	sk.spawn(Vector3(0, 0.02, -28), Vector3(0, 0, -1), 0.0)
 	await physics(10)
 
