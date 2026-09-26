@@ -1,0 +1,2564 @@
+{
+ "baths.glb": {
+  "file": "baths.glb",
+  "bytes": 37251948,
+  "sha256": "4b1e839c47d5ee93",
+  "nodes": [
+   [
+    "Baths_boiler",
+    "Baths_boiler",
+    0
+   ],
+   [
+    "Baths_brick",
+    "Baths_brick",
+    0
+   ],
+   [
+    "Baths_cabin",
+    "Baths_cabin",
+    0
+   ],
+   [
+    "Baths_chrome",
+    "Baths_chrome",
+    0
+   ],
+   [
+    "Baths_concrete",
+    "Baths_concrete",
+    0
+   ],
+   [
+    "Baths_concrete_floor",
+    "Baths_concrete_floor",
+    0
+   ],
+   [
+    "Baths_coping",
+    "Baths_coping",
+    0
+   ],
+   [
+    "Baths_coping_stone",
+    "Baths_coping_stone",
+    0
+   ],
+   [
+    "Baths_crate",
+    "Baths_crate",
+    0
+   ],
+   [
+    "Baths_deck",
+    "Baths_deck",
+    0
+   ],
+   [
+    "Baths_diamond",
+    "Baths_diamond",
+    0
+   ],
+   [
+    "Baths_firebox",
+    "Baths_firebox",
+    0
+   ],
+   [
+    "Baths_flag_a",
+    "Baths_flag_a",
+    0
+   ],
+   [
+    "Baths_flag_b",
+    "Baths_flag_b",
+    0
+   ],
+   [
+    "Baths_frosted",
+    "Baths_frosted",
+    0
+   ],
+   [
+    "Baths_graffiti",
+    "Baths_graffiti",
+    0
+   ],
+   [
+    "Baths_grille",
+    "Baths_grille",
+    0
+   ],
+   [
+    "Baths_grime",
+    "Baths_grime",
+    0
+   ],
+   [
+    "Baths_lamp",
+    "Baths_lamp",
+    0
+   ],
+   [
+    "Baths_plaster",
+    "Baths_plaster",
+    0
+   ],
+   [
+    "Baths_plywood",
+    "Baths_plywood",
+    0
+   ],
+   [
+    "Baths_pool_band",
+    "Baths_pool_band",
+    0
+   ],
+   [
+    "Baths_pool_floor",
+    "Baths_pool_floor",
+    0
+   ],
+   [
+    "Baths_pool_line",
+    "Baths_pool_line",
+    0
+   ],
+   [
+    "Baths_pool_tile",
+    "Baths_pool_tile",
+    0
+   ],
+   [
+    "Baths_rail",
+    "Baths_rail",
+    0
+   ],
+   [
+    "Baths_rampside",
+    "Baths_rampside",
+    0
+   ],
+   [
+    "Baths_roof",
+    "Baths_roof",
+    0
+   ],
+   [
+    "Baths_skylight",
+    "Baths_skylight",
+    0
+   ],
+   [
+    "Baths_springboard",
+    "Baths_springboard",
+    0
+   ],
+   [
+    "Baths_steel",
+    "Baths_steel",
+    0
+   ],
+   [
+    "Baths_steel_paint",
+    "Baths_steel_paint",
+    0
+   ],
+   [
+    "Baths_tile_band",
+    "Baths_tile_band",
+    0
+   ],
+   [
+    "Baths_wall_tile",
+    "Baths_wall_tile",
+    0
+   ],
+   [
+    "Break_grille",
+    "Break_grille",
+    0
+   ],
+   [
+    "COL_concrete-colonly",
+    "COL_concrete-colonly",
+    0
+   ],
+   [
+    "COL_metal-colonly",
+    "COL_metal-colonly",
+    0
+   ],
+   [
+    "COL_metal_thin-colonly",
+    "COL_metal_thin-colonly",
+    0
+   ],
+   [
+    "COL_pool-colonly",
+    "COL_pool-colonly",
+    0
+   ],
+   [
+    "COL_wall-colonly",
+    "COL_wall-colonly",
+    0
+   ],
+   [
+    "COL_wood-colonly",
+    "COL_wood-colonly",
+    0
+   ],
+   [
+    "Sign_0",
+    "Sign_0",
+    0
+   ],
+   [
+    "Sign_0_face",
+    "Sign_0_face",
+    0
+   ],
+   [
+    "Sign_1",
+    "Sign_1",
+    0
+   ],
+   [
+    "Sign_1_face",
+    "Sign_1_face",
+    0
+   ],
+   [
+    "Sign_2",
+    "Sign_2",
+    0
+   ],
+   [
+    "Sign_2_face",
+    "Sign_2_face",
+    0
+   ],
+   [
+    "Sign_3",
+    "Sign_3",
+    0
+   ],
+   [
+    "Sign_3_face",
+    "Sign_3_face",
+    0
+   ],
+   [
+    "Sign_4",
+    "Sign_4",
+    0
+   ],
+   [
+    "Sign_4_face",
+    "Sign_4_face",
+    0
+   ]
+  ],
+  "meshes": [
+   {
+    "name": "Baths_boiler",
+    "primitives": [
+     {
+      "verts": 416,
+      "indices": 936,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_boiler",
+      "min": [
+       17.2,
+       0.25,
+       -23.4
+      ],
+      "max": [
+       22.2,
+       2.25,
+       -14.6
+      ],
+      "hash": {
+       "NORMAL": "f65be340237d8ef3",
+       "POSITION": "abda4ed5407411c9",
+       "TEXCOORD_0": "b4e3291362883726",
+       "TEXCOORD_1": "2416fbaf0d77463d",
+       "indices": "f3a2db44768da2e4"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_brick",
+    "primitives": [
+     {
+      "verts": 24,
+      "indices": 36,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_brick",
+      "min": [
+       16,
+       0,
+       -24
+      ],
+      "max": [
+       27,
+       4.5,
+       -14
+      ],
+      "hash": {
+       "NORMAL": "690bb4ec624e17dd",
+       "POSITION": "8deda9610b9fe5f6",
+       "TEXCOORD_0": "4de293eb3e3693ab",
+       "TEXCOORD_1": "da7d4d7a507e319d",
+       "indices": "373a8a0d88798560"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_cabin",
+    "primitives": [
+     {
+      "verts": 16,
+      "indices": 24,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_cabin",
+      "min": [
+       14.4,
+       0,
+       8
+      ],
+      "max": [
+       16,
+       2.3,
+       22
+      ],
+      "hash": {
+       "NORMAL": "22a6f48542a48476",
+       "POSITION": "f1b9c710d97a160c",
+       "TEXCOORD_0": "08b8ec67fb7ff825",
+       "TEXCOORD_1": "561b6e562c8cb159",
+       "indices": "dca3b48e43edcf6d"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_chrome",
+    "primitives": [
+     {
+      "verts": 1400,
+      "indices": 2112,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_chrome",
+      "min": [
+       -4.0707,
+       -0.003,
+       -13.412
+      ],
+      "max": [
+       9.0707,
+       4.2104,
+       -11.728
+      ],
+      "hash": {
+       "NORMAL": "0f7260ce7c8e1b27",
+       "POSITION": "271dc51010331552",
+       "TEXCOORD_0": "13b438069bf9b683",
+       "TEXCOORD_1": "da753460d604e37d",
+       "indices": "f5dff809f4a74a68"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_concrete",
+    "primitives": [
+     {
+      "verts": 520,
+      "indices": 780,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_concrete",
+      "min": [
+       -16,
+       0,
+       -24
+      ],
+      "max": [
+       27,
+       4.7,
+       24
+      ],
+      "hash": {
+       "NORMAL": "850490bd1a781508",
+       "POSITION": "068a0a0f397ebf5f",
+       "TEXCOORD_0": "32623082b30d9472",
+       "TEXCOORD_1": "e4e427d623439335",
+       "indices": "deed0a7aacb7ccaa"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_concrete_floor",
+    "primitives": [
+     {
+      "verts": 4,
+      "indices": 6,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_concrete_floor",
+      "min": [
+       16,
+       0,
+       -24
+      ],
+      "max": [
+       27,
+       0,
+       -14
+      ],
+      "hash": {
+       "NORMAL": "e1812a32d71ab746",
+       "POSITION": "fad2931862037bb0",
+       "TEXCOORD_0": "39ac2a5f605d52c6",
+       "TEXCOORD_1": "2f988916985921cf",
+       "indices": "4a16b824acb5d55f"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_coping",
+    "primitives": [
+     {
+      "verts": 4108,
+      "indices": 6876,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_coping",
+      "min": [
+       -12.762,
+       0.2096,
+       -23.06
+      ],
+      "max": [
+       26.46,
+       4.2104,
+       23.12
+      ],
+      "hash": {
+       "NORMAL": "14fad307f29a5f68",
+       "POSITION": "a19542891a57706f",
+       "TEXCOORD_0": "e87be8380ba1686b",
+       "TEXCOORD_1": "6918b8c996994764",
+       "indices": "0bfa6f150bc7262e"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_coping_stone",
+    "primitives": [
+     {
+      "verts": 5304,
+      "indices": 11352,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_coping_stone",
+      "min": [
+       -3.85,
+       -0.0826,
+       -16.35
+      ],
+      "max": [
+       8.85,
+       0.0221,
+       9.35
+      ],
+      "hash": {
+       "NORMAL": "e5c87c9dc2714f29",
+       "POSITION": "9905e622071b0c24",
+       "TEXCOORD_0": "e02b45d67def04c1",
+       "TEXCOORD_1": "0a519260608550aa",
+       "indices": "11c35318c54555db"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_crate",
+    "primitives": [
+     {
+      "verts": 208,
+      "indices": 312,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_crate",
+      "min": [
+       -6,
+       0.41,
+       5.92
+      ],
+      "max": [
+       14.46,
+       2.6,
+       23.1
+      ],
+      "hash": {
+       "NORMAL": "1c4a21d36817a94c",
+       "POSITION": "ad2a9fa942c0617f",
+       "TEXCOORD_0": "f417097e77495c80",
+       "TEXCOORD_1": "88104fd46467943d",
+       "indices": "b2be8fb2b340954c"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_deck",
+    "primitives": [
+     {
+      "verts": 420,
+      "indices": 1302,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_deck",
+      "min": [
+       -16,
+       0,
+       -24
+      ],
+      "max": [
+       16,
+       4.2,
+       24
+      ],
+      "hash": {
+       "NORMAL": "575c7b4d3053ed67",
+       "POSITION": "fe701f0eddaa475b",
+       "TEXCOORD_0": "5017f01fd0b312f7",
+       "TEXCOORD_1": "c87b0c1dc9a6b195",
+       "indices": "ed60553428142699"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_diamond",
+    "primitives": [
+     {
+      "verts": 4,
+      "indices": 6,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_diamond",
+      "min": [
+       -13.6,
+       4.2,
+       -13.9
+      ],
+      "max": [
+       -3.8,
+       4.2,
+       -12.1
+      ],
+      "hash": {
+       "NORMAL": "e1812a32d71ab746",
+       "POSITION": "d9c27b69433aeb08",
+       "TEXCOORD_0": "574bc404ff156dd2",
+       "TEXCOORD_1": "0c06dde2286fe780",
+       "indices": "4a16b824acb5d55f"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_firebox",
+    "primitives": [
+     {
+      "verts": 144,
+      "indices": 360,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0"
+      ],
+      "material": "baths_firebox",
+      "min": [
+       22.22,
+       0.8,
+       -22.85
+      ],
+      "max": [
+       22.24,
+       1.7,
+       -15.15
+      ],
+      "hash": {
+       "NORMAL": "92d4d5ac3313559d",
+       "POSITION": "29c881d45ce16a56",
+       "TEXCOORD_0": "4b65de2f985392a8",
+       "indices": "c44c93e33aca4104"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_flag_a",
+    "primitives": [
+     {
+      "verts": 66,
+      "indices": 66,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_flag_a",
+      "min": [
+       -4.8715,
+       1.9912,
+       -13.6
+      ],
+      "max": [
+       9.1806,
+       2.524,
+       7.6
+      ],
+      "hash": {
+       "NORMAL": "530c80bbf10f42e3",
+       "POSITION": "728f3488b1390be5",
+       "TEXCOORD_0": "abb6df57b51a4ebe",
+       "TEXCOORD_1": "dd8650ab5cc0c570",
+       "indices": "f6dc0d7456336152"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_flag_b",
+    "primitives": [
+     {
+      "verts": 66,
+      "indices": 66,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_flag_b",
+      "min": [
+       -4.1806,
+       1.9912,
+       -13.6
+      ],
+      "max": [
+       9.8715,
+       2.524,
+       7.6
+      ],
+      "hash": {
+       "NORMAL": "530c80bbf10f42e3",
+       "POSITION": "396a19a0810022f8",
+       "TEXCOORD_0": "cbabca9158f17bdb",
+       "TEXCOORD_1": "32e30e095887a291",
+       "indices": "f6dc0d7456336152"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_frosted",
+    "primitives": [
+     {
+      "verts": 28,
+      "indices": 42,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0"
+      ],
+      "material": "baths_frosted",
+      "min": [
+       -15.98,
+       4.4,
+       -17.6
+      ],
+      "max": [
+       9.6,
+       7.4,
+       23.98
+      ],
+      "hash": {
+       "NORMAL": "72082d0044509787",
+       "POSITION": "9762b72afd50e870",
+       "TEXCOORD_0": "8453483916ce3ac6",
+       "indices": "6d0bf67d3c079d29"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_graffiti",
+    "primitives": [
+     {
+      "verts": 52,
+      "indices": 78,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_graffiti",
+      "min": [
+       -16,
+       -3.194,
+       -23.985
+      ],
+      "max": [
+       15.985,
+       6.675,
+       23.985
+      ],
+      "hash": {
+       "NORMAL": "5777720634c1f823",
+       "POSITION": "26f56329381daca9",
+       "TEXCOORD_0": "f2b0b82c3daba546",
+       "TEXCOORD_1": "36d136c80fc52d3d",
+       "indices": "ead98fd03e533681"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_grille",
+    "primitives": [
+     {
+      "verts": 20,
+      "indices": 30,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_grille",
+      "min": [
+       2.2,
+       -3.2,
+       -10.3
+      ],
+      "max": [
+       2.8,
+       -3.186,
+       -9.7
+      ],
+      "hash": {
+       "NORMAL": "c3a9fa116c2cb376",
+       "POSITION": "ff46ed5c0f4aaa30",
+       "TEXCOORD_0": "31972485fccb7f9a",
+       "TEXCOORD_1": "e193fa338a5adcc2",
+       "indices": "0ef620b0384da60c"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_grime",
+    "primitives": [
+     {
+      "verts": 72,
+      "indices": 108,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_grime",
+      "min": [
+       -9.6,
+       -3.19,
+       -23.2
+      ],
+      "max": [
+       15.99,
+       4.5,
+       23.99
+      ],
+      "hash": {
+       "NORMAL": "9747fa80bc14f210",
+       "POSITION": "7f90b451923e9d51",
+       "TEXCOORD_0": "dbe2f5ccaad05741",
+       "TEXCOORD_1": "27ce998eefc76b00",
+       "indices": "94b70a2b4b876dd1"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_lamp",
+    "primitives": [
+     {
+      "verts": 1492,
+      "indices": 5460,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0"
+      ],
+      "material": "baths_lamp",
+      "min": [
+       -7.234,
+       5.66,
+       -23.82
+      ],
+      "max": [
+       12.234,
+       7.8,
+       16.234
+      ],
+      "hash": {
+       "NORMAL": "899e043bc8cde919",
+       "POSITION": "3a556175d2edc917",
+       "TEXCOORD_0": "9868aea4aebfa35b",
+       "indices": "583f175ab903e605"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_plaster",
+    "primitives": [
+     {
+      "verts": 160,
+      "indices": 318,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_plaster",
+      "min": [
+       -16,
+       3.1,
+       -24
+      ],
+      "max": [
+       16,
+       12.5,
+       24
+      ],
+      "hash": {
+       "NORMAL": "67f77d46f8279fd5",
+       "POSITION": "a436000cc42b0f07",
+       "TEXCOORD_0": "5f1b4a3b1019f893",
+       "TEXCOORD_1": "5d5c44ce9dd6250f",
+       "indices": "dcc469c327c7f4ca"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_plywood",
+    "primitives": [
+     {
+      "verts": 318,
+      "indices": 858,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_plywood",
+      "min": [
+       -13.6001,
+       0,
+       -24
+      ],
+      "max": [
+       27,
+       4.2,
+       20.2
+      ],
+      "hash": {
+       "NORMAL": "49bb5e4e3476e0c1",
+       "POSITION": "f990ef9777993b2c",
+       "TEXCOORD_0": "71d103dde0697230",
+       "TEXCOORD_1": "91a489715492f7bf",
+       "indices": "f5ca1539a76c47b8"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_pool_band",
+    "primitives": [
+     {
+      "verts": 716,
+      "indices": 3096,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_pool_band",
+      "min": [
+       -3.496,
+       -0.3,
+       -15.996
+      ],
+      "max": [
+       8.496,
+       -0.0283,
+       8.9825
+      ],
+      "hash": {
+       "NORMAL": "2968dd9054709426",
+       "POSITION": "95e1a404e8ede4e8",
+       "TEXCOORD_0": "b8edd3840d9242ff",
+       "TEXCOORD_1": "6426aae05fec1edf",
+       "indices": "0934810213023f38"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_pool_floor",
+    "primitives": [
+     {
+      "verts": 1082,
+      "indices": 5508,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_pool_floor",
+      "min": [
+       -1.1,
+       -3.2,
+       -13.6
+      ],
+      "max": [
+       6.1,
+       -1.7,
+       6.3599
+      ],
+      "hash": {
+       "NORMAL": "b090e39d09359218",
+       "POSITION": "adbea303e2008964",
+       "TEXCOORD_0": "e1fd80d5115a7424",
+       "TEXCOORD_1": "9c857244d6293b12",
+       "indices": "0a9295d86a924522"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_pool_line",
+    "primitives": [
+     {
+      "verts": 240,
+      "indices": 666,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_pool_line",
+      "min": [
+       -0.4,
+       -3.192,
+       -12.125
+      ],
+      "max": [
+       5.4,
+       -1.691,
+       4.625
+      ],
+      "hash": {
+       "NORMAL": "9ba488c9bded9156",
+       "POSITION": "9bee16cface438ea",
+       "TEXCOORD_0": "cdfafaeae0ad3323",
+       "TEXCOORD_1": "1f5838d58d2e9738",
+       "indices": "2a553704d0bc644d"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_pool_tile",
+    "primitives": [
+     {
+      "verts": 3578,
+      "indices": 17178,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_pool_tile",
+      "min": [
+       -3.5,
+       -3.2,
+       -16
+      ],
+      "max": [
+       8.5,
+       0.0,
+       9
+      ],
+      "hash": {
+       "NORMAL": "6586fbe710edf026",
+       "POSITION": "168599a3215774bb",
+       "TEXCOORD_0": "ed22b774c1dfb501",
+       "TEXCOORD_1": "66a3b0817a305a4d",
+       "indices": "a40904c4566f75a7"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_rail",
+    "primitives": [
+     {
+      "verts": 1024,
+      "indices": 2016,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_rail",
+      "min": [
+       -13.6,
+       0.426,
+       -13.865
+      ],
+      "max": [
+       11.524,
+       5.225,
+       17.024
+      ],
+      "hash": {
+       "NORMAL": "4541e0d7dc20a85b",
+       "POSITION": "ca87a65af5893a4b",
+       "TEXCOORD_0": "92a3719f681cf7c7",
+       "TEXCOORD_1": "1e4709ee5170f8b6",
+       "indices": "382fffc532db0c05"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_rampside",
+    "primitives": [
+     {
+      "verts": 580,
+      "indices": 1614,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_rampside",
+      "min": [
+       -13.6001,
+       0,
+       -24
+      ],
+      "max": [
+       27,
+       4.2,
+       12.4
+      ],
+      "hash": {
+       "NORMAL": "30c1048e44181db7",
+       "POSITION": "6b7ba113a8383df9",
+       "TEXCOORD_0": "7ced90d973349bda",
+       "TEXCOORD_1": "ba2bbb713654da48",
+       "indices": "bcfd8835a61e4b02"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_roof",
+    "primitives": [
+     {
+      "verts": 130,
+      "indices": 600,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_roof",
+      "min": [
+       -16,
+       8,
+       -24
+      ],
+      "max": [
+       16,
+       12.5,
+       24
+      ],
+      "hash": {
+       "NORMAL": "87b6185d50fed0ad",
+       "POSITION": "e6edba42b573d308",
+       "TEXCOORD_0": "59b47f44876da1e6",
+       "TEXCOORD_1": "bfa6e4819315b40d",
+       "indices": "24ef56d5da5a22e9"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_skylight",
+    "primitives": [
+     {
+      "verts": 12,
+      "indices": 18,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0"
+      ],
+      "material": "baths_skylight",
+      "min": [
+       -2.4019,
+       12.4059,
+       -18
+      ],
+      "max": [
+       2.4019,
+       13.3059,
+       18
+      ],
+      "hash": {
+       "NORMAL": "5e705d2a69d34a4c",
+       "POSITION": "694681341cd42242",
+       "TEXCOORD_0": "2f1331ea05dc243a",
+       "indices": "6b1ca834504eac73"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_springboard",
+    "primitives": [
+     {
+      "verts": 24,
+      "indices": 36,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_springboard",
+      "min": [
+       -3.8,
+       4.1,
+       -13.4
+      ],
+      "max": [
+       -1.2,
+       4.2,
+       -12.6
+      ],
+      "hash": {
+       "NORMAL": "2390b895a04a8ba4",
+       "POSITION": "0b3828b2c6c6d95d",
+       "TEXCOORD_0": "e937cd8edac5abaf",
+       "TEXCOORD_1": "5b8682fa2595ffec",
+       "indices": "03e55c9f5b769945"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_steel",
+    "primitives": [
+     {
+      "verts": 3824,
+      "indices": 7488,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_steel",
+      "min": [
+       -13.322,
+       0,
+       -24.02
+      ],
+      "max": [
+       26.64,
+       12.348,
+       23.1085
+      ],
+      "hash": {
+       "NORMAL": "689f21c54fdebbbc",
+       "POSITION": "9d405453525479c8",
+       "TEXCOORD_0": "7d79b652962086dd",
+       "TEXCOORD_1": "4252dea4587612d5",
+       "indices": "7942180b0e4bdb53"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_steel_paint",
+    "primitives": [
+     {
+      "verts": 15000,
+      "indices": 23028,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_steel_paint",
+      "min": [
+       -16,
+       -0.0024,
+       -23.92
+      ],
+      "max": [
+       16,
+       13.3059,
+       24
+      ],
+      "hash": {
+       "NORMAL": "944b8109a2b75adb",
+       "POSITION": "be8c332fc692cb06",
+       "TEXCOORD_0": "3888c678d3b3c604",
+       "TEXCOORD_1": "23833bb3b2d686f2",
+       "indices": "4a05eabbacf16bc6"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_tile_band",
+    "primitives": [
+     {
+      "verts": 56,
+      "indices": 126,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_tile_band",
+      "min": [
+       -16,
+       0.22,
+       -24
+      ],
+      "max": [
+       16,
+       3.1,
+       24
+      ],
+      "hash": {
+       "NORMAL": "9358994cd3aa32f5",
+       "POSITION": "84ec086932ea6da0",
+       "TEXCOORD_0": "f29afbb7771ca136",
+       "TEXCOORD_1": "f9e3182cb5bc68d6",
+       "indices": "41b6bb4337e2ff2f"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Baths_wall_tile",
+    "primitives": [
+     {
+      "verts": 64,
+      "indices": 138,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_wall_tile",
+      "min": [
+       -16,
+       0,
+       -24
+      ],
+      "max": [
+       16,
+       2.8,
+       24
+      ],
+      "hash": {
+       "NORMAL": "e903746962efc429",
+       "POSITION": "90569e61fbf3617a",
+       "TEXCOORD_0": "efc3094032779851",
+       "TEXCOORD_1": "2523e04a5ddb4885",
+       "indices": "b27360485755c9e1"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Break_grille",
+    "primitives": [
+     {
+      "verts": 960,
+      "indices": 1644,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_grille",
+      "min": [
+       15.95,
+       0,
+       -20.5
+      ],
+      "max": [
+       16.05,
+       3,
+       -17.5
+      ],
+      "hash": {
+       "NORMAL": "eef132fde324a31c",
+       "POSITION": "02462637f766eab8",
+       "TEXCOORD_0": "9fb66901dbf6b7b8",
+       "TEXCOORD_1": "e00accf347625580",
+       "indices": "2861669f0dc98190"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "COL_concrete-colonly",
+    "primitives": [
+     {
+      "verts": 665,
+      "indices": 2454,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "",
+      "min": [
+       -16,
+       0,
+       -24
+      ],
+      "max": [
+       27,
+       4.2,
+       24
+      ],
+      "hash": {
+       "NORMAL": "0dc49849da0bac9e",
+       "POSITION": "dd127bd9e8d8ead7",
+       "indices": "ac7b8c3f03562216"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "COL_metal-colonly",
+    "primitives": [
+     {
+      "verts": 804,
+      "indices": 1206,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "",
+      "min": [
+       -13.6,
+       -0.0024,
+       -23.4
+      ],
+      "max": [
+       22.2,
+       4.2,
+       23.1085
+      ],
+      "hash": {
+       "NORMAL": "95054e584bcbf13d",
+       "POSITION": "1c73345efb600c99",
+       "indices": "1d0535d6210b989e"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "COL_metal_thin-colonly",
+    "primitives": [
+     {
+      "verts": 1600,
+      "indices": 2400,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "",
+      "min": [
+       -13.6,
+       0,
+       -13.865
+      ],
+      "max": [
+       11.524,
+       5.225,
+       17.024
+      ],
+      "hash": {
+       "NORMAL": "961fb567ae90e588",
+       "POSITION": "f3c509be098ef339",
+       "indices": "cf42b91cc586afff"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "COL_pool-colonly",
+    "primitives": [
+     {
+      "verts": 9850,
+      "indices": 22746,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "",
+      "min": [
+       -3.5,
+       -3.2,
+       -16
+      ],
+      "max": [
+       8.5,
+       0.0,
+       9
+      ],
+      "hash": {
+       "NORMAL": "4e613c4455001366",
+       "POSITION": "1ddb8e662eddf7f1",
+       "indices": "41f7bef262c72961"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "COL_wall-colonly",
+    "primitives": [
+     {
+      "verts": 1707,
+      "indices": 3888,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "",
+      "min": [
+       -16,
+       0,
+       -24
+      ],
+      "max": [
+       27,
+       13.3059,
+       24
+      ],
+      "hash": {
+       "NORMAL": "1d13e7cbcb4dab67",
+       "POSITION": "ba04f27ecbbc4625",
+       "indices": "110f5ab07f28293d"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "COL_wood-colonly",
+    "primitives": [
+     {
+      "verts": 758,
+      "indices": 1134,
+      "attributes": [
+       "NORMAL",
+       "POSITION"
+      ],
+      "material": "",
+      "min": [
+       -13.6001,
+       0,
+       -24
+      ],
+      "max": [
+       27,
+       4.2,
+       23.1
+      ],
+      "hash": {
+       "NORMAL": "df34914c36a2f7f4",
+       "POSITION": "7140b53c9b7b865a",
+       "indices": "84d98c4bf7fd7260"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Sign_0",
+    "primitives": [
+     {
+      "verts": 168,
+      "indices": 300,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_steel_paint",
+      "min": [
+       4.39,
+       0,
+       14.76
+      ],
+      "max": [
+       5.01,
+       1.7,
+       15.04
+      ],
+      "hash": {
+       "NORMAL": "20886181157f6679",
+       "POSITION": "6b75a6bfd3f67a14",
+       "TEXCOORD_0": "f4f0b3490952b31e",
+       "TEXCOORD_1": "8ab1d113d68d827d",
+       "indices": "4791acb130a705eb"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Sign_0_face",
+    "primitives": [
+     {
+      "verts": 4,
+      "indices": 6,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_graffiti",
+      "min": [
+       4.4,
+       1.25,
+       14.9445
+      ],
+      "max": [
+       5,
+       1.69,
+       14.9445
+      ],
+      "hash": {
+       "NORMAL": "a0de3fc19353a669",
+       "POSITION": "0f2594921b6c3943",
+       "TEXCOORD_0": "443a244808f1dd29",
+       "TEXCOORD_1": "4abac78a674cb540",
+       "indices": "4a16b824acb5d55f"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Sign_1",
+    "primitives": [
+     {
+      "verts": 168,
+      "indices": 300,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_steel_paint",
+      "min": [
+       -14.91,
+       4.2,
+       -6.64
+      ],
+      "max": [
+       -14.29,
+       5.9,
+       -6.36
+      ],
+      "hash": {
+       "NORMAL": "20886181157f6679",
+       "POSITION": "7346af30583e8856",
+       "TEXCOORD_0": "e903f51d3f4efea4",
+       "TEXCOORD_1": "8ad7bdaa218e9efd",
+       "indices": "4791acb130a705eb"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Sign_1_face",
+    "primitives": [
+     {
+      "verts": 4,
+      "indices": 6,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_graffiti",
+      "min": [
+       -14.9,
+       5.45,
+       -6.4555
+      ],
+      "max": [
+       -14.3,
+       5.89,
+       -6.4555
+      ],
+      "hash": {
+       "NORMAL": "a0de3fc19353a669",
+       "POSITION": "e42271f6d2d78e81",
+       "TEXCOORD_0": "443a244808f1dd29",
+       "TEXCOORD_1": "31e589af9bfec6c7",
+       "indices": "4a16b824acb5d55f"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Sign_2",
+    "primitives": [
+     {
+      "verts": 168,
+      "indices": 300,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_steel_paint",
+      "min": [
+       11.69,
+       0,
+       -18.34
+      ],
+      "max": [
+       12.31,
+       1.7,
+       -18.06
+      ],
+      "hash": {
+       "NORMAL": "957198b3167598b9",
+       "POSITION": "51a4212ad80ba86c",
+       "TEXCOORD_0": "43cae068d5eb2615",
+       "TEXCOORD_1": "0450426366bd1b08",
+       "indices": "4791acb130a705eb"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Sign_2_face",
+    "primitives": [
+     {
+      "verts": 4,
+      "indices": 6,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_graffiti",
+      "min": [
+       11.7,
+       1.25,
+       -18.1555
+      ],
+      "max": [
+       12.3,
+       1.69,
+       -18.1555
+      ],
+      "hash": {
+       "NORMAL": "a0de3fc19353a669",
+       "POSITION": "bb9798364caa9979",
+       "TEXCOORD_0": "443a244808f1dd29",
+       "TEXCOORD_1": "eb812b1c3fd8859e",
+       "indices": "4a16b824acb5d55f"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Sign_3",
+    "primitives": [
+     {
+      "verts": 168,
+      "indices": 300,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_steel_paint",
+      "min": [
+       11.0635,
+       0,
+       4.99
+      ],
+      "max": [
+       11.3365,
+       1.7,
+       5.61
+      ],
+      "hash": {
+       "NORMAL": "20886181157f6679",
+       "POSITION": "deb7faa99eada9c1",
+       "TEXCOORD_0": "8fbb78a0afce8115",
+       "TEXCOORD_1": "3d8455d34d3f139d",
+       "indices": "4791acb130a705eb"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Sign_3_face",
+    "primitives": [
+     {
+      "verts": 4,
+      "indices": 6,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_graffiti",
+      "min": [
+       11.1555,
+       1.25,
+       5
+      ],
+      "max": [
+       11.1555,
+       1.69,
+       5.6
+      ],
+      "hash": {
+       "NORMAL": "afefd1546babde90",
+       "POSITION": "6526e1f5b6bb4fdb",
+       "TEXCOORD_0": "443a244808f1dd29",
+       "TEXCOORD_1": "19b7e9b605138b66",
+       "indices": "4a16b824acb5d55f"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Sign_4",
+    "primitives": [
+     {
+      "verts": 168,
+      "indices": 300,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_steel_paint",
+      "min": [
+       11.19,
+       0,
+       7.76
+      ],
+      "max": [
+       11.81,
+       1.7,
+       8.04
+      ],
+      "hash": {
+       "NORMAL": "20886181157f6679",
+       "POSITION": "e033686009bfba4c",
+       "TEXCOORD_0": "e512d2164e53fe0b",
+       "TEXCOORD_1": "ccd2834393789a23",
+       "indices": "4791acb130a705eb"
+      },
+      "targets": 0
+     }
+    ]
+   },
+   {
+    "name": "Sign_4_face",
+    "primitives": [
+     {
+      "verts": 4,
+      "indices": 6,
+      "attributes": [
+       "NORMAL",
+       "POSITION",
+       "TEXCOORD_0",
+       "TEXCOORD_1"
+      ],
+      "material": "baths_graffiti",
+      "min": [
+       11.2,
+       1.25,
+       7.8555
+      ],
+      "max": [
+       11.8,
+       1.69,
+       7.8555
+      ],
+      "hash": {
+       "NORMAL": "796f0b940d4268e7",
+       "POSITION": "59c92d5e2bb65f2e",
+       "TEXCOORD_0": "443a244808f1dd29",
+       "TEXCOORD_1": "020da4beb32082a3",
+       "indices": "4a16b824acb5d55f"
+      },
+      "targets": 0
+     }
+    ]
+   }
+  ],
+  "skins": [],
+  "materials": [
+   {
+    "name": "baths_boiler",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_brick",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_cabin",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_chrome",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_concrete",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_concrete_floor",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_coping",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_coping_stone",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_crate",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_deck",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_diamond",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_firebox",
+    "textures": [],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_flag_a",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_flag_b",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_frosted",
+    "textures": [],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_graffiti",
+    "textures": [
+     "baseColorTexture"
+    ],
+    "alpha": "BLEND",
+    "double_sided": true
+   },
+   {
+    "name": "baths_grille",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_grime",
+    "textures": [
+     "baseColorTexture"
+    ],
+    "alpha": "BLEND",
+    "double_sided": true
+   },
+   {
+    "name": "baths_lamp",
+    "textures": [],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_plaster",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_plywood",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_pool_band",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_pool_floor",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_pool_line",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_pool_tile",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_rail",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_rampside",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_roof",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_skylight",
+    "textures": [],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_springboard",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_steel",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_steel_paint",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_tile_band",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   },
+   {
+    "name": "baths_wall_tile",
+    "textures": [
+     "baseColorTexture",
+     "normalTexture"
+    ],
+    "alpha": "OPAQUE",
+    "double_sided": true
+   }
+  ],
+  "images": [
+   {
+    "name": "baths_boiler_albedo",
+    "mime": "image/webp",
+    "hash": "1d62889bc12208da"
+   },
+   {
+    "name": "baths_boiler_normal",
+    "mime": "image/webp",
+    "hash": "cc60e0967daac58f"
+   },
+   {
+    "name": "baths_brick_albedo",
+    "mime": "image/webp",
+    "hash": "c2f98e7f2d16446f"
+   },
+   {
+    "name": "baths_brick_normal",
+    "mime": "image/webp",
+    "hash": "0ff5258d2c225f61"
+   },
+   {
+    "name": "baths_cabin_albedo",
+    "mime": "image/webp",
+    "hash": "60d2e20585258fc4"
+   },
+   {
+    "name": "baths_cabin_normal",
+    "mime": "image/webp",
+    "hash": "04d46fea0f200e11"
+   },
+   {
+    "name": "baths_chrome_albedo",
+    "mime": "image/webp",
+    "hash": "6de6d0dcc4dca0e4"
+   },
+   {
+    "name": "baths_chrome_normal",
+    "mime": "image/webp",
+    "hash": "4ef50ba6f6916352"
+   },
+   {
+    "name": "baths_concrete_albedo",
+    "mime": "image/webp",
+    "hash": "22cec3f4a47aa14d"
+   },
+   {
+    "name": "baths_concrete_floor_albedo",
+    "mime": "image/webp",
+    "hash": "f8a3033a9034cdf8"
+   },
+   {
+    "name": "baths_concrete_floor_normal",
+    "mime": "image/webp",
+    "hash": "9c7a36d3224d0769"
+   },
+   {
+    "name": "baths_concrete_normal",
+    "mime": "image/webp",
+    "hash": "ae0bd3a271d33c8a"
+   },
+   {
+    "name": "baths_coping_albedo",
+    "mime": "image/webp",
+    "hash": "d583165fed32b86c"
+   },
+   {
+    "name": "baths_coping_normal",
+    "mime": "image/webp",
+    "hash": "2cd8e6dc413619a1"
+   },
+   {
+    "name": "baths_coping_stone_albedo",
+    "mime": "image/webp",
+    "hash": "fa29a3d042135ba4"
+   },
+   {
+    "name": "baths_coping_stone_normal",
+    "mime": "image/webp",
+    "hash": "9c7a36d3224d0769"
+   },
+   {
+    "name": "baths_crate_albedo",
+    "mime": "image/webp",
+    "hash": "97494e95a8cda45e"
+   },
+   {
+    "name": "baths_crate_normal",
+    "mime": "image/webp",
+    "hash": "42c31aa242cf7260"
+   },
+   {
+    "name": "baths_deck_albedo",
+    "mime": "image/webp",
+    "hash": "9ccf505dd48dd9c7"
+   },
+   {
+    "name": "baths_deck_normal",
+    "mime": "image/webp",
+    "hash": "cc656e805f2fec6f"
+   },
+   {
+    "name": "baths_diamond_albedo",
+    "mime": "image/webp",
+    "hash": "aedfd6c4a8eb487c"
+   },
+   {
+    "name": "baths_diamond_normal",
+    "mime": "image/webp",
+    "hash": "69c6ebc0d4940a2f"
+   },
+   {
+    "name": "baths_flag_a_albedo",
+    "mime": "image/webp",
+    "hash": "eac743fff782d82c"
+   },
+   {
+    "name": "baths_flag_a_normal",
+    "mime": "image/webp",
+    "hash": "a3ecf255d591fb52"
+   },
+   {
+    "name": "baths_flag_b_albedo",
+    "mime": "image/webp",
+    "hash": "7a57add9e85f1418"
+   },
+   {
+    "name": "baths_flag_b_normal",
+    "mime": "image/webp",
+    "hash": "a3ecf255d591fb52"
+   },
+   {
+    "name": "baths_graffiti",
+    "mime": "image/webp",
+    "hash": "85eea3c24c6ee1b0"
+   },
+   {
+    "name": "baths_grille_albedo",
+    "mime": "image/webp",
+    "hash": "214bdabcec25fe76"
+   },
+   {
+    "name": "baths_grille_normal",
+    "mime": "image/webp",
+    "hash": "cc60e0967daac58f"
+   },
+   {
+    "name": "baths_grime",
+    "mime": "image/webp",
+    "hash": "53fbbe827ec47a73"
+   },
+   {
+    "name": "baths_plaster_albedo",
+    "mime": "image/webp",
+    "hash": "e6cab447d9a43f6d"
+   },
+   {
+    "name": "baths_plaster_normal",
+    "mime": "image/webp",
+    "hash": "3594b3d60f20a3b5"
+   },
+   {
+    "name": "baths_plywood_albedo",
+    "mime": "image/webp",
+    "hash": "4ee3709359ed14a6"
+   },
+   {
+    "name": "baths_plywood_normal",
+    "mime": "image/webp",
+    "hash": "a3d8504f80567f30"
+   },
+   {
+    "name": "baths_pool_band_albedo",
+    "mime": "image/webp",
+    "hash": "4de6dd25be5ba94c"
+   },
+   {
+    "name": "baths_pool_band_normal",
+    "mime": "image/webp",
+    "hash": "a28271f76e6bcec9"
+   },
+   {
+    "name": "baths_pool_floor_albedo",
+    "mime": "image/webp",
+    "hash": "c3237ec512525a52"
+   },
+   {
+    "name": "baths_pool_floor_normal",
+    "mime": "image/webp",
+    "hash": "72aa8ef9b1017de2"
+   },
+   {
+    "name": "baths_pool_line_albedo",
+    "mime": "image/webp",
+    "hash": "d189ed3976b968f6"
+   },
+   {
+    "name": "baths_pool_line_normal",
+    "mime": "image/webp",
+    "hash": "f753f77c2b257d29"
+   },
+   {
+    "name": "baths_pool_tile_albedo",
+    "mime": "image/webp",
+    "hash": "d482bb1a9224e244"
+   },
+   {
+    "name": "baths_pool_tile_normal",
+    "mime": "image/webp",
+    "hash": "a28271f76e6bcec9"
+   },
+   {
+    "name": "baths_rail_albedo",
+    "mime": "image/webp",
+    "hash": "0b5d3ea003d81d1e"
+   },
+   {
+    "name": "baths_rail_normal",
+    "mime": "image/webp",
+    "hash": "3afb455b2b2e3081"
+   },
+   {
+    "name": "baths_rampside_albedo",
+    "mime": "image/webp",
+    "hash": "d9e49c413e1d0645"
+   },
+   {
+    "name": "baths_rampside_normal",
+    "mime": "image/webp",
+    "hash": "a3d8504f80567f30"
+   },
+   {
+    "name": "baths_roof_albedo",
+    "mime": "image/webp",
+    "hash": "2e10bb0fee024386"
+   },
+   {
+    "name": "baths_roof_normal",
+    "mime": "image/webp",
+    "hash": "04d46fea0f200e11"
+   },
+   {
+    "name": "baths_springboard_albedo",
+    "mime": "image/webp",
+    "hash": "ae198ae22391410e"
+   },
+   {
+    "name": "baths_springboard_normal",
+    "mime": "image/webp",
+    "hash": "5ca7eb507ff9a576"
+   },
+   {
+    "name": "baths_steel_albedo",
+    "mime": "image/webp",
+    "hash": "8fca9d7ce30cee83"
+   },
+   {
+    "name": "baths_steel_normal",
+    "mime": "image/webp",
+    "hash": "4af2240d4ad8d102"
+   },
+   {
+    "name": "baths_steel_paint_albedo",
+    "mime": "image/webp",
+    "hash": "e8cdaefc9748d804"
+   },
+   {
+    "name": "baths_steel_paint_normal",
+    "mime": "image/webp",
+    "hash": "4af2240d4ad8d102"
+   },
+   {
+    "name": "baths_tile_band_albedo",
+    "mime": "image/webp",
+    "hash": "3dc418d573e54fa6"
+   },
+   {
+    "name": "baths_tile_band_normal",
+    "mime": "image/webp",
+    "hash": "09ec4dd29aba154a"
+   },
+   {
+    "name": "baths_wall_tile_albedo",
+    "mime": "image/webp",
+    "hash": "079b75e6350cd1f7"
+   },
+   {
+    "name": "baths_wall_tile_normal",
+    "mime": "image/webp",
+    "hash": "09ec4dd29aba154a"
+   }
+  ],
+  "animations": []
+ },
+ "baths_data.json": {
+  "sha256": "0b3556ca7f399906",
+  "bytes": 21636
+ },
+ "baths_lightmap.png": {
+  "sha256": "c3ddaf1372bf8335",
+  "bytes": 4859933
+ }
+}

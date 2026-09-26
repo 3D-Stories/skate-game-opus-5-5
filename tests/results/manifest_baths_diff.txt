@@ -1,0 +1,4 @@
+baths.glb: byte-identical  (37251948 / 37251948 bytes)
+2 structural/data differences
+  /baths_lightmap.png/bytes: 4859933 != 4859806
+  /baths_lightmap.png/sha256: 'c3ddaf1372bf8335' != 'a02721fabc4fa331'

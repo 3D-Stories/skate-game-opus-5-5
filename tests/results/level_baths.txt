@@ -1,4 +1,4 @@
-Pro Skater level tests: Eastside Baths (baths)  2026-09-26T14:15:50
+Pro Skater level tests: Eastside Baths (baths)  2026-09-26T14:58:16
 PASS  the level loads through LevelRegistry (levels/registry.json -> levels/baths/level.json)  [Eastside Baths, 26 grind lines, 6 breakables]
 PASS  a high-score goal plus at least two goals of the level's own, on one two-minute run  [score, skate, tape, signs, deep_coping, high_dive]
 PASS  the run's goal list is built from the level's data  [6 goals]
@@ -49,6 +49,6 @@ PASS  Boiler Room is closed off while its breakable stands (the doorway ray hits
 PASS  Boiler Room is reachable: the real skater smashes the grille and rides in  [inside after 0.57 s, bails []]
 PASS  Boiler Room: the doorway is open once the breakable is down
 PASS  the secret tape is in a hidden area
-PASS  every pickup is reachable: the autopilot route collects S-K-A-T-E and the tape  [A 5.1s, E 6.8s, T 11.3s, K 21.1s, S 34.3s, tape 41.5s]
-PASS  the autopilot two-minute run completes every goal of the level  [score done, skate done, tape done, signs done, deep_coping done, high_dive done; score 57379 in 120.5 s]
+PASS  every pickup is reachable: the autopilot route collects S-K-A-T-E and the tape  [A 5.1s, E 6.8s, T 11.3s, K 21.1s, S 32.0s, tape 39.2s]
+PASS  the autopilot two-minute run completes every goal of the level  [score done, skate done, tape done, signs done, deep_coping done, high_dive done; score 58951 in 121.0 s]
 52 passed, 0 failed
