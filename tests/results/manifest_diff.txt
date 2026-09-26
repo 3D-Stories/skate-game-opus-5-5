@@ -1,0 +1,8 @@
+board.glb: byte-identical  (6746920 / 6746920 bytes)
+park.glb: byte-identical  (30611248 / 30611248 bytes)
+pickups.glb: byte-identical  (92624 / 92624 bytes)
+skater.glb: byte-identical  (12969692 / 12969692 bytes)
+2 structural/data differences
+  /park_lightmap.png/bytes: 4848101 != 4848354
+  /park_lightmap.png/sha256: '189b54edd4ccd91a' != '7b23ee7de8dc1ffd'
+park_lightmap.png live vs headless: 2048x2048, 1232 of 4194304 texels differ (0.029%), max channel difference 1/255, by size {1: 1232}

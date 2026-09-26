@@ -7,6 +7,7 @@ extends Node3D
 signal window_broken(index: int, total: int)
 
 const CAMERA_BLOCK_LAYER := 8     # physics layer 4: only the chase camera collides with it
+const CAMERA_ROD_LAYER := 64      # physics layer 7: round the thin hanger rods (the camera slides past them)
 signal wall_broken
 signal letter_collected(letter: String)
 signal tape_collected
@@ -16,6 +17,9 @@ const PICKUPS := preload("res://assets/pickups.glb")
 const LIGHTMAP := preload("res://assets/park_lightmap.png")
 const PARK_SHADER := preload("res://shaders/park.gdshader")
 const DECAL_SHADER := preload("res://shaders/park_decal.gdshader")
+const WINDOW_SHADER := preload("res://shaders/window_glass.gdshader")
+const YARD_SHADER := preload("res://shaders/yard_sky.gdshader")
+const GLASS_BURST := preload("res://scripts/level/glass_burst.gd")
 const DATA_PATH := "res://assets/park_data.json"
 
 const METALLIC := {"coping": 0.85, "corrugated": 0.55, "roof": 0.45, "diamond": 0.7, "steel": 0.35,
@@ -71,14 +75,11 @@ func _setup_visuals(root: Node) -> void:
 	for mi in _meshes(root):
 		var n := String(mi.name)
 		if n.begins_with("Window_"):
-			var g := StandardMaterial3D.new()
-			g.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-			g.albedo_color = Color(0.55, 0.65, 0.68, 0.28)
-			g.roughness = 0.08
-			g.metallic_specular = 0.9
-			g.emission_enabled = true
-			g.emission = Color(0.55, 0.62, 0.72)
-			g.emission_energy_multiplier = 0.25
+			# grimy glass; breaking it knocks jagged holes in the panes (see _setup_windows)
+			var g := ShaderMaterial.new()
+			g.shader = WINDOW_SHADER
+			g.set_shader_parameter("seed", float(n.trim_prefix("Window_").to_int()) + 1.0)
+			g.set_shader_parameter("broken", 0.0)
 			mi.material_override = g
 			mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 			continue
@@ -99,7 +100,14 @@ func _setup_visuals(root: Node) -> void:
 				mesh.surface_set_material(s, dm)
 				shadows = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 				continue
-			if key in ["lamp", "skylight", "exit_sign", "yard"]:
+			if key == "yard":
+				# the daylight outside the east windows: sky, rooflines, trees, poles
+				var ym := ShaderMaterial.new()
+				ym.shader = YARD_SHADER
+				mesh.surface_set_material(s, ym)
+				shadows = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+				continue
+			if key in ["lamp", "skylight", "exit_sign"]:
 				var e := StandardMaterial3D.new()
 				e.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 				var c := m.emission if m.emission_enabled else Color(1, 1, 1)
@@ -145,7 +153,10 @@ func _setup_windows() -> void:
 		var node := park.find_child(w["name"], true, false) as Node3D
 		var c := _v(w["center"])
 		windows.append({"node": node, "broken": false, "center": c, "half": float(w["size"][0]) * 0.5,
-				"bottom": c.y - float(w["size"][1]) * 0.5})
+				"bottom": c.y - float(w["size"][1]) * 0.5, "burst": null})
+		if node and node.material_override is ShaderMaterial:
+			node.material_override.set_shader_parameter("win_center", c)
+			node.material_override.set_shader_parameter("win_half", Vector2(float(w["size"][0]) * 0.5, float(w["size"][1]) * 0.5))
 		# the glass is visual only (the skater flies through it); this camera-only blocker
 		# keeps the chase camera inside the hall once a window is open
 		var blk := StaticBody3D.new()
@@ -161,13 +172,14 @@ func _setup_windows() -> void:
 
 
 func _setup_hangers() -> void:
-	## Camera-only blockers around the thin hanger rods (visual geometry without collision),
-	## so the chase camera swings round a rod instead of parking right behind it.
+	## Camera-only cylinders round the thin hanger rods (visual geometry without collision).
+	## They do not stop the camera's arm (a 3 cm rod hides nothing); the camera only slides
+	## sideways round one instead of passing through it.
 	for hg in data.get("hangers", []):
 		var a := _v(hg[0])
 		var b := _v(hg[1])
 		var blk := StaticBody3D.new()
-		blk.collision_layer = CAMERA_BLOCK_LAYER
+		blk.collision_layer = CAMERA_ROD_LAYER
 		blk.collision_mask = 0
 		var cs := CollisionShape3D.new()
 		var cyl := CylinderShape3D.new()
@@ -181,7 +193,7 @@ func _setup_hangers() -> void:
 
 ## A window breaks when the skater flies up into it (vert air off the east quarter) or
 ## grinds the wall pipe underneath it.
-func check_windows(pos: Vector3, airborne: bool) -> void:
+func check_windows(pos: Vector3, airborne: bool, vel := Vector3.ZERO) -> void:
 	if not airborne:
 		return
 	for i in windows.size():
@@ -190,17 +202,24 @@ func check_windows(pos: Vector3, airborne: bool) -> void:
 			continue
 		var c: Vector3 = w["center"]
 		if pos.x > c.x - 2.2 and absf(pos.z - c.z) < w["half"] + 0.4 and pos.y + 1.3 > w["bottom"]:
-			break_window(i)
+			break_window(i, vel)
 
 
-func break_window(i: int) -> void:
+func break_window(i: int, carry := Vector3.ZERO) -> void:
 	var w: Dictionary = windows[i]
 	if w["broken"]:
 		return
 	w["broken"] = true
-	if w["node"]:
-		w["node"].visible = false
-	_spawn_debris(w["center"], Color(0.7, 0.85, 0.9), 70, 0.08, Vector3(-3, 1, 0))
+	if w["node"] and w["node"].material_override is ShaderMaterial:
+		w["node"].material_override.set_shader_parameter("broken", 1.0)
+	# the shards tumble out into the hall and land on the quarterpipe below; a spray of
+	# fine glitter with them
+	var into := Vector3(-1, 0, 0)
+	var b := GLASS_BURST.new()
+	add_child(b)
+	b.burst(get_world_3d().direct_space_state, w["center"] + into * 0.08, Vector2(w["half"], w["center"].y - w["bottom"]), into, carry, 48, i)
+	w["burst"] = b
+	_spawn_debris(w["center"], Color(0.8, 0.9, 0.92), 40, 0.025, Vector3(-3, 1, 0))
 	Sfx.play("glass", w["center"])
 	var n := 0
 	for x in windows:
@@ -329,8 +348,11 @@ func _take_tape() -> void:
 func reset_run() -> void:
 	for w in windows:
 		w["broken"] = false
-		if w["node"]:
-			w["node"].visible = true
+		if w["node"] and w["node"].material_override is ShaderMaterial:
+			w["node"].material_override.set_shader_parameter("broken", 0.0)
+		if is_instance_valid(w["burst"]):
+			w["burst"].queue_free()
+		w["burst"] = null
 	for L in letters:
 		L["taken"] = false
 		L["node"].visible = true
@@ -377,6 +399,26 @@ func warm_up(cam_pos: Vector3, cam_fwd: Vector3) -> void:
 	_spawn_debris(at, Color(0.7, 0.85, 0.9), 1, 0.08, Vector3(0, 0.1, 0), 0.02)
 	_spawn_debris(at, BLOOD_DROP, 1, 0.035, Vector3(0, 0.1, 0), 0.02)
 	_spawn_debris(at, DUST, 1, 0.06, Vector3(0, 0.1, 0), 0.02)
+	# a glass shard, and the broken-glass window and yard sky shaders, on tiny quads
+	var gb := GLASS_BURST.new()
+	add_child(gb)
+	gb.burst(get_world_3d().direct_space_state, at, Vector2(0.01, 0.01), Vector3.FORWARD, Vector3.ZERO, 1)
+	gb.scale = Vector3.ONE * 0.1
+	var wm := ShaderMaterial.new()
+	wm.shader = WINDOW_SHADER
+	wm.set_shader_parameter("broken", 1.0)
+	var ym := ShaderMaterial.new()
+	ym.shader = YARD_SHADER
+	for m in [wm, ym]:
+		var qi := MeshInstance3D.new()
+		var qm := QuadMesh.new()
+		qm.size = Vector2(0.01, 0.01)
+		qi.mesh = qm
+		qi.material_override = m
+		add_child(qi)
+		qi.global_position = at
+		get_tree().create_timer(0.6).timeout.connect(qi.queue_free)
+	get_tree().create_timer(0.6).timeout.connect(gb.queue_free)
 	# blood splats lie on a surface: warm them up on the floor in view
 	var fl := get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(at, at + Vector3.DOWN * 20.0, 1))
 	if not fl.is_empty():

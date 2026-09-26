@@ -82,7 +82,9 @@ func _ready() -> void:
 			_q_auto = false
 		if q is String and "bench" in q:
 			_start_bench(q)
-			JavaScriptBridge.eval("fetch('bench-start?' + innerWidth + 'x' + innerHeight + '@' + devicePixelRatio).catch(function(){})")
+			if "benchreport" in q:
+				# only the local benchmark server (tests/bench_server.py) takes these reports
+				JavaScriptBridge.eval("fetch('bench-start?' + innerWidth + 'x' + innerHeight + '@' + devicePixelRatio).catch(function(){})")
 	if autopilot_mode != "":
 		# the scripted run skips the start screen, which is where shaders get compiled
 		# for a player: give the first frames the same half second before the run starts
@@ -189,7 +191,7 @@ func _process(delta: float) -> void:
 		restart()
 		return
 	# vert airs off the east quarter, or a grind along the wall pipe right below the glass
-	level.check_windows(skater.global_position, skater.state == Skater.AIR or skater.state == Skater.GRIND)
+	level.check_windows(skater.global_position, skater.state == Skater.AIR or skater.state == Skater.GRIND, skater.vel)
 	if not ending:
 		time_left -= delta
 		if time_left <= 0.0:

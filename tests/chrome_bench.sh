@@ -3,6 +3,7 @@
 #
 #   tests/chrome_bench.sh "<query>" [uncapped]
 #     query     URL query for the game, e.g. "autopilot&bench"  or "autopilot&bench&benchsecs=60&nossao"
+#               (the script adds &benchreport: the game then posts its report to this server)
 #     uncapped  launch Chrome with --disable-gpu-vsync --disable-frame-rate-limit
 #   CHROME_EXTRA="--use-angle=d3d11on12" tests/chrome_bench.sh ...   adds Chrome flags
 #
@@ -26,7 +27,7 @@ CH="/mnt/c/Program Files/Google/Chrome/Application/chrome.exe"
 (nohup "$CH" --user-data-dir='C:\Temp\skatebench' --no-first-run --no-default-browser-check --force-device-scale-factor=1 $FLAGS \
   --disable-backgrounding-occluded-windows --disable-renderer-backgrounding --disable-background-timer-throttling \
   --disable-features=CalculateNativeWinOcclusion --window-position=-3400,40 --window-size=1936,1119 \
-  --app="http://localhost:8790/?$Q" > /tmp/chrome_bench_run.log 2>&1 &)
+  --app="http://localhost:8790/?$Q&benchreport" > /tmp/chrome_bench_run.log 2>&1 &)
 sleep 8
 cp "$DIR/chrome_topmost.ps1" /mnt/c/Temp/skatebench_top.ps1
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File 'C:\Temp\skatebench_top.ps1' 2>&1 | tr -d '\r'

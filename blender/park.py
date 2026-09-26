@@ -449,10 +449,16 @@ class Park:
             objs.append(ob)
             self.data.setdefault("windows", []).append(dict(name=ob.name, center=to_godot((x - 0.05, (y0 + y1) / 2, (z0 + z1) / 2)),
                                                             size=[y1 - y0, z1 - z0]))
-        # outside backdrop behind the windows: bright daylight so the glass glows
+        # the outside, past the windows: a closed shell (yard, far side, sky above, ends) that
+        # every view out of a window lands on. The game draws the daylight on it (sky,
+        # rooflines, trees, poles: shaders/yard_sky.gdshader); the bake leaves it out.
         B = self.B
-        B.quad("yard", [(26.0, -16.0, 0), (26.0, 50.0, 0), (26.0, 50.0, 12), (26.0, -16.0, 12)], flip=True)
-        B.quad("yard", [(20.4, -16.0, 0.0), (26.0, -16.0, 0.0), (26.0, 50.0, 0.0), (20.4, 50.0, 0.0)])
+        x0, x1, ya, yb, top = 20.4, 34.0, -16.0, 50.0, 24.0
+        B.quad("yard", [(x0, ya, 0.0), (x1, ya, 0.0), (x1, yb, 0.0), (x0, yb, 0.0)])                  # yard
+        B.quad("yard", [(x1, ya, 0.0), (x1, yb, 0.0), (x1, yb, top), (x1, ya, top)], flip=True)       # far side
+        B.quad("yard", [(x0, ya, top), (x1, ya, top), (x1, yb, top), (x0, yb, top)], flip=True)       # sky
+        B.quad("yard", [(x0, ya, 0.0), (x0, ya, top), (x1, ya, top), (x1, ya, 0.0)])                  # south end
+        B.quad("yard", [(x0, yb, 0.0), (x1, yb, 0.0), (x1, yb, top), (x0, yb, top)])                  # north end
         return objs
 
     # -------------------------------------------------------------- props

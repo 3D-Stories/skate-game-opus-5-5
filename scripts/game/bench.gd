@@ -35,6 +35,7 @@ var _where: Dictionary = {}               # section -> skater position at its st
 var opts: Dictionary = {}
 var secs_limit := 0.0
 var reported := false
+var _query := ""
 
 
 func _ready() -> void:
@@ -46,6 +47,7 @@ func _ready() -> void:
 
 
 func setup(query: String) -> void:
+	_query = query
 	for k in ["nossao", "noglow", "noshadow", "nomsaa", "msaa2x", "nohair", "noskater", "nofog"]:
 		if k in query:
 			opts[k] = true
@@ -219,7 +221,7 @@ func report() -> Dictionary:
 		rep["webgl_renderer"] = str(JavaScriptBridge.eval(
 				"(function(){try{var g=document.createElement('canvas').getContext('webgl2');var e=g.getExtension('WEBGL_debug_renderer_info');return e?g.getParameter(e.UNMASKED_RENDERER_WEBGL):g.getParameter(g.RENDERER)}catch(x){return ''}})()", true))
 	print("[bench] " + JSON.stringify(rep))
-	if OS.has_feature("web"):
-		# hand the numbers to the serving host (a local benchmark server logs the request)
+	if OS.has_feature("web") and "benchreport" in _query:
+		# hand the numbers to the serving host (only tests/bench_server.py takes them)
 		JavaScriptBridge.eval("fetch('bench-result', {method: 'POST', body: %s}).catch(function(){})" % JSON.stringify(JSON.stringify(rep)))
 	return rep

@@ -14,8 +14,6 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [run] finished score=0 goals=[["score", false], ["skate", false], ["tape", false], ["rafters", false], ["windows", false]]
 [run] started
 [run] started
-WARNING: Jolt Physics job system exceeded the maximum number of jobs. This should not happen. Please report this. Waiting for jobs to become available...
-     at: CreateJob (modules/jolt_physics/spaces/jolt_job_system.cpp:123)
 [run] paused at 65.2 s left
 [run] resumed at 65.2 s left
 [run] paused at 64.4 s left
@@ -27,7 +25,7 @@ WARNING: Jolt Physics job system exceeded the maximum number of jobs. This shoul
 [run] started
 [run] finished score=0 goals=[["score", false], ["skate", false], ["tape", false], ["rafters", false], ["windows", false]]
 [run] started
-Pro Skater input tests (keyboard + gamepad)  2026-09-25T23:21:48
+Pro Skater input tests (keyboard + gamepad)  2026-09-26T01:15:06
 PASS  the game boots paused on the start screen
 PASS  start screen shows the controls table as visible Labels (10 rows x 3 columns)
 PASS  controls table has a KEYBOARD and a GAMEPAD column

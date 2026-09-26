@@ -244,7 +244,13 @@ class Canvas:
         scn = self.scn
         scn.camera = cam
         scn.render.engine = 'CYCLES'
-        scn.cycles.device = 'GPU'
+        # CPU: flat emission shapes render in moments, and exactly the same every build (the
+        # GPU's float accumulation order varies, which changed a few pixels run to run)
+        scn.cycles.device = 'CPU'
+        scn.cycles.seed = 0
+        scn.cycles.use_animated_seed = False
+        scn.render.threads_mode = 'FIXED'
+        scn.render.threads = 1
         scn.cycles.samples = 16
         scn.cycles.use_denoising = False
         scn.cycles.max_bounces = 0

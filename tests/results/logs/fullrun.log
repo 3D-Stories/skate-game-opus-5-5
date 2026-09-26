@@ -36,8 +36,6 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [ap  89.23] combo +1572  total 38707  [360 Flip + Tailgrab]
 [ap  91.95] combo +1326  total 40033  [Heelflip + Indy + BS 180]
 [ap  94.67] combo +6412  total 46445  [Tiger Claw Tre + Melon]
-WARNING: Jolt Physics job system exceeded the maximum number of jobs. This should not happen. Please report this. Waiting for jobs to become available...
-     at: CreateJob (modules/jolt_physics/spaces/jolt_job_system.cpp:123)
 [ap  97.40] combo +1326  total 47771  [Kickflip + Indy + FS 180]
 [ap 100.12] combo +1572  total 49343  [360 Flip + Tailgrab]
 [ap 102.83] combo +1326  total 50669  [Heelflip + Indy + BS 180]

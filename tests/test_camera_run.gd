@@ -33,7 +33,7 @@ extends SceneTree
 ##   rendered  - trimesh copies of every park mesh that is drawn (incl. the parts without
 ##               collision: steel hanger rods and trusses, lamps, window glass, decals),
 ##               kept in a private physics space so the game's world is untouched; a mesh
-##               that is hidden (a broken window, the smashed wall) is ignored
+##               that is hidden (the smashed wall) or knocked out (a broken window's glass) is ignored
 ## Measured:
 ##   - line of sight: ray camera -> skater position + 1.2 m up (opaque geometry: the 28 %
 ##     alpha window glass does not hide the skater), and 9 points over the body (feet,
@@ -486,6 +486,11 @@ func _ray(from: Vector3, to: Vector3, ex: Array[RID], back: bool) -> Dictionary:
 func _vshown(rid: RID) -> Dictionary:
 	var info = vis_info.get(rid)
 	if info == null or not is_instance_valid(info["node"]) or not info["node"].is_visible_in_tree():
+		return {}
+	# a broken window keeps its glass node; its shader knocks the panes out (the shards
+	# left in the corners are behind the camera-only blocker, never near the lens)
+	var m = info["node"].material_override if info["node"] is GeometryInstance3D else null
+	if m is ShaderMaterial and String(info["node"].name).begins_with("Window_") and m.get_shader_parameter("broken") != null and float(m.get_shader_parameter("broken")) > 0.5:
 		return {}
 	return info
 

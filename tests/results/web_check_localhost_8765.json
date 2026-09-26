@@ -1,6 +1,6 @@
 {
   "url": "http://localhost:8765/",
-  "time": "2026-09-25T14:22:11",
+  "time": "2026-09-26T00:20:18",
   "checks": {
     "engine boots (Godot banner in console)": {
       "pass": true,
@@ -16,7 +16,7 @@
     },
     "audio: synthesized sample voices play": {
       "pass": true,
-      "detail": "43 voices started"
+      "detail": "51 voices started"
     },
     "gamepad (Gamepad API): button A starts the run": {
       "pass": true,
@@ -24,11 +24,15 @@
     },
     "gamepad (Gamepad API): Start pauses the run": {
       "pass": true,
-      "detail": "[run] paused at 117.7 s left"
+      "detail": "[run] paused at 117.9 s left"
     },
     "pause freezes the clock (resumed at the paused time)": {
       "pass": true,
-      "detail": "[run] paused at 117.7 s left / [run] resumed at 117.7 s left"
+      "detail": "[run] paused at 117.9 s left / [run] resumed at 117.9 s left"
+    },
+    "autopilot two-minute run completes every goal": {
+      "pass": true,
+      "detail": "[run] finished score=70615 goals=[[\"score\", true], [\"skate\", true], [\"tape\", true], [\"rafters\", true], [\"windows\", true]]"
     },
     "no failed requests": {
       "pass": true,
@@ -41,26 +45,31 @@
   },
   "console_errors": [],
   "failed_requests": [],
-  "requests": 10,
+  "requests": 15,
   "audio": {
     "states": [
       "running"
     ],
-    "sources": 43,
-    "starts": 43
+    "sources": 51,
+    "starts": 51
   },
   "console_keyboard": [
-    "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+    "Godot Engine v4.7.2.stable.custom_build.ed1daf0bf (2026-08-17 01:18:38 UTC) - https://godotengine.org",
     "OpenGL API OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium)) - Compatibility - Using Device: WebKit - WebKit WebGL",
-    "Build configuration: Emscripten 4.0.20, single-threaded, no GDExtension support.",
+    "Build configuration: Emscripten 4.0.11, single-threaded, no GDExtension support.",
     "[run] started"
   ],
   "console_gamepad": [
-    "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+    "Godot Engine v4.7.2.stable.custom_build.ed1daf0bf (2026-08-17 01:18:38 UTC) - https://godotengine.org",
     "OpenGL API OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium)) - Compatibility - Using Device: WebKit - WebKit WebGL",
-    "Build configuration: Emscripten 4.0.20, single-threaded, no GDExtension support.",
+    "Build configuration: Emscripten 4.0.11, single-threaded, no GDExtension support.",
     "[run] started",
-    "[run] paused at 117.7 s left",
-    "[run] resumed at 117.7 s left"
+    "[run] paused at 117.9 s left",
+    "[run] resumed at 117.9 s left"
+  ],
+  "run_log": [
+    "[run] started",
+    "[run] finished score=70615 goals=[[\"score\", true], [\"skate\", true], [\"tape\", true], [\"rafters\", true], [\"windows\", true]]",
+    "[bench] {\"api\":\"OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium))\",\"avg_fps\":4.4,\"cpu_ms_max\":2243.4,\"cpu_ms_mean\":226.49,\"cpu_ms_p95\":269.9,\"css_px\":\"1280x720 @1\",\"draw_calls_max\":344,\"draw_calls_mean\":225,\"fog\":true,\"frames\":918,\"frames_over_10ms\":917,\"frames_over_16_7ms\":915,\"glow\":true,\"gpu\":\"WebKit WebGL\",\"max_ms\":2244.0,\"median_ms\":225.3,\"msaa\":\"4x\",\"one_pct_low_fps\":1.7,\"options\":{},\"p95_fps\":3.7,\"p95_ms\":272.9,\"p99_ms\":323.3,\"physics_ms_mean\":2.32,\"primitives_mean\":210029,\"render_submit_ms_mean\":223.98,\"render_submit_ms_p95\":267.3,\"renderer\":\"gl_compatibility\",\"scale_3d\":1.0,\"score\":70615,\"script_ms_mean\":0.19,\"seconds\":210.64,\"sections\":[{\"at\":\"(0.0, 5.0, 12.5)\",\"cpu_ms\":243.71,\"cpu_p95\":473.2,\"draws\":237,\"max_ms\":2244.0,\"median_ms\":223.2,\"p95_ms\":475.5,\"prims\":207159,\"render_submit_ms\":240.73,\"t\":\"0-10s\"},{\"at\":\"(-19.0, 6.0, -42.5)\",\"cpu_ms\":210.27,\"cpu_p95\":281.5,\"draws\":244,\"max_ms\":298.0,\"median_ms\":201.7,\"p95_ms\":284.8,\"prims\":241878,\"render_submit_ms\":206.87,\"t\":\"10-20s\"},{\"at\":\"(-18.5, 0.0, -35.0)\",\"cpu_ms\":229.71,\"cpu_p95\":269.6,\"draws\":222,\"max_ms\":460.7,\"median_ms\":224.3,\"p95_ms\":272.9,\"prims\":206082,\"render_submit_ms\":227.07,\"t\":\"20-30s\"},{\"at\":\"(19.5, 4.0, -8.5)\",\"cpu_ms\":232.68,\"cpu_p95\":292.0,\"draws\":214,\"max_ms\":327.2,\"median_ms\":229.1,\"p95_ms\":293.7,\"prims\":200064,\"render_submit_ms\":229.78,\"t\":\"30-40s\"},{\"at\":\"(0.0, 1.5, -17.0)\",\"cpu_ms\":222.06,\"cpu_p95\":294.9,\"draws\":232,\"max_ms\":324.8,\"median_ms\":210.6,\"p95_ms\":298.9,\"prims\":218086,\"render_submit_ms\":219.58,\"t\":\"40-50s\"},{\"at\":\"(-1.5, 0.0, -36.0)\",\"cpu_ms\":225.19,\"cpu_p95\":255.3,\"draws\":222,\"max_ms\":265.3,\"median_ms\":227.1,\"p95_ms\":258.0,\"prims\":214642,\"render_submit_ms\":222.87,\"t\":\"50-60s\"},{\"at\":\"(5.5, 2.0, -43.0)\",\"cpu_ms\":233.03,\"cpu_p95\":268.6,\"draws\":219,\"max_ms\":289.2,\"median_ms\":235.9,\"p95_ms\":271.6,\"prims\":203522,\"render_submit_ms\":230.85,\"t\":\"60-70s\"},{\"at\":\"(-4.0, 0.5, -43.0)\",\"cpu_ms\":226.61,\"cpu_p95\":271.8,\"draws\":224,\"max_ms\":326.1,\"median_ms\":224.5,\"p95_ms\":276.6,\"prims\":208196,\"render_submit_ms\":224.21,\"t\":\"70-80s\"},{\"at\":\"(-5.5, 6.5, -43.0)\",\"cpu_ms\":220.61,\"cpu_p95\":247.1,\"draws\":223,\"max_ms\":258.8,\"median_ms\":223.6,\"p95_ms\":249.0,\"prims\":206891,\"render_submit_ms\":218.41,\"t\":\"80-90s\"},{\"at\":\"(-5.5, 2.5, -43.0)\",\"cpu_ms\":228.02,\"cpu_p95\":262.9,\"draws\":221,\"max_ms\":274.7,\"median_ms\":230.7,\"p95_ms\":265.1,\"prims\":206124,\"render_submit_ms\":225.75,\"t\":\"90-100s\"},{\"at\":\"(3.0, 0.0, -43.0)\",\"cpu_ms\":222.48,\"cpu_p95\":249.0,\"draws\":216,\"max_ms\":269.8,\"median_ms\":222.5,\"p95_ms\":251.8,\"prims\":200334,\"render_submit_ms\":220.39,\"t\":\"100-110s\"},{\"at\":\"(5.5, 6.0, -43.0)\",\"cpu_ms\":223.14,\"cpu_p95\":250.0,\"draws\":220,\"max_ms\":265.0,\"median_ms\":226.1,\"p95_ms\":251.6,\"prims\":202476,\"render_submit_ms\":220.76,\"t\":\"110-120s\"},{\"at\":\"(5.5, 3.5, -43.0)\",\"cpu_ms\":223.46,\"cpu_p95\":240.4,\"draws\":253,\"max_ms\":241.7,\"median_ms\":228.5,\"p95_ms\":241.7,\"prims\":237047,\"render_submit_ms\":221.61,\"t\":\"120-130s\"}],\"slowest\":[{\"cpu_ms\":2243.4,\"draws\":233,\"frame_ms\":2244.0,\"physics_ms\":4.9,\"render_ms\":2238.4,\"run_s\":0.2,\"script_ms\":0.1},{\"cpu_ms\":508.7,\"draws\":219,\"frame_ms\":511.3,\"physics_ms\":1.8,\"render_ms\":506.8,\"run_s\":0.77,\"script_ms\":0.1},{\"cpu_ms\":475.7,\"draws\":232,\"frame_ms\":487.2,\"physics_ms\":0.7,\"render_ms\":474.9,\"run_s\":0.05,\"script_ms\":0.1},{\"cpu_ms\":473.2,\"draws\":172,\"frame_ms\":475.5,\"physics_ms\":1.6,\"render_ms\":471.4,\"run_s\":2.26,\"script_ms\":0.2},{\"cpu_ms\":457.7,\"draws\":189,\"frame_ms\":460.7,\"physics_ms\":4.3,\"render_ms\":453.1,\"run_s\":26.78,\"script_ms\":0.3},{\"cpu_ms\":354.6,\"draws\":212,\"frame_ms\":357.8,\"physics_ms\":1.4,\"render_ms\":351.8,\"run_s\":26.38,\"script_ms\":1.4},{\"cpu_ms\":322.9,\"draws\":198,\"frame_ms\":327.2,\"physics_ms\":5.2,\"render_ms\":317.4,\"run_s\":35.18,\"script_ms\":0.3},{\"cpu_ms\":318.6,\"draws\":242,\"frame_ms\":326.1,\"physics_ms\":1.5,\"render_ms\":317.0,\"run_s\":71.99,\"script_ms\":0.1},{\"cpu_ms\":321.3,\"draws\":185,\"frame_ms\":324.8,\"physics_ms\":3.8,\"render_ms\":317.2,\"run_s\":42.13,\"script_ms\":0.3},{\"cpu_ms\":321.4,\"draws\":285,\"frame_ms\":323.3,\"physics_ms\":3.6,\"render_ms\":317.5,\"run_s\":39.72,\"script_ms\":0.3},{\"cpu_ms\":316.0,\"draws\":270,\"frame_ms\":318.3,\"physics_ms\":1.3,\"render_ms\":314.2,\"run_s\":40.25,\"script_ms\":0.5},{\"cpu_ms\":307.9,\"draws\":188,\"frame_ms\":311.4,\"physics_ms\":2.8,\"render_ms\":305.1,\"run_s\":41.99,\"script_ms\":0.0}],\"ssao\":true,\"sun_shadows\":true,\"tonemap\":\"agx\",\"user_agent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36\",\"viewport\":\"1920x1080\",\"webgl_renderer\":\"ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)\"}"
   ]
 }

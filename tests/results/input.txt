@@ -1,4 +1,4 @@
-Pro Skater input tests (keyboard + gamepad)  2026-09-25T23:21:48
+Pro Skater input tests (keyboard + gamepad)  2026-09-26T01:15:06
 PASS  the game boots paused on the start screen
 PASS  start screen shows the controls table as visible Labels (10 rows x 3 columns)
 PASS  controls table has a KEYBOARD and a GAMEPAD column

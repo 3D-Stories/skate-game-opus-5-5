@@ -678,8 +678,8 @@
  },
  "park.glb": {
   "file": "park.glb",
-  "bytes": 30610824,
-  "sha256": "fb8df25e03c8e932",
+  "bytes": 30611248,
+  "sha256": "62cfa112c9675cb7",
   "nodes": [
    [
     "BreakWall_0",
@@ -2095,8 +2095,8 @@
     "name": "Park_yard",
     "primitives": [
      {
-      "verts": 8,
-      "indices": 12,
+      "verts": 20,
+      "indices": 30,
       "attributes": [
        "NORMAL",
        "POSITION",
@@ -2109,15 +2109,15 @@
        -50
       ],
       "max": [
-       26,
-       12,
+       34,
+       24,
        16
       ],
       "hash": {
-       "NORMAL": "ec3cee2237ab5938",
-       "POSITION": "31013c618b1ec17e",
-       "TEXCOORD_0": "52edb793188a7369",
-       "indices": "6f9e5c3056e229c0"
+       "NORMAL": "dcfc48d817a0ff5b",
+       "POSITION": "ca21351347bd8403",
+       "TEXCOORD_0": "8854db237460c92c",
+       "indices": "18cced5165a449fb"
       },
       "targets": 0
      }
@@ -2629,7 +2629,7 @@
    {
     "name": "park_graffiti",
     "mime": "image/webp",
-    "hash": "f09ba07489e164a9"
+    "hash": "be2af7fbb5904942"
    },
    {
     "name": "park_paint_line_albedo",
@@ -2719,8 +2719,8 @@
   "bytes": 9945
  },
  "park_lightmap.png": {
-  "sha256": "7254a2b62781eb8a",
-  "bytes": 4848230
+  "sha256": "189b54edd4ccd91a",
+  "bytes": 4848101
  },
  "pickups.glb": {
   "file": "pickups.glb",
@@ -3079,8 +3079,8 @@
  },
  "skater.glb": {
   "file": "skater.glb",
-  "bytes": 12765204,
-  "sha256": "09ed007e6a2a2b01",
+  "bytes": 12969692,
+  "sha256": "3bc35535c0315e9a",
   "nodes": [
    [
     "Aglet",
@@ -3610,7 +3610,7 @@
        "NORMAL": "8245d47de1679f4f",
        "POSITION": "d8346150a2b28757",
        "WEIGHTS_0": "d01512b621fbf422",
-       "indices": "0088e732ebafe06d"
+       "indices": "d16d4eec0ce8b989"
       },
       "targets": 0
      }
@@ -3641,10 +3641,10 @@
       ],
       "hash": {
        "JOINTS_0": "2018539e16e9c37c",
-       "NORMAL": "2a04189c84b5fdea",
+       "NORMAL": "4303cd20b5129195",
        "POSITION": "6f12636018e60990",
        "WEIGHTS_0": "d01512b621fbf422",
-       "indices": "0876a144eb6d7d84"
+       "indices": "2f48060cc1099650"
       },
       "targets": 0
      }
@@ -3748,11 +3748,11 @@
       ],
       "hash": {
        "JOINTS_0": "a58e8c3447be6718",
-       "NORMAL": "f7b8c878da7e6974",
+       "NORMAL": "7586e2d68ce71fca",
        "POSITION": "d4edf9ee201c4e30",
        "TEXCOORD_0": "4cb47a8d5cd39f2b",
        "WEIGHTS_0": "5f4d535544dd0652",
-       "indices": "b5b736f199a15cb0"
+       "indices": "aba957f425ff6ee6"
       },
       "targets": 0
      }
@@ -3788,7 +3788,7 @@
        "POSITION": "2bc5c253a33bafbc",
        "TEXCOORD_0": "4cb47a8d5cd39f2b",
        "WEIGHTS_0": "5f4d535544dd0652",
-       "indices": "fd06a8f469c66189"
+       "indices": "c00111b80531dfdc"
       },
       "targets": 0
      }
@@ -4936,8 +4936,8 @@
    {
     "name": "bail",
     "channels": 162,
-    "duration": 1.5,
-    "hash": "890b65b46dcc0760"
+    "duration": 2,
+    "hash": "76712115cdf9fc20"
    },
    {
     "name": "boardslide",
@@ -4950,6 +4950,18 @@
     "channels": 162,
     "duration": 0.7,
     "hash": "fcc5554bb7966a75"
+   },
+   {
+    "name": "getup",
+    "channels": 162,
+    "duration": 1.4,
+    "hash": "68ffe5111a29a645"
+   },
+   {
+    "name": "getup_front",
+    "channels": 162,
+    "duration": 1.8,
+    "hash": "178558a9819121d2"
    },
    {
     "name": "grind_5050",
@@ -5028,6 +5040,12 @@
     "channels": 162,
     "duration": 1.3667,
     "hash": "733b648f7406fffb"
+   },
+   {
+    "name": "ride_fakie",
+    "channels": 162,
+    "duration": 1.3667,
+    "hash": "6ed1484475a6bb6e"
    },
    {
     "name": "shoveit",

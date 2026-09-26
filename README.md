@@ -22,10 +22,17 @@ Gameplay (recorded two-minute run, every goal completed): `evidence/two_minute_r
 | Export the web build (Thread Support off) | `mkdir -p build/web && godot --headless --path . --export-release "Web" build/web/index.html` |
 | Serve it locally | `python3 -m http.server 8765 --directory build/web` then open http://localhost:8765/ |
 | Deploy (Vercel) | `npx vercel link --yes --project skate-game-opus-5-5 --cwd build/web` then `npx vercel deploy --prod --yes --cwd build/web` |
+| Run every test headless (11 suites, FILL:RUNALL_TIME) | `bash tests/run_all.sh` (results in `tests/results/`) |
+| Frame-by-frame check of the run | `godot --path . --fixed-fps 60 --resolution 1920x1080 -s tests/frames.gd -- --autopilot=run --segment=windows` (segments: `start`, `rafter`, `wall_tape`, `windows`, `funbox`, `halfpipe`, `end`, or `all --every=6` for the whole run in about 4 minutes); then `python3 tests/frames_sheet.py /tmp/skate-work/frames/windows --flagged` for contact sheets |
 
 The rebuild takes about 8 minutes on an RTX 4080 (assets about 3 minutes, Cycles renders the
 rest). `-- --fast` makes a quick low-quality pass; `-- --only board,park` rebuilds a subset.
 The web build needs no special headers (single-threaded), and every path in it is relative.
+It uses a Godot 4.7.2 web template rebuilt from the 4.7.2-stable source with one small
+Compatibility-renderer patch (`engine/patches/`: SSAO no longer triggers an unused mid-frame
+depth copy, which cost about 3.4 ms a frame with 4x MSAA in Chrome on Windows);
+`engine/build_web_template.sh` rebuilds it, and the Web preset points at
+`engine/godot-4.7.2-web_nothreads_release-patched.zip`.
 URL options: `?fps` shows an FPS counter, `?autopilot` plays the scripted two-minute run,
 `?bench` records frame-time statistics for the run (`?quality=full` disables adaptive quality).
 
@@ -110,7 +117,7 @@ the live and headless builds are the same assets (see Evidence).
 | `park_geo.py` | Geometry builders: ramps with true circular transitions and coping, boxes, rails, I-beams, pipes. |
 | `graffiti.py` | Twelve original graffiti pieces drawn in code (text curves, outlines, block shadows, drips, overspray, wear) into one atlas, placed as decals. |
 | `bake.py` | Lighting: a warm low sun through the skylights and windows, sky light, 32 hanging fluorescent fixtures, skylight glow, the secret-room lamp; a Cycles lightmap bake (indirect sun + all other light) into `assets/park_lightmap.png`. The game renders the sun in real time with shadows. |
-| `park.py` | `assets/park.glb` + `assets/park_data.json`: the Warehouse at real scale (hall 40 x 66 m, 11.5 m roof) - start deck (5 m) with the steep drop-in, halfpipe (3.7 m), a 3.2 m quarterpipe along the east wall under five breakable windows, a 2.4 m corner quarter, funbox with top rail, two kickers, an 18 m rail, a diagonal rail, concrete ledges, the grindable wall pipe, high catwalks with a kicker onto the rafters, two grindable rafters, the boarded-up breakable wall and the secret room with its own rail, crates, barrels, pallets, dumpster, steel columns and trusses, ten skylights, graffiti; every visual mesh has a `Lightmap` UV set; collision is tagged by surface (wood, concrete, metal, wall). |
+| `park.py` | `assets/park.glb` + `assets/park_data.json`: the Warehouse at real scale (hall 40 x 66 m, 11.5 m roof) - start deck (5 m) with the steep drop-in, halfpipe (3.7 m), a 3.2 m quarterpipe along the east wall under five breakable windows, a 2.4 m corner quarter, funbox with top rail, two kickers, an 18 m rail, a diagonal rail, concrete ledges, the grindable wall pipe, high catwalks with a kicker onto the rafters, two grindable rafters, the boarded-up breakable wall and the secret room with its own rail, crates, barrels, pallets, dumpster, steel columns and trusses, ten skylights, graffiti, and a closed daylight shell outside the east windows (left out of the bake; the game draws the outside view on it); every visual mesh has a `Lightmap` UV set; collision is tagged by surface (wood, concrete, metal, wall). |
 | `renders.py` | Cycles renders into `renders/`: face portrait, skater T-pose and mid-kickflip, board and park (high three-quarter cutaway), each as a hero still, an 8-view sheet and an MP4 turntable. |
 | `dev_preview.py` | Development helper only (clip contact sheets); not part of the build. |
 
@@ -131,11 +138,11 @@ is MPFB2 for the base human.
 | `scripts/skater/skater.gd` | Skater physics and tricks: surface-following ground movement with transition momentum and pumping, drop-ins, ollies, vert airs, flips/grabs/spins, grinds with a balance meter, manuals with a balance meter, ragdoll bails (impacts from the ragdoll's contacts: thuds, blood splats, slide smears) with a rigid-body board, sounds. |
 | `scripts/skater/skater_model.gd` | The Blender skater and board: clip blending, board on its bone, wheel spin, and the ragdoll: 14 capsules with cone-twist joints (PhysicalBone3D). A bail blends the authored flinch into the physics; once the body lies still, the ragdoll is steered into the first pose of the matching getup clip (on the back or face down) and fades into it. |
 | `scripts/game/tricks.gd`, `score_keeper.gd` | Trick table and THPS scoring (unit-tested). |
-| `scripts/game/chase_camera.gd` | THPS-style follow camera: ramp-facing view in vert airs, sphere-cast spring arm that swings round obstacles instead of collapsing onto the skater. |
-| `scripts/level/level.gd`, `rail.gd` | Loads the park, lightmap PBR materials, collision surfaces, rails, breakable windows and wall, pickups. |
+| `scripts/game/chase_camera.gd` | THPS-style follow camera: ramp-facing view in vert airs, a 3/4 view on grinds with the arm pivoted out towards the open hall (so wall pilasters and rafter hanger rods never cut across it), a sphere-cast spring arm that eases in and out, holds its distance past thin beams and swings round walls instead of collapsing onto the skater, never swings round into a wall after a bounce, turns at most 240 deg/s, and slides sideways past hanger rods to keep them off the line of sight. |
+| `scripts/level/level.gd`, `rail.gd`, `glass_burst.gd` | Loads the park, lightmap PBR materials, collision surfaces, rails, breakable windows and wall, pickups. A breaking window keeps jagged shards in its frame and throws out tumbling glass that lands on the quarterpipe below and lies there before fading. |
 | `scripts/ui/hud.gd`, `menus.gd` | HUD (score, special meter, timer, goals, letters, combo, balance meters) and menus. |
 | `scripts/audio/sfx.gd` | Every sound synthesised into AudioStreamWAV buffers at startup (rolling on concrete/wood/metal, pop, landings, grind scrapes, wind, bail, board clatter, glass, wall break, pickups, UI); pitch and volume driven at runtime. |
-| `shaders/` | `park.gdshader` (lightmap + real-time sun PBR for the park), `park_decal.gdshader` (graffiti decals), `skin.gdshader` (skin with faked subsurface scattering), `hair.gdshader` (alpha-tested hair cards with tinted anisotropic highlights). |
+| `shaders/` | `park.gdshader` (lightmap + real-time sun PBR for the park), `park_decal.gdshader` (graffiti decals), `skin.gdshader` (skin with faked subsurface scattering), `hair.gdshader` (alpha-tested hair cards with tinted anisotropic highlights), `window_glass.gdshader` (grimy glass; broken panes get irregular straight-edged holes with shards left in the frame), `yard_sky.gdshader` (the outside: utility poles and wires, trees and the next blocks' rooflines at their real distances, a sky with clouds). |
 | `scripts/game/autopilot*.gd` | Scripted two-minute run used for the recording, the tests and the benchmark. |
 
 Physics: Jolt (Godot's built-in Jolt Physics engine) for the ragdoll and the loose board; the

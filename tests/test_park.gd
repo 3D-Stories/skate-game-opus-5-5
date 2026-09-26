@@ -95,6 +95,12 @@ func mesh(nm: String) -> MeshInstance3D:
 	return park.find_child(nm, true, false) as MeshInstance3D
 
 
+func glass_broken(node) -> bool:
+	## A broken window keeps its glass node: the shader knocks jagged holes in the panes.
+	var m = node.material_override if node else null
+	return m is ShaderMaterial and m.get_shader_parameter("broken") != null and float(m.get_shader_parameter("broken")) > 0.5
+
+
 func waabb(mi: MeshInstance3D) -> AABB:
 	return mi.global_transform * mi.get_aabb()
 
@@ -997,7 +1003,7 @@ func windows_gameplay() -> void:
 	await physics(2)
 	var all_vis := true
 	for w in lv.windows:
-		all_vis = all_vis and w["node"].visible and not w["broken"]
+		all_vis = all_vis and w["node"].visible and not glass_broken(w["node"]) and not w["broken"]
 	check(all_vis and lv.windows_broken() == 0, "windows intact at the start (after reset_run)")
 	# negative controls: rolling on the ground under a window / airborne mid-hall do not break
 	lv.check_windows(Vector3(19.2, 3.2, -9.0), false)
@@ -1010,10 +1016,10 @@ func windows_gameplay() -> void:
 		var before: int = lv.windows_broken()
 		var r := await ride(Vector3(11.5, 0.02, c.z), Vector3(1, 0, 0), 11.0, 150)
 		var node = lv.windows[i]["node"]
-		var ok: bool = lv.windows[i]["broken"] and not node.visible and lv.windows_broken() == before + 1 and r["bails"].is_empty()
+		var ok: bool = lv.windows[i]["broken"] and glass_broken(node) and lv.windows_broken() == before + 1 and r["bails"].is_empty()
 		per.append(ok)
 		check(ok, "window %d breaks when the skater launches a vert air off the east quarter in front of it" % i,
-				"air up to %s m, broken now %d, glass visible %s, bails %s" % [fmt(r["air_max_y"]), lv.windows_broken(), str(node.visible), str(r["bails"])])
+				"air up to %s m, broken now %d, glass broken %s, bails %s" % [fmt(r["air_max_y"]), lv.windows_broken(), str(glass_broken(node)), str(r["bails"])])
 	var idx := broken_log.map(func(e): return e[0])
 	check(lv.windows_broken() == 5 and idx == [0, 1, 2, 3, 4] and broken_log.size() == 5 and broken_log[4][1] == 5,
 			"all 5 windows broken, each once (window_broken signal 1/5 .. 5/5)", str(broken_log))
@@ -1022,7 +1028,7 @@ func windows_gameplay() -> void:
 	await physics(2)
 	all_vis = true
 	for w in lv.windows:
-		all_vis = all_vis and w["node"].visible and not w["broken"]
+		all_vis = all_vis and w["node"].visible and not glass_broken(w["node"]) and not w["broken"]
 	check(all_vis and lv.windows_broken() == 0, "reset_run restores all 5 windows")
 	# grinding the wall pipe right under the glass breaks them all too
 	broken_log.clear()

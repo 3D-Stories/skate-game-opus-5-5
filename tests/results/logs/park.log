@@ -2,7 +2,7 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 
 [godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
 [run] started
-Pro Skater park (Warehouse) tests  2026-09-25T23:21:42
+Pro Skater park (Warehouse) tests  2026-09-26T01:15:00
 PASS  main hall footprint is ~40 x 66 m (wall collision raycasts from the centre)  [40.00 x 66.00 m]
 PASS  hall is ~11.5 m to the roof (wall collision top and roof mesh)  [walls 11.50 m, roof 11.50 m]
 PASS  brick / corrugated wall meshes span 40 x 66 x 11.5 m  [(40.0, 11.5, 66.0)]
@@ -94,11 +94,11 @@ PASS  the rafter is reachable: off the catwalk kicker, grind button, onto the ra
 PASS  grinding the rafter completes 'Grind the Rafters'
 PASS  windows intact at the start (after reset_run)
 PASS  a window does not break from the ground or from mid-hall airs
-PASS  window 0 breaks when the skater launches a vert air off the east quarter in front of it  [air up to 4.77 m, broken now 1, glass visible false, bails []]
-PASS  window 1 breaks when the skater launches a vert air off the east quarter in front of it  [air up to 4.77 m, broken now 2, glass visible false, bails []]
-PASS  window 2 breaks when the skater launches a vert air off the east quarter in front of it  [air up to 4.77 m, broken now 3, glass visible false, bails []]
-PASS  window 3 breaks when the skater launches a vert air off the east quarter in front of it  [air up to 4.77 m, broken now 4, glass visible false, bails []]
-PASS  window 4 breaks when the skater launches a vert air off the east quarter in front of it  [air up to 4.77 m, broken now 5, glass visible false, bails []]
+PASS  window 0 breaks when the skater launches a vert air off the east quarter in front of it  [air up to 4.77 m, broken now 1, glass broken true, bails []]
+PASS  window 1 breaks when the skater launches a vert air off the east quarter in front of it  [air up to 4.77 m, broken now 2, glass broken true, bails []]
+PASS  window 2 breaks when the skater launches a vert air off the east quarter in front of it  [air up to 4.77 m, broken now 3, glass broken true, bails []]
+PASS  window 3 breaks when the skater launches a vert air off the east quarter in front of it  [air up to 4.77 m, broken now 4, glass broken true, bails []]
+PASS  window 4 breaks when the skater launches a vert air off the east quarter in front of it  [air up to 4.77 m, broken now 5, glass broken true, bails []]
 PASS  all 5 windows broken, each once (window_broken signal 1/5 .. 5/5)  [[[0, 1], [1, 2], [2, 3], [3, 4], [4, 5]]]
 PASS  breaking the 5 windows completes 'Break the 5 Windows'
 PASS  reset_run restores all 5 windows
@@ -115,5 +115,5 @@ PASS  after: the doorway into the room is open (~5 m wide, 3.2 m high) and a ska
 PASS  reset_run rebuilds the wall (blocked again) and puts the tape back  [0 rays through, first hit BreakWallBody]
 110 passed, 0 failed
 
-WARNING: 22 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+WARNING: 24 ObjectDB instances were leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)

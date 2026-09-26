@@ -716,11 +716,30 @@ def game_textures(objs):
                 n.image = cp
 
 
+def _fix_face_order(objs):
+    """The eye spheres come out of the pipeline with the same triangles in a varying order
+    (live window vs headless), so the exported index buffers differed: sort their faces by
+    centre, a fixed order whatever happened upstream."""
+    import bmesh
+    for o in objs:
+        bm = bmesh.new()
+        bm.from_mesh(o.data)
+        bm.faces.index_update()
+        centres = [tuple(round(c, 6) for c in f.calc_center_median()) for f in bm.faces]
+        rank = {fi: r for r, fi in enumerate(sorted(range(len(centres)), key=lambda i: centres[i]))}
+        bm.faces.sort(key=lambda f: rank[f.index])
+        bm.faces.index_update()
+        bm.to_mesh(o.data)
+        bm.free()
+        o.data.update()
+
+
 def export_skater(rig, path=None):
     path = path or C.os.path.join(C.ASSETS, "skater.glb")
     finalize(rig)
     board = bpy.data.objects.get("Skateboard")
     objs = [rig] + [o for o in bpy.data.objects if o.parent == rig and o.type == 'MESH']
+    _fix_face_order([o for o in objs if o.name.startswith(("Eye_", "Cornea_"))])
     C.save_blend("skater")
     game_textures(objs)
     # the last clip stays assigned; ACTIONS mode exports every action with a rig slot
