@@ -8,10 +8,13 @@
 # - writes C:\Temp\ProSkater\override.cfg (read by Godot from the exe's folder; for these
 #   test runs only, not part of the build): the window is never activated, so it cannot take
 #   the keyboard from whoever is using the PC (display/window/size/no_focus), it is a
-#   1920x1080 window, always on top, at WIN_POS (Windows desktop pixels, default 4190,-1280:
-#   the upper right monitor here), and every print is flushed to the log at once. NOFOCUS=0 drops the no-focus line.
-# - refuses to start unless that window rectangle lies on one monitor that is not the primary
-#   one (the PC's user works on the primary monitor)
+#   WIN_SIZE (default 1920x1080) window, always on top, centred on monitor WIN_SCREEN (default
+#   DISPLAY2, a 60 Hz 3440x1440 screen here), and every print is flushed to the log at once.
+#   NOFOCUS=0 drops the no-focus line. Game option --window=fullscreen then makes it
+#   fullscreen on that monitor.
+# - refuses to start unless WIN_SCREEN exists, fits the window and is not the primary monitor
+#   (the PC's user works on the primary one); desktop/win/pick_screen.ps1 asks Windows again
+#   before every run, as the monitors can be rearranged at any time
 # - {out} in any option stands for C:/Temp/ProSkater/out. The game's output goes to
 #   tests/results/windows/<label>.log, and every C:/Temp/ProSkater/out/<label>* file is copied
 #   to tests/results/windows/ afterwards
@@ -27,14 +30,15 @@ mkdir -p "$WIN_DIR/out" "$RES"
 EXE="$ROOT/build/windows/ProSkater.exe"
 [ -s "$EXE" ] || { echo "no $EXE: run desktop/build_windows.sh first"; exit 2; }
 cmp -s "$EXE" "$WIN_DIR/ProSkater.exe" || cp "$EXE" "$WIN_DIR/ProSkater.exe"
-POS="${WIN_POS:-4190,-1280}"
-PX="${POS%,*}"
-PY="${POS#*,}"
-cp "$ROOT/desktop/win/screen_at.ps1" "$WIN_DIR/screen_at.ps1"
-# the client area plus a 40 px title bar above it
-SCREEN="$(powershell.exe -NoProfile -ExecutionPolicy Bypass -File 'C:\Temp\ProSkater\screen_at.ps1' -x "$PX" -y "$((PY - 40))" -w 1920 -h 1120 | tr -d '\r')"
-case "$SCREEN" in *primary=False*) ;; *) echo "[run_windows] refusing: a window at $POS is not on a single secondary monitor ($SCREEN)"; exit 3 ;; esac
-ORIGIN="${SCREEN##*origin=}"
+SCREEN_NAME="${WIN_SCREEN:-DISPLAY2}"
+SIZE="${WIN_SIZE:-1920x1080}"
+SW="${SIZE%x*}"
+SH="${SIZE#*x}"
+cp "$ROOT/desktop/win/pick_screen.ps1" "$WIN_DIR/pick_screen.ps1"
+PICK="$(powershell.exe -NoProfile -ExecutionPolicy Bypass -File 'C:\Temp\ProSkater\pick_screen.ps1' -name "$SCREEN_NAME" -w "$SW" -h "$SH" | tr -d '\r')"
+case "$PICK" in *primary=False*) ;; *) echo "[run_windows] refusing: no secondary monitor $SCREEN_NAME that fits a $SIZE window ($PICK)"; exit 3 ;; esac
+read -r PX PY SCREEN <<< "$PICK"
+ORIGIN="${PICK##*origin=}"
 OX="${ORIGIN%,*}"               # Godot places windows from the desktop's top-left corner
 OY="${ORIGIN#*,}"
 {
@@ -63,7 +67,8 @@ for a in "$@"; do
 	[ "$a" = "--" ] && seen=1
 done
 # --window=windowed keeps desktop.gd from switching to fullscreen (it cannot see engine options)
-[ $placed = 1 ] || { args+=(--resolution 1920x1080); user=(--window=windowed "${user[@]}"); }
+[ $placed = 1 ] || args+=(--resolution "$SIZE")
+case " ${user[*]} " in *" --window="*) ;; *) [ $placed = 1 ] || user=(--window=windowed "${user[@]}") ;; esac
 rm -f "$WIN_DIR/out/$LABEL"*
 cd "$WIN_DIR"
 echo "[run_windows] $LABEL on $SCREEN: ProSkater.exe ${args[*]} -- ${user[*]}"

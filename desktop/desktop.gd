@@ -23,7 +23,8 @@ extends Node
 ##                            window, vsync, audio output and levels, joypads, input counts
 ##   --shots=<dir>            screenshots: the start screen, the run every --shot-every=<s>
 ##                            (default 15) run seconds, and the end screen
-##   --input-log              print every key and joypad button, and the skater's state changes
+##   --input-log              print every key and joypad button, the skater's state changes and
+##                            tricks, and its speed once a second of the run
 ##   --quit-at-end            quit once the run is over and the files above are written
 ##   --window=fullscreen|windowed   start mode (otherwise the last one used; fullscreen at first).
 ##                            windowed keeps the window the engine opened, so Godot's own
@@ -60,6 +61,7 @@ var _info_started := false
 var _audio := {"frames": 0, "frames_with_sound": 0, "max_peak_db": -200.0, "sounds_played": {}}
 var _input_counts := {"keys": {}, "pad_buttons": {}, "pad_axes": {}}
 var _last_state := -1
+var _last_speed_s := -1
 var _was_riding := false
 var _t0 := 0
 
@@ -116,6 +118,10 @@ func _exit_tree() -> void:
 	OS.remove_logger(_tap)
 	Input.joy_connection_changed.disconnect(_on_joy_connection_changed)
 	RenderingServer.frame_post_draw.disconnect(_on_post_draw)
+
+
+func _on_trick(trick_name: String) -> void:
+	print("[desktop] trick: " + trick_name)
 
 
 func _on_joy_connection_changed(dev: int, on: bool) -> void:
@@ -297,6 +303,8 @@ func _process(delta: float) -> void:
 		var cs := get_tree().current_scene if get_tree().current_scene else get_tree().root.get_node_or_null("Main")
 		if cs and cs.name == "Main" and cs.is_node_ready():
 			main = cs
+			if opts.has("input-log"):
+				main.skater.trick.connect(_on_trick)
 		else:
 			return
 	var menu := in_menu()
@@ -313,8 +321,11 @@ func _process(delta: float) -> void:
 	if opts.has("input-log") and main.skater.state != _last_state:
 		_last_state = main.skater.state
 		print("[desktop] skater %s  speed %.1f m/s" % [["GROUND", "AIR", "GRIND", "BAIL"][_last_state], main.skater.vel.length()])
-	if riding:
+	if riding and opts.has("info-out"):     # only the settings report uses it: keep benchmarks lean
 		_sample_audio()
+	if opts.has("input-log") and riding and int(main.RUN_TIME - main.time_left) != _last_speed_s:
+		_last_speed_s = int(main.RUN_TIME - main.time_left)
+		print("[desktop] run %d s: speed %.1f m/s" % [_last_speed_s, main.skater.vel.length()])
 	for line in _tap.take():
 		_write_bench(line)
 	var run_t: float = main.RUN_TIME - main.time_left

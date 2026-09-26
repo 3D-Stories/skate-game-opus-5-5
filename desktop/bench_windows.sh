@@ -14,6 +14,7 @@
 #   <label>.log       the game's output
 #   <label>_load.csv  GPU load, clock and power (nvidia-smi) and the WSL host's load average,
 #                     once a second, to show whether anything else was using the GPU meanwhile
+#   <label>_displays.txt  the monitors (bounds, refresh rate) before and after the run
 # "uncapped" is Godot's --disable-vsync. Game options go to the game (bench.gd's A/B switches).
 # No file name here may contain a bench switch word (nossao, noglow, ...): bench.gd reads its
 # switches from the whole command line.
@@ -28,6 +29,12 @@ mkdir -p "$RES"
 SMI=/usr/lib/wsl/lib/nvidia-smi
 engine=(--rendering-driver "$DRIVER")
 [ "$SYNC" = uncapped ] && engine+=(--disable-vsync)
+displays() {
+	cp "$ROOT/desktop/win/displays.ps1" /mnt/c/Temp/ProSkater/displays.ps1
+	powershell.exe -NoProfile -ExecutionPolicy Bypass -File 'C:\Temp\ProSkater\displays.ps1' | tr -d '\r'
+}
+mkdir -p /mnt/c/Temp/ProSkater
+{ echo "before $(date -Is)"; displays; } > "$RES/${LABEL}_displays.txt"
 (
 	echo "time,gpu_util_pct,gpu_clock_mhz,gpu_power_w,gpu_mem_mib,host_load1"
 	while :; do
@@ -42,6 +49,11 @@ bash "$ROOT/desktop/run_windows.sh" "$LABEL" "${engine[@]}" -- --autopilot --ben
 code=$?
 kill $mon 2>/dev/null
 wait $mon 2>/dev/null
+{ echo "after $(date -Is)"; displays; } >> "$RES/${LABEL}_displays.txt"
+if [ "$(grep -c "DISPLAY" "$RES/${LABEL}_displays.txt")" -gt 0 ] && \
+	! diff <(sed -n '/^before/,/^after/p' "$RES/${LABEL}_displays.txt" | grep DISPLAY) <(sed -n '/^after/,$p' "$RES/${LABEL}_displays.txt" | grep DISPLAY) > /dev/null; then
+	echo "WARNING: the monitor layout changed during the run (see ${LABEL}_displays.txt)"
+fi
 python3 - "$RES/$LABEL.json" "$RES/${LABEL}_load.csv" <<'EOF'
 import csv, json, sys
 try:
