@@ -1,0 +1,29 @@
+{
+ "id": "warehouse",
+ "format": 1,
+ "game": {
+  "name": "The Warehouse",
+  "blurb": "A 1990s THPS-style warehouse hall: a 5 m drop-in, a halfpipe, a quarter along the whole east wall under five windows, catwalks and rafters, and a boarded-up wall.",
+  "assets": {
+   "glb": "res://assets/park.glb",
+   "data": "res://assets/park_data.json",
+   "lightmap": "res://assets/park_lightmap.png"
+  },
+  "pack": "",
+  "run_time": 120,
+  "cleared": "Warehouse cleared",
+  "autopilot": "res://scripts/game/autopilot_route.gd",
+  "goals": [
+   {"id": "score", "type": "score", "target": 25000},
+   {"id": "skate", "type": "letters", "title": "Collect S-K-A-T-E"},
+   {"id": "tape", "type": "tape", "title": "Find the Secret Tape"},
+   {"id": "rafters", "type": "rafters", "title": "Grind the Rafters"},
+   {"id": "windows", "type": "windows", "count": 5, "title": "Break the 5 Windows"}
+  ],
+  "environment": {}
+ },
+ "build": {
+  "builder": "park.py",
+  "note": "The Warehouse predates the level kit's data format: its layout is code in blender/park.py (built through levelkit/geo.py, materials.py and lighting.py)."
+ }
+}

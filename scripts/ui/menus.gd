@@ -6,6 +6,7 @@ extends CanvasLayer
 signal start_pressed
 signal resume_pressed
 signal restart_pressed
+signal level_select_pressed      # start screen: Tab / gamepad Select opens the level select
 
 enum { NONE, START, PAUSE, END }
 
@@ -107,10 +108,10 @@ func _fill_controls(show: bool) -> void:
 			grid.add_child(l)
 
 
-func show_start(goals: Array) -> void:
+func show_start(goals: Array, level_name := "The Warehouse") -> void:
 	mode = START
 	panel.visible = true
-	title.text = "PRO SKATER: THE WAREHOUSE"
+	title.text = "PRO SKATER: " + level_name.to_upper()
 	var g := "\n[b]GOALS - 2:00 RUN[/b]\n"
 	for x in goals:
 		g += "  -  " + String(x["title"]) + "\n"
@@ -119,7 +120,7 @@ func show_start(goals: Array) -> void:
 	for r in rows:
 		t += "  %s  [color=#ffd23a]%s[/color]  -  %s\n" % [r[0], str(r[1]), r[2]]
 	_fill_controls(true)
-	body.text = g
+	body.text = g + "\n[b]LEVEL[/b]   %s   [color=#ffd23a](TAB / SELECT: choose a level)[/color]" % level_name.to_upper()
 	hint.text = "PRESS ENTER / A TO SKATE"
 	_cooldown = 0.3
 
@@ -137,7 +138,7 @@ func show_pause(goals: Array, sk: ScoreKeeper) -> void:
 	_cooldown = 0.25
 
 
-func show_end(goals: Array, sk: ScoreKeeper, stats: Dictionary) -> void:
+func show_end(goals: Array, sk: ScoreKeeper, stats: Dictionary, cleared := "Warehouse cleared") -> void:
 	mode = END
 	panel.visible = true
 	title.text = "RUN OVER"
@@ -152,7 +153,7 @@ func show_end(goals: Array, sk: ScoreKeeper, stats: Dictionary) -> void:
 	s += "Tricks landed: %d     Bails: %d     Longest grind: %.1fs\n\n" % [stats.get("tricks", 0), stats.get("bails", 0), stats.get("longest_grind", 0.0)]
 	s += "[b]GOALS  %d / %d[/b]\n" % [done, goals.size()] + g
 	if done == goals.size():
-		s += "\n[color=#ffd23a][b]ALL GOALS COMPLETE - WAREHOUSE CLEARED![/b][/color]"
+		s += "\n[color=#ffd23a][b]ALL GOALS COMPLETE - %s![/b][/color]" % cleared.to_upper()
 	_fill_controls(false)
 	body.text = s
 	hint.text = "PRESS ENTER / A TO SKATE AGAIN"
@@ -181,6 +182,9 @@ func _process(delta: float) -> void:
 				resume_pressed.emit()
 			END:
 				restart_pressed.emit()
+	elif mode == START and (Input.is_key_pressed(KEY_TAB) or Input.is_joy_button_pressed(0, JOY_BUTTON_BACK)):
+		Sfx.play("ui_move")
+		level_select_pressed.emit()
 	elif mode == PAUSE and Input.is_action_just_pressed("pause"):
 		resume_pressed.emit()
 	elif mode == PAUSE and Input.is_action_just_pressed("restart"):

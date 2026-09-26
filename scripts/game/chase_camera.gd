@@ -35,7 +35,7 @@ var _dbg_hit := ""
 var record_hits := false   # also name what blocks the arm (one extra query per blocked cast)
 
 const SWING_ANGLES := [0.0, 30.0, -30.0, 55.0, -55.0, 85.0, -85.0]
-const HALL_CENTRE := Vector3(0.0, 3.0, -17.0)     # middle of the Warehouse floor (Godot axes)
+const HALL_CENTRE := Vector3(0.0, 3.0, -17.0)     # middle of the Warehouse floor (Godot axes; levels set their own)
 const MIN_ARM := 1.5
 
 
@@ -133,7 +133,8 @@ func _physics_process(delta: float) -> void:
 			lift += 0.6
 	_side_amt = lerpf(_side_amt, want_side, clampf(delta * 2.5, 0.0, 1.0))
 	var side := Vector3(-_yaw_dir.z, 0.0, _yaw_dir.x)
-	if side.dot(HALL_CENTRE - sp) < 0.0:
+	var hall_c: Vector3 = skater.level.hall_centre if skater.level else HALL_CENTRE
+	if side.dot(hall_c - sp) < 0.0:
 		side = -side
 	var target := sp - _yaw_dir * dist + Vector3.UP * lift + side * _side_amt
 	var look_at_p := sp + Vector3.UP * look_height + Vector3(vel.x, vel.y * 0.25, vel.z) * 0.12

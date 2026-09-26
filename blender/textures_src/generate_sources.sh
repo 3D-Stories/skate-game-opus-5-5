@@ -28,4 +28,10 @@ gen deck_graphic "Original skateboard deck bottom graphic artwork, vertical port
 gen cotton_tee "Close-up photograph of white cotton t-shirt jersey knit fabric, fine knit texture, $FLAT" &
 wait
 gen face_albedo "Cross-polarized photogrammetry albedo capture of an original young man in his early twenties, not resembling any real person, perfectly straight-on frontal view, head level and centered, face filling most of the frame from hairline to chin, neutral relaxed expression, mouth closed, eyes open looking into the lens, short brown hair pushed back so the forehead and hairline are visible, both ears visible, light-medium warm skin tone with natural pores, faint freckles and slight redness on nose and cheeks, faint stubble, completely flat even diffuse lighting with no shadows and no specular highlights, plain mid grey background, ultra detailed skin texture"
+# Eastside Baths (levels/baths): 4 images
+gen pool_tile "Photograph of the floor of a drained old public swimming pool, small square pale blue ceramic mosaic tiles about 2.5 cm with grey grout, water stains, grime, chlorine residue, a few cracked and missing tiles, $FLAT" &
+gen wall_tile "Front photograph of an old bathhouse wall of glazed off-white ceramic tiles 15 cm square, fine crazing in the glaze, darkened grout lines, rust and limescale streaks, a few chipped tiles, $FLAT" &
+gen plaster "Front photograph of an old painted plaster wall, pale sage green paint peeling and flaking in patches showing white plaster underneath, water stains and hairline cracks, $FLAT" &
+gen terrazzo "Photograph of a worn terrazzo floor, grey cement matrix with white, black and ochre marble chips, dull patina, scuffs and black skateboard wheel marks, $FLAT" &
+wait
 echo ALLDONE

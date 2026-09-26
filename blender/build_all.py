@@ -3,10 +3,12 @@
     blender --background --python blender/build_all.py            (full quality)
     blender --background --python blender/build_all.py -- --fast  (quick check)
     blender --background --python blender/build_all.py -- --only board,park
+    blender --background --python blender/build_all.py -- --only baths,baths_renders
 
 Outputs: assets/board.glb, assets/skater.glb, assets/park.glb, assets/park_data.json,
-renders/*.png. The same modules are run in the live Blender window while developing,
-so the headless rebuild matches the live build.
+assets/levels/<id>/ for every kit-built level in levels/registry.json, renders/*.png.
+The same modules are run in the live Blender window while developing, so the headless
+rebuild matches the live build.
 """
 import os
 import sys
@@ -54,9 +56,19 @@ def main():
     if want("park"):
         park.build()
         print(f"[build_all] park done {time.time() - t0:.0f}s")
+    # data-defined levels (levels/registry.json -> levels/<id>/level.json), built by the kit
+    from levelkit import level as LK
+    for lid in LK.kit_levels():
+        if want(lid) or want("levels"):
+            LK.build_level(lid)
+            print(f"[build_all] level {lid} done {time.time() - t0:.0f}s")
     if want("renders"):
         renders.build()
         print(f"[build_all] renders done {time.time() - t0:.0f}s")
+    for lid in LK.kit_levels():
+        if want("renders") or want(lid + "_renders"):
+            renders.render_level(lid)
+            print(f"[build_all] {lid} renders done {time.time() - t0:.0f}s")
     print(f"[build_all] finished in {time.time() - t0:.0f}s")
 
 
