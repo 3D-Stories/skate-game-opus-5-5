@@ -29,6 +29,11 @@ var _arm_free := true      # the arm was at its full length last frame (nothing 
 var _arm_len := -1.0        # the arm's eased length (-1: take the cast as it is)
 var _rod_side := {}          # hanger rod id -> side (+1/-1) the camera passes it on
 var _pivot := Vector3.ZERO  # the arm's start, offset from the head towards the open hall on grinds
+var _wall_push := Vector3.ZERO  # the arm's start eased off a steep wall the skater rides (pool walls)
+var _over_lift := 0.0       # extra height to see the skater over a lip (dropping into a pool)
+var _ignore: Array[RID] = []  # what the arm passes through (the level's thin rail tubes)
+var _hold_y := INF          # while the lip hides the skater: the height the view does not sink below
+var _prev_cam := Vector3.INF  # last frame's camera spot (the anti-pop speed limit)
 ## what the camera decided this frame (read by tests/frames.gd; cheap, always kept)
 var dbg := {}
 var _dbg_hit := ""
@@ -54,6 +59,10 @@ func snap() -> void:
 	_swing = 0.0
 	_swing_lift = 0.0
 	_pivot = Vector3.ZERO
+	_wall_push = Vector3.ZERO
+	_over_lift = 0.0
+	_hold_y = INF
+	_prev_cam = Vector3.INF
 	_turn_pref = 0.0
 	_rod_side.clear()
 
@@ -64,6 +73,7 @@ func _physics_process(delta: float) -> void:
 	var sp := skater.global_position
 	var vel := skater.vel
 	var hv := Vector3(vel.x, 0, vel.z)
+	_ignore = skater.level.camera_ignore if skater.level else _ignore
 	var desired_dir := _yaw_dir
 	if skater.state == Skater.AIR and skater.vert_air:
 		# look at the ramp from the room side, as THPS does, until we land
@@ -137,10 +147,34 @@ func _physics_process(delta: float) -> void:
 	if side.dot(hall_c - sp) < 0.0:
 		side = -side
 	var target := sp - _yaw_dir * dist + Vector3.UP * lift + side * _side_amt
+	# dropping into a pool over its vertical wall the skater is right under the lip: from the
+	# usual spot behind, the lip hides the skater. Rise (smoothly) until the view clears it.
+	# (only when a higher spot has both a clear view and a clear arm from the head)
+	var need := 0.0
+	if skater.state == Skater.GROUND or skater.state == Skater.AIR:
+		var torso := sp + skater.up * 1.0
+		if not _ray_clear(target, torso):
+			var hp := sp + Vector3.UP * 1.3 + _pivot + _wall_push
+			for l: float in [0.8, 1.6, 2.4, 3.2]:
+				if _ray_clear(target + Vector3.UP * l, torso) and _ray_clear(hp, target + Vector3.UP * l):
+					need = l
+					break
+	if need > 0.0:
+		# (and do not sink with the skater as the drop goes on)
+		if _hold_y == INF:
+			_hold_y = _pos.y
+		target.y = maxf(target.y, _hold_y)
+	else:
+		_hold_y = INF
+	_over_lift = lerpf(_over_lift, need, clampf(delta * (12.0 if need > _over_lift else 1.5), 0.0, 1.0))
+	target += Vector3.UP * _over_lift
 	var look_at_p := sp + Vector3.UP * look_height + Vector3(vel.x, vel.y * 0.25, vel.z) * 0.12
 	# follow smoothly; vertically a bit softer so ollies don't jerk the view
 	var k := clampf(delta * follow_rate, 0.0, 1.0)
 	_pos = Vector3(lerpf(_pos.x, target.x, k), lerpf(_pos.y, target.y, k * 0.7), lerpf(_pos.z, target.z, k))
+	if need > 0.0 and target.y > _pos.y:
+		# (craning up over a lip: quicker than the soft vertical follow, under the glide limit)
+		_pos.y = minf(target.y, _pos.y + 18.0 * delta)
 	_look = _look.lerp(look_at_p, clampf(delta * 10.0, 0.0, 1.0))
 	# spring arm: never end up inside geometry. When the arm is blocked (a grind along a
 	# wall, a corner), swing it round towards open space and up instead of collapsing
@@ -157,7 +191,19 @@ func _physics_process(delta: float) -> void:
 	elif _pivot != Vector3.ZERO:
 		var pl := _pivot.length() * maxf(0.0, 1.0 - delta * 5.0)
 		_pivot = _pivot.normalized() * _free_along(sp + Vector3.UP * 1.3, _pivot.normalized(), pl) if pl > 0.02 else Vector3.ZERO
-	var head := _origin(sp, _pos, _pivot)
+	# on a steep wall (a pool's vertical deep end) the head is right against the tiles: ease
+	# the arm's start out from the wall, so its casts never start touching it
+	var push := Vector3.ZERO
+	if skater.state == Skater.GROUND:
+		var n := Vector3(skater.up.x, 0.0, skater.up.z)
+		if n.length() > 0.5:
+			n = n.normalized()
+			var hp := sp + Vector3.UP * 1.3 + _pivot
+			var r := get_world_3d().direct_space_state.intersect_ray(_rq(hp + n * 0.5, hp - n * 0.35))
+			var clear: float = (hp - r["position"]).dot(n) if not r.is_empty() else 0.35
+			push = n * maxf(0.0, 0.3 - clear)
+	_wall_push = _wall_push.lerp(push, clampf(delta * 10.0, 0.0, 1.0))
+	var head := _origin(sp, _pos, _pivot + _wall_push)
 	if head == Vector3.INF:
 		# the skater is pressed into a wall or ramp: hold the last good view for a moment
 		global_position = _last_good
@@ -181,6 +227,7 @@ func _physics_process(delta: float) -> void:
 					best_lift = up
 	# (quicker while a thin beam or rod is in the way, see below)
 	var sk := clampf(delta * (9.0 if _thin else 3.5), 0.0, 1.0)
+	var cut_fresh := _fresh
 	if _fresh:
 		sk = 1.0
 		_fresh = false
@@ -225,7 +272,23 @@ func _physics_process(delta: float) -> void:
 	dbg = {"origin": snappedf((head - sp).y, 0.01), "origin_back": snappedf(Vector2(head.x - sp.x, head.z - sp.z).length(), 0.01),
 			"want": snappedf(want, 0.01), "free": snappedf(best_d, 0.01), "blocked_by": first_hit, "best_ang": best_ang,
 			"best_lift": best_lift, "swing": snappedf(_swing, 0.1), "arm": snappedf(final.distance_to(head), 0.01), "cut": cut,
-			"side": snappedf(_side_amt, 0.01), "pivot": snappedf(_pivot.length(), 0.01), "turn_pref": _turn_pref, "thin": _thin, "arm_len": snappedf(_arm_len, 0.01)}
+			"side": snappedf(_side_amt, 0.01), "pivot": snappedf(_pivot.length(), 0.01), "turn_pref": _turn_pref, "thin": _thin, "arm_len": snappedf(_arm_len, 0.01),
+			"push": snappedf(_wall_push.length(), 0.01), "over": snappedf(_over_lift, 0.01)}
+	# anti-pop: the view never jumps. Faster than 22.5 m/s the camera glides to its new spot
+	# instead, through free space: straight there, or (round a board or a lip) across then
+	# down, or down then across. A spot the arm swings or cuts to is reached over a few frames.
+	if _prev_cam != Vector3.INF and not cut_fresh:
+		var step := 22.5 * delta
+		if final.distance_to(_prev_cam) > step:
+			for m: Vector3 in [final, Vector3(final.x, _prev_cam.y, final.z), Vector3(_prev_cam.x, final.y, _prev_cam.z)]:
+				if not _ray_clear(_prev_cam, m) or (m != final and not _ray_clear(m, final)):
+					continue
+				var p := _prev_cam + (m - _prev_cam).normalized() * minf(step, _prev_cam.distance_to(m))
+				if _spot_free(p, 0.1):
+					dbg["glide"] = snappedf(final.distance_to(_prev_cam), 0.01)
+					final = p
+					break
+	_prev_cam = final
 	# failsafe: never look out through the skater's own clothes
 	if skater.model:
 		skater.model.visible = final.distance_to(head) > 0.75
@@ -242,8 +305,7 @@ func _free_along(from: Vector3, dir: Vector3, want: float) -> float:
 	## 0.3 m sphere clear of what is there.
 	if want <= 0.0:
 		return 0.0
-	var ray := PhysicsRayQueryParameters3D.create(from, from + dir * (want + 0.35), 1 | Level.CAMERA_BLOCK_LAYER)
-	var r := get_world_3d().direct_space_state.intersect_ray(ray)
+	var r := get_world_3d().direct_space_state.intersect_ray(_rq(from, from + dir * (want + 0.35)))
 	if r.is_empty():
 		return want
 	return clampf(from.distance_to(r["position"]) - 0.35, 0.0, want)
@@ -258,6 +320,7 @@ func _origin(sp: Vector3, cam: Vector3, pivot := Vector3.ZERO) -> Vector3:
 	_shape.radius = 0.07
 	q.shape = _shape
 	q.collision_mask = 1 | Level.CAMERA_BLOCK_LAYER
+	q.exclude = _ignore
 	var back := cam - sp
 	back.y = 0.0
 	back = back.normalized() if back.length() > 0.01 else Vector3.ZERO
@@ -269,8 +332,7 @@ func _origin(sp: Vector3, cam: Vector3, pivot := Vector3.ZERO) -> Vector3:
 			continue
 		# and on the skater's side of any ceiling or wall (a point just past a thin roof
 		# is free space too, but the view from there is outside the room)
-		var ray := PhysicsRayQueryParameters3D.create(body, sp + o, 1 | Level.CAMERA_BLOCK_LAYER)
-		if space.intersect_ray(ray).is_empty():
+		if space.intersect_ray(_rq(body, sp + o)).is_empty():
 			return sp + o
 	return Vector3.INF
 
@@ -335,7 +397,7 @@ func _clear_rods(p: Vector3, target: Vector3) -> Vector3:
 			_rod_side.erase(id)
 	if out != p:
 		# never into a wall doing it
-		var r := space.intersect_ray(PhysicsRayQueryParameters3D.create(p, out, 1 | Level.CAMERA_BLOCK_LAYER))
+		var r := space.intersect_ray(_rq(p, out))
 		if not r.is_empty():
 			return p
 	return out
@@ -351,11 +413,12 @@ func _thin_block(head: Vector3, end: Vector3, sp: Vector3) -> bool:
 	_shape.radius = 0.2
 	q.shape = _shape
 	q.collision_mask = mask
+	q.exclude = _ignore
 	q.transform = Transform3D(Basis.IDENTITY, end)
 	if not space.intersect_shape(q, 1).is_empty():
 		return false
-	var fwd := space.intersect_ray(PhysicsRayQueryParameters3D.create(head, end, mask))
-	var back := space.intersect_ray(PhysicsRayQueryParameters3D.create(end, head, mask))
+	var fwd := space.intersect_ray(_rq(head, end))
+	var back := space.intersect_ray(_rq(end, head))
 	if not fwd.is_empty() and not back.is_empty():
 		var thick := head.distance_to(end) - head.distance_to(fwd["position"]) - end.distance_to(back["position"])
 		if thick > 0.6:
@@ -364,24 +427,46 @@ func _thin_block(head: Vector3, end: Vector3, sp: Vector3) -> bool:
 	var lat := up_s.cross(end - sp).normalized() * 0.3
 	var clear := 0
 	for p in [sp + up_s * 0.2, sp + up_s * 0.7, sp + up_s * 1.5, sp + up_s * 1.1 + lat, sp + up_s * 1.1 - lat]:
-		if space.intersect_ray(PhysicsRayQueryParameters3D.create(end, p, mask)).is_empty():
+		if space.intersect_ray(_rq(end, p)).is_empty():
 			clear += 1
 	return clear >= 3
 
 
 func _cast_hard(from: Vector3, to: Vector3) -> Vector3:
-	## The limit the eased arm may never pass: an 8 cm sphere (the near plane is 5 cm).
+	## The limit the eased arm may never pass: an 8 cm sphere (the near plane is 5 cm). If
+	## it starts touching something (the arm's start close to a wall) it shrinks, like _cast.
 	var space := get_world_3d().direct_space_state
 	var q := PhysicsShapeQueryParameters3D.new()
-	_shape.radius = 0.08
 	q.shape = _shape
 	q.transform = Transform3D(Basis.IDENTITY, from)
 	q.motion = to - from
 	q.collision_mask = 1 | Level.CAMERA_BLOCK_LAYER
-	if not space.intersect_shape(q, 1).is_empty():
-		return from
-	var t: float = space.cast_motion(q)[0]
-	return to if t >= 1.0 else from + (to - from) * maxf(0.0, t - 0.01)
+	q.exclude = _ignore
+	for rad in [0.08, 0.055]:
+		_shape.radius = rad
+		if space.intersect_shape(q, 1).is_empty():
+			var t: float = space.cast_motion(q)[0]
+			return to if t >= 1.0 else from + (to - from) * maxf(0.0, t - 0.01)
+	return from
+
+
+func _rq(a: Vector3, b: Vector3) -> PhysicsRayQueryParameters3D:
+	## A ray against what the camera keeps clear of (not the level's thin rail tubes).
+	return PhysicsRayQueryParameters3D.create(a, b, 1 | Level.CAMERA_BLOCK_LAYER, _ignore)
+
+
+func _ray_clear(a: Vector3, b: Vector3) -> bool:
+	return get_world_3d().direct_space_state.intersect_ray(_rq(a, b)).is_empty()
+
+
+func _spot_free(p: Vector3, r: float) -> bool:
+	var q := PhysicsShapeQueryParameters3D.new()
+	_shape.radius = r
+	q.shape = _shape
+	q.collision_mask = 1 | Level.CAMERA_BLOCK_LAYER
+	q.exclude = _ignore
+	q.transform = Transform3D(Basis.IDENTITY, p)
+	return get_world_3d().direct_space_state.intersect_shape(q, 1).is_empty()
 
 
 func _cast(from: Vector3, to: Vector3) -> Vector3:
@@ -393,6 +478,7 @@ func _cast(from: Vector3, to: Vector3) -> Vector3:
 	q.transform = Transform3D(Basis.IDENTITY, from)
 	q.motion = to - from
 	q.collision_mask = 1 | Level.CAMERA_BLOCK_LAYER
+	q.exclude = _ignore
 	for rad in [0.3, 0.16, 0.07]:
 		_shape.radius = rad
 		if space.intersect_shape(q, 1).is_empty():

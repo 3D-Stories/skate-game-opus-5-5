@@ -170,9 +170,9 @@ def f_hall(L, s):
         G.vault(L.B, x0, x1, y0, y1, h, roof["rise"], roof.get("segs", 12), roof.get("mat", "roof"),
                 roof.get("rib_mat", "steel_paint"), roof.get("rib_every", 4.0), roof.get("end_mat", bands[-1][2]),
                 tuple(lan) if lan else None, roof.get("glass_mat", "skylight"), roof.get("lantern_mat", "steel_paint"),
-                roof.get("lantern_h", 0.9))
+                roof.get("lantern_h", 0.9), col=roof.get("col", "wall"))
     else:
-        L.B.quad(roof.get("mat", "roof"), [(x0, y1, h), (x1, y1, h), (x1, y0, h), (x0, y0, h)])
+        L.B.quad(roof.get("mat", "roof"), [(x0, y1, h), (x1, y1, h), (x1, y0, h), (x0, y0, h)], col="wall")
     L.hall = dict(rect=(x0, y0, x1, y1), height=h, floor=s.get("floor", {"mat": "concrete_floor"}))
     L.data["hall"] = dict(min=to_godot((x0, y1, 0.0)), max=to_godot((x1, y0, h)))
 
@@ -642,11 +642,12 @@ def build_level(level_id, export=True, bake=True):
         json.dump(D, f, indent=1)
     print(f"[levelkit] {level_id}: geometry + data in {time.time() - t0:.0f}s "
           f"({len(visual)} meshes, {len(cols)} collision sets, {len(L.rails)} grind lines, {len(L.breakables)} breakable nodes)")
+    # the level's lights (also saved in the .blend for the renders; not exported to the GLB)
+    spec = dict(lt)
+    spec["areas"] = list(lt.get("areas", [])) + L.lights_extra["areas"]
+    spec["points"] = list(lt.get("points", [])) + L.lights_extra["points"]
+    lights = KL.lights_from_spec(spec, L.obj_prefix + "Lights")
     if bake:
-        spec = dict(lt)
-        spec["areas"] = list(lt.get("areas", [])) + L.lights_extra["areas"]
-        spec["points"] = list(lt.get("points", [])) + L.lights_extra["points"]
-        lights = KL.lights_from_spec(spec, L.obj_prefix + "Lights")
         KL.bake_lightmap(lm_objs, lights, f"{level_id}_lightmap", out_dir, hide_prefixes=("COL_",) + tuple(lt.get("hide", [])),
                          lm_scale=lm_scale, size=lt.get("size"), samples=lt.get("samples"))
         print(f"[levelkit] {level_id}: baked in {time.time() - t0:.0f}s")

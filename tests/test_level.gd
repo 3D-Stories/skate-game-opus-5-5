@@ -202,6 +202,8 @@ func registry_and_select() -> void:
 
 func scale_checks() -> void:
 	## The level's own measurements ("test": "scale"), then generic real-world sanity.
+	## (down rays start just under the hall's roof, which has collision)
+	var top_y := float(lv.data["hall"]["max"][1]) - 0.2 if lv.data.has("hall") else 20.0
 	for m in spec.get("scale", []):
 		var what := String(m["what"])
 		var lo_hi: Array = m.get("expect", [0, 0])
@@ -209,7 +211,7 @@ func scale_checks() -> void:
 		var extra := ""
 		if m.has("down"):
 			var p := b2g(m["down"])
-			p.y = float(m.get("from", 20.0))
+			p.y = float(m.get("from", top_y))
 			var h := down(p)
 			if not h.is_empty():
 				val = h["position"].y
@@ -242,7 +244,7 @@ func scale_checks() -> void:
 			var hs: Array = []
 			for i in n:
 				var p := a.lerp(b, (i + 0.5) / n)
-				p.y = 20.0
+				p.y = top_y
 				var h := down(p)
 				hs.append(h["position"].y if not h.is_empty() else -99.0)
 			var rises: Array = []

@@ -53,6 +53,7 @@ var sun_dir := Vector3(0.4, -0.7, -0.5)
 var lightmap_scale := 6.0
 var _t := 0.0
 var items: Array = []              # generic breakables: {id, group, kind, nodes, xf, broken, body, area, def}
+var camera_ignore: Array[RID] = [] # thin rail tubes (COL_metal_thin): the chase camera's arm passes them
 var gaps: Array = []               # {id, name, points, from: AABB, to: AABB}
 var vert_zones: Array = []         # {c, axis, half} (THPS auto-align for vert airs, besides "halfpipe")
 var _takeoff := Vector3.INF        # where the skater last left the ground (gaps)
@@ -124,6 +125,7 @@ func _unload() -> void:
 	tape = null
 	tape_taken = false
 	items.clear()
+	camera_ignore.clear()
 	gaps.clear()
 	vert_zones.clear()
 	_takeoff = Vector3.INF
@@ -214,6 +216,8 @@ func _setup_collision(root: Node) -> void:
 			n.set_meta("surface", surf)
 			n.collision_layer = 1
 			n.collision_mask = 0
+			if "metal_thin" in nm:
+				camera_ignore.append(n.get_rid())
 			for c in n.get_children():
 				if c is CollisionShape3D and c.shape is ConcavePolygonShape3D:
 					c.shape.backface_collision = true

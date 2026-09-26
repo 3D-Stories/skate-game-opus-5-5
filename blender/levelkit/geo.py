@@ -534,10 +534,11 @@ def window_frame(B, a, b, s0, s1, zlo, zhi, depth=0.12, bar=0.06, mullions=2, tr
 
 
 def vault(B, x0, x1, y0, y1, spring, rise, segs=12, mat="roof", rib_mat="steel_paint", rib_every=4.0,
-          end_mat="plaster", lantern=None, glass_mat="skylight", lantern_mat="steel_paint", lantern_h=0.9):
+          end_mat="plaster", lantern=None, glass_mat="skylight", lantern_mat="steel_paint", lantern_h=0.9, col="wall"):
     """Segmental barrel vault spanning x0..x1, running along y, from the wall tops at `spring`
     to the crown at spring + rise; steel arch ribs; the end walls filled up to the curve.
     lantern=(half_width_segments, ly0, ly1): the crown segments become a glazed lantern.
+    The roof has collision (`col`): nothing rides up there, but the chase camera keeps out.
     Returns [(x, z)] of the arc."""
     s = (x1 - x0) / 2
     xc = (x0 + x1) / 2
@@ -559,13 +560,13 @@ def vault(B, x0, x1, y0, y1, spring, rise, segs=12, mat="roof", rib_mat="steel_p
         for (ya, yb) in spans:
             for yy in np.arange(ya, yb - 1e-6, 6.0):
                 yyb = min(yb, yy + 6.0)
-                B.quad(mat, [(xa, yyb, za), (xb, yyb, zb), (xb, yy, zb), (xa, yy, za)])
+                B.quad(mat, [(xa, yyb, za), (xb, yyb, zb), (xb, yy, zb), (xa, yy, za)], col=col)
     # end walls up to the curve (tympana)
     for (y, flip) in ((y0, False), (y1, True)):
         for i in range(segs):
             (xa, za), (xb, zb) = arc[i], arc[i + 1]
             pts = [(xa, y, spring), (xb, y, spring), (xb, y, zb), (xa, y, za)]
-            B.quad(end_mat, list(reversed(pts)) if not flip else pts)
+            B.quad(end_mat, list(reversed(pts)) if not flip else pts, col=col)
     # arch ribs
     for yy in np.arange(y0 + rib_every, y1 - 0.5, rib_every):
         for i in range(segs):
@@ -576,15 +577,15 @@ def vault(B, x0, x1, y0, y1, spring, rise, segs=12, mat="roof", rib_mat="steel_p
         ly0, ly1 = lantern[1], lantern[2]
         top = max(za, zb) + lantern_h
         # glazed upstands (west + east), end glazing and a glazed top
-        B.quad(glass_mat, [(xa, ly0, za), (xa, ly1, za), (xa, ly1, top), (xa, ly0, top)])
-        B.quad(glass_mat, [(xb, ly1, zb), (xb, ly0, zb), (xb, ly0, top), (xb, ly1, top)])
+        B.quad(glass_mat, [(xa, ly0, za), (xa, ly1, za), (xa, ly1, top), (xa, ly0, top)], col=col)
+        B.quad(glass_mat, [(xb, ly1, zb), (xb, ly0, zb), (xb, ly0, top), (xb, ly1, top)], col=col)
         # the arc between the two upstand feet (under the lantern) is open; its ends are closed
         for (y, fl) in ((ly0, False), (ly1, True)):
             for i in range(mid - lw, mid + lw):
                 (pa, qa), (pb, qb) = arc[i], arc[i + 1]
                 pts = [(pa, y, qa), (pb, y, qb), (pb, y, top), (pa, y, top)]
-                B.quad(lantern_mat, pts if fl else list(reversed(pts)))
-        B.quad(glass_mat, [(xa, ly0, top), (xb, ly0, top), (xb, ly1, top), (xa, ly1, top)][::-1])
+                B.quad(lantern_mat, pts if fl else list(reversed(pts)), col=col)
+        B.quad(glass_mat, [(xa, ly0, top), (xb, ly0, top), (xb, ly1, top), (xa, ly1, top)][::-1], col=col)
         for yy in np.arange(ly0, ly1 + 1e-6, 2.0):
             B.box(lantern_mat, (xa, yy - 0.04, top - 0.08), (xb, yy + 0.04, top))
         for x in (xa, xb):
