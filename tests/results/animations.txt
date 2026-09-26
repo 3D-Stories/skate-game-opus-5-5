@@ -1,4 +1,4 @@
-Pro Skater animation tests  2026-09-26T01:14:53
+Pro Skater animation tests  2026-09-26T01:51:57
 PASS  clip 'idle' exported (2.03s, 51 tracks)
 PASS  clip 'push' exported (1.23s, 51 tracks)
 PASS  clip 'ride' exported (1.37s, 51 tracks)

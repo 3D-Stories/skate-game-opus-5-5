@@ -43,6 +43,8 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [ap 108.27] combo +1326  total 58407  [Kickflip + Indy + FS 180]
 [ap 110.98] combo +1572  total 59979  [360 Flip + Tailgrab]
 [ap 113.72] combo +1326  total 61305  [Heelflip + Indy + BS 180]
+WARNING: Jolt Physics job system exceeded the maximum number of jobs. This should not happen. Please report this. Waiting for jobs to become available...
+     at: CreateJob (modules/jolt_physics/spaces/jolt_job_system.cpp:123)
 [ap 116.43] combo +6412  total 67717  [Tiger Claw Tre + Melon]
 [ap 119.15] combo +1326  total 69043  [Kickflip + Indy + FS 180]
 [run] finished score=69043 goals=[["score", true], ["skate", true], ["tape", true], ["rafters", true], ["windows", true]]
