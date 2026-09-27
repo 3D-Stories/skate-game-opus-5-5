@@ -30,7 +30,7 @@ is how further levels are made. See [Levels](#levels).
 | Export the web build (Thread Support off) | `tools/export_web.sh build/web` (the "Web" export plus one pack per kit-built level in `build/web/levels/`) |
 | Serve it locally | `python3 -m http.server 8765 --directory build/web` then open http://localhost:8765/ |
 | Build the native Windows version | `bash desktop/build_windows.sh` -> `build/windows/ProSkater.exe` and a zip (see [Windows build](#windows-build)) |
-| Deploy (Vercel) | `npx vercel link --yes --project skate-game-opus-5-5 --cwd build/web` then `npx vercel deploy --prod --yes --cwd build/web` |
+| Deploy (Vercel) | Automatic: the Vercel project is connected to this GitHub repo, so every push to `master` deploys to production (other branches and PRs get preview deployments). `vercel.json` runs `tools/vercel_build.sh`, which installs the official Godot 4.7.2 Linux binary (pinned SHA-512), imports the project and exports `build/web`. On the Hobby plan Vercel only deploys commits authored by the team owner's linked GitHub account. Manual deploy of a local export: `npx vercel link --yes --project skate-game-opus-5-5 --cwd build/web` then `npx vercel deploy --prod --yes --cwd build/web` |
 | Run every test headless (11 suites, then the level select, the character builder, the builder with the level select, each kit-built level's suite and the Windows build's desktop layer: 17 suites) | `bash tests/run_all.sh` (results in `tests/results/`) |
 | Make a new level | `python3 blender/levelkit/scaffold.py <id> "<Name>"`, then follow `docs/LEVELS.md` |
 | Build one level (geometry, data, Cycles bake) | `blender --background --python blender/build_all.py -- --only <id>` |
