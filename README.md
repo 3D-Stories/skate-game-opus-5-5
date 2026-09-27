@@ -565,3 +565,34 @@ VERIFIED; to check by hand: F11, F11, F11 and the park must still move.
 
 **Gamepad** on Windows: NOT VERIFIED; no controller was connected (all four XInput slots
 empty). The bindings are the same Godot joypad events the headless tests press.
+
+## Build cost
+
+The original game (the Warehouse, before the second level, the Windows build and the
+character builder were added) was built by Claude Opus 5.5 in Claude Code. It used about
+565 million tokens, or roughly $204 at Anthropic's API list prices. The work ran on a Claude
+subscription, so this is the equivalent API cost, not an amount billed.
+
+Totalled on 2026-09-26 from the Claude Code session transcripts, counting each API reply
+once with its final token count (Claude Code logs a reply several times as it streams).
+
+| Part | API calls | Output | Cache writes | Cache reads | Total tokens | List price |
+|---|---|---|---|---|---|---|
+| Main build session | 1,397 | 1.88M | 3.92M | 489.35M | 495.2M | $166.81 |
+| Workflows (2 runs, 14 agents) | 377 | 0.26M | 2.53M | 51.65M | 54.4M | $28.17 |
+| Guide subagent (Haiku 4.5) | 16 | <0.01M | 0.05M | 0.65M | 0.7M | $0.14 |
+| Separate session used to write the build prompt | 101 | 0.10M | 0.55M | 13.71M | 14.4M | $9.08 |
+| **Total** | | **2.24M** | **7.05M** | **555.36M** | **564.6M** | **$204.20** |
+
+- Prices used: Opus 5.5 at $4 per million input tokens, $20 output, $8 for 1-hour cache
+  writes, $5 for 5-minute cache writes and $0.20 for cache reads; Haiku 4.5 at $1 input and
+  $5 output. No long-context surcharge applies.
+- Where it went: $111 on cache reads (every call re-reads the long conversation), $49 on
+  cache writes, $45 on output, and almost nothing on uncached input.
+- Prompt caching: the same tokens without it would have cost about $2,294 at list price.
+- The build alone, without the prompt-writing session, comes to about $195.
+- Not included: Claude Code's background calls that are not written to the transcripts
+  (permission checks, WebFetch summaries, conversation compaction, session titles), which
+  are small next to the main loop; and non-Anthropic services (the 17 ChatGPT texture
+  images, Vercel hosting, the review tool calls). The later work (Eastside Baths, the Windows
+  build and the character builder) was done in separate sessions and is not in these totals.
