@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Runs every headless Godot test suite (in parallel) plus the full autopilot two-minute run,
-# and prints one summary line per suite. Results land in tests/results/.
+# and prints one summary line per suite. Results land in tests/results/. (The character
+# builder's clothing-fit test, tests/test_outfits.gd, takes about 20 minutes: run it on its own.)
 #   bash tests/run_all.sh            (from the project root)
 set -u
 cd "$(dirname "$0")/.."
@@ -22,6 +23,8 @@ run ragdoll    600  --fixed-fps 60 -s tests/test_ragdoll.gd
 run camera     1500 --fixed-fps 60 -s tests/test_camera_run.gd -- --autopilot=test
 run fullrun    600  --fixed-fps 60 -- --autopilot=test
 run levelsel   300  --fixed-fps 60 -s tests/test_level_select.gd
+run builder    900  --fixed-fps 60 -s tests/test_builder.gd
+run buildlvl   600  --fixed-fps 60 -s tests/test_builder_levels.gd
 # every kit-built level in levels/registry.json: its park suite (tests/test_level.gd) and its
 # own autopilot two-minute run
 LEVELS=$(python3 -c "import json
@@ -37,7 +40,7 @@ done
 ( timeout 1500 bash desktop/test_desktop.sh > tests/results/logs/desktop.log 2>&1; echo $? > tests/results/logs/desktop.exit ) &
 wait
 printf '%-14s %-5s %s\n' suite exit summary
-for n in scoring flow input audio park anims clips handling ragdoll camera fullrun levelsel $EXTRA desktop; do
+for n in scoring flow input audio park anims clips handling ragdoll camera fullrun levelsel builder buildlvl $EXTRA desktop; do
 	e=$(cat "tests/results/logs/$n.exit" 2>/dev/null || echo "?")
 	s=$(grep -aE "passed|PASSED|failed|\[run\] finished|checks" "tests/results/logs/$n.log" | tail -1 | cut -c1-150)
 	printf '%-14s %-5s %s\n' "$n" "$e" "$s"

@@ -4,11 +4,13 @@
     blender --background --python blender/build_all.py -- --fast  (quick check)
     blender --background --python blender/build_all.py -- --only board,park
     blender --background --python blender/build_all.py -- --only baths,baths_renders
+    blender --background --python blender/build_all.py -- --only skater_female   (her alone)
 
-Outputs: assets/board.glb, assets/skater.glb, assets/park.glb, assets/park_data.json,
-assets/levels/<id>/ for every kit-built level in levels/registry.json, renders/*.png.
-The same modules are run in the live Blender window while developing, so the headless
-rebuild matches the live build.
+Outputs: assets/board.glb, assets/skater.glb, assets/skater_female.glb,
+assets/skater_anims.glb, assets/outfit/*.glb + catalog.json, assets/park.glb,
+assets/park_data.json, assets/levels/<id>/ for every kit-built level in
+levels/registry.json, renders/*.png. The same modules are run in the live Blender window
+while developing, so the headless rebuild matches the live build.
 """
 import os
 import sys
@@ -42,6 +44,7 @@ def main():
     t0 = time.time()
     want = lambda k: only is None or k in only
     import board, skater, anims, park, pickups, renders
+    import skater_profiles as P
     if want("pickups"):
         pickups.build()
         print(f"[build_all] pickups done {time.time() - t0:.0f}s")
@@ -49,10 +52,15 @@ def main():
         board.build()
         print(f"[build_all] board done {time.time() - t0:.0f}s")
     if want("skater"):
-        info = skater.build()
+        info = skater.build(P.MALE)
         rig, made = anims.build(info)
-        anims.export_skater(rig)
+        anims.export_male(rig, info)
         print(f"[build_all] skater done {time.time() - t0:.0f}s")
+    if want("skater") or want("skater_female"):
+        info = skater.build(P.FEMALE)
+        anims.build_female(info)
+        anims.export_female(info["rig"], info)
+        print(f"[build_all] female skater done {time.time() - t0:.0f}s")
     if want("park"):
         park.build()
         print(f"[build_all] park done {time.time() - t0:.0f}s")
@@ -65,6 +73,9 @@ def main():
     if want("renders"):
         renders.build()
         print(f"[build_all] renders done {time.time() - t0:.0f}s")
+    elif want("renders_skater"):
+        renders.build_skaters()          # (-- --only renders_skater: the skater renders alone)
+        print(f"[build_all] skater renders done {time.time() - t0:.0f}s")
     for lid in LK.kit_levels():
         if want("renders") or want(lid + "_renders"):
             renders.render_level(lid)

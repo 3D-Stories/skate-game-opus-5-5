@@ -162,13 +162,13 @@ def smooth(ob, iterations=3, factor=0.5):
     bpy.ops.object.modifier_apply(modifier="Sm")
 
 
-def rim(ob, thickness=0.006):
+def rim(ob, thickness=0.006, even=True):
     C.select_only(ob)
     m = ob.modifiers.new("Rim", 'SOLIDIFY')
     m.thickness = thickness
     m.offset = -1
     m.use_rim_only = True
-    m.use_even_offset = True
+    m.use_even_offset = even
     bpy.ops.object.modifier_move_to_index(modifier="Rim", index=0)
     bpy.ops.object.modifier_apply(modifier="Rim")
 
@@ -246,32 +246,50 @@ def fabric_uv(ob, u, v, name="Fabric", wrap=None):
 
 # ------------------------------------------------------------------ hoodie
 
-def build_hoodie(body, rig, lab, coll):
-    co = verts_np(body)
-    z = co[:, 2]
+def arm_bones(rig):
+    out = {}
+    for side in ("l", "r"):
+        out[side] = (bone(rig, f"upperarm_{side}")[0], bone(rig, f"lowerarm_{side}")[0], bone(rig, f"hand_{side}")[0])
+    return out
+
+
+def hoodie_dims(rig):
     hip = bone(rig, "thigh_l")[0]
     neck = bone(rig, "neck_01")[0]
-    z_hem = hip[2] - 0.035
-    z_col_back = neck[2] - 0.015      # neckline close round the base of the neck
-    z_col_front = neck[2] - 0.04
-    arm = {}
-    for side, labn in (("l", "arm_l"), ("r", "arm_r")):
-        ua = bone(rig, f"upperarm_{side}")[0]
-        la = bone(rig, f"lowerarm_{side}")[0]
-        ha = bone(rig, f"hand_{side}")[0]
-        arm[side] = (ua, la, ha)
-    # neckline: lower in front
-    front = sstep(0.02, -0.06, co[:, 1] - neck[1])
-    z_col = z_col_back * (1 - front) + z_col_front * front
-    keep = np.zeros(len(co), bool)
-    torso = (lab == "torso") & (z > z_hem) & (z < z_col)
-    keep |= torso
-    wrist_t = {}
+    arm = arm_bones(rig)
+    wrist_t = {s: np.linalg.norm(arm[s][1] - arm[s][0]) + np.linalg.norm(arm[s][2] - arm[s][1]) - 0.012 for s in "lr"}
+    return dict(z_hem=hip[2] - 0.035, z_col_back=neck[2] - 0.015, z_col_front=neck[2] - 0.04, neck=neck, arm=arm,
+                wrist_t=wrist_t)
+
+
+def hoodie_keep(body, rig, lab):
+    """Body vertices the hoodie is cut from (torso between hem and neckline, arms to the wrist)."""
+    co = verts_np(body)
+    z = co[:, 2]
+    d = hoodie_dims(rig)
+    front = sstep(0.02, -0.06, co[:, 1] - d["neck"][1])
+    z_col = d["z_col_back"] * (1 - front) + d["z_col_front"] * front
+    keep = (lab == "torso") & (z > d["z_hem"]) & (z < z_col)
     for side in ("l", "r"):
-        ua, la, ha = arm[side]
-        ax = axis_coords(co, [ua, la, ha], (0, 0, 1))
-        wrist_t[side] = np.linalg.norm(la - ua) + np.linalg.norm(ha - la) - 0.012
-        keep |= (lab == f"arm_{side}") & (ax["t"] < wrist_t[side])
+        ax = axis_coords(co, list(d["arm"][side]), (0, 0, 1))
+        keep |= (lab == f"arm_{side}") & (ax["t"] < d["wrist_t"][side])
+    return keep
+
+
+def build_hoodie(body, rig, lab, coll, keep=None, ref=None):
+    """ref (the female): the male's cut mask, so both hoodies share one topology (and one
+    baked texture), and the male's dimensions, which put the sculpted folds on the same
+    vertices (fold patterns are evaluated in his proportions)."""
+    co = verts_np(body)
+    z = co[:, 2]
+    d = hoodie_dims(rig)
+    hip = bone(rig, "thigh_l")[0]
+    neck = d["neck"]
+    z_hem, z_col_back, z_col_front = d["z_hem"], d["z_col_back"], d["z_col_front"]
+    arm = d["arm"]
+    wrist_t = d["wrist_t"]
+    if keep is None:
+        keep = hoodie_keep(body, rig, lab)
     hood = garment_from_body(body, "Hoodie", keep, coll)
     laplacian(hood, 10, 0.8)
     laplacian(hood, 10, 0.8)
@@ -305,6 +323,12 @@ def build_hoodie(body, rig, lab, coll):
     th = np.arctan2(rad[:, 0], -rad[:, 1])  # 0 = front
     radu = np.stack([rad[:, 0], rad[:, 1], np.zeros_like(r)], 1) / np.maximum(r, 1e-6)[:, None]
     z_chest = 1.30
+    zf = z[tm]           # the height the fold patterns are evaluated at
+    if ref is not None:
+        # chest line and fold heights in the male's proportions (same vertices, same folds)
+        k = (ref["z_col_back"] - ref["z_hem"]) / (z_col_back - z_hem)
+        z_chest = z_hem + (1.30 - ref["z_hem"]) / k
+        zf = ref["z_hem"] + (z[tm] - z_hem) * k
     # drape: below the chest the fabric hangs from the widest point above it
     nb = 48
     tb = ((th + np.pi) / (2 * np.pi) * nb).astype(int) % nb
@@ -325,11 +349,11 @@ def build_hoodie(body, rig, lab, coll):
     band = sstep(z_hem + 0.07, z_hem + 0.02, z[tm])
     r_new = r_new + inflate - band * 0.004
     # drape folds (vertical) and bunching over the waistband
-    fold = 0.0035 * np.sin(th * 7 + 1.5 * noise1(z[tm] * 8, 3)) * below * (1 - band)
-    fold += 0.0012 * np.sin(z[tm] * 2 * np.pi / 0.04 + 2.5 * noise1(th * 2, 4)) * sstep(z_hem + 0.13, z_hem + 0.07, z[tm]) * (1 - band) * (0.3 + 0.7 * np.abs(np.sin(th * 2.5)))
+    fold = 0.0035 * np.sin(th * 7 + 1.5 * noise1(zf * 8, 3)) * below * (1 - band)
+    fold += 0.0012 * np.sin(zf * 2 * np.pi / 0.04 + 2.5 * noise1(th * 2, 4)) * sstep(z_hem + 0.13, z_hem + 0.07, z[tm]) * (1 - band) * (0.3 + 0.7 * np.abs(np.sin(th * 2.5)))
     # diagonal folds from under the arms
     side = np.abs(np.sin(th))
-    fold += 0.004 * np.sin((z[tm] * 30 + np.abs(th) * 3.0)) * sstep(0.6, 0.95, side) * sstep(z_chest + 0.05, z_chest - 0.1, z[tm])
+    fold += 0.004 * np.sin((zf * 30 + np.abs(th) * 3.0)) * sstep(0.6, 0.95, side) * sstep(z_chest + 0.05, z_chest - 0.1, z[tm])
     r_new += fold
     out[tm] = ctr + radu * r_new[:, None] + np.stack([np.zeros_like(r), np.zeros_like(r), np.zeros_like(r)], 1)
     out[tm, 2] = z[tm]
@@ -357,9 +381,10 @@ def build_hoodie(body, rig, lab, coll):
         r_t = r_t * (1 - cuff) + np.maximum(r_round + 0.006, 0.036) * cuff
         elbow = np.linalg.norm(la - ua) / L
         th = ax["theta"]
-        f = 0.0045 * np.sin(t * 2 * np.pi / 0.035 + 2.2 * noise1(th, 7 + (side == "r"))) * np.exp(-((tn - elbow) / 0.08) ** 2)
-        f += 0.005 * np.sin(t * 2 * np.pi / 0.028 + 2.5 * noise1(th * 1.3, 9 + (side == "r"))) * sstep(0.62, 0.8, tn) * (1 - cuff)
-        f += 0.003 * np.sin(th * 3 + t * 20) * sstep(0.1, 0.3, tn) * sstep(0.55, 0.4, tn)
+        tf = t if ref is None else t * (ref["wrist_t"][side] / L)     # folds in the male's arm length
+        f = 0.0045 * np.sin(tf * 2 * np.pi / 0.035 + 2.2 * noise1(th, 7 + (side == "r"))) * np.exp(-((tn - elbow) / 0.08) ** 2)
+        f += 0.005 * np.sin(tf * 2 * np.pi / 0.028 + 2.5 * noise1(th * 1.3, 9 + (side == "r"))) * sstep(0.62, 0.8, tn) * (1 - cuff)
+        f += 0.003 * np.sin(th * 3 + tf * 20) * sstep(0.1, 0.3, tn) * sstep(0.55, 0.4, tn)
         r_t = r_t + f
         r_final = r * (1 - s_str) + r_t * s_str + 0.012 * (1 - s_str)
         sub = ax["foot"] + ax["rad"] * r_final[:, None]
@@ -530,22 +555,30 @@ def build_drawstrings(hoodie, rig, info, coll):
 
 # ------------------------------------------------------------------ jeans
 
-def build_jeans(body, rig, lab, coll):
+def leg_bones(rig):
+    return {s: (bone(rig, f"thigh_{s}")[0], bone(rig, f"calf_{s}")[0], bone(rig, f"foot_{s}")[0]) for s in "lr"}
+
+
+def jeans_keep(body, rig, lab):
+    co = verts_np(body)
+    z = co[:, 2]
+    z_waist = bone(rig, "pelvis")[0][2] + 0.075
+    keep = (lab == "torso") & (z < z_waist)
+    for side, (th_h, ca_h, ft_h) in leg_bones(rig).items():
+        keep |= (lab == f"leg_{side}") & (z > ft_h[2] + 0.055)
+    return keep
+
+
+def build_jeans(body, rig, lab, coll, keep=None, ref=None, name="Jeans"):
     co = verts_np(body)
     z = co[:, 2]
     pel = bone(rig, "pelvis")[0]
     hip = bone(rig, "thigh_l")[0]
     z_waist = pel[2] + 0.075
-    keep = np.zeros(len(co), bool)
-    keep |= (lab == "torso") & (z < z_waist)
-    legs = {}
-    for side in ("l", "r"):
-        th_h = bone(rig, f"thigh_{side}")[0]
-        ca_h = bone(rig, f"calf_{side}")[0]
-        ft_h = bone(rig, f"foot_{side}")[0]
-        legs[side] = (th_h, ca_h, ft_h)
-        keep |= (lab == f"leg_{side}") & (z > ft_h[2] + 0.055)
-    jeans = garment_from_body(body, "Jeans", keep, coll)
+    legs = leg_bones(rig)
+    if keep is None:
+        keep = jeans_keep(body, rig, lab)
+    jeans = garment_from_body(body, name, keep, coll)
     laplacian(jeans, 10, 0.8)
     laplacian(jeans, 8, 0.8)
     rules = [(lambda c: np.abs(c[:, 2] - z_waist) < 0.03, lambda c: np.column_stack([c[:, 0], c[:, 1], np.full(len(c), z_waist)]))]
@@ -594,15 +627,16 @@ def build_jeans(body, rig, lab, coll):
         r_t = np.maximum(r_round + 0.008, r_min)
         thv = ax["theta"]
         sd = 1 if side == "l" else 2
+        tf = t2 if ref is None else t2 * (ref["t_hem"][side] / t_hem)    # folds in the male's leg length
         # ankle stacks
-        f = 0.0065 * np.sin(t2 * 2 * np.pi / 0.032 + 2.8 * noise1(thv, 20 + sd)) * sstep(t_hem - 0.2, t_hem - 0.05, t2)
+        f = 0.0065 * np.sin(tf * 2 * np.pi / 0.032 + 2.8 * noise1(thv, 20 + sd)) * sstep(t_hem - 0.2, t_hem - 0.05, t2)
         # knee: creases behind, soft bulge in front
         back = (1 - np.cos(thv)) / 2
-        f += 0.0045 * np.sin(t2 * 2 * np.pi / 0.03 + 1.5 * noise1(thv, 22 + sd)) * np.exp(-((t2 - t_knee) / 0.05) ** 2) * (0.3 + 0.7 * back)
+        f += 0.0045 * np.sin(tf * 2 * np.pi / 0.03 + 1.5 * noise1(thv, 22 + sd)) * np.exp(-((t2 - t_knee) / 0.05) ** 2) * (0.3 + 0.7 * back)
         # long twisting drape lines down the shin
-        f += 0.0035 * np.sin(thv * 4 + t2 * 6 + noise1(t2 * 3, 24 + sd)) * sstep(t_knee, t_knee + 0.1, t2)
+        f += 0.0035 * np.sin(thv * 4 + tf * 6 + noise1(tf * 3, 24 + sd)) * sstep(t_knee, t_knee + 0.1, t2)
         # crotch whisker creases (front, top of the thigh)
-        f += 0.0025 * np.sin(t2 * 2 * np.pi / 0.04 + thv * 2) * sstep(0.35, 0.05, t2) * (1 - back)
+        f += 0.0025 * np.sin(tf * 2 * np.pi / 0.04 + thv * 2) * sstep(0.35, 0.05, t2) * (1 - back)
         r_t = r_t + f
         r_final = r * (1 - s_str) + r_t * s_str + 0.009 * (1 - s_str)
         fpt = np.zeros_like(co[lm])
@@ -627,7 +661,8 @@ def build_jeans(body, rig, lab, coll):
     smooth(jeans, 2, 0.5)
     fabric_uv(jeans, fu, fv, wrap=per)
     rim(jeans, 0.006)
-    return jeans, dict(z_waist=z_waist, legs=legs)
+    t_hem_all = {s: np.linalg.norm(legs[s][1] - legs[s][0]) + np.linalg.norm(legs[s][2] - legs[s][1]) + 0.028 for s in "lr"}
+    return jeans, dict(z_waist=z_waist, legs=legs, t_hem=t_hem_all)
 
 
 # ------------------------------------------------------------------ shoes
@@ -640,7 +675,10 @@ def shoe_profiles(s):
     return w, h
 
 
-def build_shoe(body, rig, side, coll, lab):
+def build_shoe(body, rig, side, coll, lab, profiles=None, prefix="Shoe", opening=None):
+    """profiles(s) -> (width, height) of the upper along the shoe; opening: (s0, s1, top)
+    removes the upper's top between s0 and s1 above sin(angle) > top (a hi-top's collar)."""
+    shoe_profiles_ = profiles or shoe_profiles
     fh, ft = bone(rig, f"foot_{side}")
     bh, bt = bone(rig, f"ball_{side}")
     co = verts_np(body)
@@ -663,7 +701,7 @@ def build_shoe(body, rig, side, coll, lab):
     verts, faces, uvs = [], [], []
     for i in range(ns + 1):
         s = i / ns
-        w, h = shoe_profiles(s)
+        w, h = shoe_profiles_(s)
         w = max(w, 0.004) * 1.0
         for j in range(na):
             a = j / na * 2 * np.pi
@@ -681,7 +719,7 @@ def build_shoe(body, rig, side, coll, lab):
             a = i * na + j; b = i * na + (j + 1) % na
             faces.append((a, b, b + na, a + na))
     # close the toe and heel
-    upper = C.mesh_object(f"ShoeUpper_{side.upper()}", verts, faces, coll, smooth=True)
+    upper = C.mesh_object(f"{prefix}Upper_{side.upper()}", verts, faces, coll, smooth=True)
     uvl = upper.data.uv_layers.new(name="UVMap")
     for p in upper.data.polygons:
         for li in p.loop_indices:
@@ -708,12 +746,27 @@ def build_shoe(body, rig, side, coll, lab):
     bpy.ops.mesh.select_non_manifold()
     bpy.ops.mesh.fill_holes(sides=0)
     bpy.ops.object.mode_set(mode='OBJECT')
+    if opening is not None:
+        s0, s1, top = opening
+        bm = bmesh.new()
+        bm.from_mesh(upper.data)
+        kill = []
+        for f in bm.faces:
+            c = f.calc_center_median()
+            sc = ((np.array(c) - origin) @ d) / L
+            wv, hv = shoe_profiles_(min(1.0, max(0.0, sc)))
+            if s0 < sc < s1 and c.z > sole_top + (hv - sole_top) * top:
+                kill.append(f)
+        bmesh.ops.delete(bm, geom=kill, context='FACES')
+        bm.to_mesh(upper.data)
+        bm.free()
+        rim(upper, 0.009, even=False)
 
     # sole: wider slab with a toe bumper
     verts, faces = [], []
     for i in range(ns + 1):
         s = i / ns
-        w, h = shoe_profiles(s)
+        w, h = shoe_profiles_(s)
         w = max(w + 0.009, 0.01)
         top = sole_top + 0.004 + 0.012 * sstep(0.88, 0.97, s)
         for j in range(na):
@@ -730,7 +783,7 @@ def build_shoe(body, rig, side, coll, lab):
         for j in range(na):
             a = i * na + j; b = i * na + (j + 1) % na
             faces.append((a, b, b + na, a + na))
-    sole = C.mesh_object(f"ShoeSole_{side.upper()}", verts, faces, coll, smooth=True)
+    sole = C.mesh_object(f"{prefix}Sole_{side.upper()}", verts, faces, coll, smooth=True)
     uvl = sole.data.uv_layers.new(name="UVMap")
     for p in sole.data.polygons:
         for li in p.loop_indices:
@@ -752,7 +805,7 @@ def build_shoe(body, rig, side, coll, lab):
     nt_s, nt_a = 16, 10
     for i in range(nt_s + 1):
         s = 0.40 + 0.22 * i / nt_s
-        w, h = shoe_profiles(s)
+        w, h = shoe_profiles_(s)
         hh = h + 0.006 + 0.012 * sstep(0.47, 0.40, s)
         for j in range(nt_a + 1):
             f = j / nt_a * 2 - 1
@@ -763,7 +816,7 @@ def build_shoe(body, rig, side, coll, lab):
         for j in range(nt_a):
             a = i * (nt_a + 1) + j
             tfaces.append((a, a + 1, a + nt_a + 2, a + nt_a + 1))
-    tongue = C.mesh_object(f"ShoeTongue_{side.upper()}", tverts, tfaces, coll, smooth=True)
+    tongue = C.mesh_object(f"{prefix}Tongue_{side.upper()}", tverts, tfaces, coll, smooth=True)
     rim(tongue, 0.006)
     parts.append(tongue)
     lace_pts = []
@@ -771,8 +824,8 @@ def build_shoe(body, rig, side, coll, lab):
         s0 = 0.47 + k * 0.05
         for sgn in (1, -1):
             s1 = s0 + 0.05
-            w0, h0 = shoe_profiles(s0)
-            w1, h1 = shoe_profiles(s1)
+            w0, h0 = shoe_profiles_(s0)
+            w1, h1 = shoe_profiles_(s1)
             a = origin + d * (s0 * L) + lat * sgn * 0.021
             b = origin + d * (s1 * L) - lat * sgn * 0.021
             a[2] = h0 + 0.004
@@ -781,7 +834,7 @@ def build_shoe(body, rig, side, coll, lab):
                 lace_pts.append((a, b))
     # bow
     s_b = 0.46
-    wb, hb = shoe_profiles(s_b)
+    wb, hb = shoe_profiles_(s_b)
     bow_c = origin + d * (s_b * L)
     bow_c[2] = hb + 0.012
     curves = []
@@ -800,7 +853,7 @@ def build_shoe(body, rig, side, coll, lab):
         tail = [bow_c + lat * sgn * 0.004, bow_c + lat * sgn * 0.012 - d * 0.02 + np.array([0, 0, -0.012]),
                 bow_c + lat * sgn * 0.02 - d * 0.03 + np.array([0, 0, -0.03])]
         curves.append(tail)
-    cu = bpy.data.curves.new(f"Laces_{side.upper()}", 'CURVE')
+    cu = bpy.data.curves.new(f"{prefix.replace('Shoe', '')}Laces_{side.upper()}", 'CURVE')
     cu.dimensions = '3D'
     for pts in curves:
         sp = cu.splines.new('NURBS')
@@ -933,6 +986,20 @@ def fit_layers(hoodie, jeans, hinfo, margin=0.008):
     set_verts(jeans, jco)
     print(f"[clothes] layering: hoodie hem flared on {int((push > 1e-4).sum())} verts "
           f"(max {push.max() * 100:.1f} cm), {moved} jeans verts tucked inside the hoodie")
+
+
+def trim_kill(body, rig, lab, hinfo):
+    """The skin the original skater's trim deleted (hoodie + jeans + shoes)."""
+    co = verts_np(body)
+    z = co[:, 2]
+    kill = np.zeros(len(co), bool)
+    kill |= (lab == "torso") & (z < hinfo["z_col_front"] - 0.045)
+    for side in ("l", "r"):
+        ua, la, ha = (bone(rig, f"upperarm_{side}")[0], bone(rig, f"lowerarm_{side}")[0], bone(rig, f"hand_{side}")[0])
+        ax = axis_coords(co, [ua, la, ha], (0, 0, 1))
+        kill |= (lab == f"arm_{side}") & (ax["t"] < hinfo["wrist_t"][side] - 0.045)
+        kill |= lab == f"leg_{side}"
+    return kill
 
 
 def trim_body(body, rig, lab, hinfo, jinfo):

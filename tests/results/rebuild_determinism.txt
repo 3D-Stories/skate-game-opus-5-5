@@ -1,0 +1,30 @@
+Headless rebuild check, character builder, 2026-09-26
+
+1. Full rebuild: blender --background --python blender/build_all.py (872 s, exit 0; log: tests/results/logs/build_all_headless_charbuilder.log), compared with the committed files (91df0a3):
+   every file under assets/ byte-identical (157 files) except:
+   - assets/outfit/male_cap.glb, female_cap.glb: the same vertices and the same triangles, but the 120 triangles of the cap's top button (a bmesh UV sphere) in a different order - the same effect the eyes had, fixed the same way (anims._fix_face_order, now applied to the cap before export)
+   - assets/park_lightmap.png: GPU bake noise, as before the character builder:
+     assets/park_lightmap.png: max diff 2/255, 0.011% of pixels differ
+   renders (Cycles, GPU noise):
+     renders/board.png: max diff 1/255, 0.005% of pixels differ
+     renders/board_sheet.png: max diff 1/255, 0.005% of pixels differ
+     renders/outfits_sheet.png: max diff 4/255, 0.006% of pixels differ
+     renders/park.png: max diff 1/255, 0.003% of pixels differ
+     renders/park_sheet.png: max diff 1/255, 0.005% of pixels differ
+     renders/skater_female_portrait.png: max diff 1/255, 0.013% of pixels differ
+     renders/skater_female_tpose.png: max diff 1/255, 0.006% of pixels differ
+     renders/skater_female_tpose_sheet.png: max diff 1/255, 0.005% of pixels differ
+     renders/skater_female_trick.png: max diff 3/255, 0.008% of pixels differ
+     renders/skater_female_trick_sheet.png: max diff 1/255, 0.006% of pixels differ
+     renders/skater_portrait.png: max diff 2/255, 0.009% of pixels differ
+     renders/skater_tpose.png: max diff 1/255, 0.005% of pixels differ
+     renders/skater_tpose_sheet.png: max diff 1/255, 0.005% of pixels differ
+     renders/skater_trick.png: max diff 2/255, 0.006% of pixels differ
+     renders/skater_trick_sheet.png: max diff 2/255, 0.006% of pixels differ
+   (the noise-only images, and the MP4 turntables rendered with them (not compared frame by frame), were kept as committed)
+
+2. With the fix: two consecutive headless rebuilds of both skaters (blender --background --python blender/build_all.py -- --only skater: 238 s and 251 s, exit 0):
+   sha256 of all 157 files under assets/: identical between the two rebuilds.
+   Against the committed files only the two caps changed, as intended: the same triangles (4,237 his, 4,232 hers, compared by vertex positions), now in the fixed order.
+
+3. The committed assets are exactly the headless build's output (1. and 2.). No live-window build of them was made and compared: live/headless parity of the character builder's assets is NOT VERIFIED (manifest_live.json predates them).

@@ -3,6 +3,9 @@
     renders/skater_portrait.png          close-up of the face (85 mm, softbox key + rim)
     renders/skater_tpose.png / _sheet.png / _turntable.mp4
     renders/skater_trick.png / _sheet.png / _turntable.mp4   (mid-kickflip, board flipping)
+    renders/skater_female_portrait.png / _tpose* / _trick*   the same three for the female skater
+    renders/outfits_sheet.png            both skaters in three outfits that use every clothing
+                                         option, front and back (the character builder)
     renders/board.png / _sheet.png / _turntable.mp4
     renders/park.png / _sheet.png / _turntable.mp4          (high three-quarter cutaway)
     renders/<id>.png / _sheet.png / _turntable.mp4          (each kit-built level, render_level)
@@ -18,6 +21,7 @@ import numpy as np
 from mathutils import Matrix, Vector
 
 from lib import common as C
+import skater_profiles as P
 
 SHEET_VIEWS = 8
 TURN_FRAMES = 24
@@ -237,6 +241,38 @@ def _pose(rig, action_name=None, t=0.0):
     bpy.context.scene.frame_set(int(round(f0 + (f1 - f0) * t)))
 
 
+def _dress(outfit=None):
+    """The work .blend holds every garment of the wardrobe: show one outfit (the default:
+    today's skater's hoodie, jeans and grey suede shoes)."""
+    import skater_outfit as O
+    O.wear(outfit or O.DEFAULT)
+
+
+def _pose_body(rig, prof, action_name, t):
+    """A clip on this body as the game plays it: the male pose as authored; any other body
+    the shared clip (appended from the male's .blend) with its re-solved tracks laid over
+    it (an NLA strip on top replaces just the channels it animates)."""
+    if prof["key"] == "male":
+        _pose(rig, action_name, t)
+        return
+    over = bpy.data.actions[action_name]
+    with bpy.data.libraries.load(os.path.join(C.WORK, P.MALE["blend"] + ".blend"), link=False) as (src, dst):
+        dst.actions = [action_name]
+    base = dst.actions[0]
+    ad = rig.animation_data or rig.animation_data_create()
+    ad.action = None
+    for tr in list(ad.nla_tracks):
+        ad.nla_tracks.remove(tr)
+    f0, f1 = base.frame_range
+    for act in (base, over):
+        tr = ad.nla_tracks.new()
+        st = tr.strips.new(act.name, int(f0), act)
+        if hasattr(st, "action_slot") and len(getattr(act, "slots", [])):
+            st.action_slot = act.slots[0]
+        st.blend_type = 'REPLACE'
+    bpy.context.scene.frame_set(int(round(f0 + (f1 - f0) * t)))
+
+
 def _t_pose(rig):
     """Rest pose with the arms raised level to the sides (a T-pose)."""
     _pose(rig, None)
@@ -309,8 +345,9 @@ def _cycles_hair():
     nt.links.new(mix.outputs[0], out.inputs["Surface"])
 
 
-def render_portrait():
-    open_blend("skater")
+def render_portrait(prof=P.MALE):
+    open_blend(prof["blend"])
+    _dress()
     _cycles_hair()
     rig = bpy.data.objects["SkaterRig"]
     settings(256, (1080, 1350))
@@ -331,11 +368,16 @@ def render_portrait():
     cam.data.dof.use_dof = True
     cam.data.dof.focus_distance = (cam.location - (face + Vector((0, -0.09, 0.02)))).length
     cam.data.dof.aperture_fstop = 4.0
-    render_still(os.path.join(C.RENDERS, "skater_portrait.png"))
+    render_still(os.path.join(C.RENDERS, _name(prof, "portrait") + ".png"))
 
 
-def render_skater():
-    open_blend("skater")
+def _name(prof, what):
+    return "skater_" + what if prof["key"] == "male" else f"skater_{prof['key']}_{what}"
+
+
+def render_skater(prof=P.MALE):
+    open_blend(prof["blend"])
+    _dress()
     _cycles_hair()
     rig = bpy.data.objects["SkaterRig"]
     _attach_board(rig)
@@ -343,16 +385,58 @@ def render_skater():
     studio((0, 0, 0.95), 1.0)
     _t_pose(rig)
     cam, piv = orbit_camera((0, 0, 0.92), 5.2, 6.0, -25.0, 50)
-    turntable("skater_tpose", piv)
+    turntable(_name(prof, "tpose"), piv)
     bpy.data.objects.remove(cam)
     bpy.data.objects.remove(piv)
     # mid-trick: kickflip at the top of the pop, board mid-rotation
-    _pose(rig, "kickflip", 0.42)
+    _pose_body(rig, prof, "kickflip", 0.42)
     bpy.context.view_layer.update()
     pb = rig.pose.bones["pelvis"]
     ctr = rig.matrix_world @ pb.head
     cam, piv = orbit_camera((ctr.x, ctr.y, ctr.z - 0.1), 5.0, 10.0, -35.0, 50)
-    turntable("skater_trick", piv)
+    turntable(_name(prof, "trick"), piv)
+
+
+# the contact sheet's outfits: between them every top, bottom, pair of shoes and hat
+SHEET_OUTFITS = [dict(top="hoodie", bottom="jeans", shoes="suede", hat="none"),
+                 dict(top="tee", bottom="cargo", shoes="hitop", hat="cap"),
+                 dict(top="flannel", bottom="shorts", shoes="suede_navy", hat="beanie")]
+
+
+def render_outfits(tile=(560, 800)):
+    """renders/outfits_sheet.png: rows male / female, each outfit front and back, in the
+    studio the turntables use."""
+    tiles = []
+    tmp = os.path.join(C.WORK, "outfit_tmp.png")
+    for prof in (P.MALE, P.FEMALE):
+        row = []
+        for of in SHEET_OUTFITS:
+            open_blend(prof["blend"])
+            _dress(of)
+            _cycles_hair()
+            rig = bpy.data.objects["SkaterRig"]
+            _pose(rig, None)
+            settings(96, tile)
+            studio((0, 0, 0.95), 1.0)
+            cam, piv = orbit_camera((0, 0, 0.9), 4.6, 6.0, -25.0, 50)
+            bpy.context.scene.camera = cam
+            for turn in (0.0, 180.0):           # front three-quarter, then the back (lights ride along)
+                piv.rotation_euler.z = math.radians(turn)
+                render_still(tmp, tile)
+                img = bpy.data.images.load(tmp, check_existing=False)
+                a = np.array(img.pixels[:], dtype=np.float32).reshape(img.size[1], img.size[0], 4)
+                bpy.data.images.remove(img)
+                row.append(np.flipud(a))
+        tiles.append(np.concatenate(row, 1))
+    C.save_png(np.concatenate(tiles, 0), "outfits_sheet", folder=C.RENDERS)
+    print("[renders] renders/outfits_sheet.png")
+
+
+def build_skaters():
+    for prof in (P.MALE, P.FEMALE):
+        render_portrait(prof)
+        render_skater(prof)
+    render_outfits()
 
 
 # ------------------------------------------------------------------ board
@@ -467,7 +551,6 @@ def render_level(level_id):
 
 
 def build():
-    render_portrait()
-    render_skater()
+    build_skaters()
     render_board()
     render_park()

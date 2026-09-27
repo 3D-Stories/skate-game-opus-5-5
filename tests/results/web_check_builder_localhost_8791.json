@@ -1,0 +1,80 @@
+{
+  "url": "http://localhost:8791/",
+  "time": "2026-09-26T22:33:30",
+  "checks": {
+    "a fresh browser starts with today's skater": {
+      "pass": true,
+      "detail": "[skater] skating as male,hoodie,jeans,suede,none"
+    },
+    "keyboard: C opens the Skater screen": {
+      "pass": true,
+      "detail": "[skater] screen open: male,hoodie,jeans,suede,none"
+    },
+    "Right picks the female skater, live on the turntable": {
+      "pass": true,
+      "detail": "[skater] preview female,hoodie,jeans,suede,none"
+    },
+    "Down, Right: her tee": {
+      "pass": true,
+      "detail": "[skater] preview female,tee,jeans,suede,none"
+    },
+    "Enter saves her": {
+      "pass": true,
+      "detail": "[skater] saved female,tee,jeans,suede,none"
+    },
+    "after a reload the saved skater comes back (user:// in IndexedDB)": {
+      "pass": true,
+      "detail": "[skater] skating as female,tee,jeans,suede,none"
+    },
+    "Enter starts the run with her": {
+      "pass": true,
+      "detail": ""
+    },
+    "gamepad: Y opens the Skater screen": {
+      "pass": true,
+      "detail": "[skater] screen open: male,hoodie,jeans,suede,none"
+    },
+    "gamepad: the D-pad picks the female skater": {
+      "pass": true,
+      "detail": "[skater] preview female,hoodie,jeans,suede,none"
+    },
+    "gamepad: A saves her": {
+      "pass": true,
+      "detail": "[skater] saved female,hoodie,jeans,suede,none"
+    },
+    "?skater= picks the skater for the visit": {
+      "pass": true,
+      "detail": "[skater] skating as female,flannel,cargo,hitop,beanie"
+    },
+    "no failed requests": {
+      "pass": true,
+      "detail": ""
+    },
+    "no page or console errors": {
+      "pass": true,
+      "detail": ""
+    }
+  },
+  "console_errors": [],
+  "failed_requests": [],
+  "requests": 20,
+  "console": {
+    "keyboard": [
+      "[skater] skating as male,hoodie,jeans,suede,none",
+      "[skater] screen open: male,hoodie,jeans,suede,none",
+      "[skater] preview female,hoodie,jeans,suede,none",
+      "[skater] preview female,tee,jeans,suede,none",
+      "[skater] saved female,tee,jeans,suede,none"
+    ],
+    "reload": [
+      "[skater] skating as female,tee,jeans,suede,none",
+      "[run] started"
+    ],
+    "gamepad": [
+      "[skater] skating as male,hoodie,jeans,suede,none",
+      "[skater] screen open: male,hoodie,jeans,suede,none",
+      "[skater] preview female,hoodie,jeans,suede,none",
+      "[skater] saved female,hoodie,jeans,suede,none"
+    ]
+  }
+}

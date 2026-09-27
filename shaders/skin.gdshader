@@ -13,8 +13,21 @@ uniform float wrap = 0.42;
 uniform float scatter_amount = 0.55;
 uniform float spec_strength = 0.55;
 uniform float ambient_boost = 1.0;
+// Character builder: skin under the worn clothes is not drawn. Each face carries the bits of
+// the garments that cover it in its vertex colour (red: bits 0-7, green: 8-15, 1/255 steps);
+// the faces whose bits meet hidden_mask collapse to a point (no raster, no shadow).
+uniform int hidden_mask = 0;
 
 varying float v_rough;
+
+void vertex() {
+	if (hidden_mask != 0) {
+		int bits = int(round(COLOR.r * 255.0)) | (int(round(COLOR.g * 255.0)) << 8);
+		if ((bits & hidden_mask) != 0) {
+			VERTEX = vec3(0.0);
+		}
+	}
+}
 
 void fragment() {
 	vec3 a = texture(albedo_tex, UV).rgb;

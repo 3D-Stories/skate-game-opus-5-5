@@ -1,0 +1,997 @@
+00:00.444  cycles           | WARNING OptiX initialization failed with error code 7804
+00:00.451  cycles           | WARNING HIPEW initialization failed: Error opening HIP dynamic library
+[INFO ] services.locationservice ...............: Not adding link to MakeHuman user data, since neither explicit path nor auto-discovery is set in preferences.
+[INFO ] mpfb.init ..............................: Build info 20260722
+[INFO ] mpfb.init ..............................: MPFB initialization has finished.
+INFO Draco is available, use library at /home/rocky/.local/opt/blender-5.2.2-linux-x64/lib/libbf_intern_draco_bridge.so
+INFO MeshOptimizer is available, use library at /home/rocky/.local/opt/blender-5.2.2-linux-x64/lib/libbf_intern_meshopt_bridge.so
+21:37:13 | INFO: Starting glTF 2.0 export
+21:37:13 | INFO: Extracting primitive: Letter_A
+21:37:13 | INFO: Primitives created: 1
+21:37:13 | INFO: Extracting primitive: Letter_E
+21:37:13 | INFO: Primitives created: 1
+21:37:13 | INFO: Extracting primitive: Letter_K
+21:37:13 | INFO: Primitives created: 1
+21:37:13 | INFO: Extracting primitive: Letter_S
+21:37:13 | INFO: Primitives created: 1
+21:37:13 | INFO: Extracting primitive: Letter_T
+21:37:13 | INFO: Primitives created: 1
+21:37:13 | INFO: Extracting primitive: SecretTape
+21:37:13 | INFO: Primitives created: 4
+21:37:13 | INFO: Finished glTF 2.0 export in 0.021644115447998047 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/pickups.glb 90 KB
+[build_all] pickups done 0s
+21:37:14 | INFO: Starting glTF 2.0 export
+21:37:14 | INFO: Extracting primitive: Bolts
+21:37:14 | INFO: Primitives created: 1
+21:37:14 | INFO: Extracting primitive: Deck
+21:37:14 | INFO: Primitives created: 3
+21:37:14 | INFO: Extracting primitive: Truck_B
+21:37:14 | INFO: Primitives created: 3
+21:37:14 | INFO: Extracting primitive: Truck_F
+21:37:14 | INFO: Primitives created: 3
+21:37:14 | INFO: Extracting primitive: Wheel_BL
+21:37:14 | INFO: Primitives created: 1
+21:37:14 | INFO: Extracting primitive: Wheel_BL_bearing
+21:37:14 | INFO: Primitives created: 1
+21:37:14 | INFO: Extracting primitive: Wheel_BR
+21:37:14 | INFO: Primitives created: 1
+21:37:14 | INFO: Extracting primitive: Wheel_BR_bearing
+21:37:14 | INFO: Primitives created: 1
+21:37:14 | INFO: Extracting primitive: Wheel_FL
+21:37:14 | INFO: Primitives created: 1
+21:37:14 | INFO: Extracting primitive: Wheel_FL_bearing
+21:37:14 | INFO: Primitives created: 1
+21:37:14 | INFO: Extracting primitive: Wheel_FR
+21:37:14 | INFO: Primitives created: 1
+21:37:14 | INFO: Extracting primitive: Wheel_FR_bearing
+21:37:14 | INFO: Primitives created: 1
+21:37:14 | INFO: Finished glTF 2.0 export in 0.1318347454071045 s
+00:59.943  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/print_tmp.png'
+02:01.077  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/print_tmp.png'
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/board.glb 6588 KB
+Info: Saved copy as "board.blend"
+[build_all] board done 1s
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+[clothes] layering: hoodie hem flared on 454 verts (max 3.2 cm), 26 jeans verts tucked inside the hoodie
+Info: Removed 52 vertices
+Info: Removed 17 vertices
+Info: Removed 47 vertices
+Info: Removed 16 vertices
+[outfit] tops bridge the bust apexes and navel: {'tee': '16.1 mm', 'flannel': '8.3 mm'}
+[outfit] layering: cargo/shorts tucked under the hoodie ([59, 8] verts), tee/flannel flared [(689, 0.04500000000000001), (631, 0.04500000000000001)]
+Info: Removed 53 vertices
+Info: Removed 17 vertices
+Info: Removed 47 vertices
+Info: Removed 16 vertices
+Info: Removed 90 vertices
+Info: Removed 70 vertices
+[outfit] body cells: 13 distinct cover masks over 53512 faces
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+[outfit] fit in motion (hip band 0.909..1.058 m): {'Hoodie': 1804, 'Tee': 1799, 'Flannel': 1800, 'Jeans': 1978, 'Cargo': 1970, 'Shorts': 1872, 'JeansHigh_clear': '660 pushed (up to 33.3 mm)', 'JeansHigh_drape': 'hem raised up to 48 mm, 741 widened (up to 38.8 mm)', 'JeansHigh_rest': 'showing [1, 2, 0], 46 pushed (up to 9.8 mm)', 'Jeans_hem': {'l': 0.16206370174884796, 'r': 0.16206370174884796}, 'JeansHigh_hem': {'l': 0.21671004891395568, 'r': 0.21671004891395568}, 'CargoHigh_clear': '325 pushed (up to 30.4 mm)', 'Cargo_drape': 'hem raised up to 55 mm, 502 widened (up to 44.7 mm)', 'Cargo_rest': 'showing [204, 0], 132 pushed (up to 30.5 mm)', 'CargoHigh_drape': 'hem raised up to 55 mm, 528 widened (up to 49.0 mm)', 'CargoHigh_rest': 'showing [157, 0], 133 pushed (up to 27.8 mm)', 'Cargo_hem': {'l': 0.16206370174884796, 'r': 0.16206370174884796}, 'CargoHigh_hem': {'l': 0.21671004891395568, 'r': 0.21671004891395568}, 'Hoodie_skin': 1805, 'HoodRoll_skin': 468, 'HoodBack_skin': 75, 'Tee_skin': '1885 pushed (up to 8.2 mm)', 'CrewBand_skin': '480 pushed (up to 9.1 mm)', 'Flannel_skin': '988 pushed (up to 9.4 mm)', 'Collar_skin': '385 pushed (up to 4.5 mm)'}
+pole calf l (0.000503243243334178, -117)
+pole calf r (0.000503243243334178, -63)
+pole lowerarm l (0.0014755356553241956, -87)
+pole lowerarm r (0.0014755356553241956, -93)
+Info: Saved copy as "skater.blend"
+21:39:27 | INFO: Starting glTF 2.0 export
+21:39:27 | INFO: Extracting primitive: AnimSkeleton
+21:39:27 | INFO: Primitives created: 1
+21:39:32 | INFO: Finished glTF 2.0 export in 4.236758232116699 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/skater_anims.glb 1047 KB
+[export_male] cut-line normals kept: 196
+21:39:34 | INFO: Starting glTF 2.0 export
+21:39:34 | INFO: Extracting primitive: Cornea_L
+21:39:34 | INFO: Primitives created: 1
+21:39:34 | INFO: Extracting primitive: Cornea_R
+21:39:34 | INFO: Primitives created: 1
+21:39:34 | INFO: Extracting primitive: Eye_L
+21:39:34 | INFO: Primitives created: 1
+21:39:34 | INFO: Extracting primitive: Eye_R
+21:39:34 | INFO: Primitives created: 1
+21:39:34 | INFO: Extracting primitive: Eyebrow_L
+21:39:34 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:39:34 | INFO: Primitives created: 1
+21:39:34 | INFO: Extracting primitive: Eyebrow_R
+21:39:34 | INFO: Primitives created: 1
+21:39:34 | INFO: Extracting primitive: Hair
+21:39:34 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:39:34 | INFO: Primitives created: 1
+21:39:34 | INFO: Extracting primitive: base.007
+21:39:35 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:39:35 | INFO: Primitives created: 1
+21:39:35 | INFO: Extracting primitive: base.009
+21:39:35 | INFO: Primitives created: 1
+21:39:35 | INFO: Extracting primitive: base.006
+21:39:35 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:39:35 | INFO: Primitives created: 1
+21:39:35 | INFO: Extracting primitive: base.008
+21:39:35 | INFO: Primitives created: 1
+21:39:35 | INFO: Extracting primitive: base
+21:39:36 | INFO: Primitives created: 1
+21:39:36 | WARNING: There are more than 4 joint vertex influences.The 4 with highest weight will be used (and normalized).
+21:39:36 | INFO: Extracting primitive: base.004
+21:39:36 | INFO: Primitives created: 1
+21:39:36 | INFO: Extracting primitive: base.003
+21:39:36 | INFO: Primitives created: 1
+21:39:36 | INFO: Extracting primitive: base.005
+21:39:36 | INFO: Primitives created: 1
+21:39:36 | INFO: Finished glTF 2.0 export in 1.6124846935272217 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/skater.glb 7671 KB
+21:39:36 | INFO: Starting glTF 2.0 export
+21:39:36 | INFO: Extracting primitive: Aglet
+21:39:36 | INFO: Primitives created: 1
+21:39:36 | INFO: Extracting primitive: Aglet.001
+21:39:36 | INFO: Primitives created: 1
+21:39:36 | INFO: Extracting primitive: Drawstring_L
+21:39:36 | INFO: Primitives created: 1
+21:39:36 | INFO: Extracting primitive: Drawstring_R
+21:39:36 | INFO: Primitives created: 1
+21:39:36 | INFO: Extracting primitive: HoodBack
+21:39:37 | INFO: Primitives created: 1
+21:39:37 | WARNING: There are more than 4 joint vertex influences.The 4 with highest weight will be used (and normalized).
+21:39:37 | INFO: Extracting primitive: base.010
+21:39:37 | INFO: Primitives created: 1
+21:39:37 | INFO: Extracting primitive: HoodRoll
+21:39:37 | INFO: Primitives created: 1
+21:39:37 | INFO: Finished glTF 2.0 export in 0.8247203826904297 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/male_hoodie.glb 2552 KB
+21:39:38 | INFO: Starting glTF 2.0 export
+21:39:38 | INFO: Extracting primitive: CrewBand
+21:39:38 | INFO: Primitives created: 1
+21:39:38 | WARNING: There are more than 4 joint vertex influences.The 4 with highest weight will be used (and normalized).
+21:39:38 | INFO: Extracting primitive: base.012
+21:39:38 | INFO: Primitives created: 1
+21:39:38 | INFO: Finished glTF 2.0 export in 0.46260547637939453 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/male_tee.glb 1204 KB
+21:39:39 | INFO: Starting glTF 2.0 export
+21:39:39 | INFO: Extracting primitive: Buttons
+21:39:39 | INFO: Primitives created: 1
+21:39:39 | WARNING: There are more than 4 joint vertex influences.The 4 with highest weight will be used (and normalized).
+21:39:39 | INFO: Extracting primitive: Collar
+21:39:39 | INFO: Primitives created: 1
+21:39:39 | INFO: Extracting primitive: base.013
+21:39:39 | INFO: Primitives created: 1
+21:39:39 | INFO: Finished glTF 2.0 export in 0.4029538631439209 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/male_flannel.glb 1463 KB
+21:39:40 | INFO: Starting glTF 2.0 export
+21:39:40 | INFO: Extracting primitive: base.011
+21:39:40 | INFO: Primitives created: 1
+21:39:40 | WARNING: There are more than 4 joint vertex influences.The 4 with highest weight will be used (and normalized).
+21:39:40 | INFO: Finished glTF 2.0 export in 0.3260197639465332 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/male_jeans.glb 1016 KB
+21:39:41 | INFO: Starting glTF 2.0 export
+21:39:41 | INFO: Extracting primitive: base.014
+21:39:41 | INFO: Primitives created: 1
+21:39:41 | WARNING: There are more than 4 joint vertex influences.The 4 with highest weight will be used (and normalized).
+21:39:41 | INFO: Finished glTF 2.0 export in 0.32695603370666504 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/male_cargo.glb 928 KB
+21:39:42 | INFO: Starting glTF 2.0 export
+21:39:42 | INFO: Extracting primitive: base.015
+21:39:42 | INFO: Primitives created: 1
+21:39:42 | WARNING: There are more than 4 joint vertex influences.The 4 with highest weight will be used (and normalized).
+21:39:42 | INFO: Finished glTF 2.0 export in 0.304518461227417 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/male_shorts.glb 735 KB
+21:39:42 | INFO: Starting glTF 2.0 export
+21:39:42 | INFO: Extracting primitive: Laces_L
+21:39:42 | INFO: Primitives created: 1
+21:39:42 | INFO: Extracting primitive: Laces_R
+21:39:42 | INFO: Primitives created: 1
+21:39:42 | INFO: Extracting primitive: ShoeSole_L
+21:39:42 | INFO: Primitives created: 1
+21:39:42 | INFO: Extracting primitive: ShoeSole_R
+21:39:42 | INFO: Primitives created: 1
+21:39:42 | INFO: Extracting primitive: ShoeTongue_L
+21:39:42 | INFO: Primitives created: 1
+21:39:42 | INFO: Extracting primitive: ShoeTongue_R
+21:39:42 | INFO: Primitives created: 1
+21:39:42 | INFO: Extracting primitive: ShoeUpper_L
+21:39:43 | INFO: Primitives created: 1
+21:39:43 | INFO: Extracting primitive: ShoeUpper_R
+21:39:43 | INFO: Primitives created: 1
+21:39:43 | INFO: Finished glTF 2.0 export in 0.4216806888580322 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/male_suede.glb 1952 KB
+21:39:43 | INFO: Starting glTF 2.0 export
+21:39:43 | INFO: Extracting primitive: HiTopLaces_L
+21:39:43 | INFO: Primitives created: 1
+21:39:43 | INFO: Extracting primitive: HiTopLaces_R
+21:39:43 | INFO: Primitives created: 1
+21:39:43 | INFO: Extracting primitive: HiTopSole_L
+21:39:43 | INFO: Primitives created: 1
+21:39:43 | INFO: Extracting primitive: HiTopSole_R
+21:39:43 | INFO: Primitives created: 1
+21:39:43 | INFO: Extracting primitive: HiTopTongue_L
+21:39:43 | INFO: Primitives created: 1
+21:39:43 | INFO: Extracting primitive: HiTopTongue_R
+21:39:43 | INFO: Primitives created: 1
+21:39:43 | INFO: Extracting primitive: HiTopUpper_L
+21:39:43 | INFO: Primitives created: 1
+21:39:43 | INFO: Extracting primitive: HiTopUpper_R
+21:39:43 | INFO: Primitives created: 1
+21:39:43 | INFO: Finished glTF 2.0 export in 0.3690018653869629 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/male_hitop.glb 1316 KB
+21:39:43 | INFO: Starting glTF 2.0 export
+21:39:43 | INFO: Extracting primitive: base.016
+21:39:43 | INFO: Primitives created: 1
+21:39:43 | INFO: Finished glTF 2.0 export in 0.22468328475952148 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/male_socks.glb 501 KB
+21:39:43 | INFO: Starting glTF 2.0 export
+21:39:43 | INFO: Extracting primitive: Beanie
+21:39:44 | INFO: Primitives created: 1
+21:39:44 | INFO: Finished glTF 2.0 export in 0.28205132484436035 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/male_beanie.glb 1145 KB
+21:39:44 | INFO: Starting glTF 2.0 export
+21:39:44 | INFO: Extracting primitive: Cap
+21:39:44 | INFO: Primitives created: 1
+21:39:44 | INFO: Finished glTF 2.0 export in 0.2736525535583496 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/male_cap.glb 741 KB
+21:39:44 | INFO: Starting glTF 2.0 export
+21:39:44 | INFO: Extracting primitive: base.017
+21:39:44 | INFO: Primitives created: 1
+21:39:44 | INFO: Finished glTF 2.0 export in 0.013747453689575195 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/male_socks_high.glb 113 KB
+21:39:44 | INFO: Starting glTF 2.0 export
+21:39:44 | INFO: Extracting primitive: base.018
+21:39:44 | INFO: Primitives created: 1
+21:39:44 | WARNING: There are more than 4 joint vertex influences.The 4 with highest weight will be used (and normalized).
+21:39:44 | INFO: Finished glTF 2.0 export in 0.08766031265258789 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/male_jeans_high.glb 475 KB
+21:39:44 | INFO: Starting glTF 2.0 export
+21:39:44 | INFO: Extracting primitive: base.019
+21:39:44 | INFO: Primitives created: 1
+21:39:44 | WARNING: There are more than 4 joint vertex influences.The 4 with highest weight will be used (and normalized).
+21:39:44 | INFO: Finished glTF 2.0 export in 0.035642385482788086 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/male_cargo_high.glb 486 KB
+21:39:44 | INFO: Starting glTF 2.0 export
+21:39:44 | INFO: Extracting primitive: Swatch_ShoeSoleGum
+21:39:44 | INFO: Primitives created: 1
+21:39:44 | INFO: Extracting primitive: Swatch_ShoeUpperNavy
+21:39:45 | INFO: Primitives created: 1
+21:39:45 | INFO: Finished glTF 2.0 export in 0.34676671028137207 s
+03:34.638  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/print_tmp.png'
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/male_suede_navy.glb 1056 KB
+[build_all] skater done 151s
+[anims] rest orientations aligned to the male skeleton (max difference 0.0000 deg)
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+[clothes] layering: hoodie hem flared on 847 verts (max 3.1 cm), 40 jeans verts tucked inside the hoodie
+Info: Removed 47 vertices
+Info: Removed 16 vertices
+Info: Removed 49 vertices
+Info: Removed 18 vertices
+[outfit] tops bridge the bust apexes and navel: {'hoodie': '9.9 mm', 'tee': '10.0 mm', 'flannel': '7.8 mm'}
+[outfit] layering: cargo/shorts tucked under the hoodie ([79, 11] verts), tee/flannel flared [(1117, 0.04335927415497223), (1069, 0.043166204437180555)]
+Info: Removed 49 vertices
+Info: Removed 16 vertices
+Info: Removed 51 vertices
+Info: Removed 18 vertices
+Info: Removed 90 vertices
+Info: Removed 73 vertices
+[outfit] body cells: 13 distinct cover masks over 53512 faces
+[outfit] fit in motion (hip band 0.820..1.009 m): {'Hoodie': 2006, 'Tee': 2009, 'Flannel': 2002, 'Jeans': 1992, 'Cargo': 1986, 'Shorts': 1905, 'JeansHigh_clear': '225 pushed (up to 13.8 mm)', 'Jeans_drape': 'hem raised up to 50 mm, 486 widened (up to 39.9 mm)', 'Jeans_rest': 'showing [10, 0], 76 pushed (up to 5.5 mm)', 'JeansHigh_drape': 'hem raised up to 51 mm, 657 widened (up to 40.7 mm)', 'JeansHigh_rest': 'showing [19, 0], 124 pushed (up to 7.3 mm)', 'Jeans_hem': {'l': 0.16206370174884796, 'r': 0.16206370174884796}, 'JeansHigh_hem': {'l': 0.21670462489128112, 'r': 0.21670462489128112}, 'CargoHigh_clear': '280 pushed (up to 10.3 mm)', 'Cargo_drape': 'hem raised up to 56 mm, 409 widened (up to 39.8 mm)', 'Cargo_rest': 'showing [198, 3, 0], 120 pushed (up to 29.0 mm)', 'CargoHigh_drape': 'hem raised up to 55 mm, 495 widened (up to 38.0 mm)', 'CargoHigh_rest': 'showing [156, 0], 117 pushed (up to 27.6 mm)', 'Cargo_hem': {'l': 0.16206370174884796, 'r': 0.16206370174884796}, 'CargoHigh_hem': {'l': 0.21670462489128112, 'r': 0.21670462489128112}, 'Hoodie_skin': '1068 pushed (up to 9.8 mm)', 'HoodRoll_skin': '760 pushed (up to 7.8 mm)', 'HoodBack_skin': '135 pushed (up to 1.4 mm)', 'Hoodie_cover': 1804, 'Tee_skin': '1317 pushed (up to 10.0 mm)', 'CrewBand_skin': '480 pushed (up to 10.0 mm)', 'Flannel_skin': '948 pushed (up to 10.0 mm)', 'Collar_skin': '658 pushed (up to 10.0 mm)'}
+[anims] female: leg 0.7983 m (x0.906), ankle 0.0681 m over the sole, ankle 0.0661 m behind the shoe centre
+pole calf l (0.0003783784772978187, -135)
+pole calf r (0.0003783784772978187, -45)
+pole lowerarm l (0.000761888425276005, -84)
+pole lowerarm r (0.0007618884093674905, -96)
+[anims] overlay tracks per clip: {'idle': 7, 'ride': 7, 'ride_fakie': 7, 'crouch': 7, 'push': 7, 'ollie': 7, 'air': 7, 'kickflip': 7, 'heelflip': 7, 'shoveit': 7, 'treflip': 7, 'indy': 10, 'melon': 10, 'nosegrab': 10, 'tailgrab': 10, 'vert_air': 10, 'grind_5050': 7, 'boardslide': 7, 'manual': 7, 'nose_manual': 7, 'land': 7, 'bail': 7, 'getup': 7, 'getup_front': 13, 'special': 10}
+Info: Saved copy as "skater_female.blend"
+21:41:06 | INFO: Starting glTF 2.0 export
+21:41:06 | INFO: Extracting primitive: Cornea_L
+21:41:06 | INFO: Primitives created: 1
+21:41:06 | INFO: Extracting primitive: Cornea_R
+21:41:06 | INFO: Primitives created: 1
+21:41:06 | INFO: Extracting primitive: Eye_L
+21:41:06 | INFO: Primitives created: 1
+21:41:06 | INFO: Extracting primitive: Eye_R
+21:41:06 | INFO: Primitives created: 1
+21:41:06 | INFO: Extracting primitive: Eyebrow_L
+21:41:06 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:41:06 | INFO: Primitives created: 1
+21:41:06 | INFO: Extracting primitive: Eyebrow_R
+21:41:06 | INFO: Primitives created: 1
+21:41:06 | INFO: Extracting primitive: Hair
+21:41:06 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:41:06 | INFO: Primitives created: 1
+21:41:06 | INFO: Extracting primitive: base.007
+21:41:06 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:41:06 | INFO: Primitives created: 1
+21:41:06 | INFO: Extracting primitive: base.009
+21:41:06 | INFO: Primitives created: 1
+21:41:06 | INFO: Extracting primitive: base.006
+21:41:06 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:41:06 | INFO: Primitives created: 1
+21:41:06 | INFO: Extracting primitive: base.008
+21:41:06 | INFO: Primitives created: 1
+21:41:06 | INFO: Extracting primitive: base
+21:41:07 | INFO: Primitives created: 1
+21:41:07 | WARNING: There are more than 4 joint vertex influences.The 4 with highest weight will be used (and normalized).
+21:41:07 | INFO: Extracting primitive: base.004
+21:41:07 | INFO: Primitives created: 1
+21:41:07 | INFO: Extracting primitive: base.003
+21:41:07 | INFO: Primitives created: 1
+21:41:07 | INFO: Extracting primitive: base.005
+21:41:07 | INFO: Primitives created: 1
+21:41:11 | INFO: Finished glTF 2.0 export in 5.361652135848999 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/skater_female.glb 8683 KB
+21:41:12 | INFO: Starting glTF 2.0 export
+21:41:12 | INFO: Extracting primitive: Aglet
+21:41:12 | INFO: Primitives created: 1
+21:41:12 | INFO: Extracting primitive: Aglet.001
+21:41:12 | INFO: Primitives created: 1
+21:41:12 | INFO: Extracting primitive: Drawstring_L
+21:41:12 | INFO: Primitives created: 1
+21:41:12 | INFO: Extracting primitive: Drawstring_R
+21:41:12 | INFO: Primitives created: 1
+21:41:12 | INFO: Extracting primitive: HoodBack
+21:41:12 | INFO: Primitives created: 1
+21:41:12 | WARNING: There are more than 4 joint vertex influences.The 4 with highest weight will be used (and normalized).
+21:41:12 | INFO: Extracting primitive: base.010
+21:41:12 | INFO: Primitives created: 1
+21:41:12 | INFO: Extracting primitive: HoodRoll
+21:41:12 | INFO: Primitives created: 1
+21:41:12 | INFO: Finished glTF 2.0 export in 0.09375286102294922 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/female_hoodie.glb 1058 KB
+21:41:12 | INFO: Starting glTF 2.0 export
+21:41:12 | INFO: Extracting primitive: CrewBand
+21:41:12 | INFO: Primitives created: 1
+21:41:12 | WARNING: There are more than 4 joint vertex influences.The 4 with highest weight will be used (and normalized).
+21:41:12 | INFO: Extracting primitive: base.012
+21:41:13 | INFO: Primitives created: 1
+21:41:13 | INFO: Finished glTF 2.0 export in 0.06755971908569336 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/female_tee.glb 709 KB
+21:41:13 | INFO: Starting glTF 2.0 export
+21:41:13 | INFO: Extracting primitive: Buttons
+21:41:13 | INFO: Primitives created: 1
+21:41:13 | WARNING: There are more than 4 joint vertex influences.The 4 with highest weight will be used (and normalized).
+21:41:13 | INFO: Extracting primitive: Collar
+21:41:13 | INFO: Primitives created: 1
+21:41:13 | INFO: Extracting primitive: base.013
+21:41:13 | INFO: Primitives created: 1
+21:41:13 | INFO: Finished glTF 2.0 export in 0.1279914379119873 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/female_flannel.glb 981 KB
+21:41:14 | INFO: Starting glTF 2.0 export
+21:41:14 | INFO: Extracting primitive: base.011
+21:41:14 | INFO: Primitives created: 1
+21:41:14 | WARNING: There are more than 4 joint vertex influences.The 4 with highest weight will be used (and normalized).
+21:41:14 | INFO: Finished glTF 2.0 export in 0.03509402275085449 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/female_jeans.glb 474 KB
+21:41:15 | INFO: Starting glTF 2.0 export
+21:41:15 | INFO: Extracting primitive: base.014
+21:41:15 | INFO: Primitives created: 1
+21:41:15 | WARNING: There are more than 4 joint vertex influences.The 4 with highest weight will be used (and normalized).
+21:41:15 | INFO: Finished glTF 2.0 export in 0.03747820854187012 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/female_cargo.glb 486 KB
+21:41:15 | INFO: Starting glTF 2.0 export
+21:41:15 | INFO: Extracting primitive: base.015
+21:41:15 | INFO: Primitives created: 1
+21:41:15 | WARNING: There are more than 4 joint vertex influences.The 4 with highest weight will be used (and normalized).
+21:41:15 | INFO: Finished glTF 2.0 export in 0.027304410934448242 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/female_shorts.glb 317 KB
+21:41:15 | INFO: Starting glTF 2.0 export
+21:41:15 | INFO: Extracting primitive: Laces_L
+21:41:15 | INFO: Primitives created: 1
+21:41:15 | INFO: Extracting primitive: Laces_R
+21:41:15 | INFO: Primitives created: 1
+21:41:15 | INFO: Extracting primitive: ShoeSole_L
+21:41:15 | INFO: Primitives created: 1
+21:41:15 | INFO: Extracting primitive: ShoeSole_R
+21:41:15 | INFO: Primitives created: 1
+21:41:15 | INFO: Extracting primitive: ShoeTongue_L
+21:41:15 | INFO: Primitives created: 1
+21:41:15 | INFO: Extracting primitive: ShoeTongue_R
+21:41:15 | INFO: Primitives created: 1
+21:41:15 | INFO: Extracting primitive: ShoeUpper_L
+21:41:15 | INFO: Primitives created: 1
+21:41:15 | INFO: Extracting primitive: ShoeUpper_R
+21:41:15 | INFO: Primitives created: 1
+21:41:15 | INFO: Finished glTF 2.0 export in 0.08746647834777832 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/female_suede.glb 943 KB
+21:41:15 | INFO: Starting glTF 2.0 export
+21:41:15 | INFO: Extracting primitive: HiTopLaces_L
+21:41:16 | INFO: Primitives created: 1
+21:41:16 | INFO: Extracting primitive: HiTopLaces_R
+21:41:16 | INFO: Primitives created: 1
+21:41:16 | INFO: Extracting primitive: HiTopSole_L
+21:41:16 | INFO: Primitives created: 1
+21:41:16 | INFO: Extracting primitive: HiTopSole_R
+21:41:16 | INFO: Primitives created: 1
+21:41:16 | INFO: Extracting primitive: HiTopTongue_L
+21:41:16 | INFO: Primitives created: 1
+21:41:16 | INFO: Extracting primitive: HiTopTongue_R
+21:41:16 | INFO: Primitives created: 1
+21:41:16 | INFO: Extracting primitive: HiTopUpper_L
+21:41:16 | INFO: Primitives created: 1
+21:41:16 | INFO: Extracting primitive: HiTopUpper_R
+21:41:16 | INFO: Primitives created: 1
+21:41:16 | INFO: Finished glTF 2.0 export in 0.07625126838684082 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/female_hitop.glb 903 KB
+21:41:16 | INFO: Starting glTF 2.0 export
+21:41:16 | INFO: Extracting primitive: base.016
+21:41:16 | INFO: Primitives created: 1
+21:41:16 | INFO: Finished glTF 2.0 export in 0.014031410217285156 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/female_socks.glb 113 KB
+21:41:16 | INFO: Starting glTF 2.0 export
+21:41:16 | INFO: Extracting primitive: Beanie
+21:41:16 | INFO: Primitives created: 1
+21:41:16 | INFO: Finished glTF 2.0 export in 0.02849268913269043 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/female_beanie.glb 189 KB
+21:41:16 | INFO: Starting glTF 2.0 export
+21:41:16 | INFO: Extracting primitive: Cap
+21:41:16 | INFO: Primitives created: 1
+21:41:16 | INFO: Finished glTF 2.0 export in 0.024720430374145508 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/female_cap.glb 175 KB
+21:41:16 | INFO: Starting glTF 2.0 export
+21:41:16 | INFO: Extracting primitive: base.017
+21:41:16 | INFO: Primitives created: 1
+21:41:16 | INFO: Finished glTF 2.0 export in 0.013221263885498047 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/female_socks_high.glb 113 KB
+21:41:16 | INFO: Starting glTF 2.0 export
+21:41:16 | INFO: Extracting primitive: base.018
+21:41:16 | INFO: Primitives created: 1
+21:41:16 | WARNING: There are more than 4 joint vertex influences.The 4 with highest weight will be used (and normalized).
+21:41:16 | INFO: Finished glTF 2.0 export in 0.0337986946105957 s
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/female_jeans_high.glb 474 KB
+21:41:16 | INFO: Starting glTF 2.0 export
+21:41:16 | INFO: Extracting primitive: base.019
+21:41:16 | INFO: Primitives created: 1
+21:41:16 | WARNING: There are more than 4 joint vertex influences.The 4 with highest weight will be used (and normalized).
+21:41:16 | INFO: Finished glTF 2.0 export in 0.09078478813171387 s
+04:10.515  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/gfx_tmp.png'
+04:12.310  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/gfx_tmp.png'
+04:14.440  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/gfx_tmp.png'
+04:17.190  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/gfx_tmp.png'
+04:19.003  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/gfx_tmp.png'
+04:19.896  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/gfx_tmp.png'
+04:20.733  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/gfx_tmp.png'
+04:23.635  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/gfx_tmp.png'
+04:25.669  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/gfx_tmp.png'
+04:26.336  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/gfx_tmp.png'
+04:26.760  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/gfx_tmp.png'
+04:28.467  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/gfx_tmp.png'
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/outfit/female_cargo_high.glb 486 KB
+[build_all] female skater done 243s
+[graffiti] shred
+[graffiti] grind
+[graffiti] zap
+[graffiti] pop
+[graffiti] keepout
+[graffiti] tag_razr
+[graffiti] tag_noiz
+[graffiti] ollie
+[graffiti] smiley
+[graffiti] tag_ko
+[graffiti] tag_brkn
+[graffiti] banner
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+21:42:50 | INFO: Starting glTF 2.0 export
+21:42:50 | INFO: Extracting primitive: BreakWall_0
+21:42:50 | INFO: Primitives created: 1
+21:42:50 | INFO: Extracting primitive: BreakWall_1
+21:42:50 | INFO: Primitives created: 1
+21:42:50 | INFO: Extracting primitive: BreakWall_2
+21:42:50 | INFO: Primitives created: 1
+21:42:50 | INFO: Extracting primitive: BreakWall_3
+21:42:50 | INFO: Primitives created: 1
+21:42:50 | INFO: Extracting primitive: BreakWall_4
+21:42:50 | INFO: Primitives created: 1
+21:42:50 | INFO: Extracting primitive: BreakWall_batten8
+21:42:50 | INFO: Primitives created: 1
+21:42:50 | INFO: Extracting primitive: BreakWall_batten24
+21:42:50 | INFO: Primitives created: 1
+21:42:50 | INFO: Extracting primitive: BreakWall_sign
+21:42:52 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:42:52 | INFO: Primitives created: 1
+21:42:52 | INFO: Extracting primitive: COL_concrete-colonly
+21:42:52 | INFO: Primitives created: 1
+21:42:52 | INFO: Extracting primitive: COL_metal-colonly
+21:42:52 | INFO: Primitives created: 1
+21:42:52 | INFO: Extracting primitive: COL_metal_thin-colonly
+21:42:52 | INFO: Primitives created: 1
+21:42:52 | INFO: Extracting primitive: COL_wall-colonly
+21:42:52 | INFO: Primitives created: 1
+21:42:52 | INFO: Extracting primitive: COL_wood-colonly
+21:42:52 | INFO: Primitives created: 1
+21:42:52 | INFO: Extracting primitive: Park_barrel
+21:42:52 | INFO: Primitives created: 1
+21:42:52 | INFO: Extracting primitive: Park_brick
+21:42:52 | INFO: Primitives created: 1
+21:42:52 | INFO: Extracting primitive: Park_cinder
+21:42:53 | INFO: Primitives created: 1
+21:42:53 | INFO: Extracting primitive: Park_concrete
+21:42:53 | INFO: Primitives created: 1
+21:42:53 | INFO: Extracting primitive: Park_concrete_floor
+21:42:54 | INFO: Primitives created: 1
+21:42:54 | INFO: Extracting primitive: Park_coping
+21:42:54 | INFO: Primitives created: 1
+21:42:54 | INFO: Extracting primitive: Park_corrugated
+21:42:55 | INFO: Primitives created: 1
+21:42:55 | INFO: Extracting primitive: Park_crate
+21:42:55 | INFO: Primitives created: 1
+21:42:55 | INFO: Extracting primitive: Park_crate_frame
+21:42:55 | INFO: Primitives created: 1
+21:42:55 | INFO: Extracting primitive: Park_diamond
+21:42:56 | INFO: Primitives created: 1
+21:42:56 | INFO: Extracting primitive: Park_dumpster
+21:42:56 | INFO: Primitives created: 1
+21:42:56 | INFO: Extracting primitive: Park_exit_sign
+21:42:56 | INFO: Primitives created: 1
+21:42:56 | INFO: Extracting primitive: Park_graffiti
+21:42:56 | INFO: Primitives created: 1
+21:42:56 | INFO: Extracting primitive: Park_lamp
+21:42:56 | INFO: Primitives created: 1
+21:42:56 | INFO: Extracting primitive: Park_paint_line
+21:42:57 | INFO: Primitives created: 1
+21:42:57 | INFO: Extracting primitive: Park_plywood
+21:42:57 | INFO: Primitives created: 1
+21:42:57 | INFO: Extracting primitive: Park_rafter
+21:42:58 | INFO: Primitives created: 1
+21:42:58 | INFO: Extracting primitive: Park_rail
+21:42:58 | INFO: Primitives created: 1
+21:42:58 | INFO: Extracting primitive: Park_rampside
+21:42:59 | INFO: Primitives created: 1
+21:42:59 | INFO: Extracting primitive: Park_roof
+21:42:59 | INFO: Primitives created: 1
+21:42:59 | INFO: Extracting primitive: Park_skylight
+21:42:59 | INFO: Primitives created: 1
+21:42:59 | INFO: Extracting primitive: Park_steel
+21:43:00 | INFO: Primitives created: 1
+21:43:00 | INFO: Extracting primitive: Park_steel_paint
+21:43:00 | INFO: Primitives created: 1
+21:43:00 | INFO: Extracting primitive: Park_yard
+21:43:00 | INFO: Primitives created: 1
+21:43:00 | INFO: Extracting primitive: Window_0
+21:43:00 | INFO: Primitives created: 1
+21:43:00 | INFO: Extracting primitive: Window_1
+21:43:00 | INFO: Primitives created: 1
+21:43:00 | INFO: Extracting primitive: Window_2
+21:43:00 | INFO: Primitives created: 1
+21:43:00 | INFO: Extracting primitive: Window_3
+21:43:00 | INFO: Primitives created: 1
+21:43:00 | INFO: Extracting primitive: Window_4
+21:43:00 | INFO: Primitives created: 1
+21:43:00 | INFO: Finished glTF 2.0 export in 10.702927112579346 s
+05:47.529  blend            | Read blend: "/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/skater.blend"
+06:04.619  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/renders/skater_portrait.png'
+06:04.619  blend            | Read blend: "/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/skater.blend"
+06:11.563  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/renders/skater_tpose.png'
+06:13.623  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+06:15.723  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+06:17.787  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+06:20.008  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+06:22.322  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+06:24.367  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+06:26.428  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+06:28.499  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+06:30.948  render           | Video append frame 1
+06:33.080  render           | Video append frame 2
+06:35.218  render           | Video append frame 3
+06:37.368  render           | Video append frame 4
+06:39.489  render           | Video append frame 5
+06:41.660  render           | Video append frame 6
+06:43.864  render           | Video append frame 7
+06:45.975  render           | Video append frame 8
+06:48.043  render           | Video append frame 9
+06:50.151  render           | Video append frame 10
+06:52.252  render           | Video append frame 11
+06:54.341  render           | Video append frame 12
+06:56.481  render           | Video append frame 13
+06:58.582  render           | Video append frame 14
+07:00.657  render           | Video append frame 15
+07:02.723  render           | Video append frame 16
+07:04.789  render           | Video append frame 17
+07:06.942  render           | Video append frame 18
+07:09.311  render           | Video append frame 19
+07:11.494  render           | Video append frame 20
+07:13.651  render           | Video append frame 21
+07:15.816  render           | Video append frame 22
+07:17.943  render           | Video append frame 23
+07:20.378  render           | Video append frame 24
+07:26.858  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/renders/skater_trick.png'
+07:28.873  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+07:31.044  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+07:33.117  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+07:35.177  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+07:37.298  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+07:39.432  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+07:41.487  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+07:43.602  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+07:46.114  render           | Video append frame 1
+07:48.241  render           | Video append frame 2
+07:50.351  render           | Video append frame 3
+07:52.501  render           | Video append frame 4
+07:54.742  render           | Video append frame 5
+07:57.125  render           | Video append frame 6
+07:59.315  render           | Video append frame 7
+08:01.475  render           | Video append frame 8
+08:03.642  render           | Video append frame 9
+08:05.809  render           | Video append frame 10
+08:07.949  render           | Video append frame 11
+08:10.092  render           | Video append frame 12
+08:12.229  render           | Video append frame 13
+08:14.418  render           | Video append frame 14
+08:16.546  render           | Video append frame 15
+08:18.801  render           | Video append frame 16
+08:21.052  render           | Video append frame 17
+08:23.288  render           | Video append frame 18
+08:25.575  render           | Video append frame 19
+08:27.865  render           | Video append frame 20
+08:30.099  render           | Video append frame 21
+08:32.331  render           | Video append frame 22
+08:34.615  render           | Video append frame 23
+08:36.843  render           | Video append frame 24
+08:36.900  blend            | Read blend: "/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/skater_female.blend"
+08:47.318  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/renders/skater_female_portrait.png'
+08:47.318  blend            | Read blend: "/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/skater_female.blend"
+08:54.272  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/renders/skater_female_tpose.png'
+08:56.509  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+08:58.672  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+09:00.742  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+09:02.857  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+09:04.938  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+09:07.022  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+09:09.173  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+09:11.324  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+09:14.063  render           | Video append frame 1
+09:16.454  render           | Video append frame 2
+09:18.818  render           | Video append frame 3
+09:21.091  render           | Video append frame 4
+09:23.377  render           | Video append frame 5
+09:25.700  render           | Video append frame 6
+09:28.016  render           | Video append frame 7
+09:30.334  render           | Video append frame 8
+09:32.715  render           | Video append frame 9
+09:41.277  render           | Video append frame 10
+09:44.371  render           | Video append frame 11
+09:48.004  render           | Video append frame 12
+09:51.097  render           | Video append frame 13
+09:53.946  render           | Video append frame 14
+09:56.797  render           | Video append frame 15
+09:59.564  render           | Video append frame 16
+10:02.177  render           | Video append frame 17
+10:04.591  render           | Video append frame 18
+10:07.064  render           | Video append frame 19
+10:09.463  render           | Video append frame 20
+10:11.871  render           | Video append frame 21
+10:14.277  render           | Video append frame 22
+10:16.621  render           | Video append frame 23
+10:19.030  render           | Video append frame 24
+10:25.719  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/renders/skater_female_trick.png'
+10:27.937  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+10:30.239  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+10:32.504  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+10:34.719  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+10:36.816  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+10:38.957  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+10:41.138  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+10:43.288  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+10:45.868  render           | Video append frame 1
+10:48.157  render           | Video append frame 2
+10:50.396  render           | Video append frame 3
+10:52.729  render           | Video append frame 4
+10:55.012  render           | Video append frame 5
+10:57.237  render           | Video append frame 6
+10:59.442  render           | Video append frame 7
+11:01.685  render           | Video append frame 8
+11:03.958  render           | Video append frame 9
+11:06.116  render           | Video append frame 10
+11:08.320  render           | Video append frame 11
+11:10.477  render           | Video append frame 12
+11:12.680  render           | Video append frame 13
+11:14.889  render           | Video append frame 14
+11:17.183  render           | Video append frame 15
+11:19.576  render           | Video append frame 16
+11:21.805  render           | Video append frame 17
+11:24.009  render           | Video append frame 18
+11:26.232  render           | Video append frame 19
+11:28.507  render           | Video append frame 20
+11:30.743  render           | Video append frame 21
+11:32.937  render           | Video append frame 22
+11:35.184  render           | Video append frame 23
+11:37.520  render           | Video append frame 24
+11:37.573  blend            | Read blend: "/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/skater.blend"
+11:39.879  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/outfit_tmp.png'
+11:42.020  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/outfit_tmp.png'
+11:42.086  blend            | Read blend: "/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/skater.blend"
+11:44.397  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/outfit_tmp.png'
+11:46.621  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/outfit_tmp.png'
+11:46.683  blend            | Read blend: "/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/skater.blend"
+11:49.012  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/outfit_tmp.png'
+11:51.262  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/outfit_tmp.png'
+11:51.333  blend            | Read blend: "/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/skater_female.blend"
+11:53.732  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/outfit_tmp.png'
+11:55.960  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/outfit_tmp.png'
+11:56.028  blend            | Read blend: "/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/skater_female.blend"
+11:58.247  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/outfit_tmp.png'
+12:00.297  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/outfit_tmp.png'
+12:00.362  blend            | Read blend: "/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/skater_female.blend"
+12:02.473  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/outfit_tmp.png'
+12:04.461  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/outfit_tmp.png'
+12:04.875  blend            | Read blend: "/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/board.blend"
+12:10.905  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/renders/board.png'
+12:12.516  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+12:14.338  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+12:16.182  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+12:18.059  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+12:19.862  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+12:21.800  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+12:23.747  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+12:25.695  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+12:28.110  render           | Video append frame 1
+12:30.139  render           | Video append frame 2
+12:32.112  render           | Video append frame 3
+12:33.980  render           | Video append frame 4
+12:35.749  render           | Video append frame 5
+12:37.511  render           | Video append frame 6
+12:39.214  render           | Video append frame 7
+12:40.895  render           | Video append frame 8
+12:42.649  render           | Video append frame 9
+12:44.510  render           | Video append frame 10
+12:46.392  render           | Video append frame 11
+12:48.284  render           | Video append frame 12
+12:50.064  render           | Video append frame 13
+12:51.916  render           | Video append frame 14
+12:53.792  render           | Video append frame 15
+12:55.691  render           | Video append frame 16
+12:57.562  render           | Video append frame 17
+12:59.415  render           | Video append frame 18
+13:01.240  render           | Video append frame 19
+13:03.071  render           | Video append frame 20
+13:04.780  render           | Video append frame 21
+13:06.518  render           | Video append frame 22
+13:08.266  render           | Video append frame 23
+13:09.934  render           | Video append frame 24
+13:09.978  blend            | Read blend: "/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/park.blend"
+13:18.922  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/renders/park.png'
+13:20.326  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+13:21.763  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+13:23.248  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+13:24.720  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+13:26.246  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+13:27.780  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+13:29.215  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+13:30.722  render           | Saved: '/home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/blender/work/turn_tmp.png'
+13:33.504  render           | Video append frame 1
+13:36.026  render           | Video append frame 2
+13:38.522  render           | Video append frame 3
+13:41.104  render           | Video append frame 4
+13:43.639  render           | Video append frame 5
+13:46.134  render           | Video append frame 6
+13:48.607  render           | Video append frame 7
+13:51.215  render           | Video append frame 8
+13:53.818  render           | Video append frame 9
+13:56.357  render           | Video append frame 10
+13:58.876  render           | Video append frame 11
+14:01.364  render           | Video append frame 12
+14:03.890  render           | Video append frame 13
+14:06.429  render           | Video append frame 14
+14:08.974  render           | Video append frame 15
+14:11.608  render           | Video append frame 16
+14:14.272  render           | Video append frame 17
+14:16.880  render           | Video append frame 18
+14:19.475  render           | Video append frame 19
+14:22.043  render           | Video append frame 20
+14:24.674  render           | Video append frame 21
+14:27.307  render           | Video append frame 22
+14:29.879  render           | Video append frame 23
+14:32.373  render           | Video append frame 24
+
+exported /home/rocky/bench-tests/tony-hawk-game/skate-game-opus-5-5/.worktrees/character-builder/assets/park.glb 29893 KB
+Info: Saved copy as "park.blend"
+[build_all] park done 347s
+[renders] renders/skater_portrait.png
+[renders] renders/skater_tpose.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] renders/skater_tpose_sheet.png
+[renders] renders/skater_tpose_turntable.mp4
+[renders] renders/skater_trick.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] renders/skater_trick_sheet.png
+[renders] renders/skater_trick_turntable.mp4
+[renders] renders/skater_female_portrait.png
+[renders] renders/skater_female_tpose.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] renders/skater_female_tpose_sheet.png
+[renders] renders/skater_female_tpose_turntable.mp4
+[renders] renders/skater_female_trick.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] renders/skater_female_trick_sheet.png
+[renders] renders/skater_female_trick_turntable.mp4
+[renders] blender/work/outfit_tmp.png
+[renders] blender/work/outfit_tmp.png
+[renders] blender/work/outfit_tmp.png
+[renders] blender/work/outfit_tmp.png
+[renders] blender/work/outfit_tmp.png
+[renders] blender/work/outfit_tmp.png
+[renders] blender/work/outfit_tmp.png
+[renders] blender/work/outfit_tmp.png
+[renders] blender/work/outfit_tmp.png
+[renders] blender/work/outfit_tmp.png
+[renders] blender/work/outfit_tmp.png
+[renders] blender/work/outfit_tmp.png
+[renders] renders/outfits_sheet.png
+[renders] renders/board.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] renders/board_sheet.png
+[renders] renders/board_turntable.mp4
+[renders] renders/park.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] blender/work/turn_tmp.png
+[renders] renders/park_sheet.png
+[renders] renders/park_turntable.mp4
+[build_all] renders done 872s
+[build_all] finished in 872s
+Blender 5.2.2 LTS (hash d13f752e3b9c built 2026-09-15 01:34:58)
+OBJ import of 'base.obj' took 11.99 ms
+OBJ import of 'base.obj' took 14.34 ms
+OBJ import of 'base.obj' took 21.28 ms
+
+Blender quit
+build_all exit 0

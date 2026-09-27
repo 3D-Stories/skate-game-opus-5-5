@@ -1,9 +1,10 @@
 Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 
 [godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
+[skater] skating as male,hoodie,jeans,suede,none
 [run] started
 [run] started
-Pro Skater clips in real gameplay  2026-09-26T17:23:05
+Pro Skater clips in real gameplay  2026-09-26T22:46:59
 PASS  autopilot test run finished and reported its clips: score=69043 goals=[["score", true], ["skate", true], ["tape", true], ["rafters", true], ["windows", true]]
 PASS  tests/test_flow.gd ran (24 passed, 0 failed) and reported its clips
 PASS  Enter on the start screen starts the run (injected-input part)
@@ -35,5 +36,5 @@ PASS  every required clip also played from injected keyboard / gamepad input alo
 28 passed, 0 failed
 
 [clips] halfpipe (injected input): 9 airs, 9 vert airs, bails 0, special meter full after air 9, specials 1
-WARNING: 19 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+WARNING: 17 ObjectDB instances were leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)

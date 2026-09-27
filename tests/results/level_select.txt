@@ -1,7 +1,7 @@
-Pro Skater level select tests  2026-09-26T17:22:43
+Pro Skater level select tests  2026-09-26T22:46:41
 PASS  levels come from levels/registry.json; the Warehouse is the default  [["warehouse", "baths"]]
 PASS  the game starts on the Warehouse, at the start screen  [21 grind lines, 5 windows, goals ["score", "skate", "tape", "rafters", "windows"]]
-PASS  the start screen names the level and offers the level select  [PRO SKATER: THE WAREHOUSE |  | KEYBOARD | GAMEPAD | Steer  /  push (Up)  /  brake (Down) | ...  Break the 5 Windows |  | LEVEL   THE WAREHOUSE   (TAB / SELECT: choose a level) | PRESS ENTER / A TO SKATE | ]
+PASS  the start screen names the level and offers the level select  [PRO SKATER: THE WAREHOUSE |  | KEYBOARD | GAMEPAD | Steer  /  push (Up)  /  brake (Down) | ... |  | LEVEL   THE WAREHOUSE   (TAB / SELECT: choose a level) | PRESS ENTER / A TO SKATE        C / Y  SKATER | ]
 PASS  keyboard: Tab opens the level select, one card per level, on the current one  [2 cards, selected warehouse]
 PASS  every card lists its level's goals  [all listed]
 PASS  the current level's card is tagged PLAYING NOW and DEFAULT  [PLAYING NOW  DEFAULT]

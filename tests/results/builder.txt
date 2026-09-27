@@ -1,0 +1,47 @@
+Pro Skater character builder tests  2026-09-26T22:46:52
+PASS  with nothing chosen the game builds the default: male, red hoodie, blue jeans, grey suede low-tops, no hat
+PASS  default = today's skater: every other material (skin, face, eyes, hair, shoes, cords, board) identical triangle for triangle - positions, UVs, weights, normals, textures (172906 visible triangles, 28 materials)
+PASS  default = today's skater: hoodie, hood and jeans identical in shape, UVs, normals and textures (their skin weights are re-fitted, see README)
+INFO  re-fitted weights: material Hood_hood_back: tri_hash 6ef51c573ce560d7 vs df15d574c7a5d99f; material Hood_hood_back: normal_hash 001de9341828413c vs 8e3a49082458a461; material Hood_hood_roll: tri_hash 258514c8734c4bf5 vs 56b99bd48de1f1a7; material Hood_hood_roll: normal_hash 4d62056c79d6c444 vs 02928c2fd62a91f0; material Hoodie: tri_hash 3f89f55c037e4cd5 vs e01b2b7ade3db783; material Hoodie: normal_hash 1cf07852ef016efe vs 310796bb68688308; material Jeans: tri_hash a8248bc9d570f9c8 vs bf7f6ee64e0998e9; material Jeans: normal_hash e57e5d264f8115a0 vs 876cbc9f617188c0
+PASS  default = today's skater: the same skeleton (54 bones, rest pose)
+PASS  default = today's skater: all 25 clips key for key (25 identical)
+PASS  every body x top x bottom x shoes x headwear combination builds: its garments on the body's skeleton, textured, skin and hair hidden under them, 25 clips, the ragdoll (162 combinations, slowest 52 ms)
+PASS  the wardrobe: 3 tops, 3 bottoms, 3 shoes, headwear ["none", "beanie", "cap"]
+PASS  nothing saved: the default skater
+PASS  the choice is written to user:// (/home/rocky/.local/share/godot/app_userdata/Pro Skater- Warehouse/test_builder_skater.cfg)
+PASS  and read back
+PASS  unknown saved values fall back to the default for that slot only
+PASS  a broken file gives the default skater
+PASS  --skater= / ?skater= parse (missing slots default)
+PASS  first launch (nothing saved): the start screen, with today's skater
+PASS  the start screen names the Skater screen's key and button
+PASS  keyboard: C on the start screen opens the Skater screen
+PASS  the Skater screen lists its keyboard and gamepad controls
+PASS  its turntable shows the current skater
+PASS  Right changes the body, and the turntable shows her at once
+PASS  W/A/S/D and the arrows pick every slot, live on the turntable (female,tee,shorts,hitop,beanie)
+PASS  shorts with hi-tops show the socks made for hi-tops
+PASS  E turns the turntable
+PASS  Enter closes the Skater screen, back on the start screen
+PASS  Enter saved the choice to user://
+PASS  and the skater on the start line is rebuilt as her
+PASS  gamepad: Y on the start screen opens the Skater screen
+PASS  the D-pad and the left stick change slots live
+PASS  RB turns the turntable
+PASS  B leaves without saving: the skater and the saved choice are as they were
+PASS  Back resets every slot to today's skater
+PASS  A saves it: today's skater again
+PASS  the gamepad picks her outfit and saves it
+PASS  Enter starts the run
+PASS  the run is skated by the chosen skater (female,tee,cargo,suede_navy,cap): pushed 26.4 m, clips ["idle", "push", "ride", "crouch", "ollie", "land", "air"]
+PASS  the run ends on the end-of-run screen
+PASS  the end screen shows the run's skater on a turntable: FEMALE SKATER, White graphic tee, Olive cargo pants, Navy suede low-tops (gum sole), Navy six-panel cap
+PASS  the end screen offers the replay
+PASS  the replay recorded the run (270 frames)
+PASS  V plays the replay with the same skater (female,tee,cargo,suede_navy,cap)
+PASS  the replayed skater moves as recorded (hand 0.31 m, body 2.62 m in a second)
+PASS  A ends the replay, back on the end screen
+PASS  gamepad X plays the replay too
+PASS  the replay runs its 15 seconds and returns to the end screen
+PASS  the next launch restores the saved skater (female,tee,cargo,suede_navy,cap)
+44 passed, 0 failed

@@ -1,10 +1,14 @@
 class_name SkaterModel
 extends Node3D
-## The visual skater: the Blender-built character (skater.glb) with its animation clips, and
-## the separate board (board.glb) riding on the skeleton's "board" bone. Swaps the imported
-## materials for the game shaders (skin, hair) and exposes a small play/blend API.
+## The visual skater: the Blender-built character with its animation clips, and the separate
+## board (board.glb) riding on the skeleton's "board" bone. The character is built from a
+## character-builder choice (SkaterOutfit): the body (skater.glb or skater_female.glb), the
+## worn garments (assets/outfit/<body>_<garment>.glb, skinned to the same skeleton), and
+## the one shared clip library (skater_anims.glb; for the female with her re-solved legs and
+## arms laid over it). Swaps the imported materials for the game shaders (skin, hair) and
+## exposes a small play/blend API.
 
-const SKATER_SCENE := preload("res://assets/skater.glb")
+const ANIMS_SCENE := "res://assets/skater_anims.glb"
 const BOARD_SCENE := preload("res://assets/board.glb")
 const SKIN_SHADER := preload("res://shaders/skin.gdshader")
 const HAIR_SHADER := preload("res://shaders/hair.gdshader")
@@ -13,6 +17,14 @@ const LOOPING := ["idle", "ride", "crouch", "push", "air", "grind_5050", "boards
 		"manual", "nose_manual", "vert_air"]
 
 var character: Node3D
+## The choice to build in _ready (empty: SkaterOutfit.current()); rebuild() changes it later.
+var outfit: Dictionary = {}
+var choice: Dictionary = {}                  # what is built now
+var skin_materials: Array[ShaderMaterial] = []
+var hair_materials: Array[ShaderMaterial] = []
+var garments: Dictionary = {}                # garment id -> [MeshInstance3D]
+static var _libs: Dictionary = {}            # body -> AnimationLibrary
+static var _mats: Dictionary = {}            # "garment/material" -> the male garment's Material
 var skeleton: Skeleton3D
 var anim: AnimationPlayer
 var board: Node3D
@@ -26,14 +38,35 @@ var _board_offset := Transform3D.IDENTITY
 
 
 func _ready() -> void:
-	character = SKATER_SCENE.instantiate()
+	build(outfit if not outfit.is_empty() else SkaterOutfit.current())
+
+
+func rebuild(c: Dictionary) -> void:
+	## Change body and/or clothes: the whole character (skeleton, clips, ragdoll) is rebuilt.
+	build(c)
+
+
+func build(c: Dictionary) -> void:
+	c = SkaterOutfit.normalized(c)
+	if character:
+		_teardown()
+	choice = c
+	character = (load(SkaterOutfit.BODY_GLB[c["body"]]) as PackedScene).instantiate()
+	character.name = "Character"
 	add_child(character)
 	skeleton = _find(character, "Skeleton3D") as Skeleton3D
-	anim = _find(character, "AnimationPlayer") as AnimationPlayer
-	for a_name in anim.get_animation_list():
-		var a := anim.get_animation(a_name)
-		a.loop_mode = Animation.LOOP_LINEAR if a_name in LOOPING else Animation.LOOP_NONE
+	# the body file's own AnimationPlayer (the female's overlay) is only read by library_for
+	var own := _find(character, "AnimationPlayer")
+	if own:
+		own.get_parent().remove_child(own)
+		own.free()
+	anim = AnimationPlayer.new()
+	anim.name = "AnimationPlayer"
+	character.add_child(anim)
+	anim.root_node = NodePath("..")
+	anim.add_animation_library("", library_for(c["body"]))
 	_setup_materials(character)
+	_dress(c)
 	board = BOARD_SCENE.instantiate()
 	board_attach = BoneAttachment3D.new()
 	board_attach.name = "BoardAttach"
@@ -61,7 +94,176 @@ func _ready() -> void:
 	_build_ragdoll()
 	_build_clamp()
 	_measure_lying_pose()
+	current = ""
 	play("idle", 0.0)
+
+
+func _teardown() -> void:
+	stop_ragdoll_now()
+	if board_detached and is_instance_valid(board):
+		var holder := board.get_parent()
+		if holder is RigidBody3D:
+			holder.queue_free()
+	remove_child(character)
+	character.free()
+	character = null
+	wheels.clear()
+	_wheel_rest.clear()
+	board_detached = false
+	rag.clear()
+	rag_parent.clear()
+	flex_axes.clear()
+	cone_axes.clear()
+	lie.clear()
+	skin_materials.clear()
+	hair_materials.clear()
+	garments.clear()
+	current = ""
+
+
+# ------------------------------------------------------------------ clips: one shared library
+
+static func library_for(body: String) -> AnimationLibrary:
+	## The 25 clips, baked once on the male skeleton (skater_anims.glb). Other bodies share
+	## the same bones and rest orientations, so every authored rotation carries over; their
+	## file adds the tracks re-solved for their proportions (pelvis height, legs, the arms in
+	## clips where a hand holds the board or pushes on the floor), laid over a copy here.
+	if _libs.has(body):
+		return _libs[body]
+	var src := (load(ANIMS_SCENE) as PackedScene).instantiate()
+	var shared: AnimationLibrary = (_find(src, "AnimationPlayer") as AnimationPlayer).get_animation_library("")
+	src.free()
+	for a_name in shared.get_animation_list():
+		shared.get_animation(a_name).loop_mode = Animation.LOOP_LINEAR if a_name in LOOPING else Animation.LOOP_NONE
+	var lib := shared
+	if body != "male":
+		var inst := (load(SkaterOutfit.BODY_GLB[body]) as PackedScene).instantiate()
+		var sk := _find(inst, "Skeleton3D") as Skeleton3D
+		var ov: AnimationLibrary = (_find(inst, "AnimationPlayer") as AnimationPlayer).get_animation_library("")
+		lib = AnimationLibrary.new()
+		for a_name in shared.get_animation_list():
+			var a: Animation = shared.get_animation(a_name).duplicate(true)
+			if ov.has_animation(a_name):
+				overlay(a, ov.get_animation(a_name), sk)
+			lib.add_animation(a_name, a)
+		inst.free()
+	_libs[body] = lib
+	return lib
+
+
+static func overlay(a: Animation, o: Animation, sk: Skeleton3D) -> int:
+	## Replace a's tracks by o's (same path and type). Tracks of o that only hold the rest
+	## pose are skipped (the exporter writes those for bones another clip animates).
+	var n := 0
+	for t in o.get_track_count():
+		var path := o.track_get_path(t)
+		var type := o.track_get_type(t)
+		var bi := sk.find_bone(String(path).get_slice(":", 1))
+		if bi < 0 or _rest_constant(o, t, sk, bi):
+			continue
+		var i := a.find_track(path, type)
+		if i >= 0:
+			a.remove_track(i)
+		o.copy_track(t, a)
+		n += 1
+	return n
+
+
+static func _rest_constant(o: Animation, t: int, sk: Skeleton3D, bi: int) -> bool:
+	var rest := sk.get_bone_rest(bi)
+	for k in o.track_get_key_count(t):
+		var v = o.track_get_key_value(t, k)
+		if v is Quaternion:
+			if (v as Quaternion).angle_to(rest.basis.get_rotation_quaternion()) > 1e-4:
+				return false
+		elif v is Vector3:
+			if (v as Vector3).distance_to(rest.origin) > 1e-5:
+				return false
+		else:
+			return false
+	return true
+
+
+# ------------------------------------------------------------------ garments
+
+func _dress(c: Dictionary) -> void:
+	## Instance each worn garment's meshes onto this skeleton, give them the male garment's
+	## materials (one set of textures for both bodies; colourways swap theirs in) and hide
+	## the skin and hair they cover.
+	var body := String(c["body"])
+	for g in SkaterOutfit.worn_garments(c):
+		var info := SkaterOutfit.garment(g)
+		var base := String(info.get("base", g))
+		var path := "res://assets/outfit/%s_%s.glb" % [body, base]
+		if not ResourceLoader.exists(path):
+			push_warning("missing garment " + path)
+			continue
+		var inst := (load(path) as PackedScene).instantiate()
+		var list: Array = []
+		for mi in _all_meshes(inst):
+			var xf := mi.global_transform if mi.is_inside_tree() else Transform3D.IDENTITY
+			mi.owner = null
+			mi.get_parent().remove_child(mi)
+			skeleton.add_child(mi)
+			mi.skeleton = NodePath("..")
+			mi.transform = xf
+			for s in mi.mesh.get_surface_count():
+				var m := mi.mesh.surface_get_material(s)
+				var mname := m.resource_name if m else ""
+				var want := _garment_material(g, base, mname, body)
+				if want and want != m:
+					mi.set_surface_override_material(s, want)
+			list.append(mi)
+		inst.free()
+		_setup_materials_list(list)
+		garments[g] = list
+	var bm := SkaterOutfit.body_mask(c)
+	for sm in skin_materials:
+		sm.set_shader_parameter("hidden_mask", bm)
+	var hm := SkaterOutfit.hat_mask(c)
+	for hmat in hair_materials:
+		hmat.set_shader_parameter("hidden_mask", hm)
+
+
+func _garment_material(g: String, base: String, mname: String, body: String) -> Material:
+	## The male garment's material of that name (the female's files carry no textures), or
+	## a colourway's replacement.
+	var info := SkaterOutfit.garment(g)
+	var over: Dictionary = info.get("materials", {})
+	if over.has(mname):
+		return _male_material(String(info.get("material_source", "male_%s.glb" % g)), String(over[mname]))
+	if body == "male":
+		return null
+	return _male_material("male_%s.glb" % base, mname)
+
+
+static func _male_material(file: String, mname: String) -> Material:
+	var key := file + "/" + mname
+	if _mats.has(key):
+		return _mats[key]
+	var inst := (load("res://assets/outfit/" + file) as PackedScene).instantiate()
+	for mi in _all_meshes(inst):
+		for s in mi.mesh.get_surface_count():
+			var m := mi.mesh.surface_get_material(s)
+			if m:
+				_mats[file + "/" + m.resource_name] = m
+	inst.free()
+	return _mats.get(key)
+
+
+func is_triangle_hidden(mi: MeshInstance3D, surface: int, arrays: Array, tri: Array) -> bool:
+	## True if the game draws this triangle collapsed (skin or hair under the worn clothes).
+	var mat := mi.get_surface_override_material(surface)
+	if mat == null:
+		mat = mi.mesh.surface_get_material(surface)
+	if not (mat is ShaderMaterial) or arrays[Mesh.ARRAY_COLOR] == null:
+		return false
+	var m = (mat as ShaderMaterial).get_shader_parameter("hidden_mask")
+	if m == null:
+		return false
+	var col: Color = (arrays[Mesh.ARRAY_COLOR] as PackedColorArray)[tri[0]]
+	var bits := int(round(col.r * 255.0)) | (int(round(col.g * 255.0)) << 8)
+	return (bits & int(m)) != 0
 
 
 # ------------------------------------------------------------------ ragdoll (bails)
@@ -449,9 +651,17 @@ func clip_progress() -> float:
 
 
 func spin_wheels(dist: float) -> void:
-	_wheel_angle = fmod(_wheel_angle - dist / 0.0265, TAU)
+	set_wheel_angle(fmod(_wheel_angle - dist / 0.0265, TAU))
+
+
+func set_wheel_angle(a: float) -> void:
+	_wheel_angle = a
 	for i in wheels.size():
 		wheels[i].basis = _wheel_rest[i] * Basis(Vector3.BACK, _wheel_angle)
+
+
+func wheel_angle() -> float:
+	return _wheel_angle
 
 
 ## Throws the board off during a bail: it becomes a free rigid body in the level.
@@ -533,13 +743,19 @@ func reattach_board() -> void:
 
 
 func _setup_materials(root: Node) -> void:
-	for mi in _all_meshes(root):
+	_setup_materials_list(_all_meshes(root))
+
+
+func _setup_materials_list(list: Array) -> void:
+	for mi: MeshInstance3D in list:
 		var mesh := mi.mesh
 		if mesh == null:
 			continue
 		mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 		for s in mesh.get_surface_count():
-			var m := mesh.surface_get_material(s) as StandardMaterial3D
+			var m := mi.get_surface_override_material(s) as StandardMaterial3D
+			if m == null:
+				m = mesh.surface_get_material(s) as StandardMaterial3D
 			if m == null:
 				continue
 			var n := m.resource_name
@@ -550,12 +766,15 @@ func _setup_materials(root: Node) -> void:
 				sm.set_shader_parameter("albedo_tex", m.albedo_texture)
 				sm.set_shader_parameter("normal_tex", m.normal_texture)
 				sm.set_shader_parameter("rough_tex", m.roughness_texture)
+				skin_materials.append(sm)
 				nm = sm
 			elif n == "Hair" or n.begins_with("Lashes") or n == "Eyebrows":
 				var hm := ShaderMaterial.new()
 				hm.shader = HAIR_SHADER
 				hm.set_shader_parameter("albedo_tex", m.albedo_texture)
 				hm.set_shader_parameter("alpha_cut", 0.3 if n == "Hair" else 0.25)
+				if n == "Hair":
+					hair_materials.append(hm)
 				nm = hm
 				mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if n == "Hair" else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 			elif n == "Cornea":
@@ -573,15 +792,18 @@ func _setup_materials(root: Node) -> void:
 				m.clearcoat_roughness = 0.05
 			else:
 				# fabrics: a touch of rim sheen reads as fleece/denim fibres
-				if n in ["Hoodie", "Jeans"] or n.begins_with("Hood_"):
+				if n in FABRICS or n.begins_with("Hood_"):
 					m.rim_enabled = true
 					m.rim = 0.25
 					m.rim_tint = 0.6
 			if nm:
-				mesh.surface_set_material(s, nm)
+				mi.set_surface_override_material(s, nm)
 
 
-func _all_meshes(root: Node) -> Array[MeshInstance3D]:
+const FABRICS := ["Hoodie", "Jeans", "Tee", "CrewBand", "Flannel", "Collar", "Cargo", "Shorts", "Socks", "Beanie", "Cap"]
+
+
+static func _all_meshes(root: Node) -> Array[MeshInstance3D]:
 	var out: Array[MeshInstance3D] = []
 	var stack: Array[Node] = [root]
 	while stack.size() > 0:
@@ -593,7 +815,7 @@ func _all_meshes(root: Node) -> Array[MeshInstance3D]:
 	return out
 
 
-func _find(root: Node, cls: String) -> Node:
+static func _find(root: Node, cls: String) -> Node:
 	if root.get_class() == cls:
 		return root
 	for c in root.get_children():

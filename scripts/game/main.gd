@@ -30,6 +30,7 @@ var _env_default: Dictionary = {}
 var _grind_goal_t := 0.0
 var run_start_phys := 0          # Engine physics frame count when the current run started
 var bench: Node = null        # scripts/game/bench.gd while benchmarking (?bench / --bench)
+var replay: Replay            # the instant replay shown from the end screen
 ## Adaptive quality: a slower GPU (a laptop) steps down until frames fit in ~16.7 ms.
 var quality := 0
 var _q_window: PackedFloat32Array = []
@@ -65,6 +66,16 @@ func _ready() -> void:
 	menus.resume_pressed.connect(resume)
 	menus.restart_pressed.connect(restart)
 	menus.level_select_pressed.connect(open_level_select)
+	menus.skater_pressed.connect(open_skater_screen)
+	replay = Replay.new()
+	replay.name = "Replay"
+	add_child(replay)
+	replay.setup(self)
+	menus.replay_pressed.connect(func():
+		menus.hide_all()
+		replay.play())
+	replay.finished.connect(func(): menus.show_end(goals, score, stats, String(level.game.get("cleared", "Warehouse cleared")), skater.model.choice, replay.available()))
+	print("[skater] skating as %s" % SkaterOutfit.to_arg(skater.model.choice))
 	skater.spawn(level.spawn_pos, level.spawn_forward)
 	cam.snap()
 	level.warm_up(cam.global_position, -cam.global_basis.z)
@@ -186,7 +197,22 @@ func start_run() -> void:
 	ending = false
 	time_left = RUN_TIME
 	run_start_phys = Engine.get_physics_frames()
+	replay.clear()
 	print("[run] started")      # (the menu that started the run already played its confirm blip)
+
+
+func open_skater_screen() -> void:
+	## The character builder: the skater it saves is rebuilt on the spot and skates the run.
+	var b: SkaterBuilder = preload("res://scenes/ui/skater_builder.tscn").instantiate()
+	b.start(skater.model.choice)
+	menus.hide_all()
+	add_child(b)
+	b.closed.connect(func(saved: bool, c: Dictionary):
+		if saved and c != skater.model.choice:
+			skater.model.rebuild(c)
+			skater.spawn(level.spawn_pos, level.spawn_forward)
+			cam.snap()
+		_show_start())
 
 
 func resume() -> void:
@@ -248,7 +274,7 @@ func _finish() -> void:
 	_check_score()
 	get_tree().paused = true
 	hud.visible = false
-	menus.show_end(goals, score, stats, String(level.game.get("cleared", "Warehouse cleared")))
+	menus.show_end(goals, score, stats, String(level.game.get("cleared", "Warehouse cleared")), skater.model.choice, replay.available())
 	print("[run] finished score=%d goals=%s" % [score.total, str(goals.map(func(g): return [g["id"], g["done"]]))])
 	if bench:
 		bench.report()
@@ -427,6 +453,7 @@ func switch_level(id: String, screen: Node = null) -> bool:
 	running = false
 	ending = false
 	score.reset()
+	replay.clear()
 	level.load_level(id)
 	_apply_level_look()
 	_make_goals()
