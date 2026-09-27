@@ -9,7 +9,7 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [ap  15.77] wall broken
 [ap  16.42] secret tape
 [ap  17.52] combo +1000  total 2176  [Melon + Indy]
-[desktop] info (start) -> /tmp/desktop_test.tYsWeQ/info.json
+[desktop] info (start) -> /tmp/desktop_test.53QiHC/info.json
 [ap  24.25] window 4 (1/5)
 [ap  25.08] window 3 (2/5)
 [ap  25.95] letter K
@@ -49,8 +49,8 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [ap 119.15] combo +1326  total 69043  [Kickflip + Indy + FS 180]
 [run] finished score=69043 goals=[["score", true], ["skate", true], ["tape", true], ["rafters", true], ["windows", true]]
 [ap 141.57] step 56 TIMEOUT (halfpipe airs to the buzzer) pos=(5.7, 2.7, -43.0) st=0
-[desktop] 0 frame times -> /tmp/desktop_test.tYsWeQ/frames.csv
-[desktop] info (end) -> /tmp/desktop_test.tYsWeQ/info.json
+[desktop] 0 frame times -> /tmp/desktop_test.53QiHC/frames.csv
+[desktop] info (end) -> /tmp/desktop_test.53QiHC/info.json
 [desktop] no bench report came (no frames were rendered): quitting without one
 [desktop] run over: quitting
 WARNING: 6 ObjectDB instances were leaked at exit (run with `--verbose` for details).

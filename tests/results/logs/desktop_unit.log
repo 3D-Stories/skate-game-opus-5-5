@@ -8,13 +8,14 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [desktop] window windowed (0, 0)
 [desktop] quit from the start screen
 [desktop] quit from the start screen
+[level] baths loaded
 [run] started
 [desktop] window lost focus: pausing
 [run] paused at 119.3 s left
 [run] resumed at 119.3 s left
 [bench] {"avg_fps":60.0,"frames":7,"msaa":"4x"}
 [desktop] bench report -> /home/rocky/.local/share/ProSkater/desktop_test/bench.json
-desktop layer (desktop/desktop.gd), headless: 38 passed, 0 failed
+desktop layer (desktop/desktop.gd), headless: 43 passed, 0 failed
 PASS  the Desktop autoload is loaded
 PASS  it finds the Main scene
 PASS  start screen: the game waits in a menu
@@ -26,6 +27,11 @@ PASS  Q once: asks to press again, does not quit  (PRESS  Q / B  AGAIN TO QUIT)
 PASS  the quit prompt goes away after 3 s
 PASS  Q twice quits  (quit calls: 1)
 PASS  gamepad B twice quits  (quit calls: 2)
+PASS  Eastside Baths is in the build itself: available without a download, no pack URL on desktop
+PASS  Tab opens the level select; the quit hint is hidden there
+PASS  the level select offers no download on desktop  (warehouse: PLAYING NOW  DEFAULT; baths: ; )
+PASS  Q and B in the level select do not quit; B goes back to the start screen
+PASS  Right + Enter loads Eastside Baths: its six goals, then the start screen with the quit hint  (baths, 6 goals)
 PASS  Enter starts the run
 PASS  the hint is hidden while riding
 PASS  the mouse cursor is hidden while riding (requested)
@@ -54,5 +60,5 @@ PASS  settings report has joypads  ([])
 PASS  settings report has environment  ({ "tonemap": "agx", "ssao": true, "glow": true, "fog": true, "sun_shadows": true, "adaptive_quality_step": "full" })
 PASS  settings report: 4x MSAA, SSAO, glow, AgX tone mapping, sun shadows  ({ "tonemap": "agx", "ssao": true, "glow": true, "fog": true, "sun_shadows": true, "adaptive_quality_step": "full" })
 
-WARNING: 12 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+WARNING: 9 ObjectDB instances were leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)

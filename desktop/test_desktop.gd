@@ -5,7 +5,9 @@ extends SceneTree
 ## a second press), Alt+Enter and F11 (fullscreen toggle, saved, and Alt+Enter not also
 ## starting the run), pausing when the window loses focus (not during the scripted run), the
 ## mouse cursor, the windowed size on large and small screens, the bench report picked up from
-## the game's log line, and the settings report.
+## the game's log line, and the settings report. Levels: Eastside Baths is embedded (no pack to
+## download), the level select opens from the start screen, Q / B do not quit from it (B goes
+## back), and switching to the Baths brings back the start screen with the quit hint.
 ##   godot --headless --path <stage> --fixed-fps 60 -s res://desktop/test_desktop.gd <out file>
 
 var main: Node
@@ -61,6 +63,13 @@ func tap_pad(b: JoyButton) -> void:
 		await frames(2)
 
 
+func level_screen() -> Node:
+	for n in main.get_children():
+		if n.get_script() and n.get_script().resource_path == "res://scripts/ui/level_select.gd":
+			return n
+	return null
+
+
 func pref_mode() -> String:
 	var cf := ConfigFile.new()
 	return cf.get_value("window", "mode", "") if cf.load("user://desktop.cfg") == OK else "(no file)"
@@ -109,7 +118,44 @@ func _run() -> void:
 	check(quits[0] == 2, "gamepad B twice quits", "quit calls: %d" % quits[0])
 	await frames(200)
 
-	# --- the run
+	# --- levels: Eastside Baths is embedded in the desktop build; the level select (Tab / Select
+	# on the start screen) is a screen of its own, where Q and B are not "quit" (B goes back)
+	check("baths" in LevelRegistry.ids() and LevelRegistry.available("baths") and LevelRegistry.pack_url("baths") == "",
+			"Eastside Baths is in the build itself: available without a download, no pack URL on desktop")
+	await tap_key(KEY_TAB)
+	await frames(20)
+	var ls := level_screen()
+	check(ls != null and not desk.in_menu() and not desk.hint.visible, "Tab opens the level select; the quit hint is hidden there")
+	var tags := ""
+	if ls:
+		for c in ls.cards:
+			tags += "%s: %s; " % [String(c.get_meta("id")), (c.get_meta("tag") as Label).text]
+	check(ls != null and "DOWNLOAD" not in tags, "the level select offers no download on desktop", tags)
+	await tap_key(KEY_Q)
+	await frames(12)
+	await tap_pad(JOY_BUTTON_B)
+	await frames(20)
+	check(quits[0] == 2 and desk._quit_armed <= 0.0 and level_screen() == null and main.menus.mode == main.menus.START,
+			"Q and B in the level select do not quit; B goes back to the start screen")
+	await frames(30)
+	await tap_key(KEY_TAB)
+	await frames(20)
+	await tap_key(KEY_RIGHT)
+	await frames(12)
+	await tap_key(KEY_ENTER)
+	var loaded := false
+	for i in 900:
+		await process_frame
+		if main.level.level_id == "baths" and not main.switching and level_screen() == null:
+			loaded = true
+			break
+	await frames(5)
+	check(loaded and main.goals.size() == 6 and main.menus.mode == main.menus.START and desk.in_menu() and desk.hint.visible,
+			"Right + Enter loads Eastside Baths: its six goals, then the start screen with the quit hint",
+			"%s, %d goals" % [main.level.level_id, main.goals.size()])
+	await frames(30)
+
+	# --- the run (on Eastside Baths from here on)
 	await tap_key(KEY_ENTER)
 	await frames(30)
 	check(main.running and not paused and not desk.in_menu(), "Enter starts the run")

@@ -1,4 +1,4 @@
-desktop layer (desktop/desktop.gd), headless: 38 passed, 0 failed
+desktop layer (desktop/desktop.gd), headless: 43 passed, 0 failed
 PASS  the Desktop autoload is loaded
 PASS  it finds the Main scene
 PASS  start screen: the game waits in a menu
@@ -10,6 +10,11 @@ PASS  Q once: asks to press again, does not quit  (PRESS  Q / B  AGAIN TO QUIT)
 PASS  the quit prompt goes away after 3 s
 PASS  Q twice quits  (quit calls: 1)
 PASS  gamepad B twice quits  (quit calls: 2)
+PASS  Eastside Baths is in the build itself: available without a download, no pack URL on desktop
+PASS  Tab opens the level select; the quit hint is hidden there
+PASS  the level select offers no download on desktop  (warehouse: PLAYING NOW  DEFAULT; baths: ; )
+PASS  Q and B in the level select do not quit; B goes back to the start screen
+PASS  Right + Enter loads Eastside Baths: its six goals, then the start screen with the quit hint  (baths, 6 goals)
 PASS  Enter starts the run
 PASS  the hint is hidden while riding
 PASS  the mouse cursor is hidden while riding (requested)
@@ -48,4 +53,7 @@ PASS  --frametimes-out: the file is written (no rows without rendered frames)  (
 PASS  --info-out: written at the end, all five goals complete  ({'score': True, 'skate': True, 'tape': True, 'rafters': True, 'windows': True})
 PASS  the scripted run scores over 25,000  (69043)
 PASS  the settings report samples the audio levels during the run
-desktop: 47 checks passed, 0 failed
+PASS  --level=baths: the Baths scripted run ends and quits by itself, no script errors  (exit 0)
+PASS  --level=baths: all six Eastside Baths goals complete  ({'score': True, 'skate': True, 'tape': True, 'signs': True, 'deep_coping': True, 'high_dive': True})
+PASS  the Baths scripted run scores over 25,000  (58951)
+desktop: 55 checks passed, 0 failed
