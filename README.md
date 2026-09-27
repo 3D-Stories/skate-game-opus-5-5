@@ -471,7 +471,7 @@ official Windows export templates.
 
 | What | Command (from the project root, on Linux or WSL) |
 |---|---|
-| Build it (about 15 s) | `bash desktop/build_windows.sh` -> `build/windows/ProSkater.exe`, `build/windows/ProSkater-1.0.0-windows-x86_64.zip`, `SHA256SUMS.txt`; `debug` as the argument makes a debug build with a console exe |
+| Build it (about 15 s) | `bash desktop/build_windows.sh` -> `build/windows/ProSkater.exe`, `build/windows/ProSkater-1.1.0-windows-x86_64.zip`, `SHA256SUMS.txt`; `debug` as the argument makes a debug build with a console exe |
 | Export templates (the build runs this when they are missing) | `bash desktop/install_windows_templates.sh` |
 | Test the desktop layer headless (also part of `tests/run_all.sh`) | `bash desktop/test_desktop.sh` -> `tests/results/desktop.txt` |
 | Run it natively from WSL, on a secondary monitor, never focused | `bash desktop/run_windows.sh <label> [engine options] -- [game options]` |
@@ -514,7 +514,7 @@ copies the project to a staging folder outside the tree (`desktop/stage.sh`), ma
 visible there and appends `desktop/project_windows.cfg` to its `project.godot`: the `Desktop`
 autoload (`desktop/desktop.gd`: window modes, quitting, pause on focus loss, the report
 files), the window icon, `%APPDATA%\ProSkater`, and the renderer. The "Windows Desktop" preset
-sets the app name, version 1.0.0 and the icon (cut from the board's tiger graphic by
+sets the app name, version 1.1.0 and the icon (cut from the board's tiger graphic by
 `desktop/make_icon.py`; no new image). The web export stays byte-for-byte the same as the
 tree before the Windows build (new-level's 7630e89): all ten files of `tools/export_web.sh`,
 `levels/baths.pck` included, and every pack entry (521 in `index.pck`, 105 in the Baths pack),
