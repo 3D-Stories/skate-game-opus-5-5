@@ -6,33 +6,23 @@ Date: 2026-09-26. Godot 4.7.2 (Compatibility), Blender 5.2.2 with MPFB2.
 ## Update, 2026-09-27: on top of new-level and windows-build
 
 The coordinator asked for this branch to be rebased onto `windows-build` (16b7f78: Eastside
-Baths, the level kit and level select, then the Windows build). The work is squashed onto a
-**new branch, `character-builder-rebased`**, starting at 16b7f78. **`character-builder` itself
-is unchanged at 860241a** (its history, commits `d32f30f` to `860241a`, is listed below). Two
-steps were refused by the session's permission checks and are left for the owner:
+Baths, the level kit and level select, then the Windows build). The work was squashed into one
+commit on top of it. The pre-rebase history (commits `d32f30f` to `860241a`, listed below) is
+kept locally as `character-builder-pre-rebase`.
 
-1. **Moving `character-builder` onto the rebased work.** A `git reset --hard` of the branch
-   was refused as destructive, so the rebase went to the new branch instead. Moving the
-   branch ref (or merging `character-builder-rebased`) is the owner's call.
-2. **The two image-provenance files**, `imagegen-log.jsonl` and
-   `blender/textures_src/generate_sources.sh`. Both sides added 4 entries (Eastside Baths:
+Two steps the session's permission checks refused were finished by the coordinator, as the
+owner decided (2026-09-27):
+
+1. **The two image-provenance files**, `imagegen-log.jsonl` and
+   `blender/textures_src/generate_sources.sh`, keep both sides' 4 new entries (Eastside Baths:
    pool tile, wall tile, plaster, terrazzo; this branch: her face, twill, rib knit, flannel).
-   Merging them was refused as changing a shared resource, so both files **still carry their
-   conflict markers**, and nothing on `character-builder-rebased` is committed yet. Keeping
-   both sides' entries gives 25 of 30 images; the README already says 25.
+   The log holds 25 unique entries in time order, 25 of 30 images, as the README says.
+2. **The branch**: the merged work is committed, and it is what the `character-builder` branch
+   on GitHub holds.
 
-**The owner's decisions (2026-09-27):**
-- The two image-provenance files are **left for the coordinator** to resolve. Nothing is
-  committed on `character-builder-rebased` until they are (everything else is merged and
-  staged).
-- Once the rebased work is committed, **`character-builder` moves to that commit**. The old
-  head is kept: the branch `character-builder-pre-rebase` already points at 860241a.
-  Steps for whoever finishes it, in this worktree:
-  1. Resolve `imagegen-log.jsonl` and `blender/textures_src/generate_sources.sh`, then
-     `git add` them.
-  2. `git commit` on `character-builder-rebased`.
-  3. Point `character-builder` at that commit (e.g. `git switch character-builder` then
-     `git reset --hard character-builder-rebased`).
+Commit ids in this report are from the local history. Before the first push to GitHub the
+history was trimmed of an oversized old video, so the published commits have different ids
+(the file trees are identical).
 
 Conflicts resolved (everything kept from both sides):
 - `scripts/ui/menus.gd`: both signals. The start screen names the level and shows both hints
