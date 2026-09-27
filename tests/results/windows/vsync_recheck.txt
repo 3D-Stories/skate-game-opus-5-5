@@ -1,0 +1,30 @@
+OpenGL vsync in a window, rechecked after the rebase onto new-level (2026-09-26, evening)
+
+Yesterday's benchmark (gl_vsync, gl_fullscreen) held vsync: 60.0 fps, no missed refresh. Today,
+with the same monitor layout (DISPLAY4 primary at 175 Hz, the test window on DISPLAY2 at 60 Hz;
+compare gl_vsync_displays.txt with rebase_*_displays.txt), the game still asks for vsync and
+reads it back as "enabled" at 60 Hz, but frames came faster than the refresh:
+
+  20 s runs of the Warehouse (--benchsecs=20), windowed 1920x1080 on DISPLAY2:
+  vsync_recheck_a   the build as it is                                   925.4 fps
+  vsync_recheck_b   + --rendering-driver opengl3                         897.1 fps
+  vsync_recheck_c   + --gpu-time (as an engine option, i.e. ignored)     505.2 fps
+  vsync_recheck_d   --rendering-driver opengl3 -- --gpu-time             483.2 fps
+                    (exactly yesterday's gl_vsync launch)
+  vsync_recheck_old the pre-rebase exe (windows-build-pre-rebase 83bb571,
+                    rebuilt from a clean copy), same launch as a         465.5 fps
+
+So it is not the rebase: yesterday's build does the same today. In the second smoke run of
+Eastside Baths (smoke_baths_bench.json) it changed during the run: uncapped for the first 8 s,
+then a 7.4 s stall inside the driver (a 1,988 ms frame spent in rendering, then a 5,447 ms
+one, at 8.2 s), and from then on vsync held at 16.67 ms for the rest of the run.
+
+Whether OpenGL vsync is honoured in a window therefore changes with something outside the game
+(the driver or the desktop compositor); what switches it was not found (NOT VERIFIED). The game
+does not change vsync while it runs. Benchmarks that need comparable numbers use Godot's
+--disable-vsync (rebase_warehouse_uncapped, rebase_baths_uncapped, run back to back).
+
+The first smoke run's Baths numbers (not kept: the second run replaced them) had four
+0.72-0.76 s frames at 0, 30, 60 and 90 s of the run, spent in script: the desktop layer's
+--shots saving a 1080p PNG. desktop/smoke_windows.sh no longer takes screenshots in a
+benchmark run, and desktop.gd's header says so.

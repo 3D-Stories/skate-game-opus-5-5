@@ -1,0 +1,15 @@
+Eastside Baths embedded in the Windows exe: 2026-09-26T18:15:53-06:00, exe sha256 b7834f2ae8b075b8, web pack from tools/export_web.sh on the same import cache
+web levels/baths.pck: 105 entries; in the Windows exe's embedded pck: 53 identical, 52 different, 0 missing
+    assets/levels/baths/baths.glb.import
+    assets/levels/baths/baths_baths_boiler_albedo.webp.import
+    assets/levels/baths/baths_baths_brick_albedo.webp.import
+    assets/levels/baths/baths_baths_brick_n40_normal.webp.import
+    assets/levels/baths/baths_baths_cabin_albedo.webp.import
+  levels/registry.json                     in the exe
+  levels/baths/level.json                  in the exe
+  levels/baths/autopilot_route.gd.remap    in the exe
+  scripts/ui/level_select.gdc              in the exe
+  desktop/desktop.gdc                      in the exe
+exe pck: 629 entries
+differing entries that are not .import remaps: []
+identical: 52 imported artefacts (.ctex / .scn), 1 others: ['assets/levels/baths/baths_data.json']

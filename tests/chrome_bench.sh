@@ -6,6 +6,8 @@
 #               (the script adds &benchreport: the game then posts its report to this server)
 #     uncapped  launch Chrome with --disable-gpu-vsync --disable-frame-rate-limit
 #   CHROME_EXTRA="--use-angle=d3d11on12" tests/chrome_bench.sh ...   adds Chrome flags
+#   CHROME_POS=4190,-1320 tests/chrome_bench.sh ...   window position (Windows desktop pixels)
+#   BENCH_OUT=<file> tests/chrome_bench.sh ...        report file (tests/bench_server.py --out)
 #
 # Needs tests/bench_server.py running on port 8790 (it appends each report to
 # tests/results/bench_runs.jsonl). Chrome gets its own profile (C:\Temp\skatebench),
@@ -30,7 +32,7 @@ n0=$(cat "$OUT" 2>/dev/null | wc -l)
 CH="/mnt/c/Program Files/Google/Chrome/Application/chrome.exe"
 (nohup "$CH" --user-data-dir="C:\\Temp\\$PROFILE" --no-first-run --no-default-browser-check --force-device-scale-factor=1 $FLAGS \
   --disable-backgrounding-occluded-windows --disable-renderer-backgrounding --disable-background-timer-throttling \
-  --disable-features=CalculateNativeWinOcclusion --window-position=-3400,40 --window-size=1936,1119 \
+  --disable-features=CalculateNativeWinOcclusion --window-position=${CHROME_POS:--3400,40} --window-size=1936,1119 \
   --app="http://localhost:$PORT/?$Q&benchreport" > /tmp/chrome_bench_run.log 2>&1 &)
 sleep 8
 sed "s/\*skatebench\*/*$PROFILE*/" "$DIR/chrome_topmost.ps1" > "/mnt/c/Temp/${PROFILE}_top.ps1"

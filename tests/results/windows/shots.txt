@@ -1,0 +1,12 @@
+screenshots of the Windows build (1920x1080 window), OpenGL 3.3 vs ANGLE on Direct3D 11:
+  end_screen.png     1920x1080  1920x1080  mean difference 3.3 / 3.2 / 3.3
+  run_000s.png       1920x1080  1920x1080  mean difference 0.2 / 0.2 / 0.2
+  run_015s.png       1920x1080  1920x1080  mean difference 0.2 / 0.2 / 0.2
+  run_030s.png       1920x1080  1920x1080  mean difference 10.4 / 10.7 / 11.4
+  run_045s.png       1920x1080  1920x1080  mean difference 12.2 / 11.7 / 12.1
+  run_060s.png       1920x1080  1920x1080  mean difference 15.2 / 14.6 / 15.5
+  run_075s.png       1920x1080  1920x1080  mean difference 17.3 / 17.0 / 17.5
+  run_090s.png       1920x1080  1920x1080  mean difference 12.7 / 12.4 / 12.6
+  run_105s.png       1920x1080  1920x1080  mean difference 18.9 / 18.5 / 18.9
+  start_screen.png   1920x1080  1920x1080  mean difference 0.1 / 0.1 / 0.2
+evidence: windows_end_screen.jpg, windows_gl_vs_angle.jpg, windows_run_015s.jpg, windows_run_030s.jpg, windows_run_060s.jpg, windows_run_105s.jpg, windows_start_screen.jpg

@@ -1,0 +1,24 @@
+bash tests/run_all.sh on windows-build (final tree of the rebase commit on 37c6a85, rebased onto new-level 7630e89), 2026-09-26T18:52:52-06:00
+suite          exit  summary
+scoring        0     40 passed, 0 failed
+flow           0     24 passed, 0 failed
+input          0     178 passed, 0 failed
+audio          0     69 passed, 0 failed
+park           0     111 passed, 0 failed
+anims          0     53 passed, 0 failed
+clips          0     28 passed, 0 failed
+handling       0     48 passed, 0 failed
+ragdoll        0     RAGDOLL 75 passed 0 failed
+camera         0     27 passed, 0 failed
+fullrun        0     [run] finished score=69043 goals=[["score", true], ["skate", true], ["tape", true], ["rafters", true], ["windows", true]]
+levelsel       0     19 passed, 0 failed
+level_baths    0     53 passed, 0 failed
+fullrun_baths  0     [run] finished score=58951 goals=[["score", true], ["skate", true], ["tape", true], ["signs", true], ["deep_coping", true], ["high_dive", true]]
+desktop        0     desktop: 55 checks passed, 0 failed
+
+The per-suite result files the run rewrote (tests/results/*.txt, logs/*.log) were put back to
+new-level's committed versions, so the merge carries no noise; they differed from new-level's
+only in timestamps, the audio suite's file counts and timings, and small chase-camera metrics.
+Those vary between runs of new-level itself: the camera suite's closest distance on the west
+rafter grind was 5.77 m and then 5.66 m in two runs of a clean copy of new-level 7630e89
+(committed: 5.66 m), 5.83 m here. No game script, scene or asset differs between the branches.

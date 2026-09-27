@@ -1,0 +1,4 @@
+14:02:33 bench-start 1920x1080@1
+14:05:27 bench-result {"avg_fps": 133.9, "median_ms": 6.9, "p95_ms": 10.7, "p95_fps": 93.5, "p99_ms": 14.0, "one_pct_low_fps": 27.5, "render_gpu_ms_mean": null, "options": {}}
+14:05:36 bench-start 1920x1080@1
+14:07:38 bench-result {"avg_fps": 154.6, "median_ms": 6.2, "p95_ms": 9.1, "p95_fps": 109.9, "p99_ms": 10.8, "one_pct_low_fps": 80.4, "render_gpu_ms_mean": null, "options": {}}

@@ -1,0 +1,54 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 610.74 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4080
+
+[desktop] opengl3 | NVIDIA GeForce RTX 4080 | 3.3.0 NVIDIA 610.74 | window windowed (1920, 1080) on screen 2
+[run] started
+[desktop] info (start) -> C:/Temp/ProSkater/out/smoke_warehouse_info.json
+[ap   6.63] letter A
+[ap   9.00] rafter grind
+[ap  12.02] combo +1176  total 1176  [Boardslide + Kickflip]
+[ap  15.77] wall broken
+[ap  16.42] secret tape
+[ap  17.52] combo +1000  total 2176  [Melon + Indy]
+[ap  24.25] window 4 (1/5)
+[ap  25.08] window 3 (2/5)
+[ap  25.95] letter K
+[ap  26.32] window 2 (3/5)
+[ap  27.70] window 1 (4/5)
+[ap  29.32] window 0 (5/5)
+[ap  34.10] combo +6500  total 8676  [Indy + 50-50 + Kickflip + Manual]
+[ap  38.78] letter S
+[ap  41.12] combo +1347  total 10023  [Heelflip + Nose Manual + 50-50]
+[ap  45.93] letter E
+[ap  46.85] combo +932  total 10955  [Melon + Indy]
+[ap  52.75] letter T
+[ap  56.58] combo +1572  total 12527  [360 Flip + Tailgrab]
+[ap  59.32] combo +1326  total 13853  [Heelflip + Indy + BS 180]
+[ap  62.03] combo +684  total 14537  [Pop Shove-It + Melon]
+[ap  64.77] combo +1326  total 15863  [Kickflip + Indy + FS 180]
+[ap  67.48] special meter full
+[ap  67.48] combo +1572  total 17435  [360 Flip + Tailgrab]
+[ap  70.20] combo +1326  total 18761  [Heelflip + Indy + BS 180]
+[ap  72.92] combo +6412  total 25173  [Tiger Claw Tre + Melon]
+[ap  75.63] combo +1326  total 26499  [Kickflip + Indy + FS 180]
+[ap  78.35] combo +1572  total 28071  [360 Flip + Tailgrab]
+[ap  81.08] combo +1326  total 29397  [Heelflip + Indy + BS 180]
+[ap  83.80] combo +6412  total 35809  [Tiger Claw Tre + Melon]
+[ap  86.52] combo +1326  total 37135  [Kickflip + Indy + FS 180]
+[ap  89.23] combo +1572  total 38707  [360 Flip + Tailgrab]
+[ap  91.95] combo +1326  total 40033  [Heelflip + Indy + BS 180]
+[ap  94.67] combo +6412  total 46445  [Tiger Claw Tre + Melon]
+[ap  97.40] combo +1326  total 47771  [Kickflip + Indy + FS 180]
+[ap 100.12] combo +1572  total 49343  [360 Flip + Tailgrab]
+[ap 102.83] combo +1326  total 50669  [Heelflip + Indy + BS 180]
+[ap 105.55] combo +6412  total 57081  [Tiger Claw Tre + Melon]
+[ap 108.27] combo +1326  total 58407  [Kickflip + Indy + FS 180]
+[ap 110.98] combo +1572  total 59979  [360 Flip + Tailgrab]
+[ap 113.72] combo +1326  total 61305  [Heelflip + Indy + BS 180]
+[ap 116.43] combo +6412  total 67717  [Tiger Claw Tre + Melon]
+[ap 119.15] combo +1326  total 69043  [Kickflip + Indy + FS 180]
+[run] finished score=69043 goals=[["score", true], ["skate", true], ["tape", true], ["rafters", true], ["windows", true]]
+[bench] {"api":"3.3.0 NVIDIA 610.74","avg_fps":923.7,"cpu_ms_max":12.49,"cpu_ms_mean":1.06,"cpu_ms_p95":1.4,"draw_calls_max":352,"draw_calls_mean":238,"fog":true,"frames":110837,"frames_over_10ms":42,"frames_over_16_7ms":0,"glow":true,"gpu":"NVIDIA GeForce RTX 4080","long_frames_outside_run":[],"max_ms":13.14,"median_ms":1.01,"msaa":"4x","one_pct_low_fps":263.1,"options":{},"p95_fps":697.8,"p95_ms":1.43,"p99_ms":1.87,"physics_ms_mean":0.02,"primitives_mean":249184,"render_submit_ms_mean":0.96,"render_submit_ms_p95":1.17,"renderer":"gl_compatibility","run_start_t_s":1.54,"scale_3d":1.0,"score":69043,"script_ms_mean":0.08,"seconds":119.99,"sections":[{"at":"(0.0, 5.0, 12.5)","cpu_ms":1.04,"cpu_p95":1.39,"draws":251,"max_ms":10.63,"median_ms":1.0,"p95_ms":1.43,"prims":240493,"render_submit_ms":0.96,"t":"0-10s"},{"at":"(-19.0, 6.0, -41.5)","cpu_ms":1.04,"cpu_p95":1.43,"draws":252,"max_ms":11.27,"median_ms":0.98,"p95_ms":1.46,"prims":267310,"render_submit_ms":0.95,"t":"10-20s"},{"at":"(-19.0, 0.0, -35.0)","cpu_ms":1.12,"cpu_p95":1.52,"draws":233,"max_ms":13.14,"median_ms":1.07,"p95_ms":1.56,"prims":230624,"render_submit_ms":0.99,"t":"20-30s"},{"at":"(19.5, 4.0, -9.0)","cpu_ms":1.08,"cpu_p95":1.46,"draws":215,"max_ms":11.54,"median_ms":1.02,"p95_ms":1.48,"prims":220188,"render_submit_ms":0.93,"t":"30-40s"},{"at":"(0.0, 1.5, -16.5)","cpu_ms":1.05,"cpu_p95":1.39,"draws":238,"max_ms":10.98,"median_ms":1.01,"p95_ms":1.43,"prims":251438,"render_submit_ms":0.96,"t":"40-50s"},{"at":"(-2.0, 0.0, -35.5)","cpu_ms":1.04,"cpu_p95":1.4,"draws":229,"max_ms":10.01,"median_ms":1.01,"p95_ms":1.43,"prims":251442,"render_submit_ms":0.96,"t":"50-60s"},{"at":"(4.5, 1.0, -43.0)","cpu_ms":1.05,"cpu_p95":1.39,"draws":238,"max_ms":10.78,"median_ms":1.0,"p95_ms":1.42,"prims":252797,"render_submit_ms":0.96,"t":"60-70s"},{"at":"(-5.0, 1.0, -43.0)","cpu_ms":1.06,"cpu_p95":1.42,"draws":245,"max_ms":10.89,"median_ms":1.01,"p95_ms":1.45,"prims":260628,"render_submit_ms":0.97,"t":"70-80s"},{"at":"(-5.5, 6.5, -43.0)","cpu_ms":1.05,"cpu_p95":1.36,"draws":242,"max_ms":12.54,"median_ms":1.01,"p95_ms":1.4,"prims":258003,"render_submit_ms":0.96,"t":"80-90s"},{"at":"(-5.5, 1.5, -43.0)","cpu_ms":1.04,"cpu_p95":1.3,"draws":237,"max_ms":11.39,"median_ms":1.01,"p95_ms":1.33,"prims":251859,"render_submit_ms":0.95,"t":"90-100s"},{"at":"(4.5, 0.5, -43.0)","cpu_ms":1.05,"cpu_p95":1.33,"draws":234,"max_ms":11.74,"median_ms":1.01,"p95_ms":1.37,"prims":249650,"render_submit_ms":0.96,"t":"100-110s"},{"at":"(5.5, 6.5, -43.0)","cpu_ms":1.05,"cpu_p95":1.36,"draws":239,"max_ms":11.41,"median_ms":1.01,"p95_ms":1.4,"prims":253917,"render_submit_ms":0.96,"t":"110-120s"},{"at":"(5.5, 2.5, -43.0)","cpu_ms":1.47,"cpu_p95":1.47,"draws":246,"max_ms":1.49,"median_ms":1.49,"p95_ms":1.49,"prims":268674,"render_submit_ms":1.41,"t":"120-130s"}],"slowest":[{"cpu_ms":9.1,"draws":203,"frame_ms":13.1,"physics_ms":0.0,"render_ms":8.8,"run_s":28.49,"script_ms":0.2},{"cpu_ms":12.5,"draws":276,"frame_ms":12.5,"physics_ms":0.5,"render_ms":11.9,"run_s":81.48,"script_ms":0.1},{"cpu_ms":11.7,"draws":195,"frame_ms":11.7,"physics_ms":0.0,"render_ms":11.6,"run_s":108.04,"script_ms":0.1},{"cpu_ms":11.5,"draws":202,"frame_ms":11.5,"physics_ms":0.0,"render_ms":11.3,"run_s":35.1,"script_ms":0.2},{"cpu_ms":11.4,"draws":203,"frame_ms":11.4,"physics_ms":0.0,"render_ms":11.3,"run_s":118.01,"script_ms":0.1},{"cpu_ms":11.4,"draws":281,"frame_ms":11.4,"physics_ms":0.4,"render_ms":10.9,"run_s":98.08,"script_ms":0.1},{"cpu_ms":11.2,"draws":195,"frame_ms":11.3,"physics_ms":0.7,"render_ms":10.4,"run_s":108.05,"script_ms":0.1},{"cpu_ms":10.6,"draws":218,"frame_ms":11.3,"physics_ms":0.0,"render_ms":10.5,"run_s":14.09,"script_ms":0.1},{"cpu_ms":11.1,"draws":215,"frame_ms":11.2,"physics_ms":0.0,"render_ms":11.0,"run_s":32.89,"script_ms":0.2},{"cpu_ms":11.0,"draws":284,"frame_ms":11.1,"physics_ms":0.0,"render_ms":11.0,"run_s":12.98,"script_ms":0.1},{"cpu_ms":11.0,"draws":228,"frame_ms":11.0,"physics_ms":0.0,"render_ms":10.8,"run_s":25.17,"script_ms":0.2},{"cpu_ms":10.9,"draws":187,"frame_ms":11.0,"physics_ms":0.0,"render_ms":10.8,"run_s":45.02,"script_ms":0.1}],"ssao":true,"sun_shadows":true,"tonemap":"agx","viewport":"1920x1080"}
+[desktop] bench report -> C:/Temp/ProSkater/out/smoke_warehouse_bench.json
+[desktop] info (end) -> C:/Temp/ProSkater/out/smoke_warehouse_info.json
+[desktop] run over: quitting
