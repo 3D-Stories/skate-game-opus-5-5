@@ -24,7 +24,8 @@ extends Node
 ##                            (written 2 s after start, then again at the end screen or on quit)
 ##   --shots=<dir>            screenshots: the start screen, the run every --shot-every=<s>
 ##                            (default 15) run seconds, the end screen, and 1 s after each
-##                            fullscreen / window switch
+##                            fullscreen / window switch. Saving a 1080p PNG holds up the frame
+##                            it is taken in (about 0.75 s): do not combine with --bench
 ##   --input-log              print every key and joypad button, the skater's state changes and
 ##                            tricks, and its speed once a second of the run
 ##   --quit-at-end            quit once the run is over and the files above are written

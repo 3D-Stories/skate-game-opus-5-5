@@ -14,7 +14,7 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [ap  15.53] combo +1326  total 4358  [Heelflip + Indy + BS 180]
 [ap  18.30] combo +784  total 5142  [Pop Shove-It + Nosegrab]
 [ap  21.07] letter K
-[desktop] info (start) -> /tmp/desktop_test.53QiHC/info_baths.json
+[desktop] info (start) -> /tmp/desktop_test.XkTimy/info_baths.json
 [ap  22.05] combo +1012  total 6154  [Melon + Indy]
 [ap  24.33] broke Sign_3 (signs 2/5)
 [ap  24.75] broke Sign_4 (signs 3/5)
@@ -53,12 +53,14 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [ap 107.22] combo +1572  total 48173  [360 Flip + Tailgrab]
 [ap 109.97] combo +1326  total 49499  [Heelflip + Indy + BS 180]
 [ap 112.72] combo +6412  total 55911  [Tiger Claw Tre + Melon]
+WARNING: Jolt Physics job system exceeded the maximum number of jobs. This should not happen. Please report this. Waiting for jobs to become available...
+     at: CreateJob (modules/jolt_physics/spaces/jolt_job_system.cpp:123)
 [ap 115.47] combo +784  total 56695  [Pop Shove-It + Nosegrab]
 [ap 118.22] combo +684  total 57379  [Kickflip + Indy]
 [ap 120.97] combo +1572  total 58951  [360 Flip + Tailgrab]
 [run] finished score=58951 goals=[["score", true], ["skate", true], ["tape", true], ["signs", true], ["deep_coping", true], ["high_dive", true]]
 [ap 136.30] step 41 TIMEOUT (deep end airs to the buzzer) pos=(-0.5, -3.2, -9.0) st=0
-[desktop] info (end) -> /tmp/desktop_test.53QiHC/info_baths.json
+[desktop] info (end) -> /tmp/desktop_test.XkTimy/info_baths.json
 [desktop] run over: quitting
 WARNING: 6 ObjectDB instances were leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)

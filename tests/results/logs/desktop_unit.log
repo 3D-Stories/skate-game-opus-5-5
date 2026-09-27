@@ -60,5 +60,5 @@ PASS  settings report has joypads  ([])
 PASS  settings report has environment  ({ "tonemap": "agx", "ssao": true, "glow": true, "fog": true, "sun_shadows": true, "adaptive_quality_step": "full" })
 PASS  settings report: 4x MSAA, SSAO, glow, AgX tone mapping, sun shadows  ({ "tonemap": "agx", "ssao": true, "glow": true, "fog": true, "sun_shadows": true, "adaptive_quality_step": "full" })
 
-WARNING: 9 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+WARNING: 10 ObjectDB instances were leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)

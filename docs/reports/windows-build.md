@@ -5,6 +5,83 @@ Branch `windows-build`, worktree `.worktrees/windows-build`, 2026-09-26. Built i
 side. The CI VM "nillerkgames" was not needed and not used: Godot exports Windows builds from
 Linux.
 
+## Rebase onto new-level (2026-09-26, evening)
+
+At the coordinator's request the branch was rebased onto `new-level` (7630e89: Eastside Baths,
+the level kit, the level registry and level select), which merges first. The pre-rebase head
+is kept as the local branch `windows-build-pre-rebase` (83bb571).
+
+- **Conflicts**, all resolved keeping both sides: `tests/run_all.sh` (new-level's level-select
+  and per-level suites, plus the desktop suite before `wait` and in the summary),
+  `tests/chrome_bench.sh` (new-level's `BENCH_PORT` / `BENCH_PROFILE`, plus `CHROME_POS`; both
+  branches had added the same `BENCH_OUT` line), `README.md` (both sides' Commands and Evidence
+  rows; the Windows build section after new-level's level numbers). `export_presets.cfg`
+  merged by itself into two separate presets: the Web preset now excludes `assets/levels/*`
+  (new-level), the Windows preset does not.
+- **Levels on desktop: embedded.** The web build keeps Eastside Baths in `levels/baths.pck`,
+  downloaded when the level is first chosen. The Windows build has it inside the exe: a desktop
+  download is fetched once as a whole, a second file beside the exe could only go missing, and
+  `LevelRegistry.available()` already treats assets in the main pack as loaded, so no game
+  code changed. The exe grew from 150.6 to 186.5 MB, the zip from 68.0 to 93.7 MB. Every entry
+  of the web Baths pack is in the exe; its 52 imported textures / meshes and `baths_data.json`
+  are byte-identical (only the `.import` remaps differ: the exporter writes its own short
+  form) (`tests/results/windows/embedded_baths.txt`).
+- **A gap in my web check, found and fixed.** After the rebase a fresh `--import` picked up the
+  13 benchmark load CSVs I had committed in `tests/results/windows/`: Godot imports a `.csv` as
+  a translation, with a UID, so a fresh checkout of this branch would have put 13 new UIDs in
+  the web pack's UID cache, and one fresh import crashed on them (glibc heap corruption).
+  Yesterday's "byte-for-byte identical" held only for the copy my check built, which left out
+  `tests/results/`. Fixed: `tests/results/windows/.gdignore`, and
+  `tests/web_export_unchanged.sh` now takes what a fresh checkout would hold (every file git
+  would commit, through a temporary index; the real index and the stash are untouched),
+  builds with `tools/export_web.sh`, compares every file and every pack entry, and defaults to
+  the tree before the Windows build (the parent of the commit that added `desktop/desktop.gd`,
+  i.e. new-level's 7630e89). Before the `.gdignore`, the fixed check reproduced the failure;
+  after it: **PASS**, all 10 files, 521 `index.pck` and 105 `levels/baths.pck` entries
+  identical (`tests/results/web_export_unchanged.txt`).
+- **Tests**: all 15 suites of `tests/run_all.sh` pass (new-level's 14: the 11 originals with
+  653 checks, the level select 19, the Baths park suite 53, and the two full runs with every
+  goal; plus the desktop suite), `tests/results/run_all_windows_branch.txt`. The desktop suite
+  went from 47 to 55 checks: the Baths is available with no pack URL on desktop, Tab opens the
+  level select with no "downloads" tag, Q / B do not quit from it (B goes back), Right + Enter
+  loads the Baths and the quit hint returns, and `-- --level=baths --autopilot --quit-at-end`
+  completes all six Baths goals (58,951 points). The per-suite result files the run rewrote were
+  put back to new-level's versions (only timestamps and run-to-run noise differed; the camera
+  suite's closest distance on one grind was 5.77 m and then 5.66 m in two runs of a clean copy
+  of new-level itself, 5.83 m here).
+- **Native smoke test** (`desktop/smoke_windows.sh`, 1920x1080 window on DISPLAY2, a secondary
+  monitor, never focused; DISPLAY4 is primary): **14 / 14 PASS** (`tests/results/windows/smoke.txt`).
+  The Warehouse scripted run completes all five goals (69,043 points) and Eastside Baths all
+  six (58,951), each quitting by itself with a bench report; the renderer read back is OpenGL
+  3.3 on the RTX 4080 at 1920x1080 with 4x MSAA, SSAO, glow, AgX and sun shadows. With the
+  keyboard (window messages), Tab, Right + Enter on the start screen load the Baths, Enter
+  starts a run, W pushes the skater to 13.0 m/s, Esc pauses and Q twice quits (exit 0), and the
+  master bus plays sound. Pictures: `evidence/windows_level_select.jpg`,
+  `windows_baths_start.jpg`, `windows_baths_run.jpg`.
+- **Both levels, uncapped, back to back** (`desktop/bench_windows.sh ... uncapped`):
+
+  | Level | Frames | Average | Median | p95 | p99 | 1 % low | > 16.7 ms | Slowest |
+  |---|---|---|---|---|---|---|---|---|
+  | The Warehouse | 80,145 | 667.2 fps | 1.20 ms | 2.77 ms | 3.27 ms | 158.9 fps | 3 | 270.9 ms, at the first window broken (new exe: shader caches cold) |
+  | Eastside Baths | 55,759 | 461.0 fps | 2.15 ms | 3.09 ms | 4.41 ms | 124.7 fps | 6 | 21.0 ms |
+
+- **Vsync did not hold today** (NOT VERIFIED why). With the same monitors and launch as
+  yesterday's 60.0 fps runs, OpenGL ran at 465-925 fps with vsync read back as enabled; the
+  pre-rebase exe, rebuilt from a clean copy, did the same, so it is not the rebase. In one Baths
+  smoke run it switched back to 60 Hz mid-run after a 7.4 s stall inside the driver. Details:
+  `tests/results/windows/vsync_recheck.txt`. The smoke table's frame rates are therefore not a
+  benchmark; the uncapped pair above is.
+- **A measurement artefact, fixed**: the first smoke run's Baths report had four 0.72-0.76 s
+  frames at exactly 0, 30, 60 and 90 s, spent in script: my `--shots` saving a 1080p PNG.
+  The smoke script no longer takes screenshots in a benchmark run, and `desktop.gd`'s header
+  says what a shot costs.
+- Housekeeping: two test windows outlived their runs (a `timeout` stopped the WSL script, not
+  the Windows process; one run was started without `--quit-at-end`). Both were mine, both were
+  on DISPLAY2, and both were closed by PID. No window opened on the primary monitor.
+
+The sections below are the report from before the rebase; where the rebase changed a
+number, the line above wins.
+
 ## Result in short
 
 - `bash desktop/build_windows.sh` makes `build/windows/ProSkater.exe` (151 MB, the pck
@@ -21,7 +98,9 @@ Linux.
   goals (69,043 points) in all 13 native benchmark runs and 2 screenshot runs; keyboard,
   sound, pause and quit work;
   F11 goes fullscreen at 1920x1080 on the 1080p monitor and back to a fitted 1764x992 window.
-- The web export is byte-for-byte unchanged (all 9 files, all 508 pck entries).
+- The web export is byte-for-byte unchanged (all 9 files, all 508 pck entries), for a copy
+  of the tree without `tests/results/` (see the rebase section: a fresh checkout would not
+  have been; fixed).
 - All 11 existing suites pass (653 checks + the full run), plus the new desktop suite (47).
 - Known issue: after leaving fullscreen, the never-focused test window keeps showing a stale
   frame (the game renders fine underneath). Whether a normal focused window does it is NOT
@@ -80,6 +159,7 @@ bash tests/web_export_unchanged.sh               # web export byte-for-byte chec
 bash desktop/bench_all_windows.sh                # every benchmark, native (about 35 min)
 bash desktop/input_test_windows.sh               # keyboard, sound, pause / quit, F11, native
 bash desktop/shots_windows.sh                    # OpenGL and ANGLE screenshots, native
+bash desktop/smoke_windows.sh                    # both levels + level select, native (about 5 min)
 ProSkater.exe -- --autopilot --bench --bench-out=bench.json --quit-at-end
 ```
 
@@ -121,6 +201,12 @@ shader compiles at the first broken window, 24 s in.
 
 ## NOT VERIFIED, and why
 
+- **What makes OpenGL vsync hold or not in a window** (after the rebase it did not, with the
+  same monitors and launch as the runs where it did; the pre-rebase exe behaves the same).
+  See the rebase section and `tests/results/windows/vsync_recheck.txt`.
+- **Gamepad on the level select, natively**: no controller; the headless desktop suite presses
+  B there (it goes back and does not quit), and new-level's level-select suite drives it with a
+  pad.
 - **Gamepad on Windows**: no controller connected; all four XInput slots empty (a paired Xbox
   controller was switched off) and the game's settings report lists no joypads. The bindings
   are Godot joypad events, tested headless by the existing input suite.
@@ -153,7 +239,9 @@ shader compiles at the first broken window, 24 s in.
    test window has Godot's `no_focus` style (`WS_EX_NOACTIVATE | WS_EX_TOPMOST`). Details in
    `tests/results/windows/fullscreen_toggle_investigation.txt`. The game remembers the mode,
    so a restart opens the window correctly; `desktop/README.txt` says so.
-2. **Vsync depends on the display setup.** Earlier in the day, with a 30 Hz virtual monitor as
+2. **Vsync is not dependable in a window** (updated after the rebase: with an unchanged
+   display setup it held on one run and not on the next; see the rebase section).
+   Originally: **vsync depends on the display setup.** Earlier in the day, with a 30 Hz virtual monitor as
    primary, OpenGL ignored vsync (838 fps) and ANGLE ran at 19 fps. Those runs were before the
    final build and their files were not kept. After the monitors were rearranged (a 175 Hz
    monitor became primary), OpenGL kept to 60 Hz. ANGLE never kept vsync in a window.
@@ -183,27 +271,36 @@ shader compiles at the first broken window, 24 s in.
 
 ## Shared files touched
 
+As merged onto new-level (`git diff new-level windows-build`):
+
 - `.gitignore`: `build/windows/`, `tests/results/windows/*.png`, `tests/results/windows/fs_shots/`.
-- `export_presets.cfg`: new `[preset.1]` "Windows Desktop" appended; the Web preset unchanged.
-- `tests/run_all.sh`: runs `desktop/test_desktop.sh` as a 12th suite (one line, one name in
-  the summary loop).
-- `tests/chrome_bench.sh`: `CHROME_POS` and `BENCH_OUT` (defaults unchanged), because the
-  hard-coded window position is off-screen in today's monitor layout.
-- `README.md`: a Commands row, the suite count, an Evidence row, and the new "Windows build"
-  section at the end.
+- `export_presets.cfg`: new `[preset.1]` "Windows Desktop" appended; the Web preset (with
+  new-level's `assets/levels/*` exclusion) unchanged.
+- `tests/run_all.sh`: runs `desktop/test_desktop.sh` next to new-level's suites (one command
+  before `wait`, one name at the end of the summary loop).
+- `tests/chrome_bench.sh`: `CHROME_POS` for the window position (default unchanged); new-level
+  added the same `BENCH_OUT` line and its own `BENCH_PORT` / `BENCH_PROFILE`, all kept.
+- `README.md`: a Commands row (the run_all row now names the desktop suite), two Evidence rows,
+  and the "Windows build" section after Performance.
 - Everything else is new: `desktop/**`, `tests/pck_diff.py`, `tests/web_export_unchanged.sh`,
   `tests/results/{desktop.txt, web_export_unchanged.txt, run_all_windows_branch.txt,
-  windows_fullrun.txt, windows/**}`, `tests/results/logs/desktop*`, `evidence/windows_*.jpg`,
-  this report. No game script, scene, shader, asset or `project.godot` changed.
+  windows_fullrun.txt, windows/**}` (with `windows/.gdignore`), `tests/results/logs/desktop*`,
+  `evidence/windows_*.jpg`, this report. No game script, scene, shader, asset, level file or
+  `project.godot` changed, and no per-suite result file of new-level's.
 - Outside the repo: the four Windows templates added to
   `~/.local/share/godot/export_templates/4.7.2.stable/`, the tpz cache in
   `~/src/godot-templates-4.7.2/`, the stage in `~/.cache/proskater-windows/`, and on Windows
   `C:\Temp\ProSkater\` (the test copy and outputs) and `%APPDATA%\ProSkater` (the game's shader
-  cache and logs; the saved window choice was removed after the tests).
+  cache and logs; the saved window choice was removed after the tests). The local branch
+  `windows-build-pre-rebase` (83bb571) keeps the pre-rebase history; delete it once the merge
+  is done.
 
 ## Commits
 
-See `git log 696364b..windows-build`: `baa976d` (preset, templates, desktop layer, staged
-export), `ad25285` (desktop tests, Alt+Enter, quit-at-end), `5a4969d` (native harness),
-`dda0414` (native results), `057b55b` (README section, this report, final smoke run), and a
-last commit that adds these hashes.
+On new-level (7630e89), `git log new-level..windows-build`: `124da20` (preset, templates,
+desktop layer, staged export), `cdbdc2a` (desktop tests, Alt+Enter, quit-at-end), `e030b82`
+(native harness), `ba334c4` (native results), `9205a93` (README section, report, final smoke
+run), `1f9bf8c` (report hashes) are the pre-rebase commits `baa976d`, `ad25285`, `5a4969d`,
+`dda0414`, `057b55b`, `83bb571` replayed; then `c24e764` (`.gdignore` for the results, the web
+check on a fresh checkout), `37c6a85` (desktop suite covers the levels), and the last commit
+(native smoke on both levels, uncapped pair, vsync recheck, README and this report).

@@ -11,6 +11,9 @@ The game starts fullscreen. F11 or Alt+Enter switches between fullscreen and a w
 (1920x1080, or smaller on a smaller screen); the choice is kept for next time. If the
 picture ever stops moving after leaving fullscreen, restart the game: it opens in the window.
 
+Two levels: The Warehouse and Eastside Baths. Tab (gamepad Select) on the start screen opens
+the level select; both levels are in the exe, nothing is downloaded.
+
 CONTROLS            Keyboard                 Gamepad (Xbox layout)
 Steer / push / brake  W A S D or arrow keys   Left stick or D-pad
 Ollie               Space (hold, release)    A
@@ -23,11 +26,13 @@ Special             Left, Right + J          Left, Right + X
 Pause / restart     Esc or P / R             Start / Back
 Quit (in a menu)    Q, twice                 B, twice
 Fullscreen          F11 or Alt+Enter
+Level select        Tab (start screen)       Select (Back)
 
 The game pauses by itself when its window loses focus.
 
 COMMAND LINE (after --)
   ProSkater.exe -- --autopilot           the scripted two-minute run that clears every goal
+  ProSkater.exe -- --level=baths         start on Eastside Baths (with --autopilot: its run)
   ProSkater.exe -- --autopilot --bench --bench-out=bench.json --quit-at-end
                                          the same run as a frame-time benchmark, saved as JSON
   ProSkater.exe -- --fps                 frame-rate counter

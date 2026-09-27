@@ -1,4 +1,4 @@
-web export: base 7630e89 vs working tree of 1f9bf8c (3 changed paths), same import cache
+web export: base 7630e89 vs working tree of 37c6a85 (39 changed paths), same import cache
 --- files (sha256)
 index.apple-touch-icon.png     identical  01d4f63e525941e0
 index.audio.position.worklet.js identical  be33985bc7160d6b
@@ -6,15 +6,15 @@ index.audio.worklet.js         identical  5b476a9c9ce642c0
 index.html                     identical  fd30bc846173c74b
 index.icon.png                 identical  ad3c35ad0facf487
 index.js                       identical  9fbacd77c17a69d7
-index.pck                      identical  3f1d5703612ff9bf
+index.pck                      identical  72182fb09a38a8e1
 index.png                      identical  3cb4495c0b98dfbe
 index.wasm                     identical  3a8f85ad2390e25f
-levels/baths.pck               identical  f3edc9865f92f13d
+levels/baths.pck               identical  64af2d3c223597c4
 --- pck entries
-/tmp/web_export_check.iY7PHN/base.out/./index.pck: Godot 4.7.2, 521 entries
-/tmp/web_export_check.iY7PHN/new.out/./index.pck: Godot 4.7.2, 521 entries
+/tmp/web_export_check.hawdUZ/base.out/./index.pck: Godot 4.7.2, 521 entries
+/tmp/web_export_check.hawdUZ/new.out/./index.pck: Godot 4.7.2, 521 entries
 identical entries: 521; only in A: 0; only in B: 0; different: 0
-/tmp/web_export_check.iY7PHN/base.out/./levels/baths.pck: Godot 4.7.2, 105 entries
-/tmp/web_export_check.iY7PHN/new.out/./levels/baths.pck: Godot 4.7.2, 105 entries
+/tmp/web_export_check.hawdUZ/base.out/./levels/baths.pck: Godot 4.7.2, 105 entries
+/tmp/web_export_check.hawdUZ/new.out/./levels/baths.pck: Godot 4.7.2, 105 entries
 identical entries: 105; only in A: 0; only in B: 0; different: 0
 RESULT: PASS - the web export is byte-for-byte identical

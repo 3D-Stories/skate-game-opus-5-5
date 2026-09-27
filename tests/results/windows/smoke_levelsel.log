@@ -1,0 +1,35 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 610.74 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4080
+
+[desktop] opengl3 | NVIDIA GeForce RTX 4080 | 3.3.0 NVIDIA 610.74 | window windowed (1920, 1080) on screen 2
+[desktop] skater GROUND  speed 0.0 m/s
+[desktop] info (start) -> C:/Temp/ProSkater/out/smoke_levelsel_info.json
+[desktop] screenshot -> C:/Temp/ProSkater/out/smoke_levelsel_shots/start_screen.png
+[desktop] key Tab down  actions: 
+[desktop] key Tab up  actions: 
+[desktop] key Right down  actions: right
+[desktop] key Right up  actions: right
+[desktop] key Enter down  actions: confirm
+[level] baths loaded
+[desktop] key Enter up  actions: confirm
+[desktop] key Enter down  actions: confirm
+[run] started
+[desktop] run 0 s: speed 0.0 m/s
+[desktop] screenshot -> C:/Temp/ProSkater/out/smoke_levelsel_shots/run_000s.png
+[desktop] key Enter up  actions: confirm
+[desktop] run 1 s: speed 0.0 m/s
+[desktop] screenshot -> C:/Temp/ProSkater/out/smoke_levelsel_shots/run_001s.png
+[desktop] key W down  actions: up
+[desktop] run 2 s: speed 7.2 m/s
+[desktop] screenshot -> C:/Temp/ProSkater/out/smoke_levelsel_shots/run_002s.png
+[desktop] run 3 s: speed 13.0 m/s
+[desktop] screenshot -> C:/Temp/ProSkater/out/smoke_levelsel_shots/run_003s.png
+[desktop] key W up  actions: up
+[desktop] key Escape down  actions: pause
+[run] paused at 116.6 s left
+[desktop] key Escape up  actions: pause
+[desktop] key Q down  actions: spin_left
+[desktop] key Q up  actions: spin_left
+[desktop] key Q down  actions: spin_left
+[desktop] quit from the pause screen
+[desktop] info (quit from the pause screen) -> C:/Temp/ProSkater/out/smoke_levelsel_info.json
