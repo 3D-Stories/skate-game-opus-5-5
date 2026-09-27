@@ -1,0 +1,43 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
+[skater] skating as male,hoodie,jeans,suede,none
+[skater] screen open: male,hoodie,jeans,suede,none
+[skater] preview female,hoodie,jeans,suede,none
+[skater] preview female,tee,jeans,suede,none
+[skater] preview female,tee,cargo,suede,none
+[skater] saved female,tee,cargo,suede,none
+[level] baths loaded
+[skater] screen open: female,tee,cargo,suede,none
+[skater] left without saving
+[skater] screen open: female,tee,cargo,suede,none
+[skater] preview female,tee,cargo,suede,cap
+[skater] saved female,tee,cargo,suede,cap
+[run] started
+[run] finished score=0 goals=[["score", false], ["skate", false], ["tape", false], ["signs", false], ["deep_coping", false], ["high_dive", false]]
+[replay] 292 frames of female,tee,cargo,suede,cap
+[skater] skating as female,tee,cargo,suede,cap
+Pro Skater: the Skater screen and the level select together  2026-09-26T22:46:41
+PASS  the start screen offers both the level select (Tab / Select) and the Skater screen (C / Y)  (LEVEL   THE WAREHOUSE   (TAB / SELECT: choose a level) | PRESS ENTER / A TO SKATE        C / Y  SKATER)
+PASS  keyboard: C opens the Skater screen
+PASS  Tab inside the Skater screen does not open the level select
+PASS  Enter saves her and rebuilds the skater on the Warehouse  (female,tee,cargo,suede,none)
+PASS  Tab on the start screen opens the level select (not the Skater screen)
+PASS  Enter loads Eastside Baths
+PASS  the saved skater survives the level switch  (female,tee,cargo,suede,none)
+PASS  she stands at the Baths' spawn  (0.00 m from it)
+PASS  the Baths' start screen names the level and still offers the Skater screen  (PRO SKATER: EASTSIDE BATHS | PRESS ENTER / A TO SKATE        C / Y  SKATER)
+PASS  gamepad: Y on the Baths' start screen opens the Skater screen
+PASS  Select / Back inside the Skater screen resets to today's skater and does not open the level select  (male,hoodie,jeans,suede,none)
+PASS  B leaves without saving: still her tee and cargo  (female,tee,cargo,suede,none)
+PASS  A saves her cap on the Baths and the skater is rebuilt  (female,tee,cargo,suede,cap)
+PASS  rebuilt at the Baths' spawn, the level unchanged  (0.00 m)
+PASS  the Baths run is skated by her (female,tee,cargo,suede,cap)  (pushed 28.9 m, clips ["idle", "push", "ride", "crouch", "ollie", "land", "air"])
+PASS  the Baths' end screen shows her on the turntable  (FEMALE SKATER, White graphic tee, Olive cargo pants, Grey suede low-tops, Navy six-panel cap)
+PASS  V replays the Baths run with her
+PASS  A ends the replay, back on the Baths' end screen
+PASS  the next launch starts on the Warehouse with the saved skater  (warehouse, female,tee,cargo,suede,cap)
+19 passed, 0 failed
+
+WARNING: 13 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

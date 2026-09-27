@@ -1,0 +1,21 @@
+The chosen skater on both levels: headless autopilot two-minute runs (godot --headless --path . --fixed-fps 60 -- --level=<id> --autopilot=test --skater=<choice>), 2026-09-26
+
+== --level=warehouse, [skater] skating as female,flannel,shorts,hitop,beanie
+[run] finished score=69043 goals=[["score", true], ["skate", true], ["tape", true], ["rafters", true], ["windows", true]]
+[run] clips played: { "idle": 3, "push": 29, "ride": 49, "air": 14, "land": 33, "boardslide": 1, "kickflip": 8, "melon": 8, "indy": 15, "ride_fakie": 1, "crouch": 1, "vert_air": 75, "grind_5050": 2, "ollie": 3, "manual": 1, "heelflip": 7, "nose_manual": 1, "treflip": 6, "tailgrab": 6, "shoveit": 1, "special": 5 }
+exit 0
+
+== --level=warehouse, [skater] skating as male,tee,cargo,suede_navy,cap
+[run] finished score=69043 goals=[["score", true], ["skate", true], ["tape", true], ["rafters", true], ["windows", true]]
+[run] clips played: { "idle": 3, "push": 29, "ride": 49, "air": 14, "land": 33, "boardslide": 1, "kickflip": 8, "melon": 8, "indy": 15, "ride_fakie": 1, "crouch": 1, "vert_air": 75, "grind_5050": 2, "ollie": 3, "manual": 1, "heelflip": 7, "nose_manual": 1, "treflip": 6, "tailgrab": 6, "shoveit": 1, "special": 5 }
+exit 0
+
+== --level=baths, [skater] skating as female,tee,cargo,suede_navy,cap
+[run] finished score=58951 goals=[["score", true], ["skate", true], ["tape", true], ["signs", true], ["deep_coping", true], ["high_dive", true]]
+[run] clips played: { "idle": 4, "push": 64, "ride": 93, "air": 11, "kickflip": 7, "land": 37, "vert_air": 93, "indy": 15, "treflip": 7, "tailgrab": 7, "heelflip": 7, "shoveit": 7, "nosegrab": 8, "melon": 5, "ollie": 2, "grind_5050": 2, "ride_fakie": 1, "special": 4 }
+exit 0
+
+== --level=baths, [skater] skating as male,flannel,shorts,hitop,beanie
+[run] finished score=58951 goals=[["score", true], ["skate", true], ["tape", true], ["signs", true], ["deep_coping", true], ["high_dive", true]]
+[run] clips played: { "idle": 4, "push": 64, "ride": 93, "air": 11, "kickflip": 7, "land": 37, "vert_air": 93, "indy": 15, "treflip": 7, "tailgrab": 7, "heelflip": 7, "shoveit": 7, "nosegrab": 8, "melon": 5, "ollie": 2, "grind_5050": 2, "ride_fakie": 1, "special": 4 }
+exit 0

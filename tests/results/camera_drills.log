@@ -1,11 +1,12 @@
 Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 
 [godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
+[skater] skating as male,hoodie,jeans,suede,none
 [run] started
 PASS  wall vert-air drills: all 16 drills rode a vert air (20 airs, 1323 vert-air frames, 3971 frames; probe self-test 20/20)
 PASS  vert air next to a wall, drills at the east quarterpipe (window wall): 10 drills, 10 airs up to y 5.44 m; 1873 frames (679 in vert air): clip col/rend 0/0, near-clip volume 0/0, inside a solid 0/0, outside 0, completely hidden 0, body centre off screen 0 (all must be 0); vert air occluded col 0.00% / rend 0.00% (< 2%); <0.9m 0.00% (< 1%); head/feet off screen 0.00% (< 1%); closest 3.10 m
 PASS  vert air next to a wall, drills at the south-east corner quarter: 2 drills, 2 airs up to y 5.06 m; 470 frames (166 in vert air): clip col/rend 0/0, near-clip volume 0/0, inside a solid 0/0, outside 0, completely hidden 0, body centre off screen 0 (all must be 0); vert air occluded col 0.00% / rend 0.00% (< 2%); <0.9m 0.00% (< 1%); head/feet off screen 0.00% (< 1%); closest 3.71 m
-PASS  vert air next to a wall, drills at the secret room quarter (5 m ceiling): 2 drills, 2 airs up to y 3.20 m; 428 frames (82 in vert air): clip col/rend 0/0, near-clip volume 0/0, inside a solid 0/0, outside 0, completely hidden 0, body centre off screen 0 (all must be 0); vert air occluded col 0.00% / rend 0.00% (< 2%); <0.9m 0.00% (< 1%); head/feet off screen 0.00% (< 1%); closest 3.09 m
+PASS  vert air next to a wall, drills at the secret room quarter (5 m ceiling): 2 drills, 2 airs up to y 3.20 m; 428 frames (82 in vert air): clip col/rend 0/0, near-clip volume 0/0, inside a solid 0/0, outside 0, completely hidden 0, body centre off screen 0 (all must be 0); vert air occluded col 0.00% / rend 0.00% (< 2%); <0.9m 0.00% (< 1%); head/feet off screen 0.00% (< 1%); closest 3.08 m
 PASS  vert air next to a wall, drills at the halfpipe by the north wall / open end: 2 drills, 6 airs up to y 5.35 m; 1200 frames (396 in vert air): clip col/rend 0/0, near-clip volume 0/0, inside a solid 0/0, outside 0, completely hidden 0, body centre off screen 0 (all must be 0); vert air occluded col 0.00% / rend 0.00% (< 2%); <0.9m 0.00% (< 1%); head/feet off screen 0.00% (< 1%); closest 2.93 m
 frames by category                           visits frames occ c occ c% occ r occ r%  clip c/r  nvol c/r    in c/r outside  <0.9m closest rend<.15m rend<.30m hidden off c/edge body blk
 drills (all frames)                              16   3971     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   2.93m         0        14      0       0/0     0.3%
@@ -26,10 +27,10 @@ south-east corner quarter                         2    470     0  0.00%     0  0
   vert air: south-east corner quarter             2    166     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.89m         0         0      0       0/0     0.0%
     SE quarter x=9.6                              1    235     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.71m         0         0      0       0/0     0.0%
     SE quarter x=12.2                             1    235     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.71m         0         0      0       0/0     3.4%
-secret room quarter (5 m ceiling)                 2    428     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.09m         0        14      0       0/0     0.0%
+secret room quarter (5 m ceiling)                 2    428     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.08m         0        14      0       0/0     0.0%
   vert air: secret room quarter (5 m ceiling)      2     82     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.33m         0        14      0       0/0     0.0%
-    secret room quarter z=-38.6                   1    214     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.09m         0         7      0       0/0     0.0%
-    secret room quarter z=-35.2                   1    214     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.09m         0         7      0       0/0     0.0%
+    secret room quarter z=-38.6                   1    214     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.08m         0         7      0       0/0     0.0%
+    secret room quarter z=-35.2                   1    214     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.08m         0         7      0       0/0     0.0%
 halfpipe by the north wall / open end             2   1200     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   2.93m         0         0      0       0/0     0.0%
   vert air: halfpipe by the north wall / open end      6    396     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   3.07m         0         0      0       0/0     0.0%
     halfpipe z=-48.2                              1    600     0  0.00%     0  0.00%       0/0       0/0       0/0       0      0   2.93m         0         0      0       0/0     0.0%
@@ -52,8 +53,8 @@ every drill (spawned on the floor, holding push until the first vert air; halfpi
   east QP angled south (27 deg)                    190 fr  1 vert airs ( 67 fr, top y  4.51)  bails 0  windows broken 0  occ col/rend 0/0  clip 0/0  nvol 0/0  inside 0/0  outside 0  <0.9m 0  closest 4.37 m
   SE quarter x=9.6                                 235 fr  1 vert airs ( 83 fr, top y  5.06)  bails 0  windows broken 0  occ col/rend 0/0  clip 0/0  nvol 0/0  inside 0/0  outside 0  <0.9m 0  closest 3.71 m
   SE quarter x=12.2                                235 fr  1 vert airs ( 83 fr, top y  5.06)  bails 0  windows broken 0  occ col/rend 0/0  clip 0/0  nvol 0/0  inside 0/0  outside 0  <0.9m 0  closest 3.71 m
-  secret room quarter z=-38.6                      214 fr  1 vert airs ( 41 fr, top y  3.20)  bails 1  windows broken 0  wall down  occ col/rend 0/0  clip 0/0  nvol 0/0  inside 0/0  outside 0  <0.9m 0  closest 3.09 m
-  secret room quarter z=-35.2                      214 fr  1 vert airs ( 41 fr, top y  3.20)  bails 1  windows broken 0  wall down  occ col/rend 0/0  clip 0/0  nvol 0/0  inside 0/0  outside 0  <0.9m 0  closest 3.09 m
+  secret room quarter z=-38.6                      214 fr  1 vert airs ( 41 fr, top y  3.20)  bails 1  windows broken 0  wall down  occ col/rend 0/0  clip 0/0  nvol 0/0  inside 0/0  outside 0  <0.9m 0  closest 3.08 m
+  secret room quarter z=-35.2                      214 fr  1 vert airs ( 41 fr, top y  3.20)  bails 1  windows broken 0  wall down  occ col/rend 0/0  clip 0/0  nvol 0/0  inside 0/0  outside 0  <0.9m 0  closest 3.08 m
   halfpipe z=-48.2                                 600 fr  3 vert airs (198 fr, top y  5.35)  bails 0  windows broken 0  occ col/rend 0/0  clip 0/0  nvol 0/0  inside 0/0  outside 0  <0.9m 0  closest 2.93 m
   halfpipe z=-37.8                                 600 fr  3 vert airs (198 fr, top y  5.35)  bails 0  windows broken 0  occ col/rend 0/0  clip 0/0  nvol 0/0  inside 0/0  outside 0  <0.9m 0  closest 2.93 m
 

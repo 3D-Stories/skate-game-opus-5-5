@@ -1,0 +1,183 @@
+Pro Skater wardrobe tests  2026-09-26T21:21:52
+PASS  female / hoodie jeans suede none: at rest nothing of the skin shows through the hoodie
+PASS  female / hoodie jeans suede none: skin stays under the hoodie in every frame of every clip (956 vertices tracked)
+PASS  female / hoodie jeans suede none: at rest nothing of the skin shows through the jeans
+PASS  female / hoodie jeans suede none: skin stays under the jeans in every frame of every clip (0 vertices tracked)
+PASS  female / hoodie jeans suede none: at rest nothing of the skin shows through the suede
+PASS  female / hoodie jeans suede none: skin stays under the suede in every frame of every clip (0 vertices tracked)
+PASS  female / hoodie jeans suede none: at rest nothing of the jeans shows through the hoodie
+KNOWN female / hoodie jeans suede none: jeans stays under the hoodie in every frame of every clip (839 vertices tracked)  -- 1524 pokes, deepest 13.8 mm at bail @ 0.13s: Jeans pelvis at (-0.097, -0.112, 0.885)  (not a pass: see README, Clothing fit)
+PASS  female / hoodie jeans suede none: at rest nothing of the suede shows through the jeans
+PASS  female / hoodie jeans suede none: suede stays under the jeans in every frame of every clip (3508 vertices tracked)
+PASS  female / hoodie cargo suede_navy beanie: at rest nothing of the skin shows through the hoodie
+PASS  female / hoodie cargo suede_navy beanie: skin stays under the hoodie in every frame of every clip (956 vertices tracked)
+PASS  female / hoodie cargo suede_navy beanie: at rest nothing of the skin shows through the cargo
+PASS  female / hoodie cargo suede_navy beanie: skin stays under the cargo in every frame of every clip (0 vertices tracked)
+PASS  female / hoodie cargo suede_navy beanie: at rest nothing of the skin shows through the suede_navy
+PASS  female / hoodie cargo suede_navy beanie: skin stays under the suede_navy in every frame of every clip (0 vertices tracked)
+PASS  female / hoodie cargo suede_navy beanie: at rest nothing of the cargo shows through the hoodie
+KNOWN female / hoodie cargo suede_navy beanie: cargo stays under the hoodie in every frame of every clip (884 vertices tracked)  -- 1764 pokes, deepest 13.5 mm at bail @ 0.13s: Cargo pelvis at (-0.098, -0.111, 0.897)  (not a pass: see README, Clothing fit)
+PASS  female / hoodie cargo suede_navy beanie: at rest nothing of the suede_navy shows through the cargo
+PASS  female / hoodie cargo suede_navy beanie: suede_navy stays under the cargo in every frame of every clip (1789 vertices tracked)
+PASS  female / hoodie cargo suede_navy beanie: at rest nothing of the skin shows through the beanie
+PASS  female / hoodie cargo suede_navy beanie: skin stays under the beanie in every frame of every clip (1391 vertices tracked)
+PASS  female / hoodie cargo suede_navy beanie: at rest nothing of the hair shows through the beanie
+PASS  female / hoodie cargo suede_navy beanie: hair stays under the beanie in every frame of every clip (6977 vertices tracked)
+PASS  female / hoodie shorts hitop cap: at rest nothing of the skin shows through the hoodie
+PASS  female / hoodie shorts hitop cap: skin stays under the hoodie in every frame of every clip (956 vertices tracked)
+PASS  female / hoodie shorts hitop cap: at rest nothing of the skin shows through the shorts
+PASS  female / hoodie shorts hitop cap: skin stays under the shorts in every frame of every clip (26 vertices tracked)
+PASS  female / hoodie shorts hitop cap: at rest nothing of the skin shows through the hitop
+PASS  female / hoodie shorts hitop cap: skin stays under the hitop in every frame of every clip (0 vertices tracked)
+PASS  female / hoodie shorts hitop cap: at rest nothing of the shorts shows through the hoodie
+KNOWN female / hoodie shorts hitop cap: shorts stays under the hoodie in every frame of every clip (689 vertices tracked)  -- 1827 pokes, deepest 18.6 mm at bail @ 0.30s: Shorts pelvis at (-0.106, -0.108, 0.888)  (not a pass: see README, Clothing fit)
+PASS  female / hoodie shorts hitop cap: at rest nothing of the hitop shows through the shorts
+PASS  female / hoodie shorts hitop cap: hitop stays under the shorts in every frame of every clip (0 vertices tracked)
+PASS  female / hoodie shorts hitop cap: at rest nothing of the skin shows through the cap
+PASS  female / hoodie shorts hitop cap: skin stays under the cap in every frame of every clip (1843 vertices tracked)
+PASS  female / hoodie shorts hitop cap: at rest nothing of the hair shows through the cap
+PASS  female / hoodie shorts hitop cap: hair stays under the cap in every frame of every clip (3538 vertices tracked)
+PASS  female / tee jeans suede_navy cap: at rest nothing of the skin shows through the tee
+PASS  female / tee jeans suede_navy cap: skin stays under the tee in every frame of every clip (564 vertices tracked)
+PASS  female / tee jeans suede_navy cap: at rest nothing of the skin shows through the jeans
+PASS  female / tee jeans suede_navy cap: skin stays under the jeans in every frame of every clip (0 vertices tracked)
+PASS  female / tee jeans suede_navy cap: at rest nothing of the skin shows through the suede_navy
+PASS  female / tee jeans suede_navy cap: skin stays under the suede_navy in every frame of every clip (0 vertices tracked)
+PASS  female / tee jeans suede_navy cap: at rest nothing of the jeans shows through the tee
+KNOWN female / tee jeans suede_navy cap: jeans stays under the tee in every frame of every clip (1008 vertices tracked)  -- 3859 pokes, deepest 17.5 mm at bail @ 1.23s: Jeans pelvis at (0.097, -0.112, 0.885)  (not a pass: see README, Clothing fit)
+PASS  female / tee jeans suede_navy cap: at rest nothing of the suede_navy shows through the jeans
+PASS  female / tee jeans suede_navy cap: suede_navy stays under the jeans in every frame of every clip (3508 vertices tracked)
+PASS  female / tee jeans suede_navy cap: at rest nothing of the skin shows through the cap
+PASS  female / tee jeans suede_navy cap: skin stays under the cap in every frame of every clip (1843 vertices tracked)
+PASS  female / tee jeans suede_navy cap: at rest nothing of the hair shows through the cap
+PASS  female / tee jeans suede_navy cap: hair stays under the cap in every frame of every clip (3538 vertices tracked)
+PASS  female / tee cargo hitop none: at rest nothing of the skin shows through the tee
+PASS  female / tee cargo hitop none: skin stays under the tee in every frame of every clip (564 vertices tracked)
+PASS  female / tee cargo hitop none: at rest nothing of the skin shows through the cargo_high
+PASS  female / tee cargo hitop none: skin stays under the cargo_high in every frame of every clip (0 vertices tracked)
+PASS  female / tee cargo hitop none: at rest nothing of the skin shows through the hitop
+PASS  female / tee cargo hitop none: skin stays under the hitop in every frame of every clip (0 vertices tracked)
+PASS  female / tee cargo hitop none: at rest nothing of the cargo_high shows through the tee
+KNOWN female / tee cargo hitop none: cargo_high stays under the tee in every frame of every clip (1053 vertices tracked)  -- 5320 pokes, deepest 16.2 mm at bail @ 1.23s: CargoHigh pelvis at (0.098, -0.114, 0.885)  (not a pass: see README, Clothing fit)
+PASS  female / tee cargo hitop none: at rest nothing of the hitop shows through the cargo_high
+PASS  female / tee cargo hitop none: hitop stays under the cargo_high in every frame of every clip (2159 vertices tracked)
+PASS  female / tee shorts suede beanie: at rest nothing of the skin shows through the tee
+PASS  female / tee shorts suede beanie: skin stays under the tee in every frame of every clip (564 vertices tracked)
+PASS  female / tee shorts suede beanie: at rest nothing of the skin shows through the shorts
+PASS  female / tee shorts suede beanie: skin stays under the shorts in every frame of every clip (26 vertices tracked)
+PASS  female / tee shorts suede beanie: at rest nothing of the skin shows through the suede
+PASS  female / tee shorts suede beanie: skin stays under the suede in every frame of every clip (0 vertices tracked)
+PASS  female / tee shorts suede beanie: at rest nothing of the shorts shows through the tee
+KNOWN female / tee shorts suede beanie: shorts stays under the tee in every frame of every clip (828 vertices tracked)  -- 3570 pokes, deepest 23.7 mm at getup_front @ 1.07s: Shorts thigh_l at (0.123, -0.100, 0.896)  (not a pass: see README, Clothing fit)
+PASS  female / tee shorts suede beanie: at rest nothing of the skin shows through the socks
+PASS  female / tee shorts suede beanie: skin stays under the socks in every frame of every clip (68 vertices tracked)
+PASS  female / tee shorts suede beanie: at rest nothing of the socks shows through the suede
+PASS  female / tee shorts suede beanie: socks stays under the suede in every frame of every clip (62 vertices tracked)
+PASS  female / tee shorts suede beanie: at rest nothing of the skin shows through the beanie
+PASS  female / tee shorts suede beanie: skin stays under the beanie in every frame of every clip (1391 vertices tracked)
+PASS  female / tee shorts suede beanie: at rest nothing of the hair shows through the beanie
+PASS  female / tee shorts suede beanie: hair stays under the beanie in every frame of every clip (6977 vertices tracked)
+PASS  female / flannel jeans hitop beanie: at rest nothing of the skin shows through the flannel
+PASS  female / flannel jeans hitop beanie: skin stays under the flannel in every frame of every clip (777 vertices tracked)
+PASS  female / flannel jeans hitop beanie: at rest nothing of the skin shows through the jeans_high
+PASS  female / flannel jeans hitop beanie: skin stays under the jeans_high in every frame of every clip (0 vertices tracked)
+PASS  female / flannel jeans hitop beanie: at rest nothing of the skin shows through the hitop
+PASS  female / flannel jeans hitop beanie: skin stays under the hitop in every frame of every clip (0 vertices tracked)
+PASS  female / flannel jeans hitop beanie: at rest nothing of the jeans_high shows through the flannel
+KNOWN female / flannel jeans hitop beanie: jeans_high stays under the flannel in every frame of every clip (954 vertices tracked)  -- 3707 pokes, deepest 16.5 mm at getup @ 0.70s: JeansHigh pelvis at (-0.086, -0.112, 0.882)  (not a pass: see README, Clothing fit)
+PASS  female / flannel jeans hitop beanie: at rest nothing of the hitop shows through the jeans_high
+PASS  female / flannel jeans hitop beanie: hitop stays under the jeans_high in every frame of every clip (3355 vertices tracked)
+PASS  female / flannel jeans hitop beanie: at rest nothing of the skin shows through the beanie
+PASS  female / flannel jeans hitop beanie: skin stays under the beanie in every frame of every clip (1391 vertices tracked)
+PASS  female / flannel jeans hitop beanie: at rest nothing of the hair shows through the beanie
+PASS  female / flannel jeans hitop beanie: hair stays under the beanie in every frame of every clip (6977 vertices tracked)
+PASS  female / flannel cargo suede cap: at rest nothing of the skin shows through the flannel
+PASS  female / flannel cargo suede cap: skin stays under the flannel in every frame of every clip (777 vertices tracked)
+PASS  female / flannel cargo suede cap: at rest nothing of the skin shows through the cargo
+PASS  female / flannel cargo suede cap: skin stays under the cargo in every frame of every clip (0 vertices tracked)
+PASS  female / flannel cargo suede cap: at rest nothing of the skin shows through the suede
+PASS  female / flannel cargo suede cap: skin stays under the suede in every frame of every clip (0 vertices tracked)
+PASS  female / flannel cargo suede cap: at rest nothing of the cargo shows through the flannel
+KNOWN female / flannel cargo suede cap: cargo stays under the flannel in every frame of every clip (1015 vertices tracked)  -- 4536 pokes, deepest 14.4 mm at bail @ 1.20s: Cargo thigh_l at (0.147, -0.098, 0.904)  (not a pass: see README, Clothing fit)
+PASS  female / flannel cargo suede cap: at rest nothing of the suede shows through the cargo
+PASS  female / flannel cargo suede cap: suede stays under the cargo in every frame of every clip (1789 vertices tracked)
+PASS  female / flannel cargo suede cap: at rest nothing of the skin shows through the cap
+PASS  female / flannel cargo suede cap: skin stays under the cap in every frame of every clip (1843 vertices tracked)
+PASS  female / flannel cargo suede cap: at rest nothing of the hair shows through the cap
+PASS  female / flannel cargo suede cap: hair stays under the cap in every frame of every clip (3538 vertices tracked)
+PASS  female / flannel shorts suede_navy none: at rest nothing of the skin shows through the flannel
+PASS  female / flannel shorts suede_navy none: skin stays under the flannel in every frame of every clip (777 vertices tracked)
+PASS  female / flannel shorts suede_navy none: at rest nothing of the skin shows through the shorts
+PASS  female / flannel shorts suede_navy none: skin stays under the shorts in every frame of every clip (26 vertices tracked)
+PASS  female / flannel shorts suede_navy none: at rest nothing of the skin shows through the suede_navy
+PASS  female / flannel shorts suede_navy none: skin stays under the suede_navy in every frame of every clip (0 vertices tracked)
+PASS  female / flannel shorts suede_navy none: at rest nothing of the shorts shows through the flannel
+KNOWN female / flannel shorts suede_navy none: shorts stays under the flannel in every frame of every clip (805 vertices tracked)  -- 3512 pokes, deepest 20.3 mm at bail @ 1.20s: Shorts thigh_r at (-0.131, -0.095, 0.900)  (not a pass: see README, Clothing fit)
+PASS  female / flannel shorts suede_navy none: at rest nothing of the skin shows through the socks
+PASS  female / flannel shorts suede_navy none: skin stays under the socks in every frame of every clip (68 vertices tracked)
+PASS  female / flannel shorts suede_navy none: at rest nothing of the socks shows through the suede_navy
+PASS  female / flannel shorts suede_navy none: socks stays under the suede_navy in every frame of every clip (62 vertices tracked)
+
+Clothing fit in every clip (30 frames/s, poke = more than 1.5 mm in front of the garment)
+body    outfit                             inner -> garment         tracked   pokes  max mm  worst (clip @ time: bone)
+female  hoodie jeans suede none            skin -> hoodie               956       0     0.0  
+female  hoodie jeans suede none            skin -> jeans                  0       0     0.0  
+female  hoodie jeans suede none            skin -> suede                  0       0     0.0  
+female  hoodie jeans suede none            jeans -> hoodie              839    1524    13.8  bail @ 0.13s: Jeans pelvis at (-0.097, -0.112, 0.885)
+female  hoodie jeans suede none            suede -> jeans              3508       0     0.0  
+female  hoodie cargo suede_navy beanie     skin -> hoodie               956       0     0.0  
+female  hoodie cargo suede_navy beanie     skin -> cargo                  0       0     0.0  
+female  hoodie cargo suede_navy beanie     skin -> suede_navy             0       0     0.0  
+female  hoodie cargo suede_navy beanie     cargo -> hoodie              884    1764    13.5  bail @ 0.13s: Cargo pelvis at (-0.098, -0.111, 0.897)
+female  hoodie cargo suede_navy beanie     suede_navy -> cargo         1789       0     0.0  
+female  hoodie cargo suede_navy beanie     skin -> beanie              1391       0     0.0  
+female  hoodie cargo suede_navy beanie     hair -> beanie              6977       0     0.0  
+female  hoodie shorts hitop cap            skin -> hoodie               956       0     0.0  
+female  hoodie shorts hitop cap            skin -> shorts                26       0     0.0  
+female  hoodie shorts hitop cap            skin -> hitop                  0       0     0.0  
+female  hoodie shorts hitop cap            shorts -> hoodie             689    1827    18.6  bail @ 0.30s: Shorts pelvis at (-0.106, -0.108, 0.888)
+female  hoodie shorts hitop cap            hitop -> shorts                0       0     0.0  
+female  hoodie shorts hitop cap            skin -> cap                 1843       0     0.0  
+female  hoodie shorts hitop cap            hair -> cap                 3538       0     0.0  
+female  tee jeans suede_navy cap           skin -> tee                  564       0     0.0  
+female  tee jeans suede_navy cap           skin -> jeans                  0       0     0.0  
+female  tee jeans suede_navy cap           skin -> suede_navy             0       0     0.0  
+female  tee jeans suede_navy cap           jeans -> tee                1008    3859    17.5  bail @ 1.23s: Jeans pelvis at (0.097, -0.112, 0.885)
+female  tee jeans suede_navy cap           suede_navy -> jeans         3508       0     0.0  
+female  tee jeans suede_navy cap           skin -> cap                 1843       0     0.0  
+female  tee jeans suede_navy cap           hair -> cap                 3538       0     0.0  
+female  tee cargo hitop none               skin -> tee                  564       0     0.0  
+female  tee cargo hitop none               skin -> cargo_high             0       0     0.0  
+female  tee cargo hitop none               skin -> hitop                  0       0     0.0  
+female  tee cargo hitop none               cargo_high -> tee           1053    5320    16.2  bail @ 1.23s: CargoHigh pelvis at (0.098, -0.114, 0.885)
+female  tee cargo hitop none               hitop -> cargo_high         2159       0     0.0  
+female  tee shorts suede beanie            skin -> tee                  564       0     0.0  
+female  tee shorts suede beanie            skin -> shorts                26       0     0.0  
+female  tee shorts suede beanie            skin -> suede                  0       0     0.0  
+female  tee shorts suede beanie            shorts -> tee                828    3570    23.7  getup_front @ 1.07s: Shorts thigh_l at (0.123, -0.100, 0.896)
+female  tee shorts suede beanie            skin -> socks                 68       0     0.0  
+female  tee shorts suede beanie            socks -> suede                62       0     0.0  
+female  tee shorts suede beanie            skin -> beanie              1391       0     0.0  
+female  tee shorts suede beanie            hair -> beanie              6977       0     0.0  
+female  flannel jeans hitop beanie         skin -> flannel              777       0     0.0  
+female  flannel jeans hitop beanie         skin -> jeans_high             0       0     0.0  
+female  flannel jeans hitop beanie         skin -> hitop                  0       0     0.0  
+female  flannel jeans hitop beanie         jeans_high -> flannel        954    3707    16.5  getup @ 0.70s: JeansHigh pelvis at (-0.086, -0.112, 0.882)
+female  flannel jeans hitop beanie         hitop -> jeans_high         3355       0     0.0  
+female  flannel jeans hitop beanie         skin -> beanie              1391       0     0.0  
+female  flannel jeans hitop beanie         hair -> beanie              6977       0     0.0  
+female  flannel cargo suede cap            skin -> flannel              777       0     0.0  
+female  flannel cargo suede cap            skin -> cargo                  0       0     0.0  
+female  flannel cargo suede cap            skin -> suede                  0       0     0.0  
+female  flannel cargo suede cap            cargo -> flannel            1015    4536    14.4  bail @ 1.20s: Cargo thigh_l at (0.147, -0.098, 0.904)
+female  flannel cargo suede cap            suede -> cargo              1789       0     0.0  
+female  flannel cargo suede cap            skin -> cap                 1843       0     0.0  
+female  flannel cargo suede cap            hair -> cap                 3538       0     0.0  
+female  flannel shorts suede_navy none     skin -> flannel              777       0     0.0  
+female  flannel shorts suede_navy none     skin -> shorts                26       0     0.0  
+female  flannel shorts suede_navy none     skin -> suede_navy             0       0     0.0  
+female  flannel shorts suede_navy none     shorts -> flannel            805    3512    20.3  bail @ 1.20s: Shorts thigh_r at (-0.131, -0.095, 0.900)
+female  flannel shorts suede_navy none     skin -> socks                 68       0     0.0  
+female  flannel shorts suede_navy none     socks -> suede_navy           62       0     0.0  
+
+109 passed, 0 failed, 9 known (hip-band layer pokes; today's tongue tops over his jeans hem at rest: not passes)   (combinations 0.0 s, fit 669.2 s)

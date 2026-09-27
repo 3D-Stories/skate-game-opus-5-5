@@ -75,7 +75,8 @@ def landmarks(body, face):
                 eye_mid=(el + er) / 2)
 
 
-def vertex_masks(body, lm):
+def vertex_masks(body, lm, prof=None, bp=None):
+    prof = prof or {}
     co = _vertex_array(body)
     edges = _neighbours(body)
     x, y, z = co[:, 0], co[:, 1], co[:, 2]
@@ -113,18 +114,21 @@ def vertex_masks(body, lm):
     stub *= cheek_clear
     stub *= (1 - np.clip(lips * 1.6, 0, 1))
     stub = smooth_field(stub, edges, 3)
+    if not prof.get("stubble", True):
+        stub = np.zeros_like(stub)
 
     # brows: same arc the brow cards use
     brow = np.zeros(len(co), np.float32)
+    bp = bp or dict(rise=0.0165, arch=0.0055, drop=0.004, thick=0.0085, taper=0.6)
     for s, e in ((1, lm['eye_l']), (-1, lm['eye_r'])):
         t = (s * (x - e[0]) + 0.013) / 0.041
-        arc = 0.0165 + 0.0055 * np.sin(np.pi * np.clip(t * 1.25, 0, 1)) - 0.004 * t
-        thick = 0.0085 * (1 - 0.6 * np.clip(t, 0, 1))
+        arc = bp["rise"] + bp["arch"] * np.sin(np.pi * np.clip(t * 1.25, 0, 1)) - bp["drop"] * t
+        thick = bp["thick"] * (1 - bp["taper"] * np.clip(t, 0, 1))
         d = np.abs(z - (e[2] + arc)) / (thick * 0.6)
         brow = np.maximum(brow, np.exp(-d * d) * sstep(-0.1, 0.05, t) * sstep(1.1, 0.9, t) * frontness)
 
-    scalp = smooth_field(_group_weights(body, 'scalp'), edges, 8)
-    scalp = np.clip(scalp * 1.4, 0, 1)
+    scalp = smooth_field(_group_weights(body, 'scalp'), edges, prof.get("scalp_smooth", 8))
+    scalp = np.clip(scalp * prof.get("scalp_gain", 1.4), 0, 1)
     nails = np.maximum(_group_weights(body, 'fingernails'), _group_weights(body, 'toenails'))
     under_eye = sum(np.exp(-((co[:, 0] - e[0]) ** 2 / 0.013 ** 2 + (co[:, 2] - (e[2] - 0.014)) ** 2 / 0.006 ** 2))
                     for e in (lm['eye_l'], lm['eye_r'])) * frontness
@@ -245,9 +249,10 @@ def _bilinear(img, x, y):
     return (a * (1 - fx) + b * fx) * (1 - fy) + (c * (1 - fx) + d * fx) * fy
 
 
-def face_photo(pos, nrm, lm):
+def face_photo(pos, nrm, lm, prof=None):
     """Colour (linear), weight and fine detail for every texel from the face photo."""
-    photo = srgb_to_linear(C.src_array("face_albedo", 1024))
+    prof = prof or {}
+    photo = srgb_to_linear(C.src_array(prof.get("face_src", "face_albedo"), 1024))
     H = photo.shape[0]
     yy, xx = np.mgrid[0:H, 0:H].astype(np.float32)
     lum = C.luminance(photo)
@@ -255,34 +260,40 @@ def face_photo(pos, nrm, lm):
     sat = (mx - mn) / (mx + 1e-4)
     # skin: not the flat grey backdrop, not the hair (the brows and stubble stay)
     skin = sstep(0.10, 0.2, sat)
-    hair_zone = np.maximum(sstep(300, 260, yy), np.maximum(sstep(205, 175, xx), sstep(820, 850, xx)))
+    ht = prof.get("photo_hair_top", 300)
+    hl, hr = prof.get("photo_hair_sides", (190, 835))
+    hair_zone = np.maximum(sstep(ht, ht - 40, yy), np.maximum(sstep(hl + 15, hl - 15, xx), sstep(hr - 15, hr + 15, xx)))
     skin *= 1 - hair_zone * sstep(0.10, 0.05, lum)
     skin = np.clip(C.blur(skin, 3), 0, 1)
     skin *= sstep(0, 24, xx) * sstep(H - 1, H - 25, xx) * sstep(0, 24, yy) * sstep(H - 1, H - 20, yy)
     # eye openings: fill with the surrounding lid skin (the eyeballs are real geometry)
     eye = np.zeros_like(lum)
-    for (cx, cy), rx, ry in EYE_OPENINGS:
+    for (cx, cy), rx, ry in prof.get("eye_openings", EYE_OPENINGS):
         eye = np.maximum(eye, sstep(1.15, 0.9, ((xx - cx) / rx) ** 2 + ((yy - cy) / ry) ** 2))
     keep = (1 - eye)[..., None]
     fill = C.blur(photo * keep, 14) / np.maximum(C.blur(keep, 14), 1e-3)
     photo = photo * keep + fill * (1 - keep)
     # a friendlier, younger read: stubble softened to a light shadow (lips kept sharp),
     # and the brows eased a little (the 3D brow cards sit on top of them)
-    lips = sstep(1.1, 0.8, ((xx - 513) / 150) ** 2 + ((yy - 800) / 62) ** 2)
-    stubble = sstep(640, 700, yy) * (1 - lips) * sstep(1.3, 0.9, ((xx - 512) / 360) ** 2)
-    k = (0.7 * stubble)[..., None]
-    soft = C.blur(photo, 5)
-    photo = photo * (1 - k) + (soft * 1.06) * k
-    brows = sstep(265, 290, yy) * sstep(375, 350, yy) * sstep(170, 210, xx) * sstep(860, 820, xx) * (1 - eye)
-    kb = (0.25 * brows * sstep(0.16, 0.06, C.luminance(photo)))[..., None]
+    lx, ly, lrx, lry = prof.get("photo_lips", (513, 800, 150, 62))
+    lips = sstep(1.1, 0.8, ((xx - lx) / lrx) ** 2 + ((yy - ly) / lry) ** 2)
+    if prof.get("photo_stubble", True):
+        stubble = sstep(640, 700, yy) * (1 - lips) * sstep(1.3, 0.9, ((xx - 512) / 360) ** 2)
+        k = (0.7 * stubble)[..., None]
+        soft = C.blur(photo, 5)
+        photo = photo * (1 - k) + (soft * 1.06) * k
+    b0, b1, bx0, bx1 = prof.get("photo_brows", (265, 375, 190, 840))
+    brows = sstep(b0, b0 + 25, yy) * sstep(b1, b1 - 25, yy) * sstep(bx0 - 20, bx0 + 20, xx) * sstep(bx1 + 20, bx1 - 20, xx) * (1 - eye)
+    kb = (prof.get("photo_brow_ease", 0.25) * brows * sstep(0.16, 0.06, C.luminance(photo)))[..., None]
     photo = photo * (1 - kb) + C.blur(photo, 10) * 1.1 * kb
     detail = C.highpass(C.luminance(photo), 6) / (C.blur(C.luminance(photo), 6) + 1e-3)
     # texel -> front-view px -> photo px
     eye_z = lm['eye_l'][2]
     cz = eye_z - (0.5 - 0.38) * FACE_FRAME
     mesh_px = np.stack([(pos[:, 0] / FACE_FRAME + 0.5) * 1024, (0.5 - (pos[:, 2] - cz) / FACE_FRAME) * 1024], 1)
-    src = np.array([p for p, _ in FACE_PAIRS], np.float64) / 1024
-    dst = np.array([q for _, q in FACE_PAIRS], np.float64) / 1024
+    pairs = prof.get("face_pairs", FACE_PAIRS)
+    src = np.array([p for p, _ in pairs], np.float64) / 1024
+    dst = np.array([q for _, q in pairs], np.float64) / 1024
     model = _tps_fit(src, dst)
     front = (nrm[:, 1] < -0.05) & (pos[:, 1] < lm['eye_mid'][1] + 0.06) & (np.abs(mesh_px[:, 0] - 512) < 600) \
         & (mesh_px[:, 1] > -100) & (mesh_px[:, 1] < 1150)
@@ -296,7 +307,8 @@ def face_photo(pos, nrm, lm):
     return rgb, w, det
 
 
-def compose(maps, size, lm):
+def compose(maps, size, lm, prof=None):
+    prof = prof or {}
     pos = maps['pos'][..., :3].reshape(-1, 3) * 2 - np.array([1.0, 1.0, 0.0])
     nrm = maps['nrm'][..., :3].reshape(-1, 3) * 2 - 1
     m1 = maps['m1'].reshape(-1, 4)
@@ -329,7 +341,7 @@ def compose(maps, size, lm):
     sd = triplanar(stub_dots, pos, nrm, 0.02, sharp=8)
     ml = triplanar(moles, pos, nrm, 0.5)
 
-    base = np.array([0.56, 0.31, 0.21], np.float32)  # linear, warm light-medium tone
+    base = np.array(prof.get("skin_base", (0.56, 0.31, 0.21)), np.float32)  # linear, warm light-medium tone
     col = np.tile(base, (len(pos), 1))
     col *= (0.93 + 0.14 * lo)[:, None]
     col *= (0.97 + 0.06 * mid)[:, None]
@@ -344,7 +356,7 @@ def compose(maps, size, lm):
     lip_col = np.array([0.15, 0.048, 0.05])
     col = col * (1 - lips[:, None] * 0.8) + lip_col * lips[:, None] * 0.8
     col *= (1 - 0.035 * np.clip(ph, -2, 2) * (1 - lips))[:, None]
-    hair = np.array([0.035, 0.024, 0.018])
+    hair = np.array(prof.get("hair_color", (0.035, 0.024, 0.018)))
     col = col * (1 - stub[:, None] * 0.2) + np.array([0.26, 0.22, 0.22]) * stub[:, None] * 0.2
     col = col * (1 - (stub * sd * 0.65)[:, None]) + hair * (stub * sd * 0.65)[:, None]
     bn = brow * (0.55 + 0.45 * triplanar(dots, pos, nrm, 0.01))
@@ -354,7 +366,7 @@ def compose(maps, size, lm):
     col = col * (1 - ml[:, None] * 0.6) + np.array([0.16, 0.08, 0.06]) * ml[:, None] * 0.6
 
     # photographic face: colour-match the whole body to it, then blend it in on the face
-    f_rgb, f_w, f_det = face_photo(pos, nrm, lm)
+    f_rgb, f_w, f_det = face_photo(pos, nrm, lm, prof)
     f_w = f_w * (1 - scalp)
     sel = f_w > 0.6
     if sel.sum() > 1000:
@@ -377,16 +389,18 @@ def compose(maps, size, lm):
     return albedo_srgb, rough, height
 
 
-def build(body, face, size=None):
+def build(body, face, size=None, prof=None):
+    prof = prof or {}
+    sfx = prof.get("suffix", "")
     size = size or (2048 if C.FAST else 4096)
     lm = landmarks(body, face)
-    vertex_masks(body, lm)
+    vertex_masks(body, lm, prof, face.get("brow_params"))
     maps = bake_maps(body, size)
-    alb, rough, height = compose(maps, size, lm)
+    alb, rough, height = compose(maps, size, lm, prof)
     normal = C.height_to_normal(height, strength=0.38 * size / 4096)
-    img_a = C.save_png(alb, "skin_albedo")
-    img_r = C.save_png(np.stack([np.ones_like(rough), rough, np.zeros_like(rough)], -1), "skin_rough", 'Non-Color')
-    img_n = C.save_png(normal, "skin_normal", 'Non-Color')
+    img_a = C.save_png(alb, "skin_albedo" + sfx)
+    img_r = C.save_png(np.stack([np.ones_like(rough), rough, np.zeros_like(rough)], -1), "skin_rough" + sfx, 'Non-Color')
+    img_n = C.save_png(normal, "skin_normal" + sfx, 'Non-Color')
     m = C.pbr_material("Skin", base=img_a, rough=img_r, normal=img_n, normal_strength=1.0)
     p = C.principled(m)
     p.inputs['Subsurface Weight'].default_value = 1.0

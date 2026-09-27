@@ -1,0 +1,41 @@
+Ragdoll suite (tests/test_ragdoll.gd) run repeatedly, 2026-09-26: is it deterministic, and is it flaky before the character builder too?
+original = the original commit 696364b (extracted with git archive, imported, same machine, same load); branch = character-builder
+
+original run 1 (side by side): RAGDOLL 75 passed 0 failed
+original run 2 (side by side): RAGDOLL 75 passed 0 failed
+original run 3 (side by side): RAGDOLL 75 passed 0 failed
+original run 4 (side by side): RAGDOLL 75 passed 0 failed
+original run 5 (side by side): RAGDOLL 73 passed 2 failed
+    FAIL  flat bail at 11 m/s: no arm passes into the chest, belly or hips  (deepest arm point inside the torso: 3.6 cm upperarm_r in spine_03)
+    FAIL  bail out of a vert air (halfpipe): no arm passes into the chest, belly or hips  (deepest arm point inside the torso: 3.6 cm upperarm_l in spine_03)
+branch run 1 (side by side): RAGDOLL 75 passed 0 failed
+branch run 2 (side by side): RAGDOLL 75 passed 0 failed
+branch run 3 (side by side): RAGDOLL 75 passed 0 failed
+branch run 4 (side by side): RAGDOLL 75 passed 0 failed
+branch run 5 (side by side): RAGDOLL 75 passed 0 failed
+
+Earlier runs on the branch: run_all.sh first pass 74/75 (failing line not kept), standalone 75/75 twice, under a rebuild's load 75/75 and 74/75:
+    FAIL  bail halfway up the east quarterpipe (3): the bail leaves blood where the body hits and slides  (1 splats/smears at 4.2 m/s bail speed (need >= 2); { "impacts": 0, "smears": 0, "slide_frames": 23, "drips": 0, "pool": true })
+Blood counts, slide frames and arm depths differ from run to run on both: the bail simulation is not deterministic, so single checks near their limits fail now and then.
+
+Handling suite (tests/test_handling.gd), same method:
+original run 1 (side by side): 48 passed, 0 failed
+original run 2 (side by side): 48 passed, 0 failed
+original run 3 (side by side): 48 passed, 0 failed
+branch run 1 (side by side): 48 passed, 0 failed
+branch run 2 (side by side): 48 passed, 0 failed
+branch run 3 (side by side): 48 passed, 0 failed
+Earlier runs on the branch: run_all.sh first pass 47/48 (failing line not kept); standalone 48/48 five times; run_all.sh second pass 48/48.
+
+Why the runs differ: scripts/skater/skater.gd (unchanged by the character builder) seeds its RandomNumberGenerator with randomize() at start-up (line 161), so bails, blood and some motion differ from run to run in both suites.
+
+run_all.sh itself, the original commit's and this branch's run at the same time (equal load), 2 rounds:
+round 1  original: ragdoll    1     RAGDOLL 74 passed 1 failed 10 of 11 suites passed
+    FAIL  flat bail at 4 m/s, thrown backwards: the bail leaves blood where the body hits and slides  (1 splats/smears at 3.9 m/s bail speed (need >= 2); { "impacts": 0, "smears": 0, "slide_frames": 0, "d
+round 1  branch:   12 of 12 suites passed 
+round 2  original: ragdoll    1     RAGDOLL 74 passed 1 failed 10 of 11 suites passed
+    FAIL  bail halfway up the east quarterpipe (1): the bail leaves blood where the body hits and slides  (1 splats/smears at 4.2 m/s bail speed (need >= 2); { "impacts": 0, "smears": 0, "slide_frames": 1
+round 2  branch:   12 of 12 suites passed 
+(before these rounds, the branch's run_all.sh on the final assets had ragdoll 74/75: 'flat bail at 11 m/s: no arm passes into the chest' at 3.7 cm - the check the original failed above at 3.6 cm)
+
+Conclusion: the ragdoll suite fails a check now and then on the original commit as well (here in both of its run_all rounds); the character builder did not introduce it. The committed tests/results/*.txt are from branch round 2 (all 12 suites passed).

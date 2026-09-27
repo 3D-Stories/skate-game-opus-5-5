@@ -58,9 +58,9 @@ HELPERS = {
 }
 
 
-def load_targets(human):
+def load_targets(human, targets=None):
     loaded = []
-    for name, w in TARGETS:
+    for name, w in (TARGETS if targets is None else targets):
         path = TargetService.target_full_path(name)
         if not path:
             print("target not found:", name)
@@ -113,11 +113,15 @@ def remove_unused_groups(obj, keep_prefixes=()):
         obj.vertex_groups.remove(g)
 
 
-def build(coll=None):
+def build(coll=None, prof=None):
+    """prof: a skater_profiles entry (its macro and targets); None builds the male skater.
+    Both bodies use the same object names (SkaterBody, SkaterRig), so the game finds the
+    same node paths in either and the shared animation tracks drive both."""
+    prof = prof or {}
     coll = coll or C.collection("Skater")
-    human = HumanService.create_human(macro_detail_dict=MACRO)
+    human = HumanService.create_human(macro_detail_dict=prof.get("macro", MACRO))
     human.name = "SkaterBody"
-    load_targets(human)
+    load_targets(human, prof.get("targets"))
     rig = HumanService.add_builtin_rig(human, "game_engine")
     rig.name = "SkaterRig"
     rig.data.name = "SkaterRig"

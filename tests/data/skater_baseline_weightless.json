@@ -1,0 +1,428 @@
+{
+ "animations": {
+  "air": {
+   "hash": "68de053d26ceca0c9c16124ee05278e6cb4d0b608d66a5d730ddb3ef97a78332",
+   "length": 1.0333,
+   "tracks": 51
+  },
+  "bail": {
+   "hash": "bc105f32d9c10e2b3dc107211da65fd3f667ff470ed7226feb631805c4cb2ea3",
+   "length": 2.0,
+   "tracks": 51
+  },
+  "boardslide": {
+   "hash": "390579aacb4e292ecec697eab1bb902d55a7d5a83d6c75f11a98277f251893c4",
+   "length": 1.3667,
+   "tracks": 51
+  },
+  "crouch": {
+   "hash": "de3bc751eb839faba54d23ffaafcbe4d889c9e5721132b1e68fd412edd62f93e",
+   "length": 0.7,
+   "tracks": 51
+  },
+  "getup": {
+   "hash": "8e23e0749de82e0eb5ae4baa4deaf0fcc5f2dd07aa353f841f6e74d253fa4b3b",
+   "length": 1.4,
+   "tracks": 51
+  },
+  "getup_front": {
+   "hash": "c774628c62fa48283c3a56835673728f4cc1205485e7f1849f9d3ee3f4abacc2",
+   "length": 1.8,
+   "tracks": 51
+  },
+  "grind_5050": {
+   "hash": "e840d888e2695c32b9aab48daf5f399ad250efe8668aad0afc2108f60b153fa5",
+   "length": 1.3667,
+   "tracks": 51
+  },
+  "heelflip": {
+   "hash": "4d26b6685ac94544e4bfd357aef0a8fec1a9a8bfa2af46d565444984d4391948",
+   "length": 0.6,
+   "tracks": 51
+  },
+  "idle": {
+   "hash": "5ca71f097ae9a81b67763ae846e14062c330b68d3e9aa0945f59532b70f0138b",
+   "length": 2.0333,
+   "tracks": 51
+  },
+  "indy": {
+   "hash": "4e6e0c3deac3c1facae9b99421cc45c072508905fc4ffbf9d590d40d193e4c7d",
+   "length": 0.4667,
+   "tracks": 51
+  },
+  "kickflip": {
+   "hash": "85af024d771a3085542d54f97c8437dfbd84c0da780530e767d32c4b3d9a1eaa",
+   "length": 0.6,
+   "tracks": 51
+  },
+  "land": {
+   "hash": "8ceeb8a542eddd6a9dc7368a188951fc176c654c74aa0b82fc190649506b3242",
+   "length": 0.4,
+   "tracks": 51
+  },
+  "manual": {
+   "hash": "d2e19f4e8d49e65812ccc898c6393d5b79e3fd309e9e6bd6a7b7e5d6bbc4d36a",
+   "length": 1.3667,
+   "tracks": 51
+  },
+  "melon": {
+   "hash": "4521f569a7e8a65498a0d874b4ad5d33cd5501e0ca341d44f0dcf93c62578801",
+   "length": 0.4667,
+   "tracks": 51
+  },
+  "nose_manual": {
+   "hash": "7a284b42b9eda13b5f7ebafb34f9d03f81d1a368e7e5c198e1d941533870b277",
+   "length": 1.3667,
+   "tracks": 51
+  },
+  "nosegrab": {
+   "hash": "e49233b7351d894395fd97bccfbe179897f80004ba16031cda72d3fdfbcdf18a",
+   "length": 0.4667,
+   "tracks": 51
+  },
+  "ollie": {
+   "hash": "6d553e4bf938cbc8dc63c0652fcee972de7104cd8420f4c6134741cb4e72c500",
+   "length": 0.7333,
+   "tracks": 51
+  },
+  "push": {
+   "hash": "08eccf7369c100fe1c45a07f9162d724e7f55919e5e387f34000660354e69a3a",
+   "length": 1.2333,
+   "tracks": 51
+  },
+  "ride": {
+   "hash": "686b9c2fccf36f3035b47ebdc590deb72fdb89d894c0899c3acc9ff0d69555e3",
+   "length": 1.3667,
+   "tracks": 51
+  },
+  "ride_fakie": {
+   "hash": "94f8bd753b8884435b9bb2affbaeb8d664062cab251d6e1ccac93203ee3307e4",
+   "length": 1.3667,
+   "tracks": 51
+  },
+  "shoveit": {
+   "hash": "5dd708459ebc17f3a50ce4c2e189e1a073130323dcb69e1006165e8efe6fd84d",
+   "length": 0.6,
+   "tracks": 51
+  },
+  "special": {
+   "hash": "4bb5175ba499a4befc11e2104a08c2d6e11efdc6e45b46ec86b2cb0ddfefb7be",
+   "length": 1.4,
+   "tracks": 51
+  },
+  "tailgrab": {
+   "hash": "ce3e7d1fdcde76f832c9752f55826a574f8aafea9a88a5a0bfcd45d0a860d9ec",
+   "length": 0.4667,
+   "tracks": 51
+  },
+  "treflip": {
+   "hash": "4d01e965d53dfc8528309a5599e24783169a1ffc97be521afb8a72e70393b73c",
+   "length": 0.6667,
+   "tracks": 51
+  },
+  "vert_air": {
+   "hash": "e28e94524a65d250abc2719076244d6299a68dc5485bcfe4e6d8f2d68dcdb03d",
+   "length": 1.0333,
+   "tracks": 51
+  }
+ },
+ "bone_count": 54,
+ "materials": {
+  "": {
+   "normal_hash": "7c5d5a3b3b0ce18b2e55b2b3ed6da32390e974d5c96a88f549a598bf451548f7",
+   "textures": {
+    "albedo": "",
+    "normal": "",
+    "params": "ffffff0f|0.02|0.0|1.0|false1.0false",
+    "rough": ""
+   },
+   "tri_hash": "1a9aa567e7cca3d4a3eada165b20e836b873ac7947b5fcceb733681645a61f94",
+   "triangles": 3360
+  },
+  "Aglet": {
+   "normal_hash": "701539bc5bcc867a5d8f815be5b61b09a93c1093cec4ddf49abb4137a112831c",
+   "textures": {
+    "albedo": "",
+    "normal": "",
+    "params": "cbcbceff|0.3|1.0|1.0|false1.0false",
+    "rough": ""
+   },
+   "tri_hash": "cc575780482c6431254b38fde2cd7a0fbed685507249bff6925b83f36b1bd094",
+   "triangles": 72
+  },
+  "Bearing": {
+   "normal_hash": "8eb23a3e9be31680e25b268f2d8bed5f0b29360a765be83246c5af6eb18a39de",
+   "textures": {
+    "albedo": "",
+    "normal": "",
+    "params": "3f3f45ff|0.4|0.5|1.0|false1.0false",
+    "rough": ""
+   },
+   "tri_hash": "b8153268ef672d6209fd4998475a6a0e41921e101b7b0e3e4dbc85e1bd1dbb58",
+   "triangles": 304
+  },
+  "Bushing": {
+   "normal_hash": "8bbc0953ee3cd0202d0f7af98bdbaa29626c0e83035a05632a0bf0fbf849a19c",
+   "textures": {
+    "albedo": "",
+    "normal": "",
+    "params": "eda03fff|0.6|0.0|1.0|false1.0false",
+    "rough": ""
+   },
+   "tri_hash": "f21b2e8a83991363377af6a8696edfe6e91ac13871161a69d1ec1be60978ee87",
+   "triangles": 208
+  },
+  "Cord": {
+   "normal_hash": "e58366f042d7f4f5ba9fb0b53e60bef58cfc3886d7b991fed77ae8fc071c3ca7",
+   "textures": {
+    "albedo": "",
+    "normal": "",
+    "params": "e1dfdaff|0.8|0.0|1.0|false1.0false",
+    "rough": ""
+   },
+   "tri_hash": "7802edc830deef6f26fab59ef15e1a334f8456c01f713de9504af8012643cbf9",
+   "triangles": 472
+  },
+  "DeckGraphic": {
+   "normal_hash": "e74dd45a5c131eac16e593b7e0ebd030e645622060339599436ec569d9524ac6",
+   "textures": {
+    "albedo": "a757db9b8684",
+    "normal": "",
+    "params": "ffffffff|0.35|0.0|1.0|false1.0false",
+    "rough": ""
+   },
+   "tri_hash": "db1c3364fd911ad775b860bfcbbc85b79c1bca76fa1734c2a11d3daa7d2eece5",
+   "triangles": 2688
+  },
+  "DeckPly": {
+   "normal_hash": "304598700d68867522416ed260df0dc91f175fba88d8a86777f9608db7fb0262",
+   "textures": {
+    "albedo": "bc4c37bd917c",
+    "normal": "",
+    "params": "ffffffff|0.55|0.0|1.0|false1.0false",
+    "rough": ""
+   },
+   "tri_hash": "44e8e01907993afde3d75d80488a182328afb54ff51cc5d77c95163f60f0b241",
+   "triangles": 440
+  },
+  "Eye": {
+   "normal_hash": "4d465fb6ee44df62223690401e62394fd15311f7e6b1c9b2861ee081ec6b335b",
+   "textures": {
+    "albedo": "83d6c65a5786",
+    "normal": "",
+    "params": "ffffffff|0.25|0.0|1.0|false1.0true",
+    "rough": ""
+   },
+   "tri_hash": "da0ca2ff8b10a0071d82e7df4ff36a3c266c8da1c060a56d4474f4d8d66147fe",
+   "triangles": 5952
+  },
+  "Griptape": {
+   "normal_hash": "f395f0c40bebdab8dd7d27270da2b008afbec986836a5894c172e03074a7c8b0",
+   "textures": {
+    "albedo": "bde552484b61",
+    "normal": "e1a441fadf13",
+    "params": "ffffffff|0.95|0.0|1.0|false1.0false",
+    "rough": ""
+   },
+   "tri_hash": "2cdc4ad54b51a4903a23c01c44b1b93b0f497f47671a1d9a861683ac6d9f9ea4",
+   "triangles": 2688
+  },
+  "Hardware": {
+   "normal_hash": "c1b2c673ebc5dfa87e370462582f34e66230014e2aebeabeba18781b14aab814",
+   "textures": {
+    "albedo": "",
+    "normal": "",
+    "params": "cececbff|0.35|1.0|1.0|false1.0false",
+    "rough": ""
+   },
+   "tri_hash": "b57534ff68a45e1465d82a6eccd5b1d0c4515cb8de4a27708647d06228abdafa",
+   "triangles": 352
+  },
+  "Hood_hood_back": {
+   "normal_hash": "0827fc9a6bbfa197884077167f5cfb97a3fa9fa8efa913244fb38cbc6ffa9358",
+   "textures": {
+    "albedo": "9425368493b7",
+    "normal": "4510852cbd74",
+    "params": "ffffffff|1.0|0.0|1.0|true0.25false",
+    "rough": "d8fea6387570"
+   },
+   "tri_hash": "4ce2fd76886b6dc869a49a6a55f7682eed848822e1e49e19cbacf9c5d2ddb51b",
+   "triangles": 1112
+  },
+  "Hood_hood_roll": {
+   "normal_hash": "0a2650c5a275879a7e1e884d3e3bb96a9939e9cf0fbfafeb1f0aed05788cb12c",
+   "textures": {
+    "albedo": "7a3a2e94d60e",
+    "normal": "ac45115c4573",
+    "params": "ffffffff|1.0|0.0|1.0|true0.25false",
+    "rough": "d8fea6387570"
+   },
+   "tri_hash": "55e5af9e885dc2b2e9ad0be69befb46df791a79c37b69df49fa9b250c8a2ca36",
+   "triangles": 1568
+  },
+  "Hoodie": {
+   "normal_hash": "f1201f38dff08d619f0468c569f3885887b662111538d8d1c9f96c2b0362548d",
+   "textures": {
+    "albedo": "7d9cb585671d",
+    "normal": "283c6686795c",
+    "params": "ffffffff|1.0|0.0|1.0|true0.25false",
+    "rough": "d8fea6387570"
+   },
+   "tri_hash": "f38aad0339bc8dfca051134669faa7e2ffc43fb6bdaa7f2b525e7db3a2646c65",
+   "triangles": 19790
+  },
+  "Jeans": {
+   "normal_hash": "4f9cddae0bd2993fa4e392084abaf65240a98ed5cd5bc02fffe977291bdc9790",
+   "textures": {
+    "albedo": "4c5c035ffd33",
+    "normal": "e44521bf09f4",
+    "params": "ffffffff|1.0|0.0|1.0|true0.25false",
+    "rough": "4c3d29c50c8e"
+   },
+   "tri_hash": "0df36d27228817fcd93945946ea5a5613924ca75c44f58c355bfba4af17412b1",
+   "triangles": 10584
+  },
+  "Laces": {
+   "normal_hash": "b85d2091fc4c0b908fde679b4b10de0a83680bd342ff1ca5b5a1abf3353e6cc0",
+   "textures": {
+    "albedo": "",
+    "normal": "",
+    "params": "272729ff|0.75|0.0|1.0|false1.0false",
+    "rough": ""
+   },
+   "tri_hash": "321263bd11f29c623e81743317fae9744235d4942ba04aa5f29a805868134cca",
+   "triangles": 7232
+  },
+  "ShoeSole": {
+   "normal_hash": "7ed0f5c41500c27c72cee6862f96c513b1095ddc117d88a5331cea41f0ec2511",
+   "textures": {
+    "albedo": "034c09e8972a",
+    "normal": "b1c8b9a66ed9",
+    "params": "ffffffff|1.0|0.0|1.0|false1.0false",
+    "rough": "a8043961d6a3"
+   },
+   "tri_hash": "b700e511ea32c4245b20b0a2cba088797a67b4fb83a4f3a7564a1847de694217",
+   "triangles": 10326
+  },
+  "ShoeTongue": {
+   "normal_hash": "11fb8a51bd3fd9ac83b9ec15e978c2264c8fa53e77460f9c44642f9b7e05dc8e",
+   "textures": {
+    "albedo": "",
+    "normal": "",
+    "params": "6f6f73ff|0.9|0.0|1.0|false1.0false",
+    "rough": ""
+   },
+   "tri_hash": "ee7444814f7c982f4c353dbcd3128f6de109aff6d0d9e3323c18357a33cc1fc9",
+   "triangles": 848
+  },
+  "ShoeUpper": {
+   "normal_hash": "a2cef3039919131dc8b43548175b571c6158787485022b226a5826737739f449",
+   "textures": {
+    "albedo": "5868a7523c48",
+    "normal": "f82b99ee5e7a",
+    "params": "ffffffff|1.0|0.0|1.0|false1.0false",
+    "rough": "00aea8ea1fd3"
+   },
+   "tri_hash": "eb7449cd55ef84515d53112bcff808931e8160606288651a78b904c4948f864d",
+   "triangles": 10194
+  },
+  "Steel": {
+   "normal_hash": "b79aa9b83a68531e418a0ff682d5d9cf40ff49c4406da5e801a45dbd0c7b83bc",
+   "textures": {
+    "albedo": "",
+    "normal": "",
+    "params": "bcbcbfff|0.3|1.0|1.0|false1.0false",
+    "rough": ""
+   },
+   "tri_hash": "5260438eb5badd91adb26c40807f9e874ece4066c90fa58e19236b0e969acacb",
+   "triangles": 192
+  },
+  "Teeth": {
+   "normal_hash": "7a8a73f334e692d45119869e254d1a4371afdfc4dad8f14ade801bd9e2ec56da",
+   "textures": {
+    "albedo": "",
+    "normal": "",
+    "params": "eae5daff|0.25|0.0|1.0|false1.0false",
+    "rough": ""
+   },
+   "tri_hash": "92656e63bdff1fe1010fb25691128b3c0af81f46c05517755c4c7abb497240af",
+   "triangles": 192
+  },
+  "Tongue": {
+   "normal_hash": "d152006bc679ce33f170596ce0e7ee0aa0951e2c812b8803ccfd879ea0091d38",
+   "textures": {
+    "albedo": "",
+    "normal": "",
+    "params": "c48181ff|0.4|0.0|1.0|false1.0false",
+    "rough": ""
+   },
+   "tri_hash": "2c3f034d1e357c7a924e9ebac3dcc36939ffe2c6d3c71b577d941b662ccb9842",
+   "triangles": 448
+  },
+  "TruckAlu": {
+   "normal_hash": "420b1868c37517fa8bb417a206d3698389d2ddcc3865d9aa843b313585341e01",
+   "textures": {
+    "albedo": "",
+    "normal": "",
+    "params": "e5e5e7ff|0.32|1.0|1.0|false1.0false",
+    "rough": ""
+   },
+   "tri_hash": "1bcce726d653a1307da5c8781d0ed3275816ef6e90fdb3c750b94ceebf0768bd",
+   "triangles": 264
+  },
+  "Wheel": {
+   "normal_hash": "d35bb7a12834d1b47316bbad2a72ef9ba60db88190ba3168db5af6ce6ab8e178",
+   "textures": {
+    "albedo": "",
+    "normal": "",
+    "params": "f6f3eaff|0.55|0.0|1.0|false1.0false",
+    "rough": ""
+   },
+   "tri_hash": "4edd1aa1d2f72e5787686be75e0ece3986c9612c84cb5da3e5c3796e89f75755",
+   "triangles": 2304
+  },
+  "shader:hair.gdshader:brow_alpha": {
+   "normal_hash": "ff9e0926d485ce447f60a7e203784168690843ed59a606fddcedb0dfea3406e6",
+   "textures": {
+    "albedo_tex": "4745bafec366"
+   },
+   "tri_hash": "7257e35beaa0ecac931c4462e20eaf0a0e1c0341a1a58f42943f99c8818f3d90",
+   "triangles": 1680
+  },
+  "shader:hair.gdshader:hair_atlas": {
+   "normal_hash": "0dd2602c6a4c6b39e80ca27ff6a07273ff317ad0785585d86edd922ef88913ac",
+   "textures": {
+    "albedo_tex": "18c672fe996a"
+   },
+   "tri_hash": "5dad44139fec16f79f7d8dceef3616d43a94ade1c8a7ec86ac1dbbbb69912c76",
+   "triangles": 26400
+  },
+  "shader:hair.gdshader:lash_alpha": {
+   "normal_hash": "d6edcdb48f6ff0cff547de0b1552f3601a14cb733f1586d1b84430b8fdacb160",
+   "textures": {
+    "albedo_tex": "4e7d54b67124"
+   },
+   "tri_hash": "259f122b8143f22684427d02f88ee91b23befb0682bc29e1c6ccb3ce0bedb0ea",
+   "triangles": 192
+  },
+  "shader:hair.gdshader:lash_low_alpha": {
+   "normal_hash": "cb84909001d83150a318e5a800cb90c561cbe4af9ad92f8bb3a57e8180e36132",
+   "textures": {
+    "albedo_tex": "31497d48fe9f"
+   },
+   "tri_hash": "3e074dcbdddfe0a90016272fc9c198489689ef42ac7f16e70378c5fcfc128d13",
+   "triangles": 176
+  },
+  "shader:skin.gdshader:skin_albedo": {
+   "normal_hash": "e6cb45f47d84365d9586cac8019a02830f7624e19dd0d6faf5d574005a7105f2",
+   "textures": {
+    "albedo_tex": "a683dbc1a329",
+    "normal_tex": "7906ec6e88fb",
+    "rough_tex": "365e81b10e33"
+   },
+   "tri_hash": "2a82b322145c4651ee73a6286dad94c14591673088ad351505b5dc93a569b583",
+   "triangles": 62868
+  }
+ },
+ "skeleton": "cdbd03cd7bb8befe565471e304fa81768526bb2ebdbad6bbb1ffeb49163bbde7"
+}

@@ -1,6 +1,7 @@
 Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 
 [godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
+[skater] skating as male,hoodie,jeans,suede,none
 [run] started
 [ap   0.02] step 0: north along the concourse (sign)  pos=(-14.8, 4.2, 1.0) v=0.0 st=0
 [ap   1.93] step 1: to the gantry  pos=(-14.8, 4.2, -5.1) v=4.9 st=0
@@ -269,5 +270,3 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [run] finished score=58951 goals=[["score", true], ["skate", true], ["tape", true], ["signs", true], ["deep_coping", true], ["high_dive", true]]
 [run] frames: process=7289 physics=7290
 [run] clips played: { "idle": 4, "push": 64, "ride": 93, "air": 11, "kickflip": 7, "land": 37, "vert_air": 93, "indy": 15, "treflip": 7, "tailgrab": 7, "heelflip": 7, "shoveit": 7, "nosegrab": 8, "melon": 5, "ollie": 2, "grind_5050": 2, "ride_fakie": 1, "special": 4 }
-WARNING: 14 ObjectDB instances were leaked at exit (run with `--verbose` for details).
-   at: cleanup (core/object/object.cpp:2536)

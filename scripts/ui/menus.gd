@@ -7,6 +7,8 @@ signal start_pressed
 signal resume_pressed
 signal restart_pressed
 signal level_select_pressed      # start screen: Tab / gamepad Select opens the level select
+signal skater_pressed      # the Skater screen (character builder, scripts/ui/skater_builder.gd)
+signal replay_pressed      # the instant replay (scripts/game/replay.gd)
 
 enum { NONE, START, PAUSE, END }
 
@@ -20,6 +22,8 @@ var hint: Label
 var grid: GridContainer
 var _blink := 0.0
 var _cooldown := 0.0
+var end_skater: SkaterPreview   # the end screen shows who skated the run
+var end_skater_label: Label
 
 
 func _ready() -> void:
@@ -111,6 +115,7 @@ func _fill_controls(show: bool) -> void:
 func show_start(goals: Array, level_name := "The Warehouse") -> void:
 	mode = START
 	panel.visible = true
+	_show_end_skater({})
 	title.text = "PRO SKATER: " + level_name.to_upper()
 	var g := "\n[b]GOALS - 2:00 RUN[/b]\n"
 	for x in goals:
@@ -121,13 +126,15 @@ func show_start(goals: Array, level_name := "The Warehouse") -> void:
 		t += "  %s  [color=#ffd23a]%s[/color]  -  %s\n" % [r[0], str(r[1]), r[2]]
 	_fill_controls(true)
 	body.text = g + "\n[b]LEVEL[/b]   %s   [color=#ffd23a](TAB / SELECT: choose a level)[/color]" % level_name.to_upper()
-	hint.text = "PRESS ENTER / A TO SKATE"
+	hint.text = "PRESS ENTER / A TO SKATE        C / Y  SKATER"
+	SkaterOutfit.ensure_actions()
 	_cooldown = 0.3
 
 
 func show_pause(goals: Array, sk: ScoreKeeper) -> void:
 	mode = PAUSE
 	panel.visible = true
+	_show_end_skater({})
 	title.text = "PAUSED"
 	var g := "[b]GOALS[/b]\n"
 	for x in goals:
@@ -138,7 +145,7 @@ func show_pause(goals: Array, sk: ScoreKeeper) -> void:
 	_cooldown = 0.25
 
 
-func show_end(goals: Array, sk: ScoreKeeper, stats: Dictionary, cleared := "Warehouse cleared") -> void:
+func show_end(goals: Array, sk: ScoreKeeper, stats: Dictionary, cleared := "Warehouse cleared", skater := {}, replay := false) -> void:
 	mode = END
 	panel.visible = true
 	title.text = "RUN OVER"
@@ -156,13 +163,40 @@ func show_end(goals: Array, sk: ScoreKeeper, stats: Dictionary, cleared := "Ware
 		s += "\n[color=#ffd23a][b]ALL GOALS COMPLETE - %s![/b][/color]" % cleared.to_upper()
 	_fill_controls(false)
 	body.text = s
-	hint.text = "PRESS ENTER / A TO SKATE AGAIN"
+	hint.text = "PRESS ENTER / A TO SKATE AGAIN" + ("        V / X  REPLAY" if replay else "")
+	_show_end_skater(skater)
 	_cooldown = 1.0
+
+
+func _show_end_skater(c: Dictionary) -> void:
+	## The skater of the run (the character-builder choice) on a turntable at the right.
+	if end_skater == null:
+		if c.is_empty():
+			return
+		end_skater = SkaterPreview.new(Vector2i(400, 560))
+		end_skater.name = "EndSkater"
+		end_skater.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
+		end_skater.position = Vector2(1920 - 470, 1080 / 2 - 330)
+		panel.add_child(end_skater)
+		end_skater_label = _mk_label(font_plain, 22, Color(0.85, 0.85, 0.85), 6)
+		end_skater_label.position = Vector2(1920 - 470, 1080 / 2 + 240)
+		panel.add_child(end_skater_label)
+	end_skater.visible = not c.is_empty()
+	end_skater_label.visible = not c.is_empty()
+	if c.is_empty():
+		return
+	end_skater.set_choice(c)
+	var names := PackedStringArray()
+	for slot in ["top", "bottom", "shoes", "hat"]:
+		if c[slot] != "none":
+			names.append(SkaterOutfit.label(slot, c[slot]))
+	end_skater_label.text = SkaterOutfit.label("body", c["body"]).to_upper() + "\n" + "\n".join(names)
 
 
 func hide_all() -> void:
 	mode = NONE
 	panel.visible = false
+	_show_end_skater({})
 
 
 func _process(delta: float) -> void:
@@ -185,6 +219,12 @@ func _process(delta: float) -> void:
 	elif mode == START and (Input.is_key_pressed(KEY_TAB) or Input.is_joy_button_pressed(0, JOY_BUTTON_BACK)):
 		Sfx.play("ui_move")
 		level_select_pressed.emit()
+	elif mode == END and InputMap.has_action("replay") and Input.is_action_just_pressed("replay"):
+		Sfx.play("ui_select")
+		replay_pressed.emit()
+	elif mode == START and InputMap.has_action("skater_menu") and Input.is_action_just_pressed("skater_menu"):
+		Sfx.play("ui_select")
+		skater_pressed.emit()
 	elif mode == PAUSE and Input.is_action_just_pressed("pause"):
 		resume_pressed.emit()
 	elif mode == PAUSE and Input.is_action_just_pressed("restart"):

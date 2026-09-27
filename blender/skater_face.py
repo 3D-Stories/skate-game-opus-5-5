@@ -32,7 +32,7 @@ def weight_all(obj, bone, rig):
 
 # ------------------------------------------------------------------ eye texture
 
-def eye_texture(size=1024, iris_frac=0.54, pupil_frac=0.30):
+def eye_texture(size=1024, iris_frac=0.54, pupil_frac=0.30, tint=(1.2, 0.86, 0.6), gain=0.62, name="eye_albedo"):
     """Front-projected eyeball texture: rho = distance from the corneal axis / eye radius."""
     iris = C.src_array("iris", 1024)
     h = size
@@ -53,7 +53,7 @@ def eye_texture(size=1024, iris_frac=0.54, pupil_frac=0.30):
     # a natural medium brown (the source photo is a light hazel that reads orange under a
     # warm key light), matching the brown eyes of the face photo
     lum = (iris_col * np.array([0.2126, 0.7152, 0.0722])).sum(-1, keepdims=True)
-    iris_col = (iris_col * 0.45 + lum * np.array([1.2, 0.86, 0.6]) * 0.55) * 0.62
+    iris_col = (iris_col * 0.45 + lum * np.array(tint) * 0.55) * gain
     pupil = np.clip((pupil_frac - t) / 0.02, 0, 1)[..., None]
     iris_col = iris_col * (1 - pupil) + np.array([0.01, 0.01, 0.012]) * pupil
     # sclera
@@ -72,7 +72,7 @@ def eye_texture(size=1024, iris_frac=0.54, pupil_frac=0.30):
     col = iris_col * (1 - edge) + sclera * edge
     col = col * (1 - 0.65 * limbal)
     col *= (0.96 + 0.08 * n2[..., None])
-    return C.save_png(np.clip(col, 0, 1), "eye_albedo")
+    return C.save_png(np.clip(col, 0, 1), name)
 
 
 def gaze_matrix(gaze):
@@ -131,8 +131,10 @@ def make_cornea(name, center, radius, coll, gaze=None):
     return ob
 
 
-def eye_materials():
-    tex = eye_texture()
+def eye_materials(prof=None):
+    prof = prof or {}
+    sfx = prof.get("suffix", "")
+    tex = eye_texture(tint=prof.get("iris_tint", (1.2, 0.86, 0.6)), gain=prof.get("iris_gain", 0.62), name="eye_albedo" + sfx)
     m = C.pbr_material("Eye", base=tex, roughness=0.15)
     p = C.principled(m)
     p.inputs['Subsurface Weight'].default_value = 0.15
@@ -213,20 +215,30 @@ def lash_uvs(obj, eye_center, upper=True):
             uvl[li].uv = ((ang[vi] - a0) / max(1e-6, a1 - a0), (rad[vi] - r0) / max(1e-6, r1 - r0))
 
 
-def eyebrow_cards(body, eye_center, side, coll, seed):
+BROW = dict(count=140, rise=0.0165, arch=0.0055, drop=0.004, thick=0.0085, taper=0.6,
+            length=(0.005, 0.0095), width=(0.0014, 0.0022), color=(0.085, 0.06, 0.042))
+
+
+def brow_arc(t, bp=BROW):
+    """Height of the brow line over the eye centre and its thickness at t (0 medial -> 1
+    lateral); the skin stage paints its brow mask along the same arc."""
+    return bp["rise"] + bp["arch"] * np.sin(np.pi * np.minimum(1, t * 1.25)) - bp["drop"] * t, bp["thick"] * (1 - bp["taper"] * t)
+
+
+def eyebrow_cards(body, eye_center, side, coll, seed, bp=BROW):
     """Short hair cards laid on the brow ridge, growing medial->lateral like real brows."""
     r = C.rng(seed)
     bvh = C.rest_bvh(body)
     ex, ey, ez = eye_center
     s = 1 if side == 'L' else -1
     verts, faces, uvs = [], [], []
-    count = 140        # the photo face texture carries the brow colour; cards add depth
+    count = bp["count"]        # the photo face texture carries the brow colour; cards add depth
     for i in range(count):
         t = r.random()  # 0 medial -> 1 lateral
         dx = (-0.013 + t * 0.041)
         # brow arc: rises toward 60% then drops laterally, thicker medially
-        dz = 0.0165 + 0.0055 * math.sin(math.pi * min(1, t * 1.25)) - 0.004 * t
-        thick = 0.0085 * (1 - 0.6 * t)
+        dz = bp["rise"] + bp["arch"] * math.sin(math.pi * min(1, t * 1.25)) - bp["drop"] * t
+        thick = bp["thick"] * (1 - bp["taper"] * t)
         dz += r.uniform(-0.5, 0.5) * thick
         origin = Vector((ex + s * dx, ey - 0.06, ez + dz))
         hit, nrm, _, _ = bvh.ray_cast(origin, Vector((0, 1, 0)), 0.12)
@@ -237,8 +249,8 @@ def eyebrow_cards(body, eye_center, side, coll, seed):
         g = Vector((s * (0.35 + t), 0, up_amt)).normalized()
         g = (g - nrm * g.dot(nrm)).normalized()
         side_v = nrm.cross(g).normalized()
-        L = r.uniform(0.005, 0.0095)
-        W = r.uniform(0.0014, 0.0022)
+        L = r.uniform(*bp["length"])
+        W = r.uniform(*bp["width"])
         root = hit + nrm * 0.0004
         base = len(verts)
         segs = 3
@@ -262,9 +274,30 @@ def eyebrow_cards(body, eye_center, side, coll, seed):
     return ob
 
 
-def build(rig, body, helpers, coll=None):
+def lengthen_lashes(ob, eye_center, factor):
+    """Longer lashes: move each vertex outward from the eye by (factor - 1) of its distance
+    along the strip (0 at the lid, the full lash length at the tip); the roots stay put."""
+    if abs(factor - 1.0) < 1e-6:
+        return
+    co = np.array([v.co[:] for v in ob.data.vertices])
+    c = np.array(eye_center)
+    d = co - c
+    rad = np.sqrt(d[:, 0] ** 2 + d[:, 2] ** 2)
+    r0, r1 = rad.min(), rad.max()
+    t = (rad - r0) / max(1e-6, r1 - r0)
+    u = d / np.maximum(np.linalg.norm(d, axis=1, keepdims=True), 1e-6)
+    co = co + u * (t * (r1 - r0) * (factor - 1.0))[:, None]
+    ob.data.vertices.foreach_set("co", co.astype(np.float32).ravel())
+    ob.data.update()
+
+
+def build(rig, body, helpers, coll=None, prof=None):
+    prof = prof or {}
+    sfx = prof.get("suffix", "")
+    bp = dict(BROW, **prof.get("brow", {}))
+    lp = prof.get("lashes", {})
     coll = coll or C.collection("Skater")
-    eye_mat, cornea_mat = eye_materials()
+    eye_mat, cornea_mat = eye_materials(prof)
     out = {}
     for side in ('L', 'R'):
         sock = helpers[f"EyeSocket_{side}"]
@@ -287,14 +320,17 @@ def build(rig, body, helpers, coll=None):
         out[f"eye_{side}"] = (tuple(center), radius)
         bpy.data.objects.remove(sock, do_unlink=True)
 
-    lash_img = strand_atlas("lash_alpha", 512, strands=110, seed=3, curl=0.5, thickness=0.75)
+    up = dict(dict(strands=110, seed=3, curl=0.5, thickness=0.75), **lp.get("upper", {}))
+    lo = dict(dict(strands=45, seed=4, curl=0.3, thickness=0.6), **lp.get("lower", {}))
+    lash_img = strand_atlas("lash_alpha" + sfx, 512, **up)
     lash_mat = strand_material("Lashes", lash_img)
-    lash_low = strand_atlas("lash_low_alpha", 512, strands=45, seed=4, curl=0.3, thickness=0.6)
+    lash_low = strand_atlas("lash_low_alpha" + sfx, 512, **lo)
     lash_low_mat = strand_material("LashesLower", lash_low)
     for side in ('L', 'R'):
         c = out[f"eye_{side}"][0]
         for part in ('Top', 'Bot'):
             ob = helpers[f"Lashes{part}_{side}"]
+            lengthen_lashes(ob, c, lp.get("length", 1.0))
             lash_uvs(ob, c, part == 'Top')
             # the '-1' helper strips sit on the upper lid on this mesh
             z = np.mean([v.co.z for v in ob.data.vertices])
@@ -303,11 +339,11 @@ def build(rig, body, helpers, coll=None):
                 mod = ob.modifiers.new("Armature", 'ARMATURE')
                 mod.object = rig
 
-    brow_img = strand_atlas("brow_alpha", 512, strands=30, seed=5, curl=0.5, thickness=1.3,
-                            color=(0.085, 0.06, 0.042))
+    brow_img = strand_atlas("brow_alpha" + sfx, 512, strands=30, seed=5, curl=0.5, thickness=1.3,
+                            color=bp["color"])
     brow_mat = strand_material("Eyebrows", brow_img)
     for i, side in enumerate(('L', 'R')):
-        b = eyebrow_cards(body, out[f"eye_{side}"][0], side, coll, 40 + i)
+        b = eyebrow_cards(body, out[f"eye_{side}"][0], side, coll, 40 + i, bp)
         C.assign(b, brow_mat)
         weight_all(b, "head", rig)
         out[f"brow_{side}"] = b
@@ -322,4 +358,5 @@ def build(rig, body, helpers, coll=None):
         if not ob.modifiers:
             mod = ob.modifiers.new("Armature", 'ARMATURE')
             mod.object = rig
+    out["brow_params"] = bp
     return out

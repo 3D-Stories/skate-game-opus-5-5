@@ -1,0 +1,357 @@
+{
+ "bodies": {
+  "female": {
+   "ankle_h": 0.0680798888206482,
+   "glb": "skater_female.glb"
+  },
+  "male": {
+   "ankle_h": 0.0724334865808487,
+   "glb": "skater.glb"
+  }
+ },
+ "cell_bits": {
+  "cargo": 4,
+  "flannel": 2,
+  "hoodie": 0,
+  "jeans": 3,
+  "shoes_high": 7,
+  "shoes_low": 6,
+  "shorts": 5,
+  "socks": 8,
+  "tee": 1
+ },
+ "default": {
+  "bottom": "jeans",
+  "hat": "none",
+  "shoes": "suede",
+  "top": "hoodie"
+ },
+ "garments": {
+  "beanie": {
+   "covers": [],
+   "fabric": [
+    "Beanie"
+   ],
+   "hat_bit": 0,
+   "label": "Mustard rib beanie",
+   "materials_used": [
+    "Beanie"
+   ],
+   "parts": [
+    "Beanie"
+   ],
+   "slot": "hat"
+  },
+  "cap": {
+   "covers": [],
+   "fabric": [
+    "Cap"
+   ],
+   "hat_bit": 1,
+   "label": "Navy six-panel cap",
+   "materials_used": [
+    "Cap"
+   ],
+   "parts": [
+    "Cap"
+   ],
+   "slot": "hat"
+  },
+  "cargo": {
+   "covers": [
+    "cargo"
+   ],
+   "fabric": [
+    "Cargo"
+   ],
+   "label": "Olive cargo pants",
+   "materials_used": [
+    "Cargo"
+   ],
+   "parts": [
+    "Cargo"
+   ],
+   "slot": "bottom",
+   "with_high_shoes": "cargo_high"
+  },
+  "cargo_high": {
+   "covers": [
+    "cargo"
+   ],
+   "fabric": [
+    "Cargo"
+   ],
+   "label": "Olive cargo pants (with hi-tops)",
+   "material_source": "male_cargo.glb",
+   "materials": {
+    "Cargo": "Cargo"
+   },
+   "materials_used": [
+    "Cargo"
+   ],
+   "parts": [
+    "CargoHigh"
+   ],
+   "slot": ""
+  },
+  "flannel": {
+   "covers": [
+    "flannel"
+   ],
+   "fabric": [
+    "Collar",
+    "Flannel"
+   ],
+   "label": "Green flannel shirt",
+   "materials_used": [
+    "Buttons",
+    "Collar",
+    "Flannel"
+   ],
+   "parts": [
+    "Buttons",
+    "Collar",
+    "Flannel"
+   ],
+   "slot": "top"
+  },
+  "hitop": {
+   "covers": [
+    "shoes_high"
+   ],
+   "fabric": [],
+   "label": "Black canvas hi-tops",
+   "materials_used": [
+    "HiTopLaces",
+    "HiTopSole",
+    "HiTopTongue",
+    "HiTopUpper"
+   ],
+   "parts": [
+    "HiTopLaces_L",
+    "HiTopLaces_R",
+    "HiTopSole_L",
+    "HiTopSole_R",
+    "HiTopTongue_L",
+    "HiTopTongue_R",
+    "HiTopUpper_L",
+    "HiTopUpper_R"
+   ],
+   "slot": "shoes"
+  },
+  "hoodie": {
+   "covers": [
+    "hoodie"
+   ],
+   "fabric": [
+    "Hood_hood_back",
+    "Hood_hood_roll",
+    "Hoodie"
+   ],
+   "label": "Red fleece hoodie",
+   "materials_used": [
+    "Aglet",
+    "Cord",
+    "Hood_hood_back",
+    "Hood_hood_roll",
+    "Hoodie"
+   ],
+   "parts": [
+    "Aglet",
+    "Aglet.001",
+    "Drawstring_L",
+    "Drawstring_R",
+    "HoodBack",
+    "HoodRoll",
+    "Hoodie"
+   ],
+   "slot": "top"
+  },
+  "jeans": {
+   "covers": [
+    "jeans"
+   ],
+   "fabric": [
+    "Jeans"
+   ],
+   "label": "Blue jeans",
+   "materials_used": [
+    "Jeans"
+   ],
+   "parts": [
+    "Jeans"
+   ],
+   "slot": "bottom",
+   "with_high_shoes": "jeans_high"
+  },
+  "jeans_high": {
+   "covers": [
+    "jeans"
+   ],
+   "fabric": [
+    "Jeans"
+   ],
+   "label": "Blue jeans (with hi-tops)",
+   "material_source": "male_jeans.glb",
+   "materials": {
+    "Jeans": "Jeans"
+   },
+   "materials_used": [
+    "Jeans"
+   ],
+   "parts": [
+    "JeansHigh"
+   ],
+   "slot": ""
+  },
+  "shorts": {
+   "covers": [
+    "shorts"
+   ],
+   "fabric": [
+    "Shorts"
+   ],
+   "label": "Khaki chino shorts",
+   "materials_used": [
+    "Shorts"
+   ],
+   "parts": [
+    "Shorts"
+   ],
+   "shows_socks": true,
+   "slot": "bottom"
+  },
+  "socks": {
+   "covers": [
+    "socks"
+   ],
+   "fabric": [
+    "Socks"
+   ],
+   "label": "Crew socks",
+   "materials_used": [
+    "Socks"
+   ],
+   "parts": [
+    "Socks"
+   ],
+   "slot": ""
+  },
+  "socks_high": {
+   "covers": [
+    "socks"
+   ],
+   "fabric": [
+    "Socks"
+   ],
+   "label": "Crew socks (with hi-tops)",
+   "material_source": "male_socks.glb",
+   "materials": {
+    "Socks": "Socks"
+   },
+   "materials_used": [
+    "Socks"
+   ],
+   "parts": [
+    "SocksHigh"
+   ],
+   "slot": ""
+  },
+  "suede": {
+   "covers": [
+    "shoes_low"
+   ],
+   "fabric": [],
+   "label": "Grey suede low-tops",
+   "materials_used": [
+    "Laces",
+    "ShoeSole",
+    "ShoeTongue",
+    "ShoeUpper"
+   ],
+   "parts": [
+    "Laces_L",
+    "Laces_R",
+    "ShoeSole_L",
+    "ShoeSole_R",
+    "ShoeTongue_L",
+    "ShoeTongue_R",
+    "ShoeUpper_L",
+    "ShoeUpper_R"
+   ],
+   "slot": "shoes"
+  },
+  "suede_navy": {
+   "base": "suede",
+   "covers": [
+    "shoes_low"
+   ],
+   "label": "Navy suede low-tops (gum sole)",
+   "material_source": "male_suede_navy.glb",
+   "materials": {
+    "ShoeSole": "ShoeSoleGum",
+    "ShoeUpper": "ShoeUpperNavy"
+   },
+   "slot": "shoes"
+  },
+  "tee": {
+   "covers": [
+    "tee"
+   ],
+   "fabric": [
+    "CrewBand",
+    "Tee"
+   ],
+   "label": "White graphic tee",
+   "materials_used": [
+    "CrewBand",
+    "Tee"
+   ],
+   "parts": [
+    "CrewBand",
+    "Tee"
+   ],
+   "slot": "top"
+  }
+ },
+ "hat_bits": {
+  "beanie": 0,
+  "cap": 1
+ },
+ "labels": {
+  "beanie": "Mustard rib beanie",
+  "cap": "Navy six-panel cap",
+  "cargo": "Olive cargo pants",
+  "flannel": "Green flannel shirt",
+  "hitop": "Black canvas hi-tops",
+  "hoodie": "Red fleece hoodie",
+  "jeans": "Blue jeans",
+  "none": "No hat",
+  "shorts": "Khaki chino shorts",
+  "suede": "Grey suede low-tops",
+  "suede_navy": "Navy suede low-tops (gum sole)",
+  "tee": "White graphic tee"
+ },
+ "slots": {
+  "bottom": [
+   "jeans",
+   "cargo",
+   "shorts"
+  ],
+  "hat": [
+   "none",
+   "beanie",
+   "cap"
+  ],
+  "shoes": [
+   "suede",
+   "suede_navy",
+   "hitop"
+  ],
+  "top": [
+   "hoodie",
+   "tee",
+   "flannel"
+  ]
+ }
+}

@@ -1,4 +1,4 @@
-Pro Skater input tests (keyboard + gamepad)  2026-09-26T17:22:53
+Pro Skater input tests (keyboard + gamepad)  2026-09-26T22:46:50
 PASS  the game boots paused on the start screen
 PASS  start screen shows the controls table as visible Labels (10 rows x 3 columns)
 PASS  controls table has a KEYBOARD and a GAMEPAD column
@@ -11,7 +11,7 @@ PASS  start screen row 'Spin in the air': 'Left / Right,  Q / E' | 'Left stick, 
 PASS  start screen row 'Manual  /  Nose manual': 'Up, Down  /  Down, Up' | 'Up, Down  /  Down, Up' names Up, Down, Down, Up
 PASS  start screen row 'Special trick (special meter full)': 'Left, Right + J' | 'Left, Right + X' names J, X, Left, Right
 PASS  start screen row 'Pause  /  Restart run': 'Esc or P  /  R' | 'Start  /  Back' names Esc, P, R, Start, Back
-PASS  start screen hint 'PRESS ENTER / A TO SKATE' names a bound confirm key (Enter) and button (A)
+PASS  start screen hint 'PRESS ENTER / A TO SKATE        C / Y  SKATER' names a bound confirm key (Enter) and button (A)
 PASS  every input-map action is shown on the start screen
 PASS  [keyboard] fresh game on the start screen
 PASS  [keyboard] Enter (confirm) on the start screen starts the run

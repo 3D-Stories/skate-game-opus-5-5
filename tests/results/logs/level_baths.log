@@ -1,6 +1,7 @@
 Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 
 [godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
+[skater] skating as male,hoodie,jeans,suede,none
 [run] started
 [run] started
 [ap   2.03] broke Sign_1 (signs 1/5)
@@ -14,7 +15,7 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 WARNING: Jolt Physics job system exceeded the maximum number of jobs. This should not happen. Please report this. Waiting for jobs to become available...
      at: CreateJob (modules/jolt_physics/spaces/jolt_job_system.cpp:123)
 [run] finished score=58951 goals=[["score", true], ["skate", true], ["tape", true], ["signs", true], ["deep_coping", true], ["high_dive", true]]
-Pro Skater level tests: Eastside Baths (baths)  2026-09-26T17:23:05
+Pro Skater level tests: Eastside Baths (baths)  2026-09-26T22:46:59
 PASS  the level loads through LevelRegistry (levels/registry.json -> levels/baths/level.json)  [Eastside Baths, 26 grind lines, 6 breakables]
 PASS  a high-score goal plus at least two goals of the level's own, on one two-minute run  [score, skate, tape, signs, deep_coping, high_dive]
 PASS  the run's goal list is built from the level's data  [6 goals]
@@ -70,3 +71,5 @@ PASS  every pickup is reachable: the autopilot route collects S-K-A-T-E and the 
 PASS  the autopilot two-minute run completes every goal of the level  [score done, skate done, tape done, signs done, deep_coping done, high_dive done; score 58951 in 121.0 s]
 53 passed, 0 failed
 
+WARNING: 14 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

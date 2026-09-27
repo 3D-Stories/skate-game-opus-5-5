@@ -1,0 +1,183 @@
+Pro Skater wardrobe tests  2026-09-26T21:18:15
+PASS  male / hoodie jeans suede none: at rest nothing of the skin shows through the hoodie
+PASS  male / hoodie jeans suede none: skin stays under the hoodie in every frame of every clip (1179 vertices tracked)
+PASS  male / hoodie jeans suede none: at rest nothing of the skin shows through the jeans
+PASS  male / hoodie jeans suede none: skin stays under the jeans in every frame of every clip (0 vertices tracked)
+PASS  male / hoodie jeans suede none: at rest nothing of the skin shows through the suede
+PASS  male / hoodie jeans suede none: skin stays under the suede in every frame of every clip (0 vertices tracked)
+PASS  male / hoodie jeans suede none: at rest nothing of the jeans shows through the hoodie
+KNOWN male / hoodie jeans suede none: jeans stays under the hoodie in every frame of every clip (718 vertices tracked)  -- 3258 pokes, deepest 17.2 mm at bail @ 0.27s: Jeans pelvis at (0.154, -0.077, 0.981)  (not a pass: see README, Clothing fit)
+KNOWN male / hoodie jeans suede none: at rest nothing of the suede shows through the jeans  -- 76 vertices through ({ ShoeUpper_L: 1, ShoeTongue_L: 1, Laces_R: 28, Laces_L: 46 }), e.g. ShoeUpper_L at (0.170, -0.070, 0.090)  (today's shapes, kept: not a pass, see README, Clothing fit)
+PASS  male / hoodie jeans suede none: suede stays under the jeans in every frame of every clip (2298 vertices tracked)
+PASS  male / hoodie cargo suede_navy beanie: at rest nothing of the skin shows through the hoodie
+PASS  male / hoodie cargo suede_navy beanie: skin stays under the hoodie in every frame of every clip (1179 vertices tracked)
+PASS  male / hoodie cargo suede_navy beanie: at rest nothing of the skin shows through the cargo
+PASS  male / hoodie cargo suede_navy beanie: skin stays under the cargo in every frame of every clip (0 vertices tracked)
+PASS  male / hoodie cargo suede_navy beanie: at rest nothing of the skin shows through the suede_navy
+PASS  male / hoodie cargo suede_navy beanie: skin stays under the suede_navy in every frame of every clip (0 vertices tracked)
+PASS  male / hoodie cargo suede_navy beanie: at rest nothing of the cargo shows through the hoodie
+KNOWN male / hoodie cargo suede_navy beanie: cargo stays under the hoodie in every frame of every clip (719 vertices tracked)  -- 3727 pokes, deepest 14.6 mm at getup_front @ 1.03s: Cargo pelvis at (0.155, -0.078, 0.981)  (not a pass: see README, Clothing fit)
+PASS  male / hoodie cargo suede_navy beanie: at rest nothing of the suede_navy shows through the cargo
+PASS  male / hoodie cargo suede_navy beanie: suede_navy stays under the cargo in every frame of every clip (1671 vertices tracked)
+PASS  male / hoodie cargo suede_navy beanie: at rest nothing of the skin shows through the beanie
+PASS  male / hoodie cargo suede_navy beanie: skin stays under the beanie in every frame of every clip (1488 vertices tracked)
+PASS  male / hoodie cargo suede_navy beanie: at rest nothing of the hair shows through the beanie
+PASS  male / hoodie cargo suede_navy beanie: hair stays under the beanie in every frame of every clip (350 vertices tracked)
+PASS  male / hoodie shorts hitop cap: at rest nothing of the skin shows through the hoodie
+PASS  male / hoodie shorts hitop cap: skin stays under the hoodie in every frame of every clip (1179 vertices tracked)
+PASS  male / hoodie shorts hitop cap: at rest nothing of the skin shows through the shorts
+PASS  male / hoodie shorts hitop cap: skin stays under the shorts in every frame of every clip (66 vertices tracked)
+PASS  male / hoodie shorts hitop cap: at rest nothing of the skin shows through the hitop
+PASS  male / hoodie shorts hitop cap: skin stays under the hitop in every frame of every clip (0 vertices tracked)
+PASS  male / hoodie shorts hitop cap: at rest nothing of the shorts shows through the hoodie
+KNOWN male / hoodie shorts hitop cap: shorts stays under the hoodie in every frame of every clip (533 vertices tracked)  -- 2681 pokes, deepest 24.0 mm at getup_front @ 1.03s: Shorts thigh_l at (0.154, -0.065, 0.977)  (not a pass: see README, Clothing fit)
+PASS  male / hoodie shorts hitop cap: at rest nothing of the hitop shows through the shorts
+PASS  male / hoodie shorts hitop cap: hitop stays under the shorts in every frame of every clip (0 vertices tracked)
+PASS  male / hoodie shorts hitop cap: at rest nothing of the skin shows through the cap
+PASS  male / hoodie shorts hitop cap: skin stays under the cap in every frame of every clip (1996 vertices tracked)
+PASS  male / hoodie shorts hitop cap: at rest nothing of the hair shows through the cap
+PASS  male / hoodie shorts hitop cap: hair stays under the cap in every frame of every clip (39 vertices tracked)
+PASS  male / tee jeans suede_navy cap: at rest nothing of the skin shows through the tee
+PASS  male / tee jeans suede_navy cap: skin stays under the tee in every frame of every clip (890 vertices tracked)
+PASS  male / tee jeans suede_navy cap: at rest nothing of the skin shows through the jeans
+PASS  male / tee jeans suede_navy cap: skin stays under the jeans in every frame of every clip (0 vertices tracked)
+PASS  male / tee jeans suede_navy cap: at rest nothing of the skin shows through the suede_navy
+PASS  male / tee jeans suede_navy cap: skin stays under the suede_navy in every frame of every clip (0 vertices tracked)
+PASS  male / tee jeans suede_navy cap: at rest nothing of the jeans shows through the tee
+KNOWN male / tee jeans suede_navy cap: jeans stays under the tee in every frame of every clip (729 vertices tracked)  -- 3419 pokes, deepest 18.0 mm at getup_front @ 0.83s: Jeans pelvis at (0.159, -0.066, 0.982)  (not a pass: see README, Clothing fit)
+KNOWN male / tee jeans suede_navy cap: at rest nothing of the suede_navy shows through the jeans  -- 76 vertices through ({ ShoeUpper_L: 1, ShoeTongue_L: 1, Laces_R: 28, Laces_L: 46 }), e.g. ShoeUpper_L at (0.170, -0.070, 0.090)  (today's shapes, kept: not a pass, see README, Clothing fit)
+PASS  male / tee jeans suede_navy cap: suede_navy stays under the jeans in every frame of every clip (2298 vertices tracked)
+PASS  male / tee jeans suede_navy cap: at rest nothing of the skin shows through the cap
+PASS  male / tee jeans suede_navy cap: skin stays under the cap in every frame of every clip (1996 vertices tracked)
+PASS  male / tee jeans suede_navy cap: at rest nothing of the hair shows through the cap
+PASS  male / tee jeans suede_navy cap: hair stays under the cap in every frame of every clip (39 vertices tracked)
+PASS  male / tee cargo hitop none: at rest nothing of the skin shows through the tee
+PASS  male / tee cargo hitop none: skin stays under the tee in every frame of every clip (890 vertices tracked)
+PASS  male / tee cargo hitop none: at rest nothing of the skin shows through the cargo_high
+PASS  male / tee cargo hitop none: skin stays under the cargo_high in every frame of every clip (0 vertices tracked)
+PASS  male / tee cargo hitop none: at rest nothing of the skin shows through the hitop
+PASS  male / tee cargo hitop none: skin stays under the hitop in every frame of every clip (0 vertices tracked)
+PASS  male / tee cargo hitop none: at rest nothing of the cargo_high shows through the tee
+KNOWN male / tee cargo hitop none: cargo_high stays under the tee in every frame of every clip (766 vertices tracked)  -- 3881 pokes, deepest 17.3 mm at bail @ 0.87s: CargoHigh pelvis at (0.035, -0.111, 0.913)  (not a pass: see README, Clothing fit)
+PASS  male / tee cargo hitop none: at rest nothing of the hitop shows through the cargo_high
+PASS  male / tee cargo hitop none: hitop stays under the cargo_high in every frame of every clip (2339 vertices tracked)
+PASS  male / tee shorts suede beanie: at rest nothing of the skin shows through the tee
+PASS  male / tee shorts suede beanie: skin stays under the tee in every frame of every clip (890 vertices tracked)
+PASS  male / tee shorts suede beanie: at rest nothing of the skin shows through the shorts
+PASS  male / tee shorts suede beanie: skin stays under the shorts in every frame of every clip (66 vertices tracked)
+PASS  male / tee shorts suede beanie: at rest nothing of the skin shows through the suede
+PASS  male / tee shorts suede beanie: skin stays under the suede in every frame of every clip (0 vertices tracked)
+PASS  male / tee shorts suede beanie: at rest nothing of the shorts shows through the tee
+KNOWN male / tee shorts suede beanie: shorts stays under the tee in every frame of every clip (565 vertices tracked)  -- 2821 pokes, deepest 20.2 mm at getup_front @ 0.87s: Shorts thigh_l at (0.157, -0.066, 0.965)  (not a pass: see README, Clothing fit)
+PASS  male / tee shorts suede beanie: at rest nothing of the skin shows through the socks
+PASS  male / tee shorts suede beanie: skin stays under the socks in every frame of every clip (98 vertices tracked)
+PASS  male / tee shorts suede beanie: at rest nothing of the socks shows through the suede
+PASS  male / tee shorts suede beanie: socks stays under the suede in every frame of every clip (88 vertices tracked)
+PASS  male / tee shorts suede beanie: at rest nothing of the skin shows through the beanie
+PASS  male / tee shorts suede beanie: skin stays under the beanie in every frame of every clip (1488 vertices tracked)
+PASS  male / tee shorts suede beanie: at rest nothing of the hair shows through the beanie
+PASS  male / tee shorts suede beanie: hair stays under the beanie in every frame of every clip (350 vertices tracked)
+PASS  male / flannel jeans hitop beanie: at rest nothing of the skin shows through the flannel
+PASS  male / flannel jeans hitop beanie: skin stays under the flannel in every frame of every clip (1074 vertices tracked)
+PASS  male / flannel jeans hitop beanie: at rest nothing of the skin shows through the jeans_high
+PASS  male / flannel jeans hitop beanie: skin stays under the jeans_high in every frame of every clip (0 vertices tracked)
+PASS  male / flannel jeans hitop beanie: at rest nothing of the skin shows through the hitop
+PASS  male / flannel jeans hitop beanie: skin stays under the hitop in every frame of every clip (0 vertices tracked)
+PASS  male / flannel jeans hitop beanie: at rest nothing of the jeans_high shows through the flannel
+KNOWN male / flannel jeans hitop beanie: jeans_high stays under the flannel in every frame of every clip (637 vertices tracked)  -- 2916 pokes, deepest 15.6 mm at getup_front @ 1.00s: JeansHigh pelvis at (0.154, -0.077, 0.981)  (not a pass: see README, Clothing fit)
+PASS  male / flannel jeans hitop beanie: at rest nothing of the hitop shows through the jeans_high
+PASS  male / flannel jeans hitop beanie: hitop stays under the jeans_high in every frame of every clip (2839 vertices tracked)
+PASS  male / flannel jeans hitop beanie: at rest nothing of the skin shows through the beanie
+PASS  male / flannel jeans hitop beanie: skin stays under the beanie in every frame of every clip (1488 vertices tracked)
+PASS  male / flannel jeans hitop beanie: at rest nothing of the hair shows through the beanie
+PASS  male / flannel jeans hitop beanie: hair stays under the beanie in every frame of every clip (350 vertices tracked)
+PASS  male / flannel cargo suede cap: at rest nothing of the skin shows through the flannel
+PASS  male / flannel cargo suede cap: skin stays under the flannel in every frame of every clip (1074 vertices tracked)
+PASS  male / flannel cargo suede cap: at rest nothing of the skin shows through the cargo
+PASS  male / flannel cargo suede cap: skin stays under the cargo in every frame of every clip (0 vertices tracked)
+PASS  male / flannel cargo suede cap: at rest nothing of the skin shows through the suede
+PASS  male / flannel cargo suede cap: skin stays under the suede in every frame of every clip (0 vertices tracked)
+PASS  male / flannel cargo suede cap: at rest nothing of the cargo shows through the flannel
+KNOWN male / flannel cargo suede cap: cargo stays under the flannel in every frame of every clip (676 vertices tracked)  -- 3807 pokes, deepest 14.7 mm at getup_front @ 1.00s: Cargo pelvis at (0.155, -0.078, 0.981)  (not a pass: see README, Clothing fit)
+PASS  male / flannel cargo suede cap: at rest nothing of the suede shows through the cargo
+PASS  male / flannel cargo suede cap: suede stays under the cargo in every frame of every clip (1671 vertices tracked)
+PASS  male / flannel cargo suede cap: at rest nothing of the skin shows through the cap
+PASS  male / flannel cargo suede cap: skin stays under the cap in every frame of every clip (1996 vertices tracked)
+PASS  male / flannel cargo suede cap: at rest nothing of the hair shows through the cap
+PASS  male / flannel cargo suede cap: hair stays under the cap in every frame of every clip (39 vertices tracked)
+PASS  male / flannel shorts suede_navy none: at rest nothing of the skin shows through the flannel
+PASS  male / flannel shorts suede_navy none: skin stays under the flannel in every frame of every clip (1074 vertices tracked)
+PASS  male / flannel shorts suede_navy none: at rest nothing of the skin shows through the shorts
+PASS  male / flannel shorts suede_navy none: skin stays under the shorts in every frame of every clip (66 vertices tracked)
+PASS  male / flannel shorts suede_navy none: at rest nothing of the skin shows through the suede_navy
+PASS  male / flannel shorts suede_navy none: skin stays under the suede_navy in every frame of every clip (0 vertices tracked)
+PASS  male / flannel shorts suede_navy none: at rest nothing of the shorts shows through the flannel
+KNOWN male / flannel shorts suede_navy none: shorts stays under the flannel in every frame of every clip (471 vertices tracked)  -- 2821 pokes, deepest 22.4 mm at getup_front @ 0.97s: Shorts thigh_l at (0.157, -0.066, 0.965)  (not a pass: see README, Clothing fit)
+PASS  male / flannel shorts suede_navy none: at rest nothing of the skin shows through the socks
+PASS  male / flannel shorts suede_navy none: skin stays under the socks in every frame of every clip (98 vertices tracked)
+PASS  male / flannel shorts suede_navy none: at rest nothing of the socks shows through the suede_navy
+PASS  male / flannel shorts suede_navy none: socks stays under the suede_navy in every frame of every clip (88 vertices tracked)
+
+Clothing fit in every clip (30 frames/s, poke = more than 1.5 mm in front of the garment)
+body    outfit                             inner -> garment         tracked   pokes  max mm  worst (clip @ time: bone)
+male    hoodie jeans suede none            skin -> hoodie              1179       0     0.0  
+male    hoodie jeans suede none            skin -> jeans                  0       0     0.0  
+male    hoodie jeans suede none            skin -> suede                  0       0     0.0  
+male    hoodie jeans suede none            jeans -> hoodie              718    3258    17.2  bail @ 0.27s: Jeans pelvis at (0.154, -0.077, 0.981)
+male    hoodie jeans suede none            suede -> jeans              2298       0     0.0  
+male    hoodie cargo suede_navy beanie     skin -> hoodie              1179       0     0.0  
+male    hoodie cargo suede_navy beanie     skin -> cargo                  0       0     0.0  
+male    hoodie cargo suede_navy beanie     skin -> suede_navy             0       0     0.0  
+male    hoodie cargo suede_navy beanie     cargo -> hoodie              719    3727    14.6  getup_front @ 1.03s: Cargo pelvis at (0.155, -0.078, 0.981)
+male    hoodie cargo suede_navy beanie     suede_navy -> cargo         1671       0     0.0  
+male    hoodie cargo suede_navy beanie     skin -> beanie              1488       0     0.0  
+male    hoodie cargo suede_navy beanie     hair -> beanie               350       0     0.0  
+male    hoodie shorts hitop cap            skin -> hoodie              1179       0     0.0  
+male    hoodie shorts hitop cap            skin -> shorts                66       0     0.0  
+male    hoodie shorts hitop cap            skin -> hitop                  0       0     0.0  
+male    hoodie shorts hitop cap            shorts -> hoodie             533    2681    24.0  getup_front @ 1.03s: Shorts thigh_l at (0.154, -0.065, 0.977)
+male    hoodie shorts hitop cap            hitop -> shorts                0       0     0.0  
+male    hoodie shorts hitop cap            skin -> cap                 1996       0     0.0  
+male    hoodie shorts hitop cap            hair -> cap                   39       0     0.0  
+male    tee jeans suede_navy cap           skin -> tee                  890       0     0.0  
+male    tee jeans suede_navy cap           skin -> jeans                  0       0     0.0  
+male    tee jeans suede_navy cap           skin -> suede_navy             0       0     0.0  
+male    tee jeans suede_navy cap           jeans -> tee                 729    3419    18.0  getup_front @ 0.83s: Jeans pelvis at (0.159, -0.066, 0.982)
+male    tee jeans suede_navy cap           suede_navy -> jeans         2298       0     0.0  
+male    tee jeans suede_navy cap           skin -> cap                 1996       0     0.0  
+male    tee jeans suede_navy cap           hair -> cap                   39       0     0.0  
+male    tee cargo hitop none               skin -> tee                  890       0     0.0  
+male    tee cargo hitop none               skin -> cargo_high             0       0     0.0  
+male    tee cargo hitop none               skin -> hitop                  0       0     0.0  
+male    tee cargo hitop none               cargo_high -> tee            766    3881    17.3  bail @ 0.87s: CargoHigh pelvis at (0.035, -0.111, 0.913)
+male    tee cargo hitop none               hitop -> cargo_high         2339       0     0.0  
+male    tee shorts suede beanie            skin -> tee                  890       0     0.0  
+male    tee shorts suede beanie            skin -> shorts                66       0     0.0  
+male    tee shorts suede beanie            skin -> suede                  0       0     0.0  
+male    tee shorts suede beanie            shorts -> tee                565    2821    20.2  getup_front @ 0.87s: Shorts thigh_l at (0.157, -0.066, 0.965)
+male    tee shorts suede beanie            skin -> socks                 98       0     0.0  
+male    tee shorts suede beanie            socks -> suede                88       0     0.0  
+male    tee shorts suede beanie            skin -> beanie              1488       0     0.0  
+male    tee shorts suede beanie            hair -> beanie               350       0     0.0  
+male    flannel jeans hitop beanie         skin -> flannel             1074       0     0.0  
+male    flannel jeans hitop beanie         skin -> jeans_high             0       0     0.0  
+male    flannel jeans hitop beanie         skin -> hitop                  0       0     0.0  
+male    flannel jeans hitop beanie         jeans_high -> flannel        637    2916    15.6  getup_front @ 1.00s: JeansHigh pelvis at (0.154, -0.077, 0.981)
+male    flannel jeans hitop beanie         hitop -> jeans_high         2839       0     0.0  
+male    flannel jeans hitop beanie         skin -> beanie              1488       0     0.0  
+male    flannel jeans hitop beanie         hair -> beanie               350       0     0.0  
+male    flannel cargo suede cap            skin -> flannel             1074       0     0.0  
+male    flannel cargo suede cap            skin -> cargo                  0       0     0.0  
+male    flannel cargo suede cap            skin -> suede                  0       0     0.0  
+male    flannel cargo suede cap            cargo -> flannel             676    3807    14.7  getup_front @ 1.00s: Cargo pelvis at (0.155, -0.078, 0.981)
+male    flannel cargo suede cap            suede -> cargo              1671       0     0.0  
+male    flannel cargo suede cap            skin -> cap                 1996       0     0.0  
+male    flannel cargo suede cap            hair -> cap                   39       0     0.0  
+male    flannel shorts suede_navy none     skin -> flannel             1074       0     0.0  
+male    flannel shorts suede_navy none     skin -> shorts                66       0     0.0  
+male    flannel shorts suede_navy none     skin -> suede_navy             0       0     0.0  
+male    flannel shorts suede_navy none     shorts -> flannel            471    2821    22.4  getup_front @ 0.97s: Shorts thigh_l at (0.157, -0.066, 0.965)
+male    flannel shorts suede_navy none     skin -> socks                 98       0     0.0  
+male    flannel shorts suede_navy none     socks -> suede_navy           88       0     0.0  
+
+107 passed, 0 failed, 11 known (hip-band layer pokes; today's tongue tops over his jeans hem at rest: not passes)   (combinations 0.0 s, fit 451.8 s)

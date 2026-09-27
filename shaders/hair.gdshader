@@ -9,8 +9,20 @@ uniform vec3 spec_color : source_color = vec3(0.62, 0.5, 0.4);
 uniform float spec_shift = 0.08;
 uniform float spec_power = 70.0;
 uniform float spec_strength = 0.3;
+// Character builder: the cards a worn hat covers are not drawn (their bits in the vertex
+// colour's red channel, as in skin.gdshader).
+uniform int hidden_mask = 0;
 
 varying vec3 v_strand;
+
+void vertex() {
+	if (hidden_mask != 0) {
+		int bits = int(round(COLOR.r * 255.0)) | (int(round(COLOR.g * 255.0)) << 8);
+		if ((bits & hidden_mask) != 0) {
+			VERTEX = vec3(0.0);
+		}
+	}
+}
 
 void fragment() {
 	vec4 c = texture(albedo_tex, UV);
