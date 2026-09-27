@@ -1,6 +1,7 @@
-Pro Skater input tests (keyboard + gamepad)  2026-09-26T22:46:50
+Pro Skater input tests (keyboard + gamepad)  2026-09-27T12:00:22
 PASS  the game boots paused on the start screen
-PASS  start screen shows the controls table as visible Labels (10 rows x 3 columns)
+PASS  the start screen's Controls choice opens the controls table
+PASS  the Controls screen shows the controls table as visible Labels (10 rows x 3 columns)
 PASS  controls table has a KEYBOARD and a GAMEPAD column
 PASS  start screen row 'Steer  /  push (Up)  /  brake (Down)': 'W A S D  or  arrow keys' | 'Left stick  or  D-pad' names A, arrow keys, D, W, S, Left stick, D-pad
 PASS  start screen row 'Ollie (hold to crouch, release to pop)': 'Space' | 'A  /  Cross' names Space, A
@@ -11,8 +12,8 @@ PASS  start screen row 'Spin in the air': 'Left / Right,  Q / E' | 'Left stick, 
 PASS  start screen row 'Manual  /  Nose manual': 'Up, Down  /  Down, Up' | 'Up, Down  /  Down, Up' names Up, Down, Down, Up
 PASS  start screen row 'Special trick (special meter full)': 'Left, Right + J' | 'Left, Right + X' names J, X, Left, Right
 PASS  start screen row 'Pause  /  Restart run': 'Esc or P  /  R' | 'Start  /  Back' names Esc, P, R, Start, Back
-PASS  start screen hint 'PRESS ENTER / A TO SKATE        C / Y  SKATER' names a bound confirm key (Enter) and button (A)
-PASS  every input-map action is shown on the start screen
+PASS  start screen hint 'UP / DOWN  CHOOSE        ENTER / A  SELECT' names a bound confirm key (Enter) and button (A)
+PASS  every input-map action is shown on the Controls screen or the start screen's hint
 PASS  [keyboard] fresh game on the start screen
 PASS  [keyboard] Enter (confirm) on the start screen starts the run
 PASS  [keyboard] input map: 'left' has a key binding (A, Left)
@@ -177,4 +178,4 @@ PASS  [gamepad] Start (pause) again in the pause menu resumes
 PASS  [gamepad] Back (restart) during the run restarts it: score, timer and position reset
 PASS  [gamepad] Back (restart) in the pause menu restarts the run: score and timer reset
 PASS  [gamepad] A (confirm) on the end-of-run screen starts a new run
-178 passed, 0 failed
+179 passed, 0 failed

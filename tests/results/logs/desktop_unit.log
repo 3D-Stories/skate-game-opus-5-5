@@ -3,20 +3,33 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
 [desktop] opengl3 |  |  | window windowed (0, 0) on screen -1
 [skater] skating as male,hoodie,jeans,suede,none
+[menu] start: resume_game(off)@0.299,0.367 new_game@0.299,0.428 level@0.299,0.490 skater@0.299,0.551 controls@0.299,0.613 quit@0.299,0.674  picked new_game
 [desktop] window windowed (0, 0)
 [desktop] window windowed (0, 0)
 [desktop] window windowed (0, 0)
 [desktop] window windowed (0, 0)
 [desktop] quit from the start screen
 [desktop] quit from the start screen
+[menu] controls: back@0.500,0.677  picked back
+[menu] start: resume_game(off)@0.299,0.367 new_game@0.299,0.428 level@0.299,0.490 skater@0.299,0.551 controls@0.299,0.613 quit@0.299,0.674  picked controls
+[menu] start: resume_game(off)@0.299,0.367 new_game@0.299,0.428 level@0.299,0.490 skater@0.299,0.551 controls@0.299,0.613 quit@0.299,0.674  picked new_game
+[menu] quit
+[menu] start: resume_game(off)@0.299,0.367 new_game@0.299,0.428 level@0.299,0.490 skater@0.299,0.551 controls@0.299,0.613 quit@0.299,0.674  picked new_game
+[menu] level (shortcut)
+[menu] start: resume_game(off)@0.299,0.367 new_game@0.299,0.428 level@0.299,0.490 skater@0.299,0.551 controls@0.299,0.613 quit@0.299,0.674  picked new_game
+[menu] level (shortcut)
 [level] baths loaded
+[menu] start: resume_game(off)@0.299,0.367 new_game@0.299,0.428 level@0.299,0.490 skater@0.299,0.551 controls@0.299,0.613 quit@0.299,0.674  picked new_game
+[menu] new_game
 [run] started
 [desktop] window lost focus: pausing
 [run] paused at 119.3 s left
+[menu] pause: resume_run@0.344,0.719 restart@0.490,0.719 main_menu@0.646,0.719  picked resume_run
+[menu] resume_run
 [run] resumed at 119.3 s left
 [bench] {"avg_fps":60.0,"frames":7,"msaa":"4x"}
 [desktop] bench report -> /home/rocky/.local/share/ProSkater/desktop_test/bench.json
-desktop layer (desktop/desktop.gd), headless: 43 passed, 0 failed
+desktop layer (desktop/desktop.gd), headless: 48 passed, 0 failed
 PASS  the Desktop autoload is loaded
 PASS  it finds the Main scene
 PASS  start screen: the game waits in a menu
@@ -28,6 +41,11 @@ PASS  Q once: asks to press again, does not quit  (PRESS  Q / B  AGAIN TO QUIT)
 PASS  the quit prompt goes away after 3 s
 PASS  Q twice quits  (quit calls: 1)
 PASS  gamepad B twice quits  (quit calls: 2)
+PASS  the start screen's menu ends with Quit in the Windows build  (["resume_game", "new_game", "level", "skater", "controls", "quit"])
+PASS  the Controls screen is not a quit screen
+PASS  B on the Controls screen goes back to the start screen, and does not arm quitting
+PASS  Up from Start new game reaches Quit  (quit)
+PASS  Enter on Quit quits  (quit calls: 3)
 PASS  Eastside Baths is in the build itself: available without a download, no pack URL on desktop
 PASS  Tab opens the level select; the quit hint is hidden there
 PASS  the level select offers no download on desktop  (warehouse: PLAYING NOW  DEFAULT; baths: ; )
@@ -61,5 +79,5 @@ PASS  settings report has joypads  ([])
 PASS  settings report has environment  ({ "tonemap": "agx", "ssao": true, "glow": true, "fog": true, "sun_shadows": true, "adaptive_quality_step": "full" })
 PASS  settings report: 4x MSAA, SSAO, glow, AgX tone mapping, sun shadows  ({ "tonemap": "agx", "ssao": true, "glow": true, "fog": true, "sun_shadows": true, "adaptive_quality_step": "full" })
 
-WARNING: 10 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+WARNING: 12 ObjectDB instances were leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)

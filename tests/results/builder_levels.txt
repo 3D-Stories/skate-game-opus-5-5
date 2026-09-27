@@ -1,5 +1,5 @@
-Pro Skater: the Skater screen and the level select together  2026-09-26T22:46:41
-PASS  the start screen offers both the level select (Tab / Select) and the Skater screen (C / Y)  (LEVEL   THE WAREHOUSE   (TAB / SELECT: choose a level) | PRESS ENTER / A TO SKATE        C / Y  SKATER)
+Pro Skater: the Skater screen and the level select together  2026-09-27T12:00:14
+PASS  the start screen's menu offers both the level select (Tab / Select) and the character builder (C / Y)  (LEVEL SELECT | The Warehouse | TAB / SELECT | CUSTOMIZE CHARACTER | Male skater,  Red fleece hoodie | C / Y | )
 PASS  keyboard: C opens the Skater screen
 PASS  Tab inside the Skater screen does not open the level select
 PASS  Enter saves her and rebuilds the skater on the Warehouse  (female,tee,cargo,suede,none)
@@ -7,7 +7,7 @@ PASS  Tab on the start screen opens the level select (not the Skater screen)
 PASS  Enter loads Eastside Baths
 PASS  the saved skater survives the level switch  (female,tee,cargo,suede,none)
 PASS  she stands at the Baths' spawn  (0.00 m from it)
-PASS  the Baths' start screen names the level and still offers the Skater screen  (PRO SKATER: EASTSIDE BATHS | PRESS ENTER / A TO SKATE        C / Y  SKATER)
+PASS  the Baths' start screen names the level and still offers the character builder  (LEVEL   EASTSIDE BATHS | CUSTOMIZE CHARACTER | Female skater,  White graphic tee | C / Y | )
 PASS  gamepad: Y on the Baths' start screen opens the Skater screen
 PASS  Select / Back inside the Skater screen resets to today's skater and does not open the level select  (male,hoodie,jeans,suede,none)
 PASS  B leaves without saving: still her tee and cargo  (female,tee,cargo,suede,none)

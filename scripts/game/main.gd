@@ -1,7 +1,9 @@
 extends Node3D
-## Game flow for a THPS-style two-minute run: start screen (with the level select), the
-## run (timer, goals, HUD), pause, end-of-run screen and restart. The level and its goals
-## are data (LevelRegistry: res://levels/<id>/level.json); the Warehouse is the default.
+## Game flow for a THPS-style two-minute run: the start screen (a menu: resume the saved
+## game, start a new one, level select, customize character, controls), the run (timer,
+## goals, HUD), pause, end-of-run screen and restart. The level and its goals are data
+## (LevelRegistry: res://levels/<id>/level.json); the Warehouse is the default. Goals a player
+## finishes are saved (Progress, scripts/game/progress.gd) and stay done in later runs.
 
 const RUN_TIME := 120.0
 const HIGH_SCORE := 25000        # the Warehouse's (each level's is its "score" goal target)
@@ -31,6 +33,7 @@ var _grind_goal_t := 0.0
 var run_start_phys := 0          # Engine physics frame count when the current run started
 var bench: Node = null        # scripts/game/bench.gd while benchmarking (?bench / --bench)
 var replay: Replay            # the instant replay shown from the end screen
+var career := false           # this launch reads and writes the saved game (Progress.enabled)
 ## Adaptive quality: a slower GPU (a laptop) steps down until frames fit in ~16.7 ms.
 var quality := 0
 var _q_window: PackedFloat32Array = []
@@ -62,7 +65,10 @@ func _ready() -> void:
 	skater.balance_changed.connect(hud.set_balance)
 	skater.state_changed.connect(_on_state)
 	score.combo_landed.connect(func(_p): _check_score())
-	menus.start_pressed.connect(start_run)
+	menus.start_pressed.connect(new_game)
+	menus.continue_pressed.connect(continue_game)
+	menus.main_menu_pressed.connect(main_menu)
+	menus.quit_pressed.connect(quit_game)
 	menus.resume_pressed.connect(resume)
 	menus.restart_pressed.connect(restart)
 	menus.level_select_pressed.connect(open_level_select)
@@ -92,6 +98,7 @@ func _ready() -> void:
 			_start_bench(" ".join(args))
 		if a == "--quality=full":
 			_q_auto = false
+	career = Progress.enabled(autopilot_mode)
 	if OS.has_feature("web"):
 		var q = JavaScriptBridge.eval("window.location.search", true)
 		if q is String and "autopilot" in q:
@@ -105,8 +112,14 @@ func _ready() -> void:
 			if "benchreport" in q:
 				# only the local benchmark server (tests/bench_server.py) takes these reports
 				JavaScriptBridge.eval("fetch('bench-start?' + innerWidth + 'x' + innerHeight + '@' + devicePixelRatio).catch(function(){})")
-	# a level asked for at startup whose assets are not here yet (a web pack): fetch it first
+	# a level asked for at startup whose assets are not here yet (a web pack): fetch it first.
+	# Without one, the saved game opens on the level played last.
 	var want := LevelRegistry.startup_id()
+	if career and want == LevelRegistry.default_id() and LevelRegistry.has(Progress.last_level()):
+		want = Progress.last_level()
+	if career:
+		_make_goals()                # with the goals the saved game has done
+		hud.set_goals(goals)
 	if want != level.level_id:
 		get_tree().paused = true
 		await switch_level(want)
@@ -139,8 +152,58 @@ func _ready() -> void:
 		_show_start()
 
 
-func _show_start() -> void:
-	menus.show_start(goals, String(level.game.get("name", "The Warehouse")))
+func _show_start(pick := "") -> void:
+	var done := 0
+	for g in goals:
+		if g["done"]:
+			done += 1
+	var c: Dictionary = skater.model.choice
+	var info := {
+		"saved": career and Progress.exists(),
+		"goals_done": done,
+		"goals_total": goals.size(),
+		"best": Progress.best_score(level.level_id) if career else 0,
+		"blurb": String(level.game.get("blurb", "")),
+		"skater": "%s,  %s" % [SkaterOutfit.label("body", c["body"]), SkaterOutfit.label("top", c["top"])],
+		"quit": get_node_or_null("/root/Desktop") != null,
+	}
+	if pick != "":
+		info["select"] = pick
+	menus.show_start(goals, String(level.game.get("name", "The Warehouse")), info)
+
+
+func new_game() -> void:
+	## Start new game: the saved game is cleared (the menu has asked first), then a run.
+	if career:
+		Progress.clear()
+	restart()
+
+
+func continue_game() -> void:
+	## Resume game: a run on this level, with the goals the saved game has done ticked.
+	restart()
+
+
+func main_menu() -> void:
+	## From the pause menu or the end screen: the run is left (its finished goals are
+	## already saved) and the start screen comes back over a fresh level.
+	running = false
+	ending = false
+	get_tree().paused = true
+	hud.visible = false
+	replay.clear()
+	_reset_run()
+	print("[run] left for the main menu")
+	_show_start()
+
+
+func quit_game() -> void:
+	## The start screen's Quit (only offered in the Windows build, desktop/desktop.gd).
+	var d := get_node_or_null("/root/Desktop")
+	if d:
+		d.quit_game.call()
+	else:
+		get_tree().quit()
 
 
 func _make_goals() -> void:
@@ -151,6 +214,7 @@ func _make_goals() -> void:
 	for L in level.data.get("letters", []):
 		letters[String(L["letter"])] = false
 	goals = []
+	var saved: Array = Progress.done_goals(level.level_id) if career else []
 	for gd in level.game.get("goals", []):
 		var t := String(gd.get("type", gd["id"]))
 		var title := String(gd.get("title", ""))
@@ -164,7 +228,8 @@ func _make_goals() -> void:
 				prog = "0/%d" % letters.size()
 			"windows", "break":
 				prog = "0/%d" % int(gd.get("count", 5))
-		goals.append({"id": String(gd["id"]), "type": t, "title": title, "done": false, "progress": prog, "def": gd})
+		var done := String(gd["id"]) in saved
+		goals.append({"id": String(gd["id"]), "type": t, "title": title, "done": done, "progress": "" if done else prog, "def": gd})
 
 
 func _goal(id: String) -> Dictionary:
@@ -179,6 +244,8 @@ func _complete(id: String) -> void:
 	if g.is_empty() or g["done"]:
 		return
 	g["done"] = true
+	if career:
+		Progress.mark_done(level.level_id, id)
 	hud.update_goals(goals)
 	hud.flash("GOAL COMPLETE", String(g["title"]), 2.6)
 	Sfx.play("goal")
@@ -198,6 +265,8 @@ func start_run() -> void:
 	time_left = RUN_TIME
 	run_start_phys = Engine.get_physics_frames()
 	replay.clear()
+	if career:
+		Progress.started(level.level_id)
 	print("[run] started")      # (the menu that started the run already played its confirm blip)
 
 
@@ -212,7 +281,7 @@ func open_skater_screen() -> void:
 			skater.model.rebuild(c)
 			skater.spawn(level.spawn_pos, level.spawn_forward)
 			cam.snap()
-		_show_start())
+		_show_start())                   # back on the play choice
 
 
 func resume() -> void:
@@ -222,6 +291,12 @@ func resume() -> void:
 
 
 func restart() -> void:
+	_reset_run()
+	start_run()
+
+
+func _reset_run() -> void:
+	## The level, score, goals and skater back to the start of a run.
 	level.clear_blood()
 	score.reset()
 	level.reset_run()
@@ -231,7 +306,6 @@ func restart() -> void:
 	stats = {"tricks": 0, "bails": 0, "longest_grind": 0.0}
 	skater.spawn(level.spawn_pos, level.spawn_forward)
 	cam.snap()
-	start_run()
 
 
 func _process(delta: float) -> void:
@@ -272,6 +346,8 @@ func _finish() -> void:
 	if skater.state == Skater.GROUND and score.in_combo:
 		score.land()
 	_check_score()
+	if career:
+		Progress.record_score(level.level_id, score.total)
 	get_tree().paused = true
 	hud.visible = false
 	menus.show_end(goals, score, stats, String(level.game.get("cleared", "Warehouse cleared")), skater.model.choice, replay.available())
@@ -428,12 +504,12 @@ func open_level_select() -> void:
 	var ls := LEVEL_SELECT.instantiate()
 	add_child(ls)
 	menus.hide_all()
-	ls.open(level.level_id)
+	ls.open(level.level_id, career)
 	var pick: String = await ls.closed
 	if pick != "" and pick != level.level_id:
 		await switch_level(pick, ls)
 	ls.queue_free()
-	_show_start()
+	_show_start()                    # back on the play choice: Enter skates the level picked
 
 
 func switch_level(id: String, screen: Node = null) -> bool:

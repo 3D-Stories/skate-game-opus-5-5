@@ -33,7 +33,8 @@ LS="wait:8000;shot:$O\\smoke_levelsel_1_start.png;tap:Tab;wait:1500;tap:Right;wa
 LS="$LS;tap:Return;wait:10000;shot:$O\\smoke_levelsel_3_baths_start.png;tap:Return;wait:1500;hold:W:3000;wait:500"
 LS="$LS;shot:$O\\smoke_levelsel_4_riding.png;tap:Escape;wait:1500;shot:$O\\smoke_levelsel_5_pause.png;tap:Q;wait:700;tap:Q"
 rm -rf "$W/out/smoke_levelsel_shots"
-bash desktop/run_windows.sh smoke_levelsel -- --input-log "--info-out={out}/smoke_levelsel_info.json" \
+# --no-progress: the keyboard run neither reads nor writes the player's saved game
+bash desktop/run_windows.sh smoke_levelsel -- --no-progress --input-log "--info-out={out}/smoke_levelsel_info.json" \
 	"--shots={out}/smoke_levelsel_shots" --shot-every=1 &
 game=$!
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File 'C:\Temp\ProSkater\drive.ps1' -exe 'C:\Temp\ProSkater\ProSkater.exe' \

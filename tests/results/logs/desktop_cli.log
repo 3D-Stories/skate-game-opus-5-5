@@ -10,7 +10,7 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [ap  15.77] wall broken
 [ap  16.42] secret tape
 [ap  17.52] combo +1000  total 2176  [Melon + Indy]
-[desktop] info (start) -> /tmp/desktop_test.0WsCKC/info.json
+[desktop] info (start) -> /tmp/desktop_test.1DYXTd/info.json
 [ap  24.25] window 4 (1/5)
 [ap  25.08] window 3 (2/5)
 [ap  25.95] letter K
@@ -32,6 +32,8 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [ap  70.20] combo +1326  total 18761  [Heelflip + Indy + BS 180]
 [ap  72.92] combo +6412  total 25173  [Tiger Claw Tre + Melon]
 [ap  75.63] combo +1326  total 26499  [Kickflip + Indy + FS 180]
+WARNING: Jolt Physics job system exceeded the maximum number of jobs. This should not happen. Please report this. Waiting for jobs to become available...
+     at: CreateJob (modules/jolt_physics/spaces/jolt_job_system.cpp:123)
 [ap  78.35] combo +1572  total 28071  [360 Flip + Tailgrab]
 [ap  81.08] combo +1326  total 29397  [Heelflip + Indy + BS 180]
 [ap  83.80] combo +6412  total 35809  [Tiger Claw Tre + Melon]
@@ -49,9 +51,10 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [ap 116.43] combo +6412  total 67717  [Tiger Claw Tre + Melon]
 [ap 119.15] combo +1326  total 69043  [Kickflip + Indy + FS 180]
 [run] finished score=69043 goals=[["score", true], ["skate", true], ["tape", true], ["rafters", true], ["windows", true]]
+[menu] end: again@0.371,0.646 replay@0.512,0.646 main_menu@0.640,0.646  picked again
 [ap 141.57] step 56 TIMEOUT (halfpipe airs to the buzzer) pos=(5.7, 2.7, -43.0) st=0
-[desktop] 0 frame times -> /tmp/desktop_test.0WsCKC/frames.csv
-[desktop] info (end) -> /tmp/desktop_test.0WsCKC/info.json
+[desktop] 0 frame times -> /tmp/desktop_test.1DYXTd/frames.csv
+[desktop] info (end) -> /tmp/desktop_test.1DYXTd/info.json
 [desktop] no bench report came (no frames were rendered): quitting without one
 [desktop] run over: quitting
 WARNING: 6 ObjectDB instances were leaked at exit (run with `--verbose` for details).

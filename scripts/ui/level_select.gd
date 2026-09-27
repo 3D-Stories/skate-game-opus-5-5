@@ -1,6 +1,7 @@
 extends CanvasLayer
 ## Level select (opened from the start screen with Tab / gamepad Select): one card per level
-## in LevelRegistry, with its blurb and goals. Left / Right (keys, D-pad or stick) move,
+## in LevelRegistry, with its blurb and goals (with a saved game: the ones done ticked, and the
+## best score). Left / Right (keys, D-pad or stick) move,
 ## Enter / A picks, Esc / B / Tab / Select go back. Emits closed(id) ("" = no change).
 
 signal closed(pick: String)
@@ -16,6 +17,7 @@ var hint: Label
 var _cool := 0.3
 var _busy := false
 var _blink := 0.0
+var show_saved := false          # the saved game's goals and best score on each card (Progress)
 
 
 func _ready() -> void:
@@ -30,8 +32,9 @@ func _ready() -> void:
 	font_plain.variation_embolden = 0.4
 
 
-func open(current_id: String) -> void:
+func open(current_id: String, saved := false) -> void:
 	current = current_id
+	show_saved = saved
 	ids = LevelRegistry.ids()
 	idx = maxi(0, ids.find(current_id))
 	var bg := ColorRect.new()
@@ -61,7 +64,7 @@ func open(current_id: String) -> void:
 	col.add_child(status)
 	hint = _label(font, 38, Color(1, 1, 1), 10)
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	hint.text = "< >  CHOOSE        ENTER / A  SKATE HERE        ESC / B  BACK"
+	hint.text = "< >  CHOOSE        ENTER / A  PICK        ESC / B  BACK"
 	col.add_child(hint)
 	_refresh()
 
@@ -111,8 +114,14 @@ func _card(id: String) -> PanelContainer:
 	goals.add_theme_font_size_override("normal_font_size", 25)
 	goals.add_theme_font_size_override("bold_font_size", 28)
 	var t := "[b]GOALS - %d:%02d RUN[/b]\n" % [int(g.get("run_time", 120)) / 60, int(g.get("run_time", 120)) % 60]
+	var done: Array = Progress.done_goals(id) if show_saved else []
 	for gd in g.get("goals", []):
-		t += "  -  " + goal_title(gd) + "\n"
+		if show_saved:
+			t += ("  [color=#6dff6d][X][/color]  " if String(gd.get("id", "")) in done else "  [  ]  ") + goal_title(gd) + "\n"
+		else:
+			t += "  -  " + goal_title(gd) + "\n"
+	if show_saved and Progress.best_score(id) > 0:
+		t += "\n[b]BEST SCORE[/b]   [color=#ffd23a]%s[/color]" % ScoreKeeper.format_points(Progress.best_score(id))
 	goals.text = t
 	v.add_child(goals)
 	var tag := _label(font_plain, 22, Color(1, 0.82, 0.12), 4)

@@ -35,6 +35,16 @@ func _initialize() -> void:
 	_run.call_deferred()
 
 
+func item_text(id: String) -> String:
+	## A start screen choice's name, the line under it and its shortcut.
+	for it in main.menus.items:
+		if it["id"] == id:
+			var t := ""
+			for l in (it["node"] as Node).find_children("*", "Label", true, false):
+				t += (l as Label).text + " | "
+			return t
+	return ""
+
 func frames(n: int) -> void:
 	for i in n:
 		await process_frame
@@ -109,10 +119,11 @@ func launch() -> void:
 func _run() -> void:
 	await launch()
 	var m = main.menus
-	var body_txt: String = m.body.get_parsed_text()
-	check(m.mode == m.START and body_txt.contains("TAB / SELECT") and m.hint.text.contains("C / Y") and m.hint.text.contains("SKATER"),
-			"the start screen offers both the level select (Tab / Select) and the Skater screen (C / Y)",
-			"%s | %s" % [body_txt.substr(body_txt.find("LEVEL")).strip_edges(), m.hint.text])
+	var lv_item := item_text("level")
+	var sk_item := item_text("skater")
+	check(m.mode == m.START and lv_item.contains("LEVEL SELECT") and lv_item.contains("TAB / SELECT") and sk_item.contains("CUSTOMIZE CHARACTER") and sk_item.contains("C / Y"),
+			"the start screen's menu offers both the level select (Tab / Select) and the character builder (C / Y)",
+			"%s%s" % [lv_item, sk_item])
 	# --- the Skater screen on the Warehouse (keyboard); Tab inside it is not the level select
 	await tap_key(KEY_C)
 	await frames(20)
@@ -153,8 +164,8 @@ func _run() -> void:
 	check(arg(main.skater.model.choice) == arg(want) and main.skater.model.garments.has("tee") and main.skater.model.garments.has("cargo"),
 			"the saved skater survives the level switch", arg(main.skater.model.choice))
 	check(at_spawn() < 1.0, "she stands at the Baths' spawn", "%.2f m from it" % at_spawn())
-	check(m.mode == m.START and m.title.text.to_upper().contains("EASTSIDE BATHS") and m.hint.text.contains("SKATER"),
-			"the Baths' start screen names the level and still offers the Skater screen", "%s | %s" % [m.title.text, m.hint.text])
+	check(m.mode == m.START and m.side.get_parsed_text().contains("EASTSIDE BATHS") and item_text("skater").contains("CUSTOMIZE CHARACTER"),
+			"the Baths' start screen names the level and still offers the character builder", "%s | %s" % [m.side.get_parsed_text().get_slice("\n", 0), item_text("skater")])
 	# --- the Skater screen on the Baths (gamepad); Select / Back inside it is "default skater"
 	await frames(30)
 	await tap_pad(JOY_BUTTON_Y)

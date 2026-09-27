@@ -2,22 +2,35 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 
 [godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
 [skater] skating as male,hoodie,jeans,suede,none
+[menu] start: resume_game(off)@0.299,0.397 new_game@0.299,0.459 level@0.299,0.520 skater@0.299,0.582 controls@0.299,0.643  picked new_game
+[menu] level (shortcut)
 [level] baths loaded
+[menu] start: resume_game(off)@0.299,0.397 new_game@0.299,0.459 level@0.299,0.520 skater@0.299,0.582 controls@0.299,0.643  picked new_game
+[menu] new_game
 [run] started
 [run] finished score=0 goals=[["score", false], ["skate", false], ["tape", false], ["signs", false], ["deep_coping", false], ["high_dive", false]]
+[menu] end: again@0.371,0.634 replay@0.512,0.634 main_menu@0.640,0.634  picked again
+[menu] again
 [run] started
+[menu] start: resume_game(off)@0.299,0.397 new_game@0.299,0.459 level@0.299,0.520 skater@0.299,0.582 controls@0.299,0.643  picked new_game
+[menu] level (shortcut)
+[menu] start: resume_game(off)@0.299,0.397 new_game@0.299,0.459 level@0.299,0.520 skater@0.299,0.582 controls@0.299,0.643  picked new_game
+[menu] level (shortcut)
+[menu] start: resume_game(off)@0.299,0.397 new_game@0.299,0.459 level@0.299,0.520 skater@0.299,0.582 controls@0.299,0.643  picked new_game
+[menu] level (shortcut)
 [level] warehouse loaded
-Pro Skater level select tests  2026-09-26T22:46:41
+[menu] start: resume_game(off)@0.299,0.397 new_game@0.299,0.459 level@0.299,0.520 skater@0.299,0.582 controls@0.299,0.643  picked new_game
+Pro Skater level select tests  2026-09-27T12:00:13
 PASS  levels come from levels/registry.json; the Warehouse is the default  [["warehouse", "baths"]]
 PASS  the game starts on the Warehouse, at the start screen  [21 grind lines, 5 windows, goals ["score", "skate", "tape", "rafters", "windows"]]
-PASS  the start screen names the level and offers the level select  [PRO SKATER: THE WAREHOUSE |  | KEYBOARD | GAMEPAD | Steer  /  push (Up)  /  brake (Down) | ... |  | LEVEL   THE WAREHOUSE   (TAB / SELECT: choose a level) | PRESS ENTER / A TO SKATE        C / Y  SKATER | ]
+PASS  the start screen names the level and offers the level select  [PRO SKATER | RESUME GAME | No saved game yet | > START NEW GAME | A two-minute run; goals  ... e |   [  ]  Grind the Rafters |   [  ]  Break the 5 Windows |  | UP / DOWN  CHOOSE        ENTER / A  SELECT | ]
 PASS  keyboard: Tab opens the level select, one card per level, on the current one  [2 cards, selected warehouse]
 PASS  every card lists its level's goals  [all listed]
 PASS  the current level's card is tagged PLAYING NOW and DEFAULT  [PLAYING NOW  DEFAULT]
 PASS  keyboard: Right selects the next card (Eastside Baths)  [selected baths]
 PASS  keyboard: Left goes back  [selected warehouse]
 PASS  keyboard: Enter loads Eastside Baths (its goals on the HUD, the Warehouse freed)  [goals ["score", "skate", "tape", "signs", "deep_coping", "high_dive"], 26 grind lines, 45 meshes (Warehouse 37)]
-PASS  back at the start screen, which names Eastside Baths  [PRO SKATER: EASTSIDE BATHS |  | KEYBOARD | GAMEPAD | Steer  /  push (Up)  /  brake (Down) | W A S D  or  arrow keys | Le]
+PASS  back at the start screen, which names Eastside Baths  [PRO SKATER | RESUME GAME | No saved game yet | > START NEW GAME | A two-minute run; goals you finish are saved | LEVEL S]
 PASS  Enter starts a run on Eastside Baths at its spawn  [(-14.8, 4.2, 1.0)]
 PASS  the run ends at the buzzer (end screen)
 PASS  Enter on the end screen restarts on the same level
@@ -29,5 +42,5 @@ PASS  keyboard: Tab opens it again, Esc closes it without a change  [opened true
 PASS  gamepad: D-pad left + A switch back; the Warehouse loads exactly as at startup  [data, 21 grind lines, 5 windows, spawn, goals ["score", "skate", "tape", "rafters", "windows"]]
 19 passed, 0 failed
 
-WARNING: 9 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+WARNING: 13 ObjectDB instances were leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)

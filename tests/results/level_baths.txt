@@ -1,4 +1,4 @@
-Pro Skater level tests: Eastside Baths (baths)  2026-09-26T22:46:59
+Pro Skater level tests: Eastside Baths (baths)  2026-09-27T12:00:31
 PASS  the level loads through LevelRegistry (levels/registry.json -> levels/baths/level.json)  [Eastside Baths, 26 grind lines, 6 breakables]
 PASS  a high-score goal plus at least two goals of the level's own, on one two-minute run  [score, skate, tape, signs, deep_coping, high_dive]
 PASS  the run's goal list is built from the level's data  [6 goals]

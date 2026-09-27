@@ -115,8 +115,13 @@ func _run() -> void:
 	await launch()
 	check(main.menus.mode == main.menus.START and arg(main.skater.model.choice) == arg(SkaterOutfit.default_choice()),
 			"first launch (nothing saved): the start screen, with today's skater", arg(main.skater.model.choice))
-	check(main.menus.hint.text.contains("SKATER") and main.menus.hint.text.contains("C") and main.menus.hint.text.contains("Y"),
-			"the start screen names the Skater screen's key and button", main.menus.hint.text)
+	var sk_item := ""
+	for it in main.menus.items:
+		if it["id"] == "skater":
+			for l in (it["node"] as Node).find_children("*", "Label", true, false):
+				sk_item += (l as Label).text + " | "
+	check(sk_item.contains("CUSTOMIZE CHARACTER") and sk_item.contains("C / Y"),
+			"the start screen's menu has Customize character, with its key and button", sk_item)
 	await keyboard_path()
 	await gamepad_path()
 	await run_end_replay()
