@@ -106,3 +106,4 @@ for name, b, d in bench_rows:
         d.get("screen"), d.get("screen_refresh_hz"), d.get("vsync")))
 sys.exit(0 if f == 0 else 1)
 EOF
+exit "${PIPESTATUS[0]}"

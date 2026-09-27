@@ -27,6 +27,9 @@ WIN_DIR=/mnt/c/Temp/ProSkater
 WIN_OUT='C:/Temp/ProSkater/out'
 RES="$ROOT/tests/results/windows"
 mkdir -p "$WIN_DIR/out" "$RES"
+# Clear this label's previous results first, so a run that is refused or fails to start
+# leaves nothing behind for desktop/smoke_windows.sh to read as a pass.
+rm -f "$RES/$LABEL.log" "$RES/${LABEL}_"* "$WIN_DIR/out/$LABEL"*
 EXE="$ROOT/build/windows/ProSkater.exe"
 [ -s "$EXE" ] || { echo "no $EXE: run desktop/build_windows.sh first"; exit 2; }
 cmp -s "$EXE" "$WIN_DIR/ProSkater.exe" || cp "$EXE" "$WIN_DIR/ProSkater.exe"
