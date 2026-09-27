@@ -217,7 +217,9 @@ func _make_hint() -> void:
 
 
 func in_menu() -> bool:
-	return main != null and main.menus.mode != main.menus.NONE
+	## The start, pause and end screens (Q / B twice quits there). Not the Controls screen or
+	## the "start a new game?" question, where B goes back.
+	return main != null and main.menus.mode in [main.menus.START, main.menus.PAUSE, main.menus.END]
 
 
 func _input(event: InputEvent) -> void:

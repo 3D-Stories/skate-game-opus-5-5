@@ -11,8 +11,15 @@ The game starts fullscreen. F11 or Alt+Enter switches between fullscreen and a w
 (1920x1080, or smaller on a smaller screen); the choice is kept for next time. If the
 picture ever stops moving after leaving fullscreen, restart the game: it opens in the window.
 
-Two levels: The Warehouse and Eastside Baths. Tab (gamepad Select) on the start screen opens
-the level select; both levels are in the exe, nothing is downloaded.
+THE START SCREEN is a menu (arrow keys or W / S and Enter, a gamepad's D-pad and A, or the
+mouse): Resume game, Start new game, Level select, Customize character, Controls, Quit.
+Goals you finish are saved and stay done (%APPDATA%\ProSkater\progress.cfg); Resume game
+carries on from there, Start new game asks before it clears the save. The pause menu and
+the end screen have Main menu.
+
+Two levels: The Warehouse and Eastside Baths, both in the exe (nothing is downloaded).
+Level select (or Tab / gamepad Select) picks one. Customize character (or C / gamepad Y)
+picks a male or female skater and their clothes.
 
 CONTROLS            Keyboard                 Gamepad (Xbox layout)
 Steer / push / brake  W A S D or arrow keys   Left stick or D-pad
@@ -27,6 +34,8 @@ Pause / restart     Esc or P / R             Start / Back
 Quit (in a menu)    Q, twice                 B, twice
 Fullscreen          F11 or Alt+Enter
 Level select        Tab (start screen)       Select (Back)
+Customize character C (start screen)         Y
+Menus               Up / Down, Enter, Esc    D-pad or stick, A, B
 
 The game pauses by itself when its window loses focus.
 
@@ -36,6 +45,7 @@ COMMAND LINE (after --)
   ProSkater.exe -- --autopilot --bench --bench-out=bench.json --quit-at-end
                                          the same run as a frame-time benchmark, saved as JSON
   ProSkater.exe -- --fps                 frame-rate counter
+  ProSkater.exe -- --no-progress         neither read nor write the saved game
   ProSkater.exe --resolution 1600x900 -- --window=windowed
                                          start in a window of that size
   ProSkater.exe --rendering-driver opengl3_angle      use Direct3D 11 (through ANGLE)

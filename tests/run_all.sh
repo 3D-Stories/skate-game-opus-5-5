@@ -25,6 +25,7 @@ run fullrun    600  --fixed-fps 60 -- --autopilot=test
 run levelsel   300  --fixed-fps 60 -s tests/test_level_select.gd
 run builder    900  --fixed-fps 60 -s tests/test_builder.gd
 run buildlvl   600  --fixed-fps 60 -s tests/test_builder_levels.gd
+run menu       300  --fixed-fps 60 -s tests/test_menu.gd
 # every kit-built level in levels/registry.json: its park suite (tests/test_level.gd) and its
 # own autopilot two-minute run
 LEVELS=$(python3 -c "import json
@@ -40,7 +41,7 @@ done
 ( timeout 1500 bash desktop/test_desktop.sh > tests/results/logs/desktop.log 2>&1; echo $? > tests/results/logs/desktop.exit ) &
 wait
 printf '%-14s %-5s %s\n' suite exit summary
-for n in scoring flow input audio park anims clips handling ragdoll camera fullrun levelsel builder buildlvl $EXTRA desktop; do
+for n in scoring flow input audio park anims clips handling ragdoll camera fullrun levelsel builder buildlvl menu $EXTRA desktop; do
 	e=$(cat "tests/results/logs/$n.exit" 2>/dev/null || echo "?")
 	s=$(grep -aE "passed|PASSED|failed|\[run\] finished|checks" "tests/results/logs/$n.log" | tail -1 | cut -c1-150)
 	printf '%-14s %-5s %s\n' "$n" "$e" "$s"

@@ -13,11 +13,12 @@ synthesised in GDScript at startup.
 | ![portrait](renders/skater_portrait.png) | ![trick](renders/skater_trick.png) | ![park](renders/park.png) |
 
 Gameplay (recorded two-minute run, every goal completed): `evidence/two_minute_run.mp4`;
-ragdoll bails and getups: `evidence/bail_showcase.mp4`. The **Skater** screen (C / Y on the
-start screen) picks a male or female skater and their clothes: see Character builder.
+ragdoll bails and getups: `evidence/bail_showcase.mp4`. The game opens on a **start screen
+menu**: Resume game, Start new game, Level select, Customize character, Controls (and Quit
+on Windows); goals you finish are saved. See [Start screen and saved game](#start-screen-and-saved-game).
+**Customize character** picks a male or female skater and their clothes: see Character builder.
 
-A second park, **Eastside Baths** (a drained 1930s pool hall), is on the level select (Tab on
-the start screen). It was built with the level kit and the steps in `docs/LEVELS.md`, which
+A second park, **Eastside Baths** (a drained 1930s pool hall), is on the **Level select**. It was built with the level kit and the steps in `docs/LEVELS.md`, which
 is how further levels are made. See [Levels](#levels).
 
 ![Eastside Baths](renders/baths.png)
@@ -31,13 +32,15 @@ is how further levels are made. See [Levels](#levels).
 | Serve it locally | `python3 -m http.server 8765 --directory build/web` then open http://localhost:8765/ |
 | Build the native Windows version | `bash desktop/build_windows.sh` -> `build/windows/ProSkater.exe` and a zip (see [Windows build](#windows-build)) |
 | Deploy (Vercel) | Automatic: the Vercel project is connected to this GitHub repo, so every push to `master` deploys to production (other branches and PRs get preview deployments). `vercel.json` runs `tools/vercel_build.sh`, which installs the official Godot 4.7.2 Linux binary (pinned SHA-512), imports the project and exports `build/web`. On the Hobby plan Vercel only deploys commits authored by the team owner's linked GitHub account. Manual deploy of a local export: `npx vercel link --yes --project skate-game-opus-5-5 --cwd build/web` then `npx vercel deploy --prod --yes --cwd build/web` |
-| Run every test headless (11 suites, then the level select, the character builder, the builder with the level select, each kit-built level's suite and the Windows build's desktop layer: 17 suites) | `bash tests/run_all.sh` (results in `tests/results/`) |
+| Run every test headless (11 suites, then the level select, the character builder, the builder with the level select, the start screen menu and saved game, each kit-built level's suite and the Windows build's desktop layer: 18 suites) | `bash tests/run_all.sh` (results in `tests/results/`) |
 | Make a new level | `python3 blender/levelkit/scaffold.py <id> "<Name>"`, then follow `docs/LEVELS.md` |
 | Build one level (geometry, data, Cycles bake) | `blender --background --python blender/build_all.py -- --only <id>` |
 | One level's park tests (scale, UVs, grinds, breakables, hidden area, pickups, the full run) | `godot --headless --path . --fixed-fps 60 -s tests/test_level.gd -- --level=<id>` |
 | Clothing fit, every outfit pairing through all 25 clips (about 20 minutes) | `godot --headless --path . -s tests/test_outfits.gd -- --fps=30 --only=male` (and `--only=female`; `--pick=0,4` for single outfits, `--debug` for the worst vertex of each pair) |
 | Close-ups of any clip on any skater | `godot --path . --resolution 900x900 -s tests/pose_shot.gd -- --skater=female,tee,cargo,hitop,cap --clip=all --tf=0,0.5,1 --out=/tmp/shots` |
 | The builder in the web build (Chrome) | `python3 tests/web_check_builder.py http://localhost:8765/` |
+| The start menu and saved game in the web build (Chrome: mouse clicks, a reload) | `python3 tests/web_menu_check.py http://localhost:8765/` |
+| Pictures of every menu | `godot --path . --resolution 1920x1080 -s tests/menu_shots.gd -- --out=evidence/menus` |
 | Frame-by-frame check of the run | `godot --path . --fixed-fps 60 --resolution 1920x1080 -s tests/frames.gd -- --autopilot=run --segment=windows` (segments: `start`, `rafter`, `wall_tape`, `windows`, `funbox`, `halfpipe`, `end`, or `all --every=6` for the whole run in about 4 minutes); then `python3 tests/frames_sheet.py /tmp/skate-work/frames/windows --flagged` for contact sheets |
 
 The rebuild took about 8 minutes on an RTX 4080 for the Warehouse alone (assets about 3
@@ -57,9 +60,40 @@ URL options: `?level=<id>` starts on that level, `?fps` shows an FPS counter, `?
 `?skater=female,tee,cargo,hitop,cap` skates that skater for the visit (`--skater=` on the
 command line).
 
+## Start screen and saved game
+
+![The start screen with a saved game](evidence/menus/start_saved.jpg)
+
+The start screen is a menu, used with the keyboard (Up / Down or W / S, Enter), a gamepad
+(D-pad or left stick, A) or the mouse (point and click):
+
+| Choice | What it does |
+|---|---|
+| **Resume game** | Carries on with the saved game: a run on the level shown, with the goals already done ticked (greyed out until there is a save) |
+| **Start new game** | A two-minute run on the level shown. With a saved game it asks first ("Start a new game?", No is picked), then clears the save |
+| **Level select** | The level select (also Tab / gamepad Select). Back on the start screen, Enter skates the level picked |
+| **Customize character** | The character builder (also C / gamepad Y) |
+| **Controls** | The keyboard and gamepad table (Esc / B goes back) |
+| **Quit** | The Windows build only (Q or B twice in a menu still quits too) |
+
+Beside the menu: the level, its blurb, its goals (the saved ones ticked) and its best score.
+The pause menu has **Resume**, **Restart run** and **Main menu**; the end screen **Skate
+again**, **Replay** and **Main menu**. Main menu leaves the run for the start screen.
+
+**The saved game** works like THPS's career mode: a goal stays done once you have done it,
+so each run works on the goals still open, and finishing the last one clears the level.
+Each level's goals and best score, and the level played last, are saved at once when they
+change, in `user://progress.cfg` (`scripts/game/progress.gd`; in the browser `user://` is
+kept in IndexedDB, and on Windows in `%APPDATA%\ProSkater`). A launch opens on the level
+played last. The level select's cards tick each level's saved goals. Scripted runs
+(`--autopilot`, `?autopilot`, benchmarks), headless test scripts and `--no-progress` never
+read or write the save.
+
+Pictures of every menu: `evidence/menus/` (`tests/menu_shots.gd`).
+
 ## Controls
 
-Shown on the start screen and in the pause menu.
+On the start screen's Controls screen and in the pause menu.
 
 | Action | Keyboard | Gamepad |
 |---|---|---|
@@ -72,7 +106,9 @@ Shown on the start screen and in the pause menu.
 | Manual / Nose manual | Up, Down / Down, Up | Up, Down / Down, Up |
 | Special trick (special meter full) | Left, Right + J | Left, Right + X |
 | Pause / Restart run | Esc or P / R | Start / Back |
-| Skater screen (start screen) | C | Y / Triangle |
+| Menus: choose / select / back | Up, Down (W, S) / Enter / Esc | D-pad or left stick / A / B |
+| Level select (start screen) | Tab | Select / Back |
+| Customize character (start screen) | C | Y / Triangle |
 | Instant replay (end screen) | V | X / Square |
 
 The gamepad works through Godot's joypad input (the browser Gamepad API in the web build).
@@ -121,8 +157,8 @@ screens, and on the end-of-run screen:
 
 ## Levels
 
-The start screen shows the current level; Tab (keyboard) or Select / Back (gamepad) opens
-the level select: one card per level with its blurb and goals, chosen with the arrows / D-pad and
+The start screen shows the current level; its **Level select** choice, or Tab (keyboard) or
+Select / Back (gamepad), opens the level select: one card per level with its blurb and goals, chosen with the arrows / D-pad and
 Enter / A (Esc / B goes back). The Warehouse is the default. The list comes from
 `levels/registry.json`, and each level's name, goals, run time, lighting and assets from its
 `levels/<id>/level.json`; nothing in the game's code names a level. In the web build a
@@ -156,7 +192,8 @@ tests, parity, web packs, and the checklist of quality gates.
 |---|---|
 | ![her portrait](renders/skater_female_portrait.png) | ![outfits](renders/outfits_sheet.png) |
 
-From the start screen, **C** (keyboard) or **Y** (gamepad) opens the **Skater** screen: a lit
+From the start screen, **Customize character** (or **C** on the keyboard, **Y** on a gamepad)
+opens the **Skater** screen: a lit
 3D turntable of the skater and five rows - the skater (male or female), top, bottom, shoes
 and headwear. Every change shows on the turntable at once. The screen lists its own
 controls, as the start screen does:
@@ -297,7 +334,8 @@ is MPFB2 for the base human.
 
 | Script | Role |
 |---|---|
-| `scripts/game/main.gd` | Game flow: start screen, the two-minute run, goals, pause, end-of-run screen, restart; adaptive quality; benchmark statistics. |
+| `scripts/game/main.gd` | Game flow: the start screen menu (resume the saved game, start a new one, level select, customize character, controls, quit on Windows), the two-minute run, goals, pause, end-of-run screen, restart, back to the main menu; adaptive quality; benchmark statistics. |
+| `scripts/game/progress.gd` | `Progress`: the saved game (each level's goals done and best score, the level played last) in `user://progress.cfg`. |
 | `scripts/skater/skater.gd` | Skater physics and tricks: surface-following ground movement with transition momentum and pumping, drop-ins, ollies, vert airs, flips/grabs/spins, grinds with a balance meter, manuals with a balance meter, ragdoll bails (impacts from the ragdoll's contacts: thuds, blood splats, slide smears) with a rigid-body board, sounds. |
 | `scripts/skater/skater_model.gd` | The Blender skater and board, built from a character-builder choice (body, garments, the shared clips with her overlay), rebuilt when it changes: clip blending, board on its bone, wheel spin, and the ragdoll: 14 capsules with cone-twist joints (PhysicalBone3D). A bail blends the authored flinch into the physics; once the body lies still, the ragdoll is steered into the first pose of the matching getup clip (on the back or face down) and fades into it. |
 | `scripts/game/tricks.gd`, `score_keeper.gd` | Trick table and THPS scoring (unit-tested). |
@@ -305,7 +343,7 @@ is MPFB2 for the base human.
 | `scripts/level/level.gd`, `rail.gd`, `glass_burst.gd` | Loads a level by id (the Warehouse, or any kit-built level from its data), lightmap PBR materials, collision surfaces, rails, breakable windows and wall, generic breakables (impact bodies and knock-over signs), gaps, pickups. A breaking window keeps jagged shards in its frame and throws out tumbling glass that lands on the quarterpipe below and lies there before fading. |
 | `scripts/level/level_registry.gd` | `LevelRegistry`: the level list from `levels/registry.json`, each level's definition, the startup level (`?level=` / `--level=`), and web packs (fetch, mount). |
 | `scripts/ui/level_select.gd`, `scenes/level_select.tscn` | The level select screen (keyboard and gamepad): a card per level with its goals. |
-| `scripts/ui/hud.gd`, `menus.gd` | HUD (score, special meter, timer, goals, letters, combo, balance meters) and menus (the start screen names the level and opens the level select and the Skater screen; the end screen shows the run's skater and offers the replay). |
+| `scripts/ui/hud.gd`, `menus.gd` | HUD (score, special meter, timer, goals, letters, combo, balance meters) and menus: the start screen menu with the level beside it, Controls, "start a new game?", the pause menu and the end screen (the run's skater, the replay), all with keyboard, gamepad and mouse. |
 | `scripts/skater/skater_outfit.gd` | The character builder's choice: the wardrobe from `assets/outfit/catalog.json`, the default (today's skater), `user://skater.cfg`, `--skater=` / `?skater=`, and what a choice wears. |
 | `scripts/ui/skater_builder.gd`, `skater_preview.gd` | The Skater screen (`scenes/ui/skater_builder.tscn`) and its lit turntable (also on the end screen). |
 | `scripts/game/replay.gd` | The instant replay: the last 15 seconds of the run recorded (skater, board, camera) and played back from the end screen with the same skater. |
@@ -355,6 +393,8 @@ Everything here is saved in the repository and regenerated by the commands above
 | Eastside Baths two-minute run: all six goals | `tests/results/fullrun_baths.txt` | PASS: 58,951 points headless and in Chrome, all goals |
 | Eastside Baths camera, whole run frame by frame | `tests/results/frames_baths_all.json`, `evidence/baths/frames_whole_run_sheet.jpg` | PASS: 7,201 frames, 0 flagged (camera never outside the level or inside geometry, skater never hidden, at most 0.375 m and 5.95 deg of camera movement per frame); 208 flagged before the camera fixes |
 | Level select (keyboard and gamepad, goals shown, the Warehouse unchanged after switching back) | `tests/results/level_select.txt` | PASS: 19 / 19 |
+| Start screen menu and saved game (keyboard, gamepad and mouse; Resume greyed out without a save; Controls; a goal saved at once; Main menu from pause and end; Resume ticks the saved goals; the best score; "start a new game?" No / Yes; a relaunch opens on the level played last; the level select ticks saved goals; scripted runs never use the save) | `tests/results/menu.txt`, `evidence/menus/*.jpg` | PASS: 37 / 37 |
+| The start menu and saved game in the web build (Chrome: mouse clicks on Level select, Controls, Main menu and Yes; the save back after a reload, Resume game picked) | `tests/results/web_menu_localhost_8793.json`, `evidence/web_menu_localhost_8793_*.png` | PASS: 14 / 14 |
 | Web: level select, level download on demand, the Baths run in the browser | `tests/results/web_levels_localhost_8797.json`, `evidence/web_levels_*.png`; with the character builder merged in: `web_levels_localhost_8791.json` (9 / 9 again) | PASS: 9 / 9 (no pack fetched at boot; keyboard and Gamepad API pad pick the Baths, its pack downloads and it loads; the two-minute run completes every goal in the browser, 58,951 points; no failed requests or console errors) |
 | Windows build: native runs, benchmark, keyboard, sound | `tests/results/windows/` (`bench_summary.md`, `input_native.txt`), `windows_fullrun.txt`, `evidence/windows_*.jpg` (see [Windows build](#windows-build)) | PASS, except leaving fullscreen in the never-focused test window (known issue below); gamepad NOT VERIFIED (no controller connected) |
 | Windows build with both levels: the scripted run on the Warehouse (all five goals) and on Eastside Baths (all six), the level select with the keyboard, the Baths embedded in the exe | `tests/results/windows/smoke.txt`, `embedded_baths.txt`, `rebase_*_uncapped.json`, `evidence/windows_level_select.jpg`, `windows_baths_*.jpg` | PASS: 14 / 14 native checks (69,043 and 58,951 points); vsync in a window NOT VERIFIED (see [Windows build](#windows-build)) |

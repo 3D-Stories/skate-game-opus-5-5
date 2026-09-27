@@ -1,0 +1,92 @@
+{
+ "url": "http://localhost:8793/",
+ "time": "2026-09-27T11:58:13",
+ "checks": {
+  "a fresh browser opens on the start menu: Resume game greyed out, Start new game picked": {
+   "pass": true,
+   "detail": "['resume_game', 'new_game', 'level', 'skater', 'controls'], picked new_game"
+  },
+  "the mouse: a click on Level select opens it": {
+   "pass": true,
+   "detail": ""
+  },
+  "Esc comes back to the start menu": {
+   "pass": true,
+   "detail": "picked new_game"
+  },
+  "a click on Controls opens the controls screen": {
+   "pass": true,
+   "detail": ""
+  },
+  "Esc goes back from Controls": {
+   "pass": true,
+   "detail": "picked controls"
+  },
+  "the keyboard: Up to Start new game, Enter starts a run": {
+   "pass": true,
+   "detail": ""
+  },
+  "after a reload the saved game is back: Resume game on and picked": {
+   "pass": true,
+   "detail": "picked resume_game"
+  },
+  "Enter on Resume game starts its run": {
+   "pass": true,
+   "detail": ""
+  },
+  "Esc: the pause menu with Resume, Restart run, Main menu": {
+   "pass": true,
+   "detail": "['resume_run', 'restart', 'main_menu']"
+  },
+  "a click on Main menu leaves the run for the start menu": {
+   "pass": true,
+   "detail": ""
+  },
+  "Start new game with a save asks first (No picked)": {
+   "pass": true,
+   "detail": "['no_keep', 'yes_new'], picked no_keep"
+  },
+  "a click on Yes starts over with a run": {
+   "pass": true,
+   "detail": ""
+  },
+  "no failed requests": {
+   "pass": true,
+   "detail": ""
+  },
+  "no page or console errors": {
+   "pass": true,
+   "detail": ""
+  }
+ },
+ "console_errors": [],
+ "failed_requests": [],
+ "console": {
+  "first_visit": [
+   "[skater] skating as male,hoodie,jeans,suede,none",
+   "[menu] start: resume_game(off)@0.299,0.318 new_game@0.299,0.427 level@0.299,0.536 skater@0.299,0.645 controls@0.299,0.755  picked new_game",
+   "[menu] level",
+   "[menu] start: resume_game(off)@0.299,0.318 new_game@0.299,0.427 level@0.299,0.536 skater@0.299,0.645 controls@0.299,0.755  picked new_game",
+   "[menu] controls",
+   "[menu] controls: back@0.500,0.794  picked back",
+   "[menu] start: resume_game(off)@0.299,0.318 new_game@0.299,0.427 level@0.299,0.536 skater@0.299,0.645 controls@0.299,0.755  picked controls",
+   "[menu] new_game",
+   "[run] started"
+  ],
+  "second_visit": [
+   "[skater] skating as male,hoodie,jeans,suede,none",
+   "[menu] start: resume_game@0.299,0.318 new_game@0.299,0.427 level@0.299,0.536 skater@0.299,0.645 controls@0.299,0.755  picked resume_game",
+   "[menu] resume_game",
+   "[run] started",
+   "[run] paused at 118.4 s left",
+   "[menu] pause: resume_run@0.344,0.873 restart@0.490,0.873 main_menu@0.646,0.873  picked resume_run",
+   "[menu] main_menu",
+   "[run] left for the main menu",
+   "[menu] start: resume_game@0.299,0.318 new_game@0.299,0.427 level@0.299,0.536 skater@0.299,0.645 controls@0.299,0.755  picked resume_game",
+   "[menu] new_game",
+   "[menu] confirm: no_keep@0.405,0.576 yes_new@0.614,0.576  picked no_keep",
+   "[menu] yes_new",
+   "[run] started"
+  ]
+ }
+}

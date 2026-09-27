@@ -1,0 +1,39 @@
+Pro Skater start screen menu and saved game tests  2026-09-27T12:00:14
+PASS  a plain test script does not use the save (Progress.enabled is false)
+PASS  a scripted run (--autopilot / ?autopilot) never uses the save
+PASS  the game opens on the start screen, titled PRO SKATER  [PRO SKATER]
+PASS  the menu: Resume game, Start new game, Level select, Customize character, Controls (no Quit outside the Windows build)  [["resume_game", "new_game", "level", "skater", "controls"]]
+PASS  the choices' names  [["RESUME GAME", "START NEW GAME", "LEVEL SELECT", "CUSTOMIZE CHARACTER", "CONTROLS"]]
+PASS  no save: Resume game is greyed out and Start new game is picked  [RESUME GAME | No saved game yet | ]
+PASS  beside the menu: the level and its goals; Level select names the level  [LEVEL   THE WAREHOUSE | A 1990s THPS-style warehouse hall: a 5 m drop-in, a halfpipe, a quarter along the whol]
+PASS  Level select and Customize character show their shortcuts; the character line names the skater  [CUSTOMIZE CHARACTER | Male skater,  Red fleece hoodie | C / Y | ]
+PASS  the hint names Enter / A  [UP / DOWN  CHOOSE        ENTER / A  SELECT]
+PASS  Up from Start new game skips the greyed-out Resume game (to Controls)  [controls]
+PASS  Down and S move down (Start new game, Level select)  [level]
+PASS  Controls opens the keyboard / gamepad table  [mode 4, 30 cells]
+PASS  Esc goes back to the start screen, on Controls  [controls]
+PASS  the mouse: a click on Level select opens it
+PASS  leaving the level select comes back on the play choice (Enter skates the level)  [new_game]
+PASS  the gamepad's D-pad moves the selection  [skater]
+PASS  A on Customize character opens the character builder
+PASS  B leaves the builder, back on the play choice  [new_game]
+PASS  Tab still opens the level select
+PASS  C still opens the character builder
+PASS  back on the start screen, Start new game is picked  [new_game]
+PASS  Enter on Start new game starts a run, and the save exists (last level: the Warehouse)  [warehouse]
+PASS  a goal done in a run is saved at once  [["tape"]]
+PASS  the pause menu: Resume, Restart run, Main menu  [["resume_run", "restart", "main_menu"]]
+PASS  Main menu leaves the run for the start screen
+PASS  with a save, Resume game is picked and names the goals done  [> RESUME GAME | Carry on: 1 / 5 goals done in The Warehouse | ]
+PASS  the side ticks the saved goal; Start new game says it starts over
+PASS  Resume game: a new run with the saved goal ticked (and only that one)  [[["score", false], ["skate", false], ["tape", true], ["rafters", false], ["windows", false]]]
+PASS  the end screen: Skate again (and Replay), Main menu  [["again", "replay", "main_menu"]]
+PASS  the run's score is saved as the level's best  [12345]
+PASS  the end screen's Main menu (clicked) comes back; the side shows the best score
+PASS  with a save, Start new game asks first (No is picked)  [Your saved game will be cleared: 1 goal done on 1 level.]
+PASS  No keeps the save
+PASS  Yes clears the save and starts a fresh run
+PASS  a run on Eastside Baths makes it the level played last  [baths]
+PASS  after a relaunch the game opens on the level played last, with Resume game picked  [baths]
+PASS  the level select's cards tick the saved goals  [GOALS - 2:00 RUN |   [  ]  High Score: 25,000 |   [  ]  Collect S-K-A-T-E |   [X]  Find th]
+37 passed, 0 failed

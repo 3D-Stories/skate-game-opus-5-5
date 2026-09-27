@@ -295,13 +295,16 @@ func map_pad_names(action: String) -> Array:
 func start_screen() -> void:
 	var m = main.menus
 	check(paused and m.mode == m.START and m.panel.visible, "the game boots paused on the start screen")
+	# the keyboard / gamepad table is behind the start screen's Controls choice
+	m.show_controls()
+	check(m.mode == m.CONTROLS_SCREEN, "the start screen's Controls choice opens the controls table")
 	var cells: Array = []
 	for c in m.grid.get_children():
 		if c is Label and not c.is_queued_for_deletion():
 			cells.append(c)
 	var rows: int = m.CONTROLS.size()
 	check(m.grid.is_visible_in_tree() and m.grid.columns == 3 and cells.size() == rows * 3,
-			"start screen shows the controls table as visible Labels (%d rows x 3 columns)" % rows,
+			"the Controls screen shows the controls table as visible Labels (%d rows x 3 columns)" % rows,
 			"visible=%s columns=%d labels=%d" % [m.grid.is_visible_in_tree(), m.grid.columns, cells.size()])
 	if cells.size() < 3:
 		return
@@ -340,7 +343,8 @@ func start_screen() -> void:
 		var named := ", ".join(want_k + want_p + spec[2])
 		check(miss.is_empty(), "start screen row '%s': '%s' | '%s' names %s" % [what.strip_edges(), kb_txt, pad_txt, named],
 				"missing " + ", ".join(miss))
-	# confirm is on the hint line under the table
+	# confirm is named on the start screen's hint line, under the menu
+	main._show_start()
 	var hint: String = m.hint.text
 	var shown_k := map_key_names("confirm").filter(func(n): return has_word(hint, n))
 	var shown_p := map_pad_names("confirm").filter(func(n): return has_word(hint, n))
@@ -349,7 +353,7 @@ func start_screen() -> void:
 			"confirm is bound to %s / %s" % [str(map_key_names("confirm")), str(map_pad_names("confirm"))])
 	covered["confirm"] = true
 	var uncovered := ACTIONS.filter(func(a): return not covered.has(a))
-	check(uncovered.is_empty(), "every input-map action is shown on the start screen", "not shown: " + str(uncovered))
+	check(uncovered.is_empty(), "every input-map action is shown on the Controls screen or the start screen's hint", "not shown: " + str(uncovered))
 
 
 # ------------------------------------------------------------------ one device run

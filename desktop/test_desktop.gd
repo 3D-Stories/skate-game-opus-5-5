@@ -118,6 +118,24 @@ func _run() -> void:
 	check(quits[0] == 2, "gamepad B twice quits", "quit calls: %d" % quits[0])
 	await frames(200)
 
+	# --- the start screen's Quit (the Windows build only); B on the Controls screen goes back
+	var menu_ids: Array = main.menus.items.map(func(it): return it["id"])
+	check(menu_ids.back() == "quit", "the start screen's menu ends with Quit in the Windows build", str(menu_ids))
+	main.menus.show_controls()
+	await frames(20)
+	check(not desk.in_menu(), "the Controls screen is not a quit screen")
+	await tap_pad(JOY_BUTTON_B)
+	check(quits[0] == 2 and main.menus.mode == main.menus.START and desk._quit_armed <= 0.0,
+			"B on the Controls screen goes back to the start screen, and does not arm quitting")
+	main._show_start()                     # the default choice again (Start new game)
+	await frames(20)
+	await tap_key(KEY_UP)                  # Up from Start new game skips the greyed-out Resume game
+	check(main.menus.selected_id() == "quit", "Up from Start new game reaches Quit", main.menus.selected_id())
+	await tap_key(KEY_ENTER)
+	check(quits[0] == 3, "Enter on Quit quits", "quit calls: %d" % quits[0])
+	main._show_start()
+	await frames(20)
+
 	# --- levels: Eastside Baths is embedded in the desktop build; the level select (Tab / Select
 	# on the start screen) is a screen of its own, where Q and B are not "quit" (B goes back)
 	check("baths" in LevelRegistry.ids() and LevelRegistry.available("baths") and LevelRegistry.pack_url("baths") == "",
@@ -135,7 +153,7 @@ func _run() -> void:
 	await frames(12)
 	await tap_pad(JOY_BUTTON_B)
 	await frames(20)
-	check(quits[0] == 2 and desk._quit_armed <= 0.0 and level_screen() == null and main.menus.mode == main.menus.START,
+	check(quits[0] == 3 and desk._quit_armed <= 0.0 and level_screen() == null and main.menus.mode == main.menus.START,
 			"Q and B in the level select do not quit; B goes back to the start screen")
 	await frames(30)
 	await tap_key(KEY_TAB)
@@ -164,7 +182,7 @@ func _run() -> void:
 	check(desk._was_riding, "the mouse cursor is hidden while riding (requested)")
 	await tap_key(KEY_Q)                   # Q is spin-left on the ground: never quits mid-run
 	await tap_key(KEY_Q)
-	check(quits[0] == 2 and main.running, "Q during the run does not quit")
+	check(quits[0] == 3 and main.running, "Q during the run does not quit")
 
 	# --- losing focus pauses the run, the way Esc does
 	var t0: float = main.time_left
