@@ -1,0 +1,22 @@
+extends RefCounted
+## The two-minute autopilot route through Harbour Yard (a starter: drop in, then halfpipe airs to the
+## buzzer). Godot coordinates: the level definition's Blender (x, y, z) is Godot (x, z, -y).
+## Extend it until tests/test_level.gd's "every pickup is reachable" and "every goal" checks
+## pass: R.go(point, note, opts) steers there, R.until(cond, note, opts) holds inputs until
+## cond, R.tap(actions, note, opts) presses buttons; see scripts/game/autopilot_route.gd
+## (the Warehouse) and levels/baths/autopilot_route.gd for complete routes.
+
+const R := preload("res://scripts/game/autopilot_route.gd")
+
+
+static func route() -> Array:
+	var r: Array = []
+	# drop in off the south deck, slow down and roll in through the halfpipe's open end
+	r.append(R.go(Vector3(0.0, 0.0, 5.0), "drop in", {"radius": 1.5, "timeout": 6.0}))
+	r.append(R.go(Vector3(0.0, 0.0, -5.0), "to the halfpipe mouth", {"radius": 1.2, "max_speed": 5.0, "timeout": 6.0}))
+	r.append(R.go(Vector3(-1.0, 0.0, -12.0), "into the halfpipe", {"radius": 1.2, "max_speed": 5.0, "timeout": 6.0}))
+	var kick_indy := [["flip", Vector2.ZERO, 0.06, 0.06], ["grab", Vector2(1, 0), 0.5, 0.05], ["grab", Vector2.ZERO, 0.55, 0.3]]
+	var shove_nose := [["flip", Vector2(0, -1), 0.06, 0.05], ["grab", Vector2(0, 1), 0.5, 0.05], ["grab", Vector2.ZERO, 0.55, 0.3]]
+	r.append({"do": "halfpipe", "note": "halfpipe airs to the buzzer", "z": -12.0, "timeout": 110.0, "count": 60,
+			"airs": [kick_indy, shove_nose], "fallback": shove_nose})
+	return r

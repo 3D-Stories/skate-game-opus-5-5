@@ -1,9 +1,11 @@
 extends Node3D
-## Game flow for a THPS-style two-minute run in the Warehouse: start screen, the run
-## (timer, goals, HUD), pause, end-of-run screen and restart.
+## Game flow for a THPS-style two-minute run: start screen (with the level select), the
+## run (timer, goals, HUD), pause, end-of-run screen and restart. The level and its goals
+## are data (LevelRegistry: res://levels/<id>/level.json); the Warehouse is the default.
 
 const RUN_TIME := 120.0
-const HIGH_SCORE := 25000
+const HIGH_SCORE := 25000        # the Warehouse's (each level's is its "score" goal target)
+const LEVEL_SELECT := preload("res://scenes/level_select.tscn")
 
 @onready var level: Level = $Level
 @onready var skater: Skater = $Skater
@@ -22,6 +24,10 @@ var goals: Array = []
 var stats := {"tricks": 0, "bails": 0, "longest_grind": 0.0}
 var _grind_start := 0.0
 var autopilot_mode := ""
+var high_score := HIGH_SCORE
+var switching := false           # a level is being loaded (level select)
+var _env_default: Dictionary = {}
+var _grind_goal_t := 0.0
 var run_start_phys := 0          # Engine physics frame count when the current run started
 var bench: Node = null        # scripts/game/bench.gd while benchmarking (?bench / --bench)
 ## Adaptive quality: a slower GPU (a laptop) steps down until frames fit in ~16.7 ms.
@@ -35,8 +41,8 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	for n in [level, skater, cam]:
 		n.process_mode = Node.PROCESS_MODE_PAUSABLE
-	# sun matches the Blender bake
-	sun.look_at_from_position(Vector3.ZERO, level.sun_dir, Vector3.UP if absf(level.sun_dir.y) < 0.99 else Vector3.FORWARD)
+	_env_default = _env_snapshot()
+	_apply_level_look()
 	skater.setup(level, score)
 	cam.skater = skater
 	hud.bind(score)
@@ -47,6 +53,8 @@ func _ready() -> void:
 	level.tape_collected.connect(_on_tape)
 	level.window_broken.connect(_on_window)
 	level.wall_broken.connect(func(): hud.flash("SECRET ROOM!", "The boarded wall is down"))
+	level.item_broken.connect(_on_item_broken)
+	level.gap_hit.connect(_on_gap)
 	skater.rafter_grind.connect(_on_rafter)
 	skater.trick.connect(func(_n): stats["tricks"] += 1)
 	skater.bailed.connect(_on_bail)
@@ -56,6 +64,7 @@ func _ready() -> void:
 	menus.start_pressed.connect(start_run)
 	menus.resume_pressed.connect(resume)
 	menus.restart_pressed.connect(restart)
+	menus.level_select_pressed.connect(open_level_select)
 	skater.spawn(level.spawn_pos, level.spawn_forward)
 	cam.snap()
 	level.warm_up(cam.global_position, -cam.global_basis.z)
@@ -85,6 +94,11 @@ func _ready() -> void:
 			if "benchreport" in q:
 				# only the local benchmark server (tests/bench_server.py) takes these reports
 				JavaScriptBridge.eval("fetch('bench-start?' + innerWidth + 'x' + innerHeight + '@' + devicePixelRatio).catch(function(){})")
+	# a level asked for at startup whose assets are not here yet (a web pack): fetch it first
+	var want := LevelRegistry.startup_id()
+	if want != level.level_id:
+		get_tree().paused = true
+		await switch_level(want)
 	if autopilot_mode != "":
 		# the scripted run skips the start screen, which is where shaders get compiled
 		# for a player: give the first frames the same half second before the run starts
@@ -100,6 +114,8 @@ func _ready() -> void:
 		level.letter_collected.connect(func(l): ap.note("letter " + l))
 		level.tape_collected.connect(func(): ap.note("secret tape"))
 		level.window_broken.connect(func(i, n): ap.note("window %d (%d/5)" % [i, n]))
+		level.item_broken.connect(func(id, grp, n, tot): ap.note("broke %s (%s %d/%d)" % [id, grp, n, tot]))
+		level.gap_hit.connect(func(id, nm, pts): ap.note("GAP %s (+%d)" % [nm, pts]))
 		level.wall_broken.connect(func(): ap.note("wall broken"))
 		skater.rafter_grind.connect(func(): ap.note("rafter grind"))
 		score.combo_landed.connect(func(p): ap.note("combo +%d  total %d  [%s]" % [p, score.total, " + ".join(score.last_combo)]))
@@ -107,19 +123,37 @@ func _ready() -> void:
 		start_run()
 	else:
 		get_tree().paused = true
+		_compile_unpaused()
 		hud.visible = false
-		menus.show_start(goals)
+		_show_start()
+
+
+func _show_start() -> void:
+	menus.show_start(goals, String(level.game.get("name", "The Warehouse")))
 
 
 func _make_goals() -> void:
-	letters = {"S": false, "K": false, "A": false, "T": false, "E": false}
-	goals = [
-		{"id": "score", "title": "High Score: %s" % ScoreKeeper.format_points(HIGH_SCORE), "done": false, "progress": ""},
-		{"id": "skate", "title": "Collect S-K-A-T-E", "done": false, "progress": "0/5"},
-		{"id": "tape", "title": "Find the Secret Tape", "done": false, "progress": ""},
-		{"id": "rafters", "title": "Grind the Rafters", "done": false, "progress": ""},
-		{"id": "windows", "title": "Break the 5 Windows", "done": false, "progress": "0/5"},
-	]
+	## The goals of the current level (levels/<id>/level.json), in the THPS style: a high
+	## score, S-K-A-T-E, the secret tape and the level's own (grind this, break those, hit
+	## that gap).
+	letters = {}
+	for L in level.data.get("letters", []):
+		letters[String(L["letter"])] = false
+	goals = []
+	for gd in level.game.get("goals", []):
+		var t := String(gd.get("type", gd["id"]))
+		var title := String(gd.get("title", ""))
+		var prog := ""
+		match t:
+			"score":
+				high_score = int(gd.get("target", HIGH_SCORE))
+				if title == "":
+					title = "High Score: %s" % ScoreKeeper.format_points(high_score)
+			"letters":
+				prog = "0/%d" % letters.size()
+			"windows", "break":
+				prog = "0/%d" % int(gd.get("count", 5))
+		goals.append({"id": String(gd["id"]), "type": t, "title": title, "done": false, "progress": prog, "def": gd})
 
 
 func _goal(id: String) -> Dictionary:
@@ -141,7 +175,7 @@ func _complete(id: String) -> void:
 	for x in goals:
 		all_done = all_done and x["done"]
 	if all_done:
-		hud.flash("ALL GOALS COMPLETE!", "Warehouse cleared", 3.0)
+		hud.flash("ALL GOALS COMPLETE!", String(level.game.get("cleared", "Warehouse cleared")), 3.0)
 
 
 func start_run() -> void:
@@ -192,6 +226,8 @@ func _process(delta: float) -> void:
 		return
 	# vert airs off the east quarter, or a grind along the wall pipe right below the glass
 	level.check_windows(skater.global_position, skater.state == Skater.AIR or skater.state == Skater.GRIND, skater.vel)
+	level.check_items(skater.global_position, skater.vel)
+	_check_grind_goals()
 	if not ending:
 		time_left -= delta
 		if time_left <= 0.0:
@@ -212,7 +248,7 @@ func _finish() -> void:
 	_check_score()
 	get_tree().paused = true
 	hud.visible = false
-	menus.show_end(goals, score, stats)
+	menus.show_end(goals, score, stats, String(level.game.get("cleared", "Warehouse cleared")))
 	print("[run] finished score=%d goals=%s" % [score.total, str(goals.map(func(g): return [g["id"], g["done"]]))])
 	if bench:
 		bench.report()
@@ -259,7 +295,7 @@ func _start_bench(query: String) -> void:
 
 
 func _check_score() -> void:
-	if score.total >= HIGH_SCORE:
+	if score.total >= high_score:
 		_complete("score")
 	var g := _goal("score")
 	g["progress"] = "" if g["done"] else ScoreKeeper.format_points(score.total)
@@ -274,10 +310,10 @@ func _on_letter(l: String) -> void:
 		if letters[k]:
 			n += 1
 	var g := _goal("skate")
-	g["progress"] = "%d/5" % n
+	g["progress"] = "%d/%d" % [n, letters.size()]
 	hud.update_goals(goals)
 	hud.flash(l, "", 0.9)
-	if n == 5:
+	if n == letters.size():
 		_complete("skate")
 
 
@@ -304,8 +340,147 @@ func _on_bail(_reason: String) -> void:
 
 
 func _on_state(st: int) -> void:
+	# gaps: where the skater left the ground (or a rail) and where he came down
+	if st == Skater.AIR:
+		level.skater_took_off(skater.global_position)
+	elif st == Skater.GROUND:
+		level.skater_landed(skater.global_position)
+	elif st == Skater.BAIL:
+		level.skater_bailed()
 	if st == Skater.GRIND:
 		_grind_start = Time.get_ticks_msec() / 1000.0
 	elif _grind_start > 0.0:
 		stats["longest_grind"] = maxf(stats["longest_grind"], Time.get_ticks_msec() / 1000.0 - _grind_start)
 		_grind_start = 0.0
+
+
+# ------------------------------------------------------------------ level goals (any level)
+
+func _on_item_broken(_id: String, group: String, n: int, total: int) -> void:
+	for g in goals:
+		if g["type"] == "break" and String(g["def"].get("group", "")) == group and not g["done"]:
+			var need := int(g["def"].get("count", total))
+			g["progress"] = "%d/%d" % [mini(n, need), need]
+			hud.update_goals(goals)
+			if n >= need:
+				_complete(g["id"])
+			else:
+				hud.flash("%d / %d" % [n, need], String(g["title"]), 1.2)
+	cam.shake = maxf(cam.shake, 0.25)
+
+
+func _on_gap(id: String, gap_name: String, points: int) -> void:
+	## THPS gaps: the gap's name and points join the combo that is landing.
+	score.begin_trick(gap_name, points)
+	hud.flash(gap_name.to_upper(), "+%d GAP" % points, 1.4)
+	Sfx.play("combo", null, -4.0, 0.8)
+	for g in goals:
+		if g["type"] == "gap" and String(g["def"].get("gap", "")) == id:
+			_complete(g["id"])
+
+
+func _check_grind_goals() -> void:
+	## "Grind the X": hold a grind on one of the goal's rails (by name or tag) long enough.
+	if skater.state != Skater.GRIND or skater.grind_rail == null:
+		return
+	for g in goals:
+		if g["type"] != "grind" or g["done"]:
+			continue
+		var d: Dictionary = g["def"]
+		var r: Rail = skater.grind_rail
+		if r.name in d.get("rails", []) or (d.has("tag") and r.tag == String(d["tag"])):
+			if skater.grind_t >= float(d.get("time", 1.0)):
+				_complete(g["id"])
+
+
+# ------------------------------------------------------------------ level select / switching
+
+func open_level_select() -> void:
+	## The start screen's level select (its own scene: scenes/level_select.tscn).
+	if switching:
+		return
+	var ls := LEVEL_SELECT.instantiate()
+	add_child(ls)
+	menus.hide_all()
+	ls.open(level.level_id)
+	var pick: String = await ls.closed
+	if pick != "" and pick != level.level_id:
+		await switch_level(pick, ls)
+	ls.queue_free()
+	_show_start()
+
+
+func switch_level(id: String, screen: Node = null) -> bool:
+	## Frees the current level and loads `id` (fetching its web pack first if it has one).
+	## Everything else (skater, camera, HUD, menus) stays as it is.
+	if not LevelRegistry.has(id) or switching:
+		return false
+	switching = true
+	if not LevelRegistry.available(id):
+		var ok: bool = await LevelRegistry.fetch_pack(id, self, func(got, total):
+			if is_instance_valid(screen) and screen.has_method("progress"):
+				screen.progress(got, total))
+		if not ok:
+			switching = false
+			hud.flash("COULD NOT LOAD", String(LevelRegistry.game(id).get("name", id)), 2.5)
+			return false
+	running = false
+	ending = false
+	score.reset()
+	level.load_level(id)
+	_apply_level_look()
+	_make_goals()
+	hud.set_goals(goals)
+	hud.set_letters(letters)
+	stats = {"tricks": 0, "bails": 0, "longest_grind": 0.0}
+	time_left = RUN_TIME
+	skater.spawn(level.spawn_pos, level.spawn_forward)
+	cam.snap()
+	level.warm_up(cam.global_position, -cam.global_basis.z)
+	await _compile_unpaused()
+	switching = false
+	print("[level] %s loaded" % id)
+	return true
+
+
+func _compile_unpaused() -> void:
+	## In Chrome on Windows (ANGLE on Direct3D 11), the first frames the game runs unpaused
+	## build about 50 more shader executables than the paused start screen does: a 20 s
+	## freeze on a first visit (before the browser has them cached), in the first frame of the
+	## first run. Run a few frames unpaused behind the start or loading screen instead, with
+	## the skater held at its spawn. (Measured: tests/results/bench_levels_1080p.jsonl.)
+	if not OS.has_feature("web") or not get_tree().paused:
+		return
+	get_tree().paused = false
+	for i in 3:
+		await get_tree().process_frame
+	if not running:
+		get_tree().paused = true
+		skater.spawn(level.spawn_pos, level.spawn_forward)
+		cam.snap()
+
+
+func _env_snapshot() -> Dictionary:
+	var e: Environment = env.environment
+	return {"ambient_color": e.ambient_light_color, "ambient_energy": e.ambient_light_energy, "fog_color": e.fog_light_color,
+			"fog_density": e.fog_density, "exposure": e.tonemap_exposure, "background": e.background_color,
+			"sun_color": sun.light_color, "sun_energy": sun.light_energy}
+
+
+func _apply_level_look() -> void:
+	## The sun matches the level's bake; the level can tune the ambient, fog, exposure and
+	## sun (levels/<id>/level.json "environment"; the Warehouse keeps main.tscn's values).
+	sun.look_at_from_position(Vector3.ZERO, level.sun_dir, Vector3.UP if absf(level.sun_dir.y) < 0.99 else Vector3.FORWARD)
+	var o: Dictionary = level.game.get("environment", {})
+	var e: Environment = env.environment
+	var c := func(k: String) -> Color:
+		var a: Array = o[k]
+		return Color(a[0], a[1], a[2])
+	e.ambient_light_color = c.call("ambient_color") if o.has("ambient_color") else _env_default["ambient_color"]
+	e.ambient_light_energy = float(o.get("ambient_energy", _env_default["ambient_energy"]))
+	e.fog_light_color = c.call("fog_color") if o.has("fog_color") else _env_default["fog_color"]
+	e.fog_density = float(o.get("fog_density", _env_default["fog_density"]))
+	e.tonemap_exposure = float(o.get("exposure", _env_default["exposure"]))
+	e.background_color = c.call("background") if o.has("background") else _env_default["background"]
+	sun.light_color = c.call("sun_color") if o.has("sun_color") else _env_default["sun_color"]
+	sun.light_energy = float(o.get("sun_energy", _env_default["sun_energy"]))

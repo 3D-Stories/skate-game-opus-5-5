@@ -1,0 +1,27 @@
+Full headless rebuild from scratch: blender --background --python blender/build_all.py
+in a clean copy of the new-level worktree (no blender/work), 2026-09-26T17:22:32-06:00 to 2026-09-26T17:36:58-06:00
+[build_all] pickups done 0s
+[build_all] board done 1s
+[build_all] skater done 98s
+[build_all] park done 227s
+[build_all] level baths done 394s
+[build_all] renders done 780s
+[build_all] baths renders done 865s
+[build_all] finished in 865s
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 14:25.82
+exit 0
+
+rebuilt vs committed (sha256, first 16 hex):
+  assets/board.glb  byte-identical  (committed 64340a4cedb0c0ef, rebuilt 64340a4cedb0c0ef)
+  assets/pickups.glb  byte-identical  (committed e4f2b4cfc4617d65, rebuilt e4f2b4cfc4617d65)
+  assets/skater.glb  byte-identical  (committed 3bc35535c0315e9a, rebuilt 3bc35535c0315e9a)
+  assets/park.glb  byte-identical  (committed 62cfa112c9675cb7, rebuilt 62cfa112c9675cb7)
+  assets/park_data.json  byte-identical  (committed 58a2b3496db4a4d0, rebuilt 58a2b3496db4a4d0)
+  assets/park_lightmap.png  differs  (committed 7b23ee7de8dc1ffd, rebuilt 57dceafe3cbb877e)
+  assets/levels/baths/baths.glb  byte-identical  (committed e29018dbf7b3c533, rebuilt e29018dbf7b3c533)
+  assets/levels/baths/baths_data.json  byte-identical  (committed 0b3556ca7f399906, rebuilt 0b3556ca7f399906)
+  assets/levels/baths/baths_lightmap.png  differs  (committed 6d3fb7828d089c3e, rebuilt 5f2a28713854845a)
+  park_lightmap.png: 1218 of 4194304 texels differ (0.029%), max 2/255 (GPU bake noise)
+  PASS  baths.glb: byte-identical (32930144 bytes)
+  PASS  baths_data.json: byte-identical (21636 bytes)
+  PASS  baths_lightmap.png: 618 of 4194304 texels differ (0.015%), max 1/255 - GPU path-tracing noise level (limit 4/255 on 0.2%)

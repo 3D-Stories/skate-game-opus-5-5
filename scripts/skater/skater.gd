@@ -356,7 +356,7 @@ func _ground(h: float) -> void:
 	if manual == "" and input_vec.y < -0.5 and crouch_t <= 0.0 and up.y > 0.8:
 		vel = vel.move_toward(Vector3.ZERO, BRAKE * h)
 	# rolling resistance + drag (less on smooth wood)
-	var fr := ROLL_FRICTION * (0.7 if surface == "wood" else 1.0)
+	var fr := ROLL_FRICTION * (0.7 if surface == "wood" or surface == "pool" else 1.0)
 	speed = vel.length()
 	vel = vel.move_toward(Vector3.ZERO, (fr + DRAG * speed * speed) * h)
 	# steering: carve around the surface normal
@@ -379,7 +379,7 @@ func _ground(h: float) -> void:
 	if col.size() > 0:
 		var n: Vector3 = col["normal"]
 		if col.has("collider") and col["collider"] and col["collider"].has_meta("breakable") and vel.length() > 3.5:
-			level.break_wall()
+			level.break_wall(col["collider"])
 			global_position += motion
 		elif n.dot(up) < 0.55:
 			var into := -vel.dot(n)
@@ -456,7 +456,7 @@ func _drop_in() -> bool:
 	if r.is_empty():
 		return false
 	var n: Vector3 = r["normal"]
-	if n.dot(hd) < 0.6 or n.y > 0.5 or level.surface_of(r["collider"]) != "wood":
+	if n.dot(hd) < 0.6 or n.y > 0.5 or not level.is_ramp(r["collider"]):
 		return false
 	var sp := maxf(vel.length(), 1.5)
 	up = n.normalized()
@@ -585,7 +585,7 @@ func _air(h: float) -> void:
 			var reach := vel * 0.3
 			var q := PhysicsRayQueryParameters3D.create(global_position, global_position + reach, 1)
 			var lh := get_world_3d().direct_space_state.intersect_ray(q)
-			if not lh.is_empty() and level.surface_of(lh["collider"]) == "wood":
+			if not lh.is_empty() and level.is_ramp(lh["collider"]):
 				var ln: Vector3 = lh["normal"]
 				if ln.dot(vert_normal) > 0.3 and ln.y > 0.05:
 					var k := clampf(1.0 - (lh["position"] - global_position).length() / maxf(reach.length(), 0.01), 0.0, 1.0)
@@ -624,11 +624,11 @@ func _air(h: float) -> void:
 		var n: Vector3 = col["normal"]
 		var c: Object = col.get("collider")
 		if c and c.has_meta("breakable") and vel.length() > 3.0:
-			level.break_wall()
+			level.break_wall(c)
 			global_position += motion
 			return
 		var into := -vel.normalized().dot(n)
-		var ramp := level.surface_of(c) == "wood"
+		var ramp := level.is_ramp(c)
 		var landable := n.y > 0.5 or (vert_air and ramp and absf(n.y) < 0.9 and vel.y < 0.0 and n.dot(vert_normal) > 0.5)
 		if n.y > 0.2 and into > 0.05 and not vert_air:
 			landable = true

@@ -1,4 +1,7 @@
-"""Original graffiti for the Warehouse, drawn in code (no downloaded art or fonts).
+"""Original graffiti and signage, drawn in code (no downloaded art or fonts).
+
+The module-level CELLS / PIECES / PLACEMENTS / SIGN are the Warehouse's; other levels pass
+their own (from their level definition) to build() - see levelkit/level.py.
 
 Every piece is laid out from Blender text curves (Blender's built-in font) with per-letter
 jitter, stacked outline layers, a 3D block shadow, disc "clouds" behind throw-ups, stars
@@ -395,6 +398,27 @@ def draw_stencil(cv, P):
     ob.data.space_character = 1.12
 
 
+def draw_sign(cv, P):
+    """Painted signage (not graffiti): a panel with a border and one or more centred lines of
+    capitals, e.g. a baths' name board or a NO DIVING plate. P: lines, color (text), panel,
+    border, size (text height, panel units), aspect (panel width / height)."""
+    lines = P["text"].split("\n")
+    n = len(lines)
+    size = P.get("size", 0.8)
+    H = size * 1.35 * n + size * 0.7
+    W = H * P.get("aspect", 3.0)
+    b = P.get("border_w", 0.08) * H
+    if P.get("panel") is not None:
+        cv.poly([(-W / 2, -H / 2), (W / 2, -H / 2), (W / 2, H / 2), (-W / 2, H / 2)], P.get("border", P["color"]), 0.0)
+        cv.poly([(-W / 2 + b, -H / 2 + b), (W / 2 - b, -H / 2 + b), (W / 2 - b, H / 2 - b), (-W / 2 + b, H / 2 - b)],
+                P["panel"], 0.1)
+    for i, line in enumerate(lines):
+        y = (n - 1) * size * 0.675 - i * size * 1.35
+        ob = cv.text(line, size * P.get("scale", [1.0] * n)[i] if isinstance(P.get("scale"), list) else size, 0.0,
+                     P.get("bold", 0.02), P["color"], loc=(0, y, 1.0 + 0.01 * i))
+        ob.data.space_character = P.get("spacing", 1.05)
+
+
 def draw_smiley(cv, P):
     cv.disc((0, 0), 1.0, (0.02, 0.02, 0.02), 0.0)
     cv.disc((0, 0), 0.9, P["color"], 0.1)
@@ -465,15 +489,93 @@ def spray(img, seed, drips=True, wear=0.3, stencil=False):
     return np.concatenate([np.clip(rgb, 0, 1), np.clip(a, 0, 1)[..., None]], -1)
 
 
+# ------------------------------------------------------------------ grime (numpy, no text)
+
+GRIME_STYLES = ("stain", "ring", "streaks", "leaves")
+
+
+def _smooth(e0, e1, x):
+    t = np.clip((x - e0) / (e1 - e0), 0, 1)
+    return t * t * (3 - 2 * t)
+
+
+def draw_grime(w, h, P):
+    """Dirt for abandoned places, straight into an RGBA array: "stain" (a soft irregular
+    blotch), "ring" (a ring stain round a drain), "streaks" (rust / dirt runs down from the
+    top edge), "leaves" (scattered dead leaves, clustered)."""
+    st, seed = P["style"], P["seed"]
+    r = C.rng(seed)
+    n = max(w, h)
+    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+    u, v = (xx + 0.5) / w * 2 - 1, (yy + 0.5) / h * 2 - 1
+    col = np.array(P.get("color", (0.2, 0.16, 0.12)), np.float32)
+    nz = C.resize(C.value_noise(256, 5, seed, 4)[..., None], n)[:h, :w, 0]
+    fine = C.resize(C.value_noise(256, 24, seed + 7, 2)[..., None], n)[:h, :w, 0]
+    rgb = np.broadcast_to(col, (h, w, 3)).copy()
+    if st == "stain":
+        d = np.sqrt(u * u + v * v) + (nz - 0.5) * 0.9
+        a = (1 - _smooth(0.35, 0.95, d)) * (0.55 + 0.45 * fine)
+        a *= P.get("alpha", 0.6)
+        rgb *= (0.7 + 0.6 * nz)[..., None]
+    elif st == "ring":
+        d = np.sqrt(u * u + v * v) + (nz - 0.5) * 0.25
+        a = np.exp(-((d - 0.55) / 0.16) ** 2) * 0.8 + (1 - _smooth(0.0, 0.45, d)) * 0.35
+        a *= (0.6 + 0.4 * fine) * P.get("alpha", 0.65)
+        rgb *= (0.75 + 0.5 * fine)[..., None]
+    elif st == "streaks":
+        a = np.zeros((h, w), np.float32)
+        for _ in range(int(P.get("count", 14))):
+            x0 = r.uniform(0.05, 0.95) * w
+            wd = r.uniform(0.006, 0.03) * w
+            ln = r.uniform(0.3, 1.0) * h
+            prof = np.exp(-((xx - x0 - (nz - 0.5) * wd * 3) / wd) ** 2)
+            fall = np.clip(1 - yy / ln, 0, 1) ** 0.8
+            a = np.maximum(a, prof * fall * r.uniform(0.5, 1.0))
+        a *= (0.6 + 0.4 * fine) * P.get("alpha", 0.7)
+        rgb *= (0.8 + 0.4 * nz)[..., None]
+    elif st == "leaves":
+        a = np.zeros((h, w), np.float32)
+        palette = np.array(P.get("palette", [(0.42, 0.28, 0.12), (0.55, 0.4, 0.16), (0.3, 0.2, 0.1), (0.5, 0.33, 0.18)]), np.float32)
+        dens = nz
+        for _ in range(int(P.get("count", 260))):
+            cx, cy = r.uniform(0, w), r.uniform(0, h)
+            if r.random() > dens[int(cy) % h, int(cx) % w] ** 1.5 * 1.8:
+                continue
+            L = r.uniform(0.012, 0.03) * n
+            W = L * r.uniform(0.35, 0.55)
+            t = r.uniform(0, np.pi)
+            dx, dy = xx - cx, yy - cy
+            pu = dx * np.cos(t) + dy * np.sin(t)
+            pv = -dx * np.sin(t) + dy * np.cos(t)
+            m = np.clip(1.4 - np.sqrt((pu / L) ** 2 + (pv / W) ** 2) * 1.4, 0, 1)
+            m = np.clip(m * 3, 0, 1)
+            sel = m > a
+            c = palette[int(r.integers(0, len(palette)))] * r.uniform(0.75, 1.15)
+            # a darker midrib
+            rib = np.exp(-(pv / (W * 0.12)) ** 2) * (np.abs(pu) < L * 0.9)
+            rgb[sel] = (c[None, :] * (1 - 0.35 * rib[sel][:, None]))
+            a = np.maximum(a, m)
+        a *= P.get("alpha", 0.95)
+    a *= 1 - _smooth(0.92, 1.0, np.maximum(np.abs(u), np.abs(v)))   # nothing at the cell edges
+    return np.concatenate([np.clip(rgb, 0, 1), np.clip(a, 0, 1)[..., None]], -1)
+
+
 # ------------------------------------------------------------------ atlas + decals
 
-def build_atlas():
+def build_atlas(cells=None, pieces=None, name="park_graffiti", atlas_px=None):
+    cells = CELLS if cells is None else cells
+    pieces = PIECES if pieces is None else pieces
+    atlas_px = ATLAS if atlas_px is None else atlas_px
     cv = Canvas()
-    atlas = np.zeros((ATLAS, ATLAS, 4), np.float32)
+    atlas = np.zeros((atlas_px, atlas_px, 4), np.float32)
     tmp = os.path.join(C.WORK, "gfx_tmp.png")
-    for key, (x, y, w, h) in CELLS.items():
-        P = PIECES[key]
+    for key, (x, y, w, h) in cells.items():
+        P = pieces[key]
         st = P["style"]
+        if st in GRIME_STYLES:
+            atlas[y:y + h, x:x + w] = draw_grime(w, h, P)
+            print(f"[graffiti] {key}")
+            continue
         if st == "piece":
             draw_piece(cv, P)
         elif st == "banner":
@@ -486,22 +588,26 @@ def build_atlas():
             draw_stencil(cv, P)
         elif st == "smiley":
             draw_smiley(cv, P)
-        img = cv.render(w, h, tmp, margin=1.12 if st != "banner" else 1.04)
-        img = spray(img, P["seed"], drips=st not in ("smiley",), wear=0.35 if st != "stencil" else 0.5,
-                    stencil=st == "stencil")
+        elif st == "sign":
+            draw_sign(cv, P)
+        img = cv.render(w, h, tmp, margin=P.get("margin", 1.12 if st != "banner" else 1.04))
+        img = spray(img, P["seed"], drips=P.get("drips", st not in ("smiley", "sign")),
+                    wear=P.get("wear", 0.35 if st != "stencil" else 0.5), stencil=st == "stencil")
         atlas[y:y + h, x:x + w] = img
         cv.clear()
         print(f"[graffiti] {key}")
     cv.free()
     if os.path.exists(tmp):
         os.remove(tmp)
-    img = C.save_png(atlas, "park_graffiti")
-    m = C.pbr_material("park_graffiti", base=img, roughness=0.72, alpha='texture')
+    img = C.save_png(atlas, name)
+    m = C.pbr_material(name, base=img, roughness=0.72, alpha='texture')
     return m
 
 
-def _quad(key, center, normal, width, roll):
-    x, y, w, h = CELLS[key]
+def _quad(key, center, normal, width, roll, cells=None, atlas_px=None):
+    cells = CELLS if cells is None else cells
+    A = ATLAS if atlas_px is None else atlas_px
+    x, y, w, h = cells[key]
     n = Vector(normal).normalized()
     up = Vector((0, 0, 1))
     right = (-n).cross(up).normalized()
@@ -511,8 +617,8 @@ def _quad(key, center, normal, width, roll):
     c = Vector(center)
     pts = [c - right * width / 2 - up * hh / 2, c + right * width / 2 - up * hh / 2,
            c + right * width / 2 + up * hh / 2, c - right * width / 2 + up * hh / 2]
-    u0, u1 = x / ATLAS, (x + w) / ATLAS
-    v1, v0 = 1 - y / ATLAS, 1 - (y + h) / ATLAS
+    u0, u1 = x / A, (x + w) / A
+    v1, v0 = 1 - y / A, 1 - (y + h) / A
     uvs = [(u0, v0), (u1, v0), (u1, v1), (u0, v1)]
     return pts, uvs
 
@@ -535,9 +641,13 @@ def _decal_object(name, quads, mat, coll):
     return ob
 
 
-def build(coll):
-    """Returns (walls_decal_object, breakable_sign_object)."""
-    mat = build_atlas()
-    decals = _decal_object("Park_graffiti", [_quad(*p) for p in PLACEMENTS], mat, coll)
-    sign = _decal_object("BreakWall_sign", [_quad(*SIGN)], mat, coll)
-    return decals, sign
+def build(coll, cells=None, pieces=None, placements=None, sign=None, name="park_graffiti",
+          object_name="Park_graffiti", sign_name="BreakWall_sign", atlas_px=None):
+    """Returns (walls_decal_object, breakable_sign_object or None). With no arguments it
+    builds the Warehouse's atlas and decals."""
+    if cells is None:
+        cells, pieces, placements, sign = CELLS, PIECES, PLACEMENTS, SIGN
+    mat = build_atlas(cells, pieces, name, atlas_px)
+    decals = _decal_object(object_name, [_quad(*p, cells=cells, atlas_px=atlas_px) for p in placements], mat, coll)
+    so = _decal_object(sign_name, [_quad(*sign, cells=cells, atlas_px=atlas_px)], mat, coll) if sign else None
+    return decals, so

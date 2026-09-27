@@ -1,0 +1,21 @@
+Pro Skater level select tests  2026-09-26T17:22:43
+PASS  levels come from levels/registry.json; the Warehouse is the default  [["warehouse", "baths"]]
+PASS  the game starts on the Warehouse, at the start screen  [21 grind lines, 5 windows, goals ["score", "skate", "tape", "rafters", "windows"]]
+PASS  the start screen names the level and offers the level select  [PRO SKATER: THE WAREHOUSE |  | KEYBOARD | GAMEPAD | Steer  /  push (Up)  /  brake (Down) | ...  Break the 5 Windows |  | LEVEL   THE WAREHOUSE   (TAB / SELECT: choose a level) | PRESS ENTER / A TO SKATE | ]
+PASS  keyboard: Tab opens the level select, one card per level, on the current one  [2 cards, selected warehouse]
+PASS  every card lists its level's goals  [all listed]
+PASS  the current level's card is tagged PLAYING NOW and DEFAULT  [PLAYING NOW  DEFAULT]
+PASS  keyboard: Right selects the next card (Eastside Baths)  [selected baths]
+PASS  keyboard: Left goes back  [selected warehouse]
+PASS  keyboard: Enter loads Eastside Baths (its goals on the HUD, the Warehouse freed)  [goals ["score", "skate", "tape", "signs", "deep_coping", "high_dive"], 26 grind lines, 45 meshes (Warehouse 37)]
+PASS  back at the start screen, which names Eastside Baths  [PRO SKATER: EASTSIDE BATHS |  | KEYBOARD | GAMEPAD | Steer  /  push (Up)  /  brake (Down) | W A S D  or  arrow keys | Le]
+PASS  Enter starts a run on Eastside Baths at its spawn  [(-14.8, 4.2, 1.0)]
+PASS  the run ends at the buzzer (end screen)
+PASS  Enter on the end screen restarts on the same level
+PASS  gamepad: Select opens the level select (on the current level)  [baths]
+PASS  gamepad: the left stick moves the selection  [selected warehouse]
+PASS  gamepad: the D-pad moves the selection  [selected baths]
+PASS  gamepad: B closes it without a change (still on Eastside Baths, start screen)
+PASS  keyboard: Tab opens it again, Esc closes it without a change  [opened true, open after Esc false, level baths]
+PASS  gamepad: D-pad left + A switch back; the Warehouse loads exactly as at startup  [data, 21 grind lines, 5 windows, spawn, goals ["score", "skate", "tape", "rafters", "windows"]]
+19 passed, 0 failed

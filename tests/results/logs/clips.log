@@ -3,7 +3,7 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
 [run] started
 [run] started
-Pro Skater clips in real gameplay  2026-09-26T01:56:38
+Pro Skater clips in real gameplay  2026-09-26T17:23:05
 PASS  autopilot test run finished and reported its clips: score=69043 goals=[["score", true], ["skate", true], ["tape", true], ["rafters", true], ["windows", true]]
 PASS  tests/test_flow.gd ran (24 passed, 0 failed) and reported its clips
 PASS  Enter on the start screen starts the run (injected-input part)
@@ -30,7 +30,7 @@ PASS  land        plays in real gameplay - autopilot run x33; test_flow x1; inje
 PASS  bail        plays in real gameplay - test_flow x2; injected input: late kickflip on a small ollie, landed mid-flip -> bail (reason 'mid-trick') (21 frames on screen)
 PASS  special     plays in real gameplay - autopilot run x5; injected input: halfpipe vert airs with tricks until the special meter is full (after 9 airs), then Left, Right + Flip (47 frames on screen, game announced 'Tiger Claw Tre')
 PASS  ride_fakie  plays in real gameplay - autopilot run x1; injected input: ollie with a 180 (E held), landed fakie and coasting (fakie=true) (10 frames on screen)
-PASS  getup       plays in real gameplay - test_flow x1; injected input: after that bail the ragdoll settles, then the matching getup ('getup': from the back) brings the skater back onto the board (8 frames on screen)
+PASS  getup       plays in real gameplay - test_flow x1; injected input: after that bail the ragdoll settles, then the matching getup ('getup_front': from face down) brings the skater back onto the board [the face-down variant 'getup_front' played this time] (8 frames on screen)
 PASS  every required clip also played from injected keyboard / gamepad input alone (24/24)
 28 passed, 0 failed
 

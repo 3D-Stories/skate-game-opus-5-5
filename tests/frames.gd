@@ -7,13 +7,15 @@ extends SceneTree
 ## `--every` frames and whenever a detector flags it; report.json lists the flags.
 ##
 ##   godot --path . --fixed-fps 60 --resolution 1920x1080 -s tests/frames.gd -- --autopilot=run --segment=windows
+##   ... -- --level=baths --autopilot=run --segment=boiler   (another level: its test.segments)
 ##   ... -- --autopilot=run --from=22 --to=31 [--every=2] [--out=/tmp/skate-work/frames/x]
 ##   ... -- --autopilot=run --segment=all --every=6          (the whole run, 10 images a second)
 ##   python3 tests/frames_sheet.py /tmp/skate-work/frames/windows [--flagged | --from 24 --to 26]
 ##
 ## Detectors (per frame, see _detect): the camera jumping (a pop), inside or right up against
-## geometry (near-plane clipping), the skater hidden by the camera's failsafe or out of view
-## behind something for 8+ frames. The whole run measured, one image in six: about 4 minutes.
+## geometry (near-plane clipping), outside the level (a kit level's hall and rooms: past a
+## wall or a roof), the skater hidden by the camera's failsafe or out of view behind
+## something for 8+ frames. The whole run measured, one image in six: about 4 minutes.
 
 const RAG_T := preload("res://tests/test_ragdoll.gd")      # depth_inside()
 ## autopilot run time (s) of each named stretch
@@ -44,6 +46,8 @@ var flags: Array = []
 var _last_cam: Transform3D
 var _have_last := false
 var _hidden_run := 0
+var _vol: Dictionary = {}    # where the camera may be (a kit level: its hall, vault, pool and rooms)
+var _vol_set := false
 var _blocked_run := 0
 
 
@@ -61,9 +65,18 @@ func _initialize() -> void:
 			every = maxi(1, int(a.get_slice("=", 1)))
 		elif a.begins_with("--out="):
 			out = a.get_slice("=", 1)
-	if SEGMENTS.has(seg_name):
-		t_from = SEGMENTS[seg_name][0]
-		t_to = SEGMENTS[seg_name][1]
+	# the Warehouse's stretches are above; any other level names its own in
+	# levels/<id>/level.json "test": "segments" (run times of its autopilot route)
+	var segs: Dictionary = SEGMENTS
+	var lid := LevelRegistry.startup_id()
+	if lid != "warehouse":
+		segs = LevelRegistry.def(lid).get("test", {}).get("segments", {}).duplicate()
+		segs["all"] = [0.0, 121.0]
+	if segs.has(seg_name):
+		t_from = segs[seg_name][0]
+		t_to = segs[seg_name][1]
+		if lid != "warehouse":
+			seg_name = lid + "_" + seg_name
 	if out == "":
 		out = "/tmp/skate-work/frames/" + seg_name
 	DirAccess.make_dir_recursive_absolute(out)
@@ -133,8 +146,12 @@ func _measure(t: float) -> Dictionary:
 		drot = rad_to_deg(cam.global_basis.get_rotation_quaternion().angle_to(_last_cam.basis.get_rotation_quaternion()))
 	_last_cam = cam.global_transform
 	_have_last = true
+	if not _vol_set:
+		_vol_set = true
+		_vol = level_volume(main.level.data)
+	var outside := not _vol.is_empty() and not inside_level(_vol, cp)
 	var rec := {
-		"frame": frame, "t": snappedf(t, 0.001), "state": sk.state, "rail": (str(sk.grind_rail.name) if sk.grind_rail else ""),
+		"frame": frame, "t": snappedf(t, 0.001), "outside": outside, "state": sk.state, "rail": (str(sk.grind_rail.name) if sk.grind_rail else ""),
 		"sk": _v(sk.global_position), "vel": snappedf(sk.vel.length(), 0.01), "cam": _v(cp), "cam_fwd": _v(-cam.global_basis.z),
 		"cam_head": snappedf(cp.distance_to(head), 0.01), "model_visible": sk.model.visible,
 		"near_surface": snappedf(near_d, 0.001), "near_what": near_what, "cam_inside": snappedf(inside["depth"], 0.001),
@@ -153,6 +170,8 @@ func _detect(rec: Dictionary) -> void:
 		why.append("camera pop (%.2f m, %.1f deg)" % [rec["dpos"], rec["drot"]])
 	if rec["cam_inside"] > 0.0:
 		why.append("camera inside geometry (%.2f m)" % rec["cam_inside"])
+	if rec["outside"]:
+		why.append("camera outside the level (%s)" % str(rec["cam"]))
 	if rec["near_surface"] < 0.12:
 		why.append("camera %.3f m from %s (near-plane clipping)" % [rec["near_surface"], rec["near_what"]])
 	_hidden_run = _hidden_run + 1 if not rec["model_visible"] else 0
@@ -164,6 +183,52 @@ func _detect(rec: Dictionary) -> void:
 	if not why.is_empty():
 		rec["flags"] = why
 		flags.append({"frame": rec["frame"], "t": rec["t"], "why": why})
+
+
+static func level_volume(d: Dictionary) -> Dictionary:
+	## A kit-built level's open volume from its data: the hall box (to the spring of its
+	## vault, whose arc is followed above that), the pools below the deck and the hidden
+	## rooms. The Warehouse's data has no "hall" (test_camera_run.gd checks its bounds).
+	if not d.has("hall"):
+		return {}
+	var lo := Vector3(d["hall"]["min"][0], d["hall"]["min"][1], d["hall"]["min"][2])
+	var hi := Vector3(d["hall"]["max"][0], d["hall"]["max"][1], d["hall"]["max"][2])
+	var v := {"hall": AABB(lo, hi - lo), "vault": d.get("vault", {}), "pools": [], "rooms": []}
+	for bw in d.get("bowls", []):
+		var a := Vector3(bw["rect"][0][0], 0.0, bw["rect"][0][2])
+		var b := Vector3(bw["rect"][1][0], 0.0, bw["rect"][1][2])
+		var deep := 0.0
+		for k in bw["depth"]:
+			deep = maxf(deep, float(k[1]))
+		v["pools"].append(AABB(Vector3(minf(a.x, b.x), -deep, minf(a.z, b.z)), Vector3(absf(b.x - a.x), deep, absf(b.z - a.z))))
+	for ha in d.get("hidden_areas", []):
+		var a := Vector3(ha["min"][0], ha["min"][1], ha["min"][2])
+		var b := Vector3(ha["max"][0], ha["max"][1], ha["max"][2])
+		v["rooms"].append(AABB(a.min(b), (b - a).abs()))
+	return v
+
+
+static func inside_level(v: Dictionary, p: Vector3) -> bool:
+	for r in v["rooms"]:
+		if (r as AABB).grow(0.02).has_point(p):
+			return true
+	var h: AABB = v["hall"]
+	if p.x < h.position.x - 0.02 or p.x > h.end.x + 0.02 or p.z < h.position.z - 0.02 or p.z > h.end.z + 0.02:
+		return false
+	if p.y < h.position.y:
+		return v["pools"].any(func(b: AABB): return b.grow(0.02).has_point(p))
+	if p.y <= h.end.y:
+		return true
+	var vt: Dictionary = v["vault"]
+	if vt.is_empty():
+		return false
+	# the barrel vault spans the hall's width (x) from its spring to the crown (rise)
+	var sp := h.size.x * 0.5
+	var rise := float(vt["rise"])
+	var R := (sp * sp + rise * rise) / (2.0 * rise)
+	var yc := float(vt["spring"]) + rise - R
+	var dx := p.x - (h.position.x + sp)
+	return p.y <= yc + sqrt(maxf(0.0, R * R - dx * dx)) + 0.02
 
 
 func _v(v: Vector3) -> Array:

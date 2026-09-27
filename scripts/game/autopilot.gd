@@ -1,7 +1,7 @@
 extends Node
 ## Demo / test driver: plays the two-minute run through the same input interface a
-## player uses (pressed / just_pressed / stick), following the route in
-## autopilot_route.gd. It never moves the skater directly - every jump, trick, grind and
+## player uses (pressed / just_pressed / stick), following the level's route
+## (autopilot_route.gd for the Warehouse, levels/<id>/autopilot_route.gd for the others). It never moves the skater directly - every jump, trick, grind and
 ## push goes through the skater's normal input handling and physics.
 ##
 ##   godot --headless --path . --fixed-fps 60 -- --autopilot=test   (prints a report, quits)
@@ -25,7 +25,10 @@ var _unstick_t := 0.0
 func setup(m: Node) -> void:
 	main = m
 	skater = m.skater
-	route = preload("res://scripts/game/autopilot_route.gd").route()
+	# each level has its own route (levels/<id>/level.json "autopilot"; the Warehouse's is
+	# scripts/game/autopilot_route.gd)
+	var rp := String(m.level.game.get("autopilot", "res://scripts/game/autopilot_route.gd"))
+	route = load(rp).route()
 	verbose = OS.get_cmdline_user_args().has("--verbose")
 
 

@@ -5,6 +5,7 @@
     renders/skater_trick.png / _sheet.png / _turntable.mp4   (mid-kickflip, board flipping)
     renders/board.png / _sheet.png / _turntable.mp4
     renders/park.png / _sheet.png / _turntable.mp4          (high three-quarter cutaway)
+    renders/<id>.png / _sheet.png / _turntable.mp4          (each kit-built level, render_level)
 
 Each asset is loaded from the .blend its build step saved in blender/work/, so these are
 the exact meshes, rig, clips and materials that were exported to assets/.
@@ -440,6 +441,29 @@ def render_park():
     cam, piv = orbit_camera(target, 78.0, 42.0, -35.0, 30)
     cam.data.clip_end = 400
     turntable("park", piv, tile_res=(640, 360), mp4_res=(960, 540))
+
+
+def render_level(level_id):
+    """A kit-built level (levels/<id>/level.json "render": target, dist, elev, az, lens, cut_z,
+    samples, exposure in stops): renders/<id>.png (high three-quarter cutaway), _sheet.png and _turntable.mp4,
+    lit by the level's own lights and sky exactly as its lightmap bake."""
+    import json
+    with open(os.path.join(C.PROJECT_DIR, "levels", level_id, "level.json")) as f:
+        rs = json.load(f)["build"].get("render", {})
+    open_blend(level_id)
+    scn = settings(rs.get("samples", 160), (1920, 1080))
+    scn.cycles.max_bounces = 6
+    scn.view_settings.exposure = rs.get("exposure", 0.0)
+    for o in bpy.data.objects:
+        if o.name.startswith("COL_"):
+            o.hide_render = True
+    mats = {s.material for o in bpy.data.objects if o.type == 'MESH' for s in o.material_slots}
+    _cutaway(mats, cut_z=rs.get("cut_z"))
+    _studio_backdrop(bpy.context.scene.world)
+    cam, piv = orbit_camera(tuple(rs.get("target", (0.0, 0.0, 0.0))), rs.get("dist", 60.0), rs.get("elev", 42.0),
+                            rs.get("az", -35.0), rs.get("lens", 30))
+    cam.data.clip_end = 400
+    turntable(level_id, piv, tile_res=(640, 360), mp4_res=(960, 540))
 
 
 def build():

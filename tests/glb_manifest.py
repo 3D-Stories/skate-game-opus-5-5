@@ -101,13 +101,18 @@ def manifest_glb(path):
 BLENDER_IMAGES = {"park_lightmap.png"}   # loose images written by the Blender build (the rest are Godot extractions)
 
 
+def blender_image(f):
+    ## (and every kit-built level's <id>_lightmap.png, in assets/levels/<id>/)
+    return f in BLENDER_IMAGES or f.endswith("_lightmap.png")
+
+
 def manifest_dir(d):
     res = {}
     for f in sorted(os.listdir(d)):
         p = os.path.join(d, f)
         if f.endswith(".glb"):
             res[f] = manifest_glb(p)
-        elif f.endswith(".json") or f in BLENDER_IMAGES:
+        elif f.endswith(".json") or blender_image(f):
             res[f] = {"sha256": hashlib.sha256(open(p, "rb").read()).hexdigest()[:16], "bytes": os.path.getsize(p)}
     return res
 
@@ -206,7 +211,7 @@ def check(dir_a, dir_b, label_a="live", label_b="headless"):
         if A[f].get("sha256") == B[f].get("sha256"):
             lines.append(f"PASS  {f}: byte-identical ({A[f]['bytes']} bytes)")
             continue
-        if f in BLENDER_IMAGES:
+        if blender_image(f):
             # a GPU path-traced bake is not bit-exact run to run: compare texels
             from PIL import Image, ImageChops
             ia = Image.open(os.path.join(dir_a, f)).convert("RGB")

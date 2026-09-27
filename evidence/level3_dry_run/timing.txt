@@ -1,0 +1,10 @@
+scaffold+build 79 s, import 9 s, test 18 s
+yard_build1.log:[levelkit] yard: geometry + data in 17s (11 meshes, 4 collision sets, 11 grind lines, 7 breakable nodes)
+yard_build1.log:[levelkit] yard: baked in 95s
+yard_build1.log:[levelkit] yard: done in 102s
+yard_build2.log:[levelkit] yard: geometry + data in 16s (11 meshes, 4 collision sets, 11 grind lines, 7 breakable nodes)
+yard_build2.log:[levelkit] yard: baked in 71s
+yard_build2.log:[levelkit] yard: done in 78s
+iteration 3 (brighter starter lighting): [levelkit] yard: geometry + data in 15s (12 meshes, 4 collision sets, 11 grind lines, 7 breakable nodes)
+iteration 3 (brighter starter lighting): [levelkit] yard: baked in 63s
+iteration 3 (brighter starter lighting): [levelkit] yard: done in 70s

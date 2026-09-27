@@ -1,0 +1,19 @@
+{
+ "every": 6,
+ "flagged_frames": 0,
+ "flags": [],
+ "from": 0.0,
+ "measured_frames": 7201,
+ "saved_frames": 1200,
+ "segment": "baths_all",
+ "to": 121.0,
+ "summary": {
+  "outside_frames": 0,
+  "max_cam_step_m": 0.375,
+  "max_cam_turn_deg": 5.95,
+  "nearest_surface_m": 0.241,
+  "skater_hidden_frames": 0,
+  "los_blocked_frames": 0,
+  "before_fixes": "208 flagged frames (192 skater hidden by the failsafe, 36 pops, near-plane 23, behind the lip 4)"
+ }
+}

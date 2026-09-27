@@ -1,0 +1,4 @@
+{
+ "default": "warehouse",
+ "levels": ["warehouse", "baths"]
+}

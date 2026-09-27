@@ -1,0 +1,9 @@
+[ap   2.03] broke Sign_1 (signs 1/5)
+[ap   7.65] GAP High Dive (+500)
+[ap  24.33] broke Sign_3 (signs 2/5)
+[ap  24.75] broke Sign_4 (signs 3/5)
+[ap  28.77] broke Sign_0 (signs 4/5)
+[ap  32.92] GAP Pool Hop (+250)
+[ap  37.97] broke Sign_2 (signs 5/5)
+[ap  38.60] broke grille (grille 1/1)
+[run] finished score=58951 goals=[["score", true], ["skate", true], ["tape", true], ["signs", true], ["deep_coping", true], ["high_dive", true]]

@@ -36,6 +36,8 @@ var opts: Dictionary = {}
 var secs_limit := 0.0
 var reported := false
 var _query := ""
+var _any_last_us := 0
+var _outside: Array = []                  # long frames outside the measured run (loading, start screen)
 
 
 func _ready() -> void:
@@ -114,6 +116,13 @@ func _on_post_draw() -> void:
 	var now := Time.get_ticks_usec()
 	var was := _in_frame
 	_in_frame = false
+	# frames over 100 ms outside the measured run (shader compiles behind a loading or start
+	# screen): not in the run's statistics, but listed in the report
+	var gap := (now - _any_last_us) / 1000.0 if _any_last_us > 0 else 0.0
+	_any_last_us = now
+	if gap > 100.0 and _outside.size() < 24 and not (main.running and not get_tree().paused):
+		_outside.append({"ms": snappedf(gap, 0.1), "paused": get_tree().paused, "switching": main.switching,
+				"t_s": snappedf(now / 1_000_000.0, 0.01), "draws": int(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME))})
 	if not was or not main.running or get_tree().paused or reported:
 		_last_us = 0
 		return
@@ -202,6 +211,8 @@ func report() -> Dictionary:
 				"max_ms": st["max_ms"], "cpu_ms": st["cpu_ms_mean"], "cpu_p95": st["cpu_ms_p95"], "render_submit_ms": st["render_submit_ms_mean"],
 				"draws": st["draw_calls_mean"], "prims": st["primitives_mean"]})
 	rep["sections"] = sections
+	rep["long_frames_outside_run"] = _outside
+	rep["run_start_t_s"] = snappedf(_t0_us / 1_000_000.0, 0.01)
 	# the 12 slowest frames: when, and which phase took the time
 	var order := all.duplicate()
 	order.sort_custom(func(x, y): return _frames[x] > _frames[y])

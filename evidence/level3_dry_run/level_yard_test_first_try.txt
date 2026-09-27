@@ -1,0 +1,39 @@
+PASS  the level loads through LevelRegistry (levels/registry.json -> levels/yard/level.json)  [Harbour Yard, 11 grind lines, 4 breakables]
+PASS  a high-score goal plus at least two goals of the level's own, on one two-minute run  [score, skate, tape, signs, flat_rail, kicker_gap]
+PASS  the run's goal list is built from the level's data  [6 goals]
+PASS  the level select shows a card for every registered level; this level's card lists its goals  [3 cards; all goals listed]
+PASS  scale: the hall floor is at 0 m  [0.00 m (design -0.02..0.02), surface concrete]
+PASS  scale: the hall is 30 m wide  [30.00 m (design 29.8..30.05)]
+PASS  scale: the hall is 40 m long  [40.00 m (design 39.8..40.05)]
+PASS  scale: the roof is 7 m up (the roof mesh)  [7.00 m (design 6.95..7.05)]
+PASS  scale: the drop-in deck is 2.4 m up  [2.40 m (design 2.37..2.43), surface wood]
+PASS  scale: the halfpipe's decks are 3.2 m up  [3.20 m (design 3.17..3.23), surface wood]
+PASS  scale: every rail is 0.25-1.25 m above the ground under it, every ledge an edge with a drop beside it  [8 rails / ledges]
+PASS  scale: the Storeroom doorway fits a skater riding through (>= 1.5 m wide, >= 2.2 m high)  [Storeroom 3.0 x 2.8 m]
+PASS  the level's baked lightmap texture loads  [res://assets/levels/yard/yard_lightmap.png (2048.0, 2048.0)]
+PASS  every lightmapped surface has UV2 in [0,1] and a material sampling the baked lightmap on UV2  [18 meshes / 18 surfaces]
+PASS  lightmap UV islands fit the atlas without gross overlap (total UV2 area)  [0.862 of the 0..1 square]
+FAIL  the bake has light where every lightmapped surface samples it  (Sign_0_face: mean 0.006; Sign_1_face: mean 0.004)
+PASS  every other mesh is an emissive or glass one (lamps, skylights, glazing)  [Yard_frosted]
+PASS  grind lines for rails, ledges and copings  [{ "coping": 3, "ledge": 6, "rail": 2 }]
+PASS  every grind line runs along real geometry (a mesh under 20 samples each)  [11 lines, mean coverage 100%]
+PASS  S-K-A-T-E and the tape each sit in open space above solid ground  [S 1.2 m up, K 1.6 m up, A 1.2 m up, T 1.2 m up, E 1.3 m up, tape 1.2 m up]
+PASS  run started from the start screen (Enter)
+PASS  every grind line is grindable: the grind button snaps the real skater into GRIND on each of the 11  [{ "50-50": 11 }]
+PASS  ride: halfpipe: across and up both walls  [air peak - m, top 2.80 m, low 0.00 m, steepest 89.30 deg, went 4.80 m, end (1.0, 0.0, -12.0), surfaces ["wood"]]
+PASS  ride: drop in off the south deck  [air peak 2.40 m, top 2.40 m, low -0.00 m, steepest 75.11 deg, went 10.90 m, end (0.0, 0.0, 7.7), surfaces ["wood", "concrete"]]
+PASS  ride: kicker launches into the air  [air peak 0.98 m, top 0.98 m, low -0.00 m, steepest 31.70 deg, went 11.71 m, end (8.0, 0.0, -0.7), surfaces ["concrete", "wood"]]
+PASS  pump: pumping the halfpipe raises the peak pass after pass  [peaks above the bottom [2.11, 3.13, 3.94, 4.31, 4.58, 4.73, 4.86, 4.96] m, bottom speeds [7.46, 8.86, 9.46, 9.81, 10.03, 10.24, 10.39, 10.46] m/s]
+PASS  pump: without pumping the same ride loses height (friction, no input)  [peaks [1.55, 1.21, 0.92, 0.66, 0.44] m]
+PASS  pump: pumping beats not pumping by the 4th pass  [4th pass 4.31 m vs 0.66 m]
+PASS  the level has breakables  [{ "grille": 1, "signs": 3 }]
+PASS  every breakable breaks when the real skater rolls into it  [grille 0.50s, Sign_0 0.52s, Sign_1 0.52s, Sign_2 0.52s]
+PASS  reset_run stands every breakable back up (and its collision)  [broken before reset { "grille": 1, "signs": 3 }]
+PASS  the level has a hidden area  [Storeroom]
+PASS  Storeroom is closed off while its breakable stands (the doorway ray hits it)  [blocked by 'grille']
+PASS  Storeroom is reachable: the real skater smashes the grille and rides in  [inside after 0.57 s, bails []]
+PASS  Storeroom: the doorway is open once the breakable is down
+PASS  the secret tape is in a hidden area
+FAIL  every pickup is reachable: the autopilot route collects S-K-A-T-E and the tape
+FAIL  the autopilot two-minute run completes every goal of the level  (score NOT done, skate NOT done, tape NOT done, signs NOT done, flat_rail NOT done, kicker_gap NOT done; score 0 in 120.0 s)
+35 passed, 3 failed
