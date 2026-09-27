@@ -1,0 +1,78 @@
+{
+  "url": "https://skate-game-opus-5-5-blush.vercel.app/",
+  "level": "baths",
+  "time": "2026-09-27T00:16:55",
+  "checks": {
+    "engine boots to the default level's start screen": {
+      "pass": true,
+      "detail": ""
+    },
+    "no level pack is fetched at boot (the default level is in index.pck)": {
+      "pass": true,
+      "detail": "[]"
+    },
+    "keyboard: Tab, Right, Enter picks baths; its pack downloads and the level loads": {
+      "pass": true,
+      "detail": "[(200, 'https://skate-game-opus-5-5-blush.vercel.app/levels/baths.pck')], loaded after 16.1 s (0.0 MB)"
+    },
+    "keyboard: Enter starts a run on baths": {
+      "pass": true,
+      "detail": ""
+    },
+    "gamepad (Gamepad API): Select, D-pad right, A pick baths and it loads": {
+      "pass": true,
+      "detail": "[(200, 'https://skate-game-opus-5-5-blush.vercel.app/levels/baths.pck')]"
+    },
+    "gamepad (Gamepad API): A starts a run on baths": {
+      "pass": true,
+      "detail": ""
+    },
+    "?level=baths&autopilot: the two-minute run completes every goal in the browser": {
+      "pass": true,
+      "detail": "[run] finished score=58951 goals=[[\"score\", true], [\"skate\", true], [\"tape\", true], [\"signs\", true], [\"deep_coping\", true], [\"high_dive\", true]]"
+    },
+    "no failed requests": {
+      "pass": true,
+      "detail": ""
+    },
+    "no page or console errors": {
+      "pass": true,
+      "detail": ""
+    }
+  },
+  "console_errors": [],
+  "failed_requests": [],
+  "requests": 18,
+  "downloads": {
+    "index.wasm": 0,
+    "index.pck": 0,
+    "baths.pck": 0
+  },
+  "console_keyboard": [
+    "Godot Engine v4.7.2.stable.custom_build.ed1daf0bf (2026-08-17 01:18:38 UTC) - https://godotengine.org",
+    "OpenGL API OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium)) - Compatibility - Using Device: WebKit - WebKit WebGL",
+    "Build configuration: Emscripten 4.0.11, single-threaded, no GDExtension support.",
+    "[skater] skating as male,hoodie,jeans,suede,none",
+    "[level] pack baths.pck: HTTP 200, 37615348 bytes",
+    "[level] baths loaded",
+    "[run] started"
+  ],
+  "console_gamepad": [
+    "Godot Engine v4.7.2.stable.custom_build.ed1daf0bf (2026-08-17 01:18:38 UTC) - https://godotengine.org",
+    "OpenGL API OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium)) - Compatibility - Using Device: WebKit - WebKit WebGL",
+    "Build configuration: Emscripten 4.0.11, single-threaded, no GDExtension support.",
+    "[skater] skating as male,hoodie,jeans,suede,none",
+    "[level] pack baths.pck: HTTP 200, 37615348 bytes",
+    "[level] baths loaded",
+    "[run] started"
+  ],
+  "run_log": [
+    "[level] pack baths.pck: HTTP 200, 37615348 bytes",
+    "[level] baths loaded",
+    "[run] started",
+    "[quality] median frame 133.3 ms -> no SSAO",
+    "[quality] median frame 133.3 ms -> MSAA 2x + 85% scale",
+    "[quality] median frame 133.3 ms -> 70% scale",
+    "[run] finished score=58951 goals=[[\"score\", true], [\"skate\", true], [\"tape\", true], [\"signs\", true], [\"deep_coping\", true], [\"high_dive\", true]]"
+  ]
+}
